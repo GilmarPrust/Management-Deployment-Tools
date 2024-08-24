@@ -1,0 +1,1 @@
+https://learn.microsoft.com/pt-br/powershell/module/microsoft.powershell.utility/add-type?view=powershell-7.4

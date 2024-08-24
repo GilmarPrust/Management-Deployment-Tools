@@ -1,0 +1,18 @@
+[
+   {
+    "DeviceGuid": "c6643b5f-f3d8-4b82-a21f-57f29448546c",
+    "FileName": "O3020A20.exe",
+    "Version": "A20",
+    "Source": "\\Firmwares\\O3020A20.exe",
+    "Hash": "d7bafe87a8469d43b30a5c2dca05d3e1",
+    "Enabled": true
+  },
+  {
+    "DeviceGuid": "c6643b5f-f3d8-4b82-a21f-57f29448546c",
+    "FileName": "O3020A20.exe",
+    "Version": "A20",
+    "Source": "\\Firmwares\\O3020A20.exe",
+    "Hash": "d7bafe87a8469d43b30a5c2dca05d3e1",
+    "Enabled": true
+  }
+]

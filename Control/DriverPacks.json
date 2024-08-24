@@ -1,0 +1,542 @@
+[
+  {
+    "DeviceGuid": "4786e6fc-8dd9-432e-bb1d-07d29b058360",
+    "Enabled": true,
+    "FileName": "3010-Win10-A01-XM7K2.CAB",
+    "OS": "Win10",
+    "Version": "A01",
+    "Source": "\\Drivers\\3010-Win10-A01-XM7K2.CAB",
+    "Hash": "37FFF8465654289DA88B2FB1952C6B10B21CAE339DB6326B14C1DB0FE25A4DD8"
+  },
+  {
+    "DeviceGuid": "c6643b5f-f3d8-4b82-a21f-57f29448546c",
+    "Enabled": true,
+    "FileName": "3020-win10-A03-D46TR.CAB",
+    "OS": "Win10",
+    "Version": "A03",
+    "Source": "\\Drivers\\3020-win10-A03-D46TR.CAB",
+    "Hash": "D69E7DC29DD4538F0326C809F28C8095A67E7894969C38404BF15D9BA717F42F"
+  },
+  {
+    "DeviceGuid": "bf2028b6-a0f9-4749-978e-163fd78ef42d",
+    "Enabled": true,
+    "FileName": "3020M-Win10-A04-DYD40.CAB",
+    "OS": "Win10",
+    "Version": "A04",
+    "Source": "\\Drivers\\3020M-Win10-A04-DYD40.CAB",
+    "Hash": "474200530C73A7E796BACBA69C85D53BE838ED9BCD78EA799BD7A6984C91A796"
+  },
+  {
+    "DeviceGuid": "2d3b2f9f-328d-4961-9ca5-84a8d74c47a3",
+    "Enabled": true,
+    "FileName": "3040-win10-A14-YCK4X.CAB",
+    "OS": "Win10",
+    "Version": "A14",
+    "Source": "\\Drivers\\3040-win10-A14-YCK4X.CAB",
+    "Hash": "EC0BB4597CFFEDC2176EBEC9E0E0E7AEFA9998229E20D66D3337C32C1915FEC9"
+  },
+  {
+    "DeviceGuid": "4362063a-768e-452d-8a41-d2f6877dc341",
+    "Enabled": true,
+    "FileName": "3050-Win10-A13-84FTP.CAB",
+    "OS": "Win10",
+    "Version": "A13",
+    "Source": "\\Drivers\\3050-Win10-A13-84FTP.CAB",
+    "Hash": "C0806E083DC9C66C2BB274BF80C3B09206D96D785C826ADA16242C80325EAD7F"
+  },
+  {
+    "DeviceGuid": "6063c464-1312-4812-a1fd-99b3e5c17949",
+    "Enabled": true,
+    "FileName": "3060-5TY71_Win11_1.0_A00.exe",
+    "OS": "Win11",
+    "Version": "A00",
+    "Source": "\\Drivers\\3060-5TY71_Win11_1.0_A00.exe",
+    "Hash": "BC8C87C47DEBFBA6CBD0A493528A4795533D25983C28B248588EA8D742B690DB"
+  },
+  {
+    "DeviceGuid": "6063c464-1312-4812-a1fd-99b3e5c17949",
+    "Enabled": true,
+    "FileName": "3060-win10-A13-0JJVK.CAB",
+    "OS": "Win10",
+    "Version": "A13",
+    "Source": "\\Drivers\\3060-win10-A13-0JJVK.CAB",
+    "Hash": "69D04195C286201664A7E6877D6DABB1ACE536945C08CB9A92284858A9A78964"
+  },
+  {
+    "DeviceGuid": "e7a696e0-4f61-4d3c-a135-5103a085c0af",
+    "Enabled": true,
+    "FileName": "3070-PCGHP_Win11_1.0_A00.exe",
+    "OS": "Win11",
+    "Version": "A00",
+    "Source": "\\Drivers\\3070-PCGHP_Win11_1.0_A00.exe",
+    "Hash": "0645AAA5033F3A5663F4FE52668DB8A12F87FDDE8A37DDC164198EED6ED8BBBE"
+  },
+  {
+    "DeviceGuid": "e7a696e0-4f61-4d3c-a135-5103a085c0af",
+    "Enabled": true,
+    "FileName": "3070-0DFFN_Win10_1.0_A09.exe",
+    "OS": "Win10",
+    "Version": "A09",
+    "Source": "\\Drivers\\3070-0DFFN_Win10_1.0_A09.exe",
+    "Hash": "CCB68DA7D01F992BB2C9CD852F75AE81659D9B5657AE9A39212AB0B0C3B20DF2"
+  },
+  {
+    "DeviceGuid": "54bb8bb9-d1d5-41a4-9e9c-141726137034",
+    "Enabled": true,
+    "FileName": "3080-GFKHH_Win11_1.0_A03.exe",
+    "OS": "Win11",
+    "Version": "A03",
+    "Source": "\\Drivers\\3080-GFKHH_Win11_1.0_A03.exe",
+    "Hash": "1CEEE090365AA7CA44B6B1F2D27022C6FB9CCADC69B808F04D1809957DC76CB2"
+  },
+  {
+    "DeviceGuid": "4e594964-0b3a-4bdf-a322-5217f6e1d6c1",
+    "Enabled": true,
+    "FileName": "3300-win11-A00-67P1H.CAB",
+    "OS": "Win11",
+    "Version": "A00",
+    "Source": "\\Drivers\\3300-win11-A00-67P1H.CAB",
+    "Hash": "81DAF4705D3DFE0F37E53A83684EA079C1DB483F8E8B1EF48820B459E1B98E97"
+  },
+  {
+    "DeviceGuid": "74b79da1-853a-48b6-bd2a-f80dd059f291",
+    "Enabled": true,
+    "FileName": "3400-win11-A00-GCD2Y.CAB",
+    "OS": "Win11",
+    "Version": "A00",
+    "Source": "\\Drivers\\3400-win11-A00-GCD2Y.CAB",
+    "Hash": "4C4651D10E7B36CEAD643B9C7055623FD1BCC9A1B28974731774569DFBEED5E3"
+  },
+  {
+    "DeviceGuid": "74b79da1-853a-48b6-bd2a-f80dd059f291",
+    "Enabled": true,
+    "FileName": "3400-win10-A12-G5DHY.CAB",
+    "OS": "Win10",
+    "Version": "A12",
+    "Source": "\\Drivers\\3400-win10-A12-G5DHY.CAB",
+    "Hash": "04F7A0D4310B3EF568A5FF448D9AB6D6F1D93B085CE3D8A36CB55A252C91A8B8"
+  },
+  {
+    "DeviceGuid": "605f8d2c-f107-455c-849c-22a932f45844",
+    "Enabled": true,
+    "FileName": "3410-TFMKP_Win11_1.0_A02.exe",
+    "OS": "Win11",
+    "Version": "A02",
+    "Source": "\\Drivers\\3410-TFMKP_Win11_1.0_A02.exe",
+    "Hash": "58BCBC36EA0E82413BAE579FC80DC35826F219FDF89A171096475B772A0EB2B4"
+  },
+  {
+    "DeviceGuid": "605f8d2c-f107-455c-849c-22a932f45844",
+    "Enabled": true,
+    "FileName": "3410-83TF9_Win10_1.0_A13.exe",
+    "OS": "Win10",
+    "Version": "A13",
+    "Source": "\\Drivers\\3410-83TF9_Win10_1.0_A13.exe",
+    "Hash": "4F1BE9BE20707EE993F8EAF6912CED8AEE334543AAFB5A0ABE307B95837C01D8"
+  },
+  {
+    "DeviceGuid": "b5639a2f-c71d-44cc-a19f-87fe50cb3e93",
+    "Enabled": true,
+    "FileName": "3420-7X98Y_Win11_1.0_A08.exe",
+    "OS": "Win11",
+    "Version": "A08",
+    "Source": "\\Drivers\\3420-7X98Y_Win11_1.0_A08.exe",
+    "Hash": "208FE3EE3ED35DBF58B7E5D53114121C98556DEC03251C70E6A172EEEB17F9BF"
+  },
+  {
+    "DeviceGuid": "29880597-d128-418d-9bc2-dcfd626fbd4b",
+    "Enabled": true,
+    "FileName": "3450-Win10-A07-TJ5YR.CAB",
+    "OS": "Win10",
+    "Version": "A07",
+    "Source": "\\Drivers\\3450-Win10-A07-TJ5YR.CAB",
+    "Hash": "10850CEB62281069BC70CA8225A43B0C7676E832EDDEF0B1093C3CF1840DA835"
+  },
+  {
+    "DeviceGuid": "3de4849d-659e-4530-842f-1cb5209ac806",
+    "Enabled": true,
+    "FileName": "3480-Win10-A12-NTKMR.CAB",
+    "OS": "Win10",
+    "Version": "A12",
+    "Source": "\\Drivers\\3480-Win10-A12-NTKMR.CAB",
+    "Hash": "FDD82DF2F65A61093912899E6F19F2D86538B67E2F8D301901149B63AE3532CA"
+  },
+  {
+    "DeviceGuid": "373b5505-7570-4cb3-aa6a-ebb169d2e53f",
+    "Enabled": true,
+    "FileName": "3490-win10-A15-1RNK0.CAB",
+    "OS": "Win10",
+    "Version": "A15",
+    "Source": "\\Drivers\\3490-win10-A15-1RNK0.CAB",
+    "Hash": "1B7AC307C26A4861B9282FE4BFAC74D282A7F302530360EAEF5A3E87FE89DA67"
+  },
+  {
+    "DeviceGuid": "fbd568f2-4766-411c-8b1e-fdf7f1619ed1",
+    "Enabled": true,
+    "FileName": "5080-881W9_Win11_1.0_A02.exe",
+    "OS": "Win11",
+    "Version": "A02",
+    "Source": "\\Drivers\\5080-881W9_Win11_1.0_A02.exe",
+    "Hash": "222EC991848B43FC4D8119489DB90A7AF015BB7050EE21A6A9FD1D113F91665B"
+  },
+  {
+    "DeviceGuid": "e34b0ab2-d91d-4712-aa62-099d3c887108",
+    "Enabled": true,
+    "FileName": "5090-C91J4_Win11_1.0_A05.exe",
+    "OS": "Win11",
+    "Version": "A05",
+    "Source": "\\Drivers\\5090-C91J4_Win11_1.0_A05.exe",
+    "Hash": "551AC80D48B946A879FD5DF447890B446FC57AD1EA40B27E4AD89ED6E1AD5FC1"
+  },
+  {
+    "DeviceGuid": "c076d064-78a7-4868-8376-7f723e1f460f",
+    "Enabled": true,
+    "FileName": "5320-JYWKC_Win11_1.0_A10.exe",
+    "OS": "Win11",
+    "Version": "A10",
+    "Source": "\\Drivers\\5320-JYWKC_Win11_1.0_A10.exe",
+    "Hash": "C922397EEA5553AF072D5B8D63FA0D031F5DDF47C554866FCC63C37B73406EB9"
+  },
+  {
+    "DeviceGuid": "f28b1dfa-ee01-45bd-9f49-fbcebc74ffcb",
+    "Enabled": true,
+    "FileName": "5480-win10-A14-0T2MV.CAB",
+    "OS": "Win10",
+    "Version": "A14",
+    "Source": "\\Drivers\\5480-win10-A14-0T2MV.CAB",
+    "Hash": "67823AB29787046DABAB91E719CBDF3046EC52C20AB0936D98A36896B6D29307"
+  },
+  {
+    "DeviceGuid": "baeca3ae-aae0-4b1a-a223-5f08930914a1",
+    "Enabled": true,
+    "FileName": "7040-Win10-A14-G65J8.CAB",
+    "OS": "Win10",
+    "Version": "A14",
+    "Source": "\\Drivers\\7040-Win10-A14-G65J8.CAB",
+    "Hash": "661DA60F68160733DEBB43F749D3EE2D051E8E08CEFB2612A5B129F115C7633A"
+  },
+  {
+    "DeviceGuid": "f9a18777-eb6f-41c7-9978-8ed21f05209f",
+    "Enabled": true,
+    "FileName": "7050-win10-A14-772VV.CAB",
+    "OS": "Win10",
+    "Version": "A14",
+    "Source": "\\Drivers\\7050-win10-A14-772VV.CAB",
+    "Hash": "2B4AFE08B291E7ADA134C9D19CAFD3BF4FF960BCFCB8B462413197D6BC075026"
+  },
+  {
+    "DeviceGuid": "08bfeac1-9ab8-43b6-ba86-3a720e2efb9c",
+    "Enabled": true,
+    "FileName": "7060-R0NN1_Win10_1.0_A13.exe",
+    "OS": "Win10",
+    "Version": "A13",
+    "Source": "\\Drivers\\7060-R0NN1_Win10_1.0_A13.exe",
+    "Hash": "B84E7E71CE012696B21CE3A03F8D9A74E4709B6056804496F599DBCD8FAC8FFD"
+  },
+  {
+    "DeviceGuid": "08bfeac1-9ab8-43b6-ba86-3a720e2efb9c",
+    "Enabled": true,
+    "FileName": "7060-PNKRW_Win11_1.0_A01.exe",
+    "OS": "Win11",
+    "Version": "A01",
+    "Source": "\\Drivers\\7060-PNKRW_Win11_1.0_A01.exe",
+    "Hash": "6DEF2B4641BF513CCE2A4D06C70D6EDDAC8C2F2EFFD59C06636A1E1814D0AE47"
+  },
+  {
+    "DeviceGuid": "6db9e617-27c1-43c6-8637-fbb191a956c5",
+    "Enabled": true,
+    "FileName": "7070-W9T8J_Win11_1.0_A00.exe",
+    "OS": "Win11",
+    "Version": "A00",
+    "Source": "\\Drivers\\7070-W9T8J_Win11_1.0_A00.exe",
+    "Hash": "D45DA2E6F31A2EEDFA0ECFCEAC3DBC0CB32661DE3C3C3A5957EB8AF0559ABB48"
+  },
+  {
+    "DeviceGuid": "47a835c3-5146-4bf0-8ea6-ad2b14ab4901",
+    "Enabled": true,
+    "FileName": "7080-4P7T4_Win11_1.0_A08.exe",
+    "OS": "Win11",
+    "Version": "A08",
+    "Source": "\\Drivers\\7080-4P7T4_Win11_1.0_A08.exe",
+    "Hash": "5547F159E2F3C91FC9C56BBD39844C95D04746078C7A3EB231F0E283A5C16381"
+  },
+  {
+    "DeviceGuid": "026f63d8-1ee5-4673-b1fe-20ef9d0bcb91",
+    "Enabled": true,
+    "FileName": "7370-win10-A16-W8J2J.CAB",
+    "OS": "Win10",
+    "Version": "A16",
+    "Source": "\\Drivers\\7370-win10-A16-W8J2J.CAB",
+    "Hash": "8E007B8E3102CA37E4AA3BD9B758DC1DF3B98255119BD2AE3F0143D72D92E82A"
+  },
+  {
+    "DeviceGuid": "5383eaf6-2c82-46a3-9280-222bd721f3fb",
+    "Enabled": true,
+    "FileName": "7420-16KXP_Win11_1.0_A07.exe",
+    "OS": "Win11",
+    "Version": "A07",
+    "Source": "\\Drivers\\7420-16KXP_Win11_1.0_A07.exe",
+    "Hash": "21F923F4512EBAB5B3502E0E50EC0E854705C46AD783BD60BE2469B5DEA5B336"
+  },
+  {
+    "DeviceGuid": "a9a80ff5-4a2b-47f9-a9f9-11daae4efd14",
+    "Enabled": true,
+    "FileName": "9020-win10-A05-6TD3V.CAB",
+    "OS": "Win10",
+    "Version": "A05",
+    "Source": "\\Drivers\\9020-win10-A05-6TD3V.CAB",
+    "Hash": "B36246D5C1C121494FB047B0810B59A04AC9969FE0BEC8A72E48440A720F1770"
+  },
+  {
+    "DeviceGuid": "f8dff5e7-cb07-4ee8-81da-5395dd5d6193",
+    "Enabled": true,
+    "FileName": "Latitude-3440-0T8R0_Win11_1.0_A04.exe",
+    "OS": "Win11",
+    "Version": "A04",
+    "Source": "\\Drivers\\Latitude-3440-0T8R0_Win11_1.0_A04.exe",
+    "Hash": "43D10B6E4447E111FBDA73AB688434969FD3B838D89F4EF2EDDBC65CBC3BCB3B"
+  },
+  {
+    "DeviceGuid": "6b056ee2-617c-4f1a-90b7-2009e363f2b5",
+    "Enabled": true,
+    "FileName": "Optiplex-3090-KCG49_Win11_1.0_A10.exe",
+    "OS": "Win11",
+    "Version": "A10",
+    "Source": "\\Drivers\\Optiplex-3090-KCG49_Win11_1.0_A10.exe",
+    "Hash": "0A79227959AC5AA603B2A0E4422574FE90DB0F3B8B84756F066F7B3F32F12F54"
+  },
+  {
+    "DeviceGuid": "0cfcbc86-f126-4e09-b3ae-b0b67f3a7bc2",
+    "Enabled": true,
+    "FileName": "OptiPlex-5000-YJ6H4_Win11_1.0_A09.exe",
+    "OS": "Win11",
+    "Version": "A09",
+    "Source": "\\Drivers\\OptiPlex-5000-YJ6H4_Win11_1.0_A09.exe",
+    "Hash": "130EBB50B53A4AFCC7A74311270AA5515F6CA052786B881332BF86E6430B8009"
+  },
+  {
+    "DeviceGuid": "d3004b9d-71ea-45e4-b922-7d76664e337e",
+    "Enabled": true,
+    "FileName": "tp_l13-gen-3_s2-gen-7_l13-yoga-gen-3_s2-yoga-gen-7_intel_w11_22h2_202310.exe",
+    "OS": "Win11",
+    "Version": "22H2",
+    "Source": "\\Drivers\\tp_l13-gen-3_s2-gen-7_l13-yoga-gen-3_s2-yoga-gen-7_intel_w11_22h2_202310.exe",
+    "Hash": "ea594086b386d4914aae6699db5fff05f63b76eda10a2232e1fa48afb039c600"
+  },
+  {
+    "DeviceGuid": "6dec1a96-2d02-47ac-96a2-cd35ed2a5668",
+    "Enabled": true,
+    "FileName": "tc_m70tsq-m80tsq-m90tsq-p340tiny_w11_21_202204.exe",
+    "OS": "Win11",
+    "Version": "21H2",
+    "Source": "\\Drivers\\tc_m70tsq-m80tsq-m90tsq-p340tiny_w11_21_202204.exe",
+    "Hash": "1e512842a18fe8af4c9cdbc310b8487ea37a7a951ade96c8930c17c1b41d72bc"
+  },
+  {
+    "DeviceGuid": "7fae8aeb-4986-4286-842a-d6c1356ad224",
+    "Enabled": true,
+    "FileName": "tc_m910-m910q-m710q-m710-m910x_w1064_1903_201909.exe",
+    "OS": "Win10",
+    "Version": "1903",
+    "Source": "\\Drivers\\tc_m910-m910q-m710q-m710-m910x_w1064_1903_201909.exe",
+    "Hash": "7bea32ff476edec459c26998bd7e27b012a7744d36e9e1d73fcc41ee638b44e7"
+  },
+  {
+    "DeviceGuid": "3f1bd5ae-0487-44ba-b4e6-ad930774dd65",
+    "Enabled": true,
+    "FileName": "tp_e14_gen2_e15_gen2_r14_gen2_mt20ta_20tb_20td_20te_20tc_w11_21_22h2_202211.exe",
+    "OS": "Win11",
+    "Version": "22H2",
+    "Source": "\\Drivers\\tp_e14_gen2_e15_gen2_r14_gen2_mt20ta_20tb_20td_20te_20tc_w11_21_22h2_202211.exe",
+    "Hash": "1921ceef799dd94860b2e7bbcf96979baafa8260c13842d3d70ca95a293e1502"
+  },
+  {
+    "DeviceGuid": "b59b54ec-5d36-496f-b097-b570b93d1abc",
+    "Enabled": true,
+    "FileName": "tp_e14_gen3_e15_gen3_w11_21_22_202211.exe",
+    "OS": "Win11",
+    "Version": "22H2",
+    "Source": "\\Drivers\\tp_e14_gen3_e15_gen3_w11_21_22_202211.exe",
+    "Hash": "3f2c8945fada6a38062f79839f2a2ce47b79f2e1a4cd031c5d848739abc702bd"
+  },
+  {
+    "DeviceGuid": "ed3abea7-1e12-4c7b-bb63-af1848cf33cd",
+    "Enabled": true,
+    "FileName": "tp_e480_e580_r480_w1064_21_22_w11_21_22_202302.exe",
+    "OS": "Win11",
+    "Version": "22H2",
+    "Source": "\\Drivers\\tp_e480_e580_r480_w1064_21_22_w11_21_22_202302.exe",
+    "Hash": "42f6ca911b70ef72804a67e9a2caa17d0ba9847712b591da18b565241e530e24"
+  },
+  {
+    "DeviceGuid": "dd79ec40-8d24-48f2-a315-ee44bdadeee2",
+    "Enabled": true,
+    "FileName": "ts_p340_w11_21_202201.exe",
+    "OS": "Win11",
+    "Version": "21H2",
+    "Source": "\\Drivers\\ts_p340_w11_21_202201.exe",
+    "Hash": "ce587f02f63db5fd9608143d95f94a870a0d89a0cc87180c4b3e37df0fa9b98e"
+  },
+  {
+    "DeviceGuid": "1d383216-87c6-4ce4-85dc-1d832b4b9f2d",
+    "Enabled": true,
+    "FileName": "ts_p348_w11_22_202208.exe",
+    "OS": "Win11",
+    "Version": "21H2",
+    "Source": "\\Drivers\\ts_p348_w11_22_202208.exe",
+    "Hash": "13e6562f31d56534ab53056337a23e650fa19ea0d2fef213b97dd073c35cf370"
+  },
+  {
+    "DeviceGuid": "4c6a3f21-be17-479d-8f37-0611a4170b6a",
+    "Enabled": true,
+    "FileName": "7010-Win10-A01-GR1XM.CAB",
+    "OS": "Win10",
+    "Version": "A01",
+    "Source": "\\Drivers\\7010-Win10-A01-GR1XM.CAB",
+    "Hash": "F139C7CF2E9BC75D0B9DB6D679D547EB3F4F63D87E08CB3099E38F800C17B804"
+  },
+  {
+    "DeviceGuid": "6f80513b-1959-4faa-add7-4b20efe84e43",
+    "Enabled": true,
+    "FileName": "tc_m920tsqx-m720tsq-p330tiny_w11_21_202306.exe",
+    "OS": "Win11",
+    "Version": "21H2",
+    "Source": "\\Drivers\\tc_m920tsqx-m720tsq-p330tiny_w11_21_202306.exe",
+    "Hash": "bfacc1a53c4dcb54e09ac7ac4fd9adc18c9c618774313c2d1d168f76ecd8a1ed"
+  },
+  {
+    "DeviceGuid": "a5a867b3-34e4-48d4-a768-4ce47773e667",
+    "Enabled": true,
+    "FileName": "tp_e490_e590_r490_r590_e490s_1809_1903_1909_2004_20h2_21h1_21h2_w1064_w11_21_202201.exe",
+    "OS": "Win11",
+    "Version": "21H2",
+    "Source": "\\Drivers\\tp_e490_e590_r490_r590_e490s_1809_1903_1909_2004_20h2_21h1_21h2_w1064_w11_21_202201.exe",
+    "Hash": "ae5dfdb92a0e5f0a3b2ecfebbc5e053931a6ea9f3a217db0b8cccd211d2fd0c4"
+  },
+  {
+    "DeviceGuid": "cdd82342-323d-486c-aafc-3222970ec561",
+    "Enabled": true,
+    "FileName": "tc_m75tsq_gen2-m75tsq_gen2_cezanne-k_a1_w11_22_202211.exe",
+    "OS": "Win11",
+    "Version": "22H2",
+    "Source": "\\Drivers\\tc_m75tsq_gen2-m75tsq_gen2_cezanne-k_a1_w11_22_202211.exe",
+    "Hash": "140307a455ab0bb95c8234285db5ce9e04891f7823b367ae40ddf5d2fb7fdd25"
+  },
+  {
+    "DeviceGuid": "1b70aaa5-f05c-401a-bbb3-fb97fdd47052",
+    "Enabled": true,
+    "FileName": "7389-win10-A10-FYHNG.CAB",
+    "OS": "Win10",
+    "Version": "A10",
+    "Source": "\\Drivers\\7389-win10-A10-FYHNG.CAB",
+    "Hash": "B0CDCC3420E72B302761FDCA2F1640E3FBFD8EDE3344ABF9AF0B10BC6B6E7A63"
+  },
+  {
+    "DeviceGuid": "d6697c4d-5cee-4e3f-8cca-9737fcc456fd",
+    "Enabled": true,
+    "FileName": "Latitude-7430-D71RN_Win11_1.0_A07.exe",
+    "OS": "Win11",
+    "Version": "A07",
+    "Source": "\\Drivers\\Latitude-7430-D71RN_Win11_1.0_A07.exe",
+    "Hash": "4E5F110BD35DDF5BBBD4582EE32DC4055441CB01BCBCCAF29051CAFC326C2F77"
+  },
+  {
+    "DeviceGuid": "28206eee-b2e9-41a4-a48d-d96ad617f8bd",
+    "Enabled": true,
+    "FileName": "5400-84RYJ_Win11_1.0_A00.exe",
+    "OS": "Win11",
+    "Version": "A00",
+    "Source": "\\Drivers\\5400-84RYJ_Win11_1.0_A00.exe",
+    "Hash": "FDF6E79547BBAAE79DF852315060E8D5F8994DB75CA161879D92164F07A5C92A"
+  },
+  {
+    "DeviceGuid": "28206eee-b2e9-41a4-a48d-d96ad617f8bd",
+    "Enabled": true,
+    "FileName": "5400-win10-A13-7CP7C.CAB",
+    "OS": "Win10",
+    "Version": "A13",
+    "Source": "\\Drivers\\5400-win10-A13-7CP7C.CAB",
+    "Hash": "23BFBF32AEC904A80A7F8F96C66F22F4AB9EBB27FE23995C5D23ACD03865F326"
+  },
+  {
+    "DeviceGuid": "d8eae2f9-0bef-4d50-8f38-9a5fd3ac2f2d",
+    "Enabled": true,
+    "FileName": "tc_m70tsq-m80tsq-m90tsq-p340tiny_w11_21_202204.exe",
+    "OS": "Win11",
+    "Version": "21H2",
+    "Source": "\\Drivers\\tc_m70tsq-m80tsq-m90tsq-p340tiny_w11_21_202204.exe",
+    "Hash": "1e512842a18fe8af4c9cdbc310b8487ea37a7a951ade96c8930c17c1b41d72bc"
+  },
+  {
+    "DeviceGuid": "090712b7-3185-49e3-944e-8b661ce37fa7",
+    "Enabled": true,
+    "FileName": "tp_x1carbon_mt20kg-20kh_w11_21_202110.exe",
+    "OS": "Win11",
+    "Version": "21H2",
+    "Source": "\\Drivers\\tp_x1carbon_mt20kg-20kh_w11_21_202110.exe",
+    "Hash": "4b94ca463eba743ec3aeca42d48c7f2e0b9a27090510a0f8b645c27506b0b794"
+  },
+  {
+    "DeviceGuid": "d3dfc0ab-91e9-47a7-b016-227c7ff3db1b",
+    "Enabled": true,
+    "FileName": "tp_l14_mt21c1_mt21c2_l15_mt21c3_mt21c4_w11_22h2_202310.exe",
+    "OS": "Win11",
+    "Version": "22H2",
+    "Source": "\\Drivers\\tp_l14_mt21c1_mt21c2_l15_mt21c3_mt21c4_w11_22h2_202310.exe",
+    "Hash": "d20c6910b4cba7c4460c1bd2a76fdf144671506b2a84e7fb2a2dfac62fbabb05"
+  },
+  {
+    "DeviceGuid": "1355fb54-96b7-4ee7-9947-4da061c0a438",
+    "Enabled": true,
+    "FileName": "Latitude-7340-6W74P_Win11_1.0_A05.exe",
+    "OS": "Win11",
+    "Version": "A05",
+    "Source": "\\Drivers\\Latitude-7340-6W74P_Win11_1.0_A05.exe",
+    "Hash": "0D7BF1BD1E86A704D00A5579FF60F215699C17982B33AEA86B529B535659EE04"
+  },
+  {
+    "DeviceGuid": "e09fb555-7a43-413e-a605-aa43eecd1464",
+    "Enabled": true,
+    "FileName": "OptiPlex-3000-GJTP0_Win11_1.0_A09.exe",
+    "OS": "Win11",
+    "Version": "A09",
+    "Source": "\\Drivers\\OptiPlex-3000-GJTP0_Win11_1.0_A09.exe",
+    "Hash": "C78F94204F289A4AB6EEC4FD28DDF745D62676BDA8E7E759A90B66909BF6D52D"
+  },
+  {
+    "DeviceGuid": "5c883fd7-0c39-4a43-8cf4-30c789bd40b5",
+    "Enabled": true,
+    "FileName": "Latitude-5440-8GXP4_Win11_1.0_A05.exe",
+    "OS": "Win11",
+    "Version": "A05",
+    "Source": "\\Drivers\\Latitude-5440-8GXP4_Win11_1.0_A05.exe",
+    "Hash": "417BEA8635729AF2CA83A81151EE673C71C352F5C65D97E2755113EAF423197B"
+  },
+  {
+    "DeviceGuid": "62d55b9a-13a8-4dff-a34b-7993b5c85b5c",
+    "Enabled": true,
+    "FileName": "5300-win11-A00-WX3C3.CAB",
+    "OS": "Win11",
+    "Version": "A00",
+    "Source": "\\Drivers\\5300-win11-A00-WX3C3.CAB",
+    "Hash": "5449A0CFDF4377F0BA9EC4B8B4A55A2912363B921DA49875273DF1199C5B4BDE"
+  },
+  {
+    "DeviceGuid": "da788fbe-cf07-4e18-9e1b-723bfb79f853",
+    "Enabled": true,
+    "FileName": "tp_e14_gen5_e16_gen1_mt21jr-21js-21jt-21ju_w11_21h2_22h2_202312.exe",
+    "OS": "Win11",
+    "Version": "22H2",
+    "Source": "\\Drivers\\tp_e14_gen5_e16_gen1_mt21jr-21js-21jt-21ju_w11_21h2_22h2_202312.exe",
+    "Hash": "43ee038a885817200fe2e87ad370d95fee15c9eb169073290198a38ac3a187da"
+  },
+  {
+    "DeviceGuid": "845b82d9-5f2d-4883-bf81-fa15e473c060",
+    "Enabled": true,
+    "FileName": "5310-H0X0J_Win11_1.0_A02.exe",
+    "OS": "Win11",
+    "Version": "A02",
+    "Source": "\\Drivers\\5310-H0X0J_Win11_1.0_A02.exe",
+    "Hash": "BF83AC0C65F213131E804F9768FB242215D0064F41E50E14F62A4F939ADBDF3B"
+  }
+]

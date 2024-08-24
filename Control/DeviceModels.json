@@ -1,0 +1,546 @@
+[
+  {
+    "Guid": "00000000-0000-0000-0000-000000000000",
+    "Manufacturer": "Unknown",
+    "Model": "Unknown",
+    "Types": [
+      ""
+    ]
+  },
+  {
+    "Guid": "c6643b5f-f3d8-4b82-a21f-57f29448546c",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 3020",
+    "Types": [
+      "0612"
+    ]
+  },
+  {
+    "Guid": "bf2028b6-a0f9-4749-978e-163fd78ef42d",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 3020M",
+    "Types": [
+      "0668"
+    ]
+  },
+  {
+    "Guid": "2d3b2f9f-328d-4961-9ca5-84a8d74c47a3",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 3040",
+    "Types": [
+      "06BB"
+    ]
+  },
+  {
+    "Guid": "4362063a-768e-452d-8a41-d2f6877dc341",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 3050",
+    "Types": [
+      "07A3"
+    ]
+  },
+  {
+    "Guid": "6063c464-1312-4812-a1fd-99b3e5c17949",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 3060",
+    "Types": [
+      "085F",
+      "085C"
+    ]
+  },
+  {
+    "Guid": "e7a696e0-4f61-4d3c-a135-5103a085c0af",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 3070",
+    "Types": [
+      "0930",
+      "0933"
+    ]
+  },
+  {
+    "Guid": "54bb8bb9-d1d5-41a4-9e9c-141726137034",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 3080",
+    "Types": [
+      "09A8",
+      "09A9"
+    ]
+  },
+  {
+    "Guid": "74b79da1-853a-48b6-bd2a-f80dd059f291",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 3400",
+    "Types": [
+      "08BC",
+      "08BE"
+    ]
+  },
+  {
+    "Guid": "605f8d2c-f107-455c-849c-22a932f45844",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 3410",
+    "Types": [
+      "09EC",
+      "09F1"
+    ]
+  },
+  {
+    "Guid": "b5639a2f-c71d-44cc-a19f-87fe50cb3e93",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 3420",
+    "Types": [
+      "0A7B",
+      "0A84",
+      "0B20",
+      "0B60"
+    ]
+  },
+  {
+    "Guid": "29880597-d128-418d-9bc2-dcfd626fbd4b",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 3450",
+    "Types": [
+      "0631"
+    ]
+  },
+  {
+    "Guid": "3de4849d-659e-4530-842f-1cb5209ac806",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 3480",
+    "Types": [
+      "07B7"
+    ]
+  },
+  {
+    "Guid": "373b5505-7570-4cb3-aa6a-ebb169d2e53f",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 3490",
+    "Types": [
+      "0839",
+      "0848"
+    ]
+  },
+  {
+    "Guid": "fbd568f2-4766-411c-8b1e-fdf7f1619ed1",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 5080",
+    "Types": [
+      "09A6",
+      "09A7"
+    ]
+  },
+  {
+    "Guid": "e34b0ab2-d91d-4712-aa62-099d3c887108",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 5090",
+    "Types": [
+      "0A54",
+      "0A55"
+    ]
+  },
+  {
+    "Guid": "c076d064-78a7-4868-8376-7f723e1f460f",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 5320",
+    "Types": [
+      "0A1F",
+      "0A42"
+    ]
+  },
+  {
+    "Guid": "f28b1dfa-ee01-45bd-9f49-fbcebc74ffcb",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 5480",
+    "Types": [
+      "07D0",
+      "07A7",
+      "07D0",
+      "07A7"
+    ]
+  },
+  {
+    "Guid": "baeca3ae-aae0-4b1a-a223-5f08930914a1",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 7040",
+    "Types": [
+      "06B9"
+    ]
+  },
+  {
+    "Guid": "f9a18777-eb6f-41c7-9978-8ed21f05209f",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 7050",
+    "Types": [
+      "07A1"
+    ]
+  },
+  {
+    "Guid": "08bfeac1-9ab8-43b6-ba86-3a720e2efb9c",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 7060",
+    "Types": [
+      "085A",
+      "085D"
+    ]
+  },
+  {
+    "Guid": "6db9e617-27c1-43c6-8637-fbb191a956c5",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 7070",
+    "Types": [
+      "092E",
+      "0931"
+    ]
+  },
+  {
+    "Guid": "47a835c3-5146-4bf0-8ea6-ad2b14ab4901",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 7080",
+    "Types": [
+      "09A4",
+      "09A5"
+    ]
+  },
+  {
+    "Guid": "026f63d8-1ee5-4673-b1fe-20ef9d0bcb91",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 7370",
+    "Types": [
+      "071B"
+    ]
+  },
+  {
+    "Guid": "5383eaf6-2c82-46a3-9280-222bd721f3fb",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 7420",
+    "Types": [
+      "0A36",
+      "0A37"
+    ]
+  },
+  {
+    "Guid": "a9a80ff5-4a2b-47f9-a9f9-11daae4efd14",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 9020",
+    "Types": [
+      "05A4"
+    ]
+  },
+  {
+    "Guid": "f8dff5e7-cb07-4ee8-81da-5395dd5d6193",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 3440",
+    "Types": [
+      "0C1B",
+      "0C1D"
+    ]
+  },
+  {
+    "Guid": "6b056ee2-617c-4f1a-90b7-2009e363f2b5",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 3090",
+    "Types": [
+      "0B8A",
+      "0B8B"
+    ]
+  },
+  {
+    "Guid": "0cfcbc86-f126-4e09-b3ae-b0b67f3a7bc2",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 5000",
+    "Types": [
+      "0AC3",
+      "0AC4"
+    ]
+  },
+  {
+    "Guid": "d3004b9d-71ea-45e4-b922-7d76664e337e",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkPad L13 Gen 3",
+    "Types": [
+      "21B3",
+      "21B4"
+    ]
+  },
+  {
+    "Guid": "6dec1a96-2d02-47ac-96a2-cd35ed2a5668",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkCentre M80Q",
+    "Types": [
+      "11DQ",
+      "11DR",
+      "11DS",
+      "11DN",
+      "11F7",
+      "11EH",
+      "11H7",
+      "11H8",
+      "11EG",
+      "11F9",
+      "11F8",
+      "11F6",
+      "11QA",
+      "11Q9"
+    ]
+  },
+  {
+    "Guid": "7fae8aeb-4986-4286-842a-d6c1356ad224",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkCentre M710S",
+    "Types": [
+      "10M8",
+      "10M7",
+      "10NC",
+      "10QT",
+      "10R7"
+    ]
+  },
+  {
+    "Guid": "3f1bd5ae-0487-44ba-b4e6-ad930774dd65",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkPad E14 Gen 2",
+    "Types": [
+      "20TB",
+      "20TA"
+    ]
+  },
+  {
+    "Guid": "b59b54ec-5d36-496f-b097-b570b93d1abc",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkPad E14 Gen 3",
+    "Types": [
+      "20YE",
+      "20YD",
+      "20YF",
+      "20Y7"
+    ]
+  },
+  {
+    "Guid": "ed3abea7-1e12-4c7b-bb63-af1848cf33cd",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkPad E480",
+    "Types": [
+      "20KQ",
+      "20KN"
+    ]
+  },
+  {
+    "Guid": "dd79ec40-8d24-48f2-a315-ee44bdadeee2",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkStation P340",
+    "Types": [
+      "30DH",
+      "30DK",
+      "30DM",
+      "30DN",
+      "30DJ",
+      "30DL"
+    ]
+  },
+  {
+    "Guid": "1d383216-87c6-4ce4-85dc-1d832b4b9f2d",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkStation P348",
+    "Types": [
+      "30EQ",
+      "30ER",
+      "30ET",
+      "30ES"
+    ]
+  },
+  {
+    "Guid": "4e594964-0b3a-4bdf-a322-5217f6e1d6c1",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 3300",
+    "Types": [
+      "08BB"
+    ]
+  },
+  {
+    "Guid": "4c6a3f21-be17-479d-8f37-0611a4170b6a",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 7010",
+    "Types": [
+      "0577"
+    ]
+  },
+  {
+    "Guid": "6f80513b-1959-4faa-add7-4b20efe84e43",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkCentre M720S",
+    "Types": [
+      "10SV",
+      "10SX",
+      "10U6",
+      "10TR",
+      "10U7",
+      "10SU",
+      "10ST"
+    ]
+  },
+  {
+    "Guid": "a5a867b3-34e4-48d4-a768-4ce47773e667",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkPad E490",
+    "Types": [
+      "20N8",
+      "20N9"
+    ]
+  },
+  {
+    "Guid": "4786e6fc-8dd9-432e-bb1d-07d29b058360",
+    "Manufacturer": "Dell Inc.",
+    "Model": "OptiPlex 3010",
+    "Types": [
+      "0585"
+    ]
+  },
+  {
+    "Guid": "cdd82342-323d-486c-aafc-3222970ec561",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkCentre M75Q Gen 2",
+    "Types": [
+      "11JR",
+      "11JN",
+      "11JS",
+      "11JQ"
+    ]
+  },
+  {
+    "Guid": "1b70aaa5-f05c-401a-bbb3-fb97fdd47052",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 7389",
+    "Types": [
+      "07AB"
+    ]
+  },
+  {
+    "Guid": "d6697c4d-5cee-4e3f-8cca-9737fcc456fd",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 7430",
+    "Types": [
+      "0B0B",
+      "0B0C"
+    ]
+  },
+  {
+    "Guid": "28206eee-b2e9-41a4-a48d-d96ad617f8bd",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 5400",
+    "Types": [
+      "08B8",
+      "0928"
+    ]
+  },
+  {
+    "Guid": "d8eae2f9-0bef-4d50-8f38-9a5fd3ac2f2d",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkCentre M70Q",
+    "Types": [
+      "11DT",
+      "11DU",
+      "11DV",
+      "11DW"
+    ]
+  },
+  {
+    "Guid": "090712b7-3185-49e3-944e-8b661ce37fa7",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkPad X1 Carbon 6TH Gen",
+    "Types": [
+      "20KG",
+      "20KH"
+    ]
+  },
+  {
+    "Guid": "d3dfc0ab-91e9-47a7-b016-227c7ff3db1b",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkPad L15 Gen 3",
+    "Types": [
+      "21C4",
+      "21C3"
+    ]
+  },
+  {
+    "Guid": "1355fb54-96b7-4ee7-9947-4da061c0a438",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 7340",
+    "Types": [
+      "0C08",
+      "0C09",
+      "0C0A"
+    ]
+  },
+  {
+    "Guid": "e0908d94-20f7-4aa7-8ba6-27cc3ec85ca7",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 5340",
+    "Types": [
+      "0C03",
+      "0C04"
+    ]
+  },
+  {
+    "Guid": "e09fb555-7a43-413e-a605-aa43eecd1464",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 3000",
+    "Types": [
+      "0AC5",
+      "0AC6"
+    ]
+  },
+  {
+    "Guid": "5c883fd7-0c39-4a43-8cf4-30c789bd40b5",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 5440",
+    "Types": [
+      "0C00",
+      "0C01"
+    ]
+  },
+  {
+    "Guid": "bc943f46-8f57-4c5d-8d34-89ab6cc80297",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 3540",
+    "Types": [
+      "0C1C",
+      "0C1E"
+    ]
+  },
+  {
+    "Guid": "62d55b9a-13a8-4dff-a34b-7993b5c85b5c",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 5300",
+    "Types": [
+      "08B7"
+    ]
+  },
+  {
+    "Guid": "da788fbe-cf07-4e18-9e1b-723bfb79f853",
+    "Manufacturer": "Lenovo",
+    "Model": "ThinkPad E14 Gen 5",
+    "Types": [
+      "21JR",
+      "21JS"
+    ]
+  },
+  {
+    "Guid": "845b82d9-5f2d-4883-bf81-fa15e473c060",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 5310",
+    "Types": [
+      "099F"
+    ]
+  },
+  {
+    "Guid": "7ec7a617-cc0b-459d-91d9-de8e3ef2d83b",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Latitude 7350",
+    "Types": [
+      "0CBD",
+      "0CBE",
+      "0CBF",
+      "0CC0"
+    ]
+  }
+]
