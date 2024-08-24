@@ -1,10 +1,9 @@
 <#
 +----------------------------------------------------------------------------------------+
     .DESCRIPTION
-    DevicesCatalog
+    Device
     Created by: @GilmarPrust
-    Filename:   DevicesCatalog.psm1
-    Get-DevicesCatalog
+    Filename:   Device.psm1
 +----------------------------------------------------------------------------------------+
 #>
 

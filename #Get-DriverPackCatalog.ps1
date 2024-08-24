@@ -1,8 +1,8 @@
 <#
 +----------------------------------------------------------------------------------------+
     .Description
-        Catalog
-        Filename: Catalog.ps1
+        Get-DriverPackCatalog
+        Filename: Get-DriverPackCatalog.ps1
         Created by: Gilmar Prust
     
     .DESCRIPTION
@@ -12,7 +12,7 @@
         Returns ArrayList of Devices @{ Manufacturer=""; Model=""; Types="" }
 +----------------------------------------------------------------------------------------+
 #>
-using module .\Modules\Classes\Device\Device.psm1
+using module .\Modules\Classes\DriverPack\DriverPack.psm1
 
 #Define Global Variables.
 New-Variable -Name DeployRoot -Value "$($PSScriptRoot)" -Scope Global -Force -Option ReadOnly
@@ -20,7 +20,9 @@ Set-Location $DeployRoot -Verbose
 
 #IMPORT MODULES
 Import-Module .\Modules\Download -Force -Global -ErrorAction Stop -Verbose
-Import-Module .\Modules\DeviceCatalog -Force -Global -ErrorAction Stop -Verbose
+Import-Module .\Modules\DriverPackCatalog -Force -Global -ErrorAction Stop -Verbose
+
+
 
 function Main {
    
@@ -30,27 +32,28 @@ function Main {
         ###
         Write-Host "Getting all devices catalog... " -ForegroundColor Magenta -NoNewline
         $JsonSettings = Get-Content "$($DeployRoot)\Control\Settings.json" -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop
-        [DeviceCatalog]::Initialize()
+        [DriverPackCatalog]::Initialize()
     }
     process {
         ###
         ###
         ###
-        foreach ($item in $JsonSettings.Catalog.Devices) {
+        foreach ($item in $JsonSettings.Catalog.DriverPacks) {
 
-            $devicesCatalog = [PScustomobject](Get-XmlContent -Url $item.Link | Get-DevicesCatalog -Manufacturer $item.Manufacturer)
-            
-            $devicesCatalog | ForEach-Object {
+            $driverpackCatalog = [PScustomobject](Get-XmlContent -Url $item.Link | Get-DriverPackCatalog -Manufacturer $item.Manufacturer)
 
-                [DeviceCatalog]::Add( 
-                    [Device]::new( 
+            $driverpackCatalog | ForEach-Object {
+
+                $newdriverpack = [DriverPack]::new( 
                         $_.Manufacturer, 
                         $_.Model, 
                         $_.Types, 
+                        $_.OS, 
                         $_.Version, 
                         $_.Link, 
                         $_.Hash)
-                ) | Out-Null
+
+                [DriverPackCatalog]::Add( $newdriverpack )
             }
         }
     }
@@ -58,13 +61,13 @@ function Main {
         ###
         ###
         ###
-        $catalog = [DeviceCatalog]::GetAll()
+        $catalog = [DriverPackCatalog]::GetAll()
         Write-Host "Done. $($catalog.Count) Devices" -ForegroundColor Green
         return $catalog
         <#
-            IsPublic IsSerial Name     BaseType
-            -------- -------- -------- --------
-            True     True     Device[] System.Array
+            IsPublic IsSerial Name         BaseType
+            -------- -------- ------------ --------
+            True     True     DriverPack[] System.Array
         #>
     }
 }

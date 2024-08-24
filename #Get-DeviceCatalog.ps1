@@ -38,7 +38,7 @@ function Main {
         ###
         foreach ($item in $JsonSettings.Catalog.Devices) {
 
-            $devicesCatalog = [PScustomobject](Get-XmlContent -Url $item.Link | Get-DevicesCatalog -Manufacturer $item.Manufacturer)
+            $devicesCatalog = [PScustomobject](Get-XmlContent -Url $item.Link | Get-DeviceCatalog -Manufacturer $item.Manufacturer)
             
             $devicesCatalog | ForEach-Object {
 

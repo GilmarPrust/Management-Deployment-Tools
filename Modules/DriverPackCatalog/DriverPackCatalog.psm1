@@ -2,10 +2,10 @@
 <#
 +----------------------------------------------------------------------------------------+
     .DESCRIPTION
-    DevicesCatalog
+    Get-DriverPackCatalog
     Created by: @GilmarPrust
-    Filename:   DevicesCatalog.psm1
-    Get-DevicesCatalog
+    Filename:   DriverPackCatalog.psm1
+    Get-DriverPackCatalog
 +----------------------------------------------------------------------------------------+
 #>
 
@@ -32,13 +32,13 @@ function Get-XmlContent {
     [xml]$XmlContent = Get-Content "$($env:TEMP)\$($name).xml" -ErrorAction Stop
     return $XmlContent
 }
-function Get-DeviceCatalog {
+function Get-DriverPackCatalog {
     <#
         .DESCRIPTION
         Obtem os catalogos de todos os fabricantes.
 
         .OUTPUTS
-        Return [PSCustonObject]@{ Manufacturer=""; Model=""; Types=@(); Version="", Links=""; Hash="" }
+        Return [PSCustonObject]@{ Manufacturer=""; Model=""; Types=@(); OS=""; Version=""; Links=""; Hash="" }
     #>
     [CmdletBinding()]
     param (
@@ -57,45 +57,23 @@ function Get-DeviceCatalog {
             $Content,
             $Manufacturer
         )
-        $devicesCatalog = New-Object System.Collections.ArrayList
-        $softwareComponent = $Content.Manifest.SoftwareComponent | Where-Object { ($_.ComponentType.value -eq "BIOS") }
-
-        foreach ($component in $softwareComponent) {
+        $driverPackCatalog = New-Object System.Collections.ArrayList
         
-            foreach ($brand_item in $component.SupportedSystems.Brand) {
+        #Filtered List
+        $FilteredList = $Content.DriverPackManifest.DriverPackage | Where-Object {
+            $_.SupportedOperatingSystems.OperatingSystem.majorVersion -eq "10" -and
+            $_.SupportedSystems.Brand.prefix -match "(OP|LAT|XPSNOTEBOOK)" }
+
+        $driverPackCatalog += [PScustomobject]$FilteredList | Select-Object -Property @{ Label="Manufacturer" ;Expression={ 'Dell Inc.' }},
+            @{Label="Model"   ;Expression={ $_.SupportedSystems.Brand.Model.name | Select-Object -unique }},
+            @{Label="Types"   ;Expression={ $_.SupportedSystems.Brand.Model.systemID -join ',' }},
+            @{Label="OS"      ;Expression={ ($_.SupportedOperatingSystems.OperatingSystem.osCode | Select-Object -Unique) -replace "Windows", "Win" }},
+            @{Label="Version" ;Expression={ $_.dellVersion }},
+            @{Label="Link"    ;Expression={ "http://$($Content.DriverPackManifest.baseLocation)/$($_.path)"}},
+            @{Label="Hash"    ;Expression={ ($_.Cryptography.Hash | Where-Object {$_.algorithm -eq 'SHA256'}).'#text' 
+        }} | Sort-Object Model
         
-                foreach ($model_item in $brand_item.Model) {
-    
-                    $modelnames = @($model_item.Display."#cdata-section" -split '/')
-                    foreach ($modelname in $modelnames) {
-                        
-                        $modelname = $modelname -replace "Latitude-","" -replace "Precision-","" -replace "OptiPlex-",""
-                        $modelname = "$($brand_item.Display."#cdata-section") $($modelname)"
-                        $lastitem = $devicesCatalog | Select-Object -Last 1
-                        
-                        if (($modelname -eq $lastitem.Model) -and ($component.hashMD5 -eq $lastitem.Hash)) {
-    
-                            $devicesCatalog | Select-Object -Last 1 | ForEach-Object {
-                                $_.Types = $_.Types + "," + $model_item.systemID
-                            }
-    
-                        } else {
-
-                            $devicesCatalog += ([PScustomobject]@{  
-
-                                Manufacturer = $Manufacturer;
-                                Model        = $modelname;
-                                Types        = $($model_item.systemID);
-                                Version      = $component.dellVersion;
-                                Link         = "http://$($Content.Manifest.baseLocation)/$($component.path)";
-                                Hash         = $component.hashMD5
-                            })
-                        }
-                    }
-                }        
-            }
-        }
-        return $devicesCatalog
+        return $driverPackCatalog
     }
     <#
         .DESCRIPTION
@@ -106,18 +84,26 @@ function Get-DeviceCatalog {
             $Content,
             $Manufacturer
         )
-        $devicesCatalog = New-Object System.Collections.ArrayList
+        $driverPackCatalog = New-Object System.Collections.ArrayList
 
-        $LenovoModels = $Content.ModelList | Select-Object -ExpandProperty Model
-        $devicesCatalog += $LenovoModels | Select-Object -Property  @{
-                Label="Manufacturer" ; Expression={ $Manufacturer }}, 
-                @{Label="Model"      ; Expression={ ($_.name -split 'Type')[0].Trim() }},    
-                @{Label="Types"      ; Expression={ ($_.Types.Type) -join ',' }},
-                @{Label="Version"    ; Expression={ $_.BIOS.version }},
-                @{Label="Link"       ; Expression={ $_.BIOS.'#text'}},
-                @{Label="Hash"       ; Expression={ $_.BIOS.crc }
+        $LenovoModels = $Content.ModelList | Select-Object -ExpandProperty Model | Sort-Object -Property name
+        $LenovoModels | ForEach-Object { $_.name = ($_.name -split ' Type')[0].Trim() }
+            
+        foreach ($model in $LenovoModels) {
+        
+            $sccm = $model.SCCM | Where-Object { $_.os -eq 'Win10' -or $_.os -eq 'Win11' } | Sort-Object -Property version | Select-Object -Last 1
+            $driverPackCatalog += [PScustomobject]@{ 
+        
+                Manufacturer = "Lenovo";
+                Model   = $model.name;
+                Types   = $model.Types.Type -join ','; 
+                OS      = (Get-Culture).TextInfo.ToTitleCase($sccm.os);
+                Version = $sccm.version;
+                Link    = $sccm.'#text';
+                Hash    = $sccm.crc;
+            }  
         }
-        return $devicesCatalog
+        return $driverPackCatalog
     }
     <#
         .DESCRIPTION
@@ -151,7 +137,7 @@ function Get-DeviceCatalog {
     }
 }
 
-Export-ModuleMember -Function Get-DeviceCatalog
+Export-ModuleMember -Function Get-DriverPackCatalog
 Export-ModuleMember -Function Get-XmlContent
 
 
