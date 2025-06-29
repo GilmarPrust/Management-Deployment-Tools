@@ -34,11 +34,15 @@ function Get-DeviceModelInfo {
     Install-PSResource DeviceModels -Repository DCM2_PSResources
     
     $hardware = $global:deployInfo.Hardware
+ 
     $devicemodelinfo = Get-DeviceModel -Manufacturer $hardware.Manufacturer -Model $hardware.Model -Type $hardware.Type
     
-    if ($null -eq $devicemodelinfo) { Throw "DeviceModel not found, please use Add-DeviceModel.ps1" }
-    #$devicemodel = Add-DeviceModel -HardwareInfo $hardwareinfo
-    
+    if ($null -eq $devicemodelinfo) { 
+        $devicemodelinfo = Add-DeviceModel -Manufacturer $hardware.Manufacturer -Model $hardware.Model -Type $hardware.Type
+        Write-Host "Add new Device Model." -ForegroundColor DarkRed
+    }
+    if ($null -eq $devicemodelinfo) { Throw "DeviceModel info is null." }
+
     return $devicemodelinfo
 }
 function Get-FirmwareInfo {
@@ -50,7 +54,7 @@ function Get-FirmwareInfo {
 
     $firmware = Get-Firmware -DeviceModelGuid $global:deployInfo.DeviceModel.Guid
 
-    if ($null -eq $firmware) { Write-Host "Firmware not found." -ForegroundColor DarkRed }
+    if ($null -eq $firmware) { Write-Host "Firmware not found." -ForegroundColor DarkYellow }
 
     return $firmware
 }
@@ -63,7 +67,7 @@ function Get-DriverPackInfo {
     
     $driverpack = Get-DriverPack -DeviceModelGuid $global:deployInfo.DeviceModel.Guid
 
-    if ($null -eq $driverpack) { Write-Host "DriverPack not found." -ForegroundColor DarkRed }
+    if ($null -eq $driverpack) { Write-Host "DriverPack not found." -ForegroundColor DarkYellow }
 
     return $driverpack
 }
@@ -160,7 +164,7 @@ function Get-DiskInfo {
     } else {
         $disk = Get-DeployDisk | Out-GridView -OutputMode Single -Title "Select disk"
     }
-
+    ### Check disk.
     if ($null -eq $disk) { Throw "Disk is null." }
 
     return $disk 

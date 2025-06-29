@@ -8,41 +8,22 @@
 #>
 function New-DeviceModel {
     <##>
-    return @{
-        Guid = (New-Guid).Guid
-    }
-}
-
-function Add-DeviceModel {
-    <#
-        .DESCRIPTION
-        Add um novo Device.
-    #>
     [CmdletBinding()]
-    param (
-        [Parameter(Mandatory, ValueFromPipeline)]
+    param(
+        [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
-        $Manufacturer,
-        $Model,
-        $Type
+        [string]$Manufacturer,
+        [string]$Model,
+        [string]$Type
     )
-    <##>
-    Install-PSResource Control -Repository DCM2_PSResources
-
-    $devicemodels = Import-DeviceModels
-
-    <# Verifica SerialNumber e Mac se já existe. #>
-    if ($devicemodels.SerialNumber -contains $SerialNumber -or $DeviceInfo.MacAddress -contains $MacAddress) {
-        Throw "Device alread exist."
+    return [PSCustomObject]@{
+        Guid = (New-Guid).Guid
+        Manufacturer = $Manufacturer;
+        Model = $Model;
+        Type = $Type
     }
-
-    $devicemodels += New-DeviceModel -SerialNumber $HardwareInfo.SerialNumber -MacAddress $HardwareInfo.Network.MACAddress
-
-    Save-DeviceModels -Content $devicemodels
-
-    return $devicemodels | Select-Object -Last 1
-
 }
+
 
 function Add-DeviceModel {
     <#
@@ -70,35 +51,23 @@ function Add-DeviceModel {
         [string]$Model,
         [string]$Type
     )
-    <##>
-    Install-PSResource Control -Repository DCM2_PSResources
-
-    $devicemodel = Import-Devices
-
-    <# Verifica SerialNumber e Mac se já existe. #>
-    if ($devicemodel.Model -contains $Model -and $devicemodel.Type -contains $Type) {
-        Throw "Device alread exist."
-    }
-
-    $devicemodel += New-DeviceModel | Add-Member @{Manufacturer=$Manufacturer; Model=$Model; Type=$Type}
-
-    return (Save-DeviceModels -Content $devicemodel | Select-Object -Last 1)
-}
-
-function Save-DeviceModels {
-    <#
-        .DESCRIPTION
-    #>
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory, ValueFromPipeline)]
-        [ValidateNotNullOrEmpty()]
-        $Content
-    )
     ###
     Install-PSResource Control -Repository DCM2_PSResources
 
-    return (Save-DeviceModels -Content $Content)
+    $devicemodels = Import-DeviceModels
+
+    ### Verifica SerialNumber e Mac se já existe.
+    if ($devicemodels.Model -contains $Model -and $devicemodels.Type -contains $Type) {
+       Write-Host "Device already exists." -ForegroundColor Red
+       return $devicemodels | Where-Object { $_.Manufacturer -eq $Manufacturer -and $_.Model -eq $Model -and $_.Type -eq $Type }
+    }
+
+    $devicemodels += New-DeviceModel -Manufacturer $Manufacturer -Model $Model -Type $Type
+
+    Save-DeviceModels -Content $devicemodels
+    Write-Host "Device model added successfully." -ForegroundColor Green
+    
+    return $devicemodels | Where-Object { $_.Manufacturer -eq $Manufacturer -and $_.Model -eq $Model -and $_.Type -eq $Type }
 }
 
 

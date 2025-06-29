@@ -21,7 +21,7 @@ function New-DriverPack {
         [bool]$Enabled
     )
     
-    return @{
+    return [PSCustomObject]@{
         DeviceModelGuid = $DeviceModelGuid;
         FileName = $FileName;
         OS = $OS;
@@ -69,7 +69,6 @@ function Add-DriverPack {
         [string]$DeviceModelGuid,
         [Object]$InputObject
     )
-    
     begin {
         ###
         Install-PSResource Control -Repository DCM2_PSResources

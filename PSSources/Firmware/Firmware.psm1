@@ -19,7 +19,7 @@ function New-Firmware {
         [string]$Hash
     )
     
-    return @{
+    return [PSCustomObject]@{
         DeviceModelGuid = $DeviceModelGuid;
         FileName = $FileName;
         Version = $Version;
