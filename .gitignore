@@ -1,0 +1,12 @@
+# Ignore files with extension .exe
+# https://github.com/GilmarPrust/Management-Deployment-Tools.git
+*.exe
+*.cab
+
+
+/Deployment/Images/
+/Deployment/Applications/
+/Deployment/DriverPacks/
+/Deployment/Firmwares/
+/Deployment/Sources/ODT/Office/
+/PSResources/

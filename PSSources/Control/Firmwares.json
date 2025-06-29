@@ -1,0 +1,18 @@
+[
+  {
+    "DeviceModelGuid": "273b9f1b-3998-4372-8b1c-6af73143cbf4",
+    "FileName": "O3010A22.exe",
+    "Version": "A22",
+    "Source": "\\Firmwares\\O3010A22.exe",
+    "Hash": "570f55e74d2aa62a73bf9bacbb73767f",
+    "Enabled": true
+  },
+  {
+    "DeviceModelGuid": "6aae1236-ba2c-4bc5-97b8-e8150803f5f8",
+    "FileName": "Latitude_7285_1.26.0.exe",
+    "Version": "1.26.0",
+    "Source": "\\Firmwares\\Latitude_7285_1.26.0.exe",
+    "Hash": "dfaca4f02ceb03565ddd4c838dce705b",
+    "Enabled": true
+  }
+]

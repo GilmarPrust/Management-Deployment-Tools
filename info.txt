@@ -1,0 +1,47 @@
+$DellDownloadList = "https://downloads.dell.com/published/Pages/index.html"
+$DellDownloadBase = "https://downloads.dell.com"
+$DellDriverListURL = "https://en.community.dell.com/techcenter/enterprise-client/w/wiki/2065.dell-command-deploy-driver-packs-for-enterprise-client-os-deployment"
+$DellBaseURL = "https://en.community.dell.com"
+$Dell64BIOSUtil = "https://dl.dell.com/FOLDER06137299M/4/Flash64W_ZPE.exe"
+	
+# Define Dell Download Sources
+$DellXMLCabinetSource = "https://downloads.dell.com/catalog/DriverPackCatalog.cab"
+$DellCatalogSource = "https://downloads.dell.com/catalog/CatalogPC.cab"
+
+
+# Define HP Download Sources
+$HPXMLCabinetSource = 'https://ftp.hp.com/pub/caps-softpaq/cmit/HPClientDriverPackCatalog.cab'
+$HPSoftPaqSource = 'https://ftp.hp.com/pub/softpaq/'
+$HPPlatFormList = 'https://ftp.hp.com/pub/caps-softpaq/cmit/imagepal/ref/platformList.cab'
+$HPSoftPaqCab = "https://ftp.hp.com/pub/softlib/software/sms_catalog/HpCatalogForSms.latest.cab"
+
+
+# Define Lenovo Download Sources
+$LenovoXMLSource = "https://download.lenovo.com/cdrt/td/catalogv2.xml"
+	
+# Define Lenovo Cabinet/XL Names and Paths
+$LenovoXMLFile = [string]($LenovoXMLSource | Split-Path -Leaf)
+$LenovoBiosBase = "https://download.lenovo.com/catalog/"
+
+# Define Microsoft Download Sources
+$MicrosoftXMLSource = "https://raw.githubusercontent.com/maurice-daly/DriverAutomationTool/master/Data/MSProducts.xml"
+$MicrosoftBaseURL = "https://aka.ms/"
+
+
+https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/system-builder-deployment?view=windows-11
+https://learn.microsoft.com/pt-br/powershell/scripting/dev-cross-plat/create-standard-library-binary-module?view=powershell-7.5
+
+
+Verificar varialvel Deployroot nos modulos.
+
+Write-Verbose "PowerShell module 'Microsoft.WinGet.Client' was not found. Attempting to install it. . ."
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser
+Install-Module -Name Microsoft.WinGet.Client -MinimumVersion 1.9.2411 -Force -Repository PSGallery -Scope CurrentUser
+
+WinGet upgrade --all --include-pinned --disable-interactivity
+
+
+config para escolher modo de trabalho: local apenas, hibrido, ou Wlan apenas.
+
+
+estrutura dos objetos criados, sempre em cascata com retorno, para permitir ser autonomo, independente do nivel em que foi executado.

@@ -1,0 +1,29 @@
+[
+  {
+    "DeviceModelGuid": "8ef46368-d8c0-43e4-9414-e590eda104ee",
+    "FileName": "3070-0DFFN_Win10_1.0_A09.exe",
+    "OS": "Win10",
+    "Version": "A09",
+    "Source": "\\DriverPacks\\3070-0DFFN_Win10_1.0_A09.exe",
+    "Hash": "CCB68DA7D01F992BB2C9CD852F75AE81659D9B5657AE9A39212AB0B0C3B20DF2",
+    "Enabled": true
+  },
+  {
+    "DeviceModelGuid": "6aae1236-ba2c-4bc5-97b8-e8150803f5f8",
+    "FileName": "3070-PCGHP_Win11_1.0_A00.exe",
+    "OS": "Win11",
+    "Version": "A00",
+    "Source": "\\DriverPacks\\3070-PCGHP_Win11_1.0_A00.exe",
+    "Hash": "0645AAA5033F3A5663F4FE52668DB8A12F87FDDE8A37DDC164198EED6ED8BBBE",
+    "Enabled": true
+  },
+  {
+    "DeviceModelGuid": "6aae1236-ba2c-4bc5-97b8-e8150803f5f8",
+    "FileName": "3070-0DFFN_Win10_1.0_A09.exe",
+    "OS": "Win10",
+    "Version": "A01",
+    "Source": "\\DriverPacks\\3070-0DFFN_Win10_1.0_A09.exe",
+    "Hash": "0645AAA5033F3A5663F4FE52668DB8A12F87FDDE8A37DDC164198EED6ED8BBBE",
+    "Enabled": true
+  }
+]

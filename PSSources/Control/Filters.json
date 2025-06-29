@@ -1,0 +1,14 @@
+[
+  {
+    "Guid": "e1fe02a0-d325-42d9-9812-288936c1c6c2",
+    "Name": "isLaptop",
+    "PSCommand": "(Get-CimInstance -ClassName Win32_SystemEnclosure -Property ChassisTypes) -match '(8|9|10)'",
+    "Enabled": true
+  },
+  {
+    "Guid": "846c3c8d-dd1a-4174-83b0-f88855f996c9",
+    "Name": "isDesktop",
+    "PSCommand": "(Get-CimInstance -ClassName Win32_SystemEnclosure -Property ChassisTypes) -match '(3|4|6|7|13|)'",
+    "Enabled": true
+  }
+]

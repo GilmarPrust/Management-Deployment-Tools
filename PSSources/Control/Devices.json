@@ -1,0 +1,14 @@
+[
+	{
+	  "Guid": "99ba99fb-f319-43c3-b1a8-45436441d7fb",
+	  "ComputerName": "DSKTP-5EA8",
+	  "SerialNumber": "System Serial Number",
+	  "MACAddress": "10:7C:61:B4:F0:DA"
+	},
+	{
+	  "Guid": "77ba99fb-f319-43c3-b1a8-45436441d7fb",
+	  "ComputerName": "DSKTP-1234",
+	  "SerialNumber": "676767677",
+	  "MACAddress": "10:7C:61:B4:F0:12"
+	}
+]
