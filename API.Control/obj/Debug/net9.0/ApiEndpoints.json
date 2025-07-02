@@ -1,0 +1,89 @@
+[
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_0",
+    "RelativePath": "device",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_1",
+    "RelativePath": "device",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "device",
+        "Type": "API.Control.Models.Device",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_2",
+    "RelativePath": "device/{guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "guid",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "device",
+        "Type": "API.Control.Models.Device",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_3",
+    "RelativePath": "device/{guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "guid",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
