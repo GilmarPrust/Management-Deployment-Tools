@@ -1,0 +1,1 @@
+crie um projeto inteiro com esses relacionamentos, DeviceModel pode ter vários DriverPack e um Firmware associado, um Device pode ter um Profile associado e pode ter vários Application, um Profile pode ter vários Application, um Profile pode ter uma imagen associada, um Device deve estar associado a um DeviceModel.

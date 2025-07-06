@@ -1,28 +1,33 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using API.Control.ValueObjects;
 
 namespace API.Control.Models
 {
     public class DriverPack
     {
-        [Required(ErrorMessage = "  ")]
-        public string DeviceModelGuid { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Nome do arquivo é obrigatório.")]
-        public string FileName { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Nome do arquivo é obrigatório.")]
-        public string OS { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Versão é obrigatória.")]
-        public string Version { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Caminho é obrigatório.")]
-        public string Source { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Hash é obrigatório.")]
-        public string Hash { get; set; } = string.Empty;
-
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public required string FileName { get; set; }
+        public required string OS { get; set; }
+        public required string Version { get; set; }
+        public required string Source { get; set; }
+        public required string Hash { get; set; }
         public bool Enabled { get; set; } = true;
 
+
+        // Construtor vazio para o EF
+        public DriverPack() { }
+
+        // Construtor com parâmetros para uso explícito
+        public DriverPack(string filename, string os, string version, string source, string hash)
+        {
+            FileName = filename;
+            OS = os;
+            Version = version;
+            Source = source;
+            Hash = hash;
+        }
+
+        // Modelo de Dispositivo associados ao pacote de driver.
+        public required Guid DeviceModelId { get; set; }
+        public virtual DeviceModel DeviceModel { get; set; } = null!;
     }
 }

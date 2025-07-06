@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\mappings\\entitymappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:mappings\\entitymappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\models\\device.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:models\\device.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 220,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Device.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\Device.cs",
+              "RelativeDocumentMoniker": "Models\\Device.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\Device.cs",
+              "RelativeToolTip": "Models\\Device.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T22:32:43.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EntityMappingProfile.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Mappings\\EntityMappingProfile.cs",
+              "RelativeDocumentMoniker": "Mappings\\EntityMappingProfile.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Mappings\\EntityMappingProfile.cs",
+              "RelativeToolTip": "Mappings\\EntityMappingProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T22:27:34.819Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

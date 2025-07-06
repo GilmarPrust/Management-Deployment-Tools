@@ -1,32 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.Models
+﻿namespace API.Control.Models
 {
     public class Application
     {
-        
-        public Guid Guid { get; set; } = Guid.NewGuid();
-
-        [Required(ErrorMessage = "O NameID é obrigatório.")]
-        public string NameID { get; set; } = string.Empty;
-        
-        [Required(ErrorMessage = "O nome de exibição é obrigatório.")]
-        public string DisplayName { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "A versão é obrigatória.")]
-        public string Version { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "O nome do arquivo é obrigatório.")]
-        public string FileName { get; set; } = string.Empty;
-
-        public string? Argument { get; set; } = null;
-
-        [Required(ErrorMessage = "O Caminho é obrigatório.")]
-        public string Source { get; set; } = string.Empty;
-
-        public string? Hash { get; set; } = null;
-        public string? Filter { get; set; } = null;
-        
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public required string NameID { get; set; }
+        public required string DisplayName { get; set; }
+        public required string Version { get; set; }
+        public required string FileName { get; set; }
+        public string Argument { get; set; } = string.Empty;
+        public required string Source { get; set; }
+        public string Filter { get; set; } = string.Empty;
+        public string Hash { get; set; } = string.Empty;
         public bool Enabled { get; set; } = true;
+
+
+        // Dispositivos associados ao aplicativo.
+        public virtual ICollection<Device>? Devices { get; set; } = new List<Device>();
+
+        // Modelos de dispositivo associado ao aplicativo.
+        public virtual ICollection<DeviceModel>? DeviceModels { get; set; } = new List<DeviceModel>();
+
+        // Profiles associados ao aplicativo.
+        public virtual ICollection<ProfileDeploy>? ProfileDeploys { get; set; } = new List<ProfileDeploy>();
     }
 }
