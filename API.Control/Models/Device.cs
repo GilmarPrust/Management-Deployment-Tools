@@ -16,25 +16,26 @@ namespace API.Control.Models
         public Device() { }
 
         // Construtor com parâmetros para uso explícito
-        public Device(string computerName, string serialNumber, string macAddress)
+        public Device(string computerName, string serialNumber, string macAddress, DeviceModel deviceModel)
         {
             ComputerName = ComputerName.Create(computerName);
             SerialNumber = serialNumber.ToUpper();
             MacAddress = MacAddress.Create(macAddress);
+            DeviceModel = deviceModel;
         }
 
         // DeviceModel associado ao dispositivo  
-        public required Guid DeviceModelId { get; set; }
-        public virtual DeviceModel DeviceModel { get; set; } = null!;
+        public required Guid DeviceModelId { get; set; } = Guid.Empty;
+        public required virtual DeviceModel DeviceModel { get; set; }
 
 
         // Inventory associado ao dispositivo  
-        public Guid? InventoryId { get; set; }
+        public Guid InventoryId { get; set; } = Guid.Empty;
         public virtual Inventory Inventory { get; set; } = null!;
 
 
         // Profile associado ao dispositivo  
-        public Guid? ProfileDeployId { get; set; }
+        public Guid ProfileDeployId { get; set; } = Guid.Empty;
         public virtual ProfileDeploy ProfileDeploy { get; set; } = null!;
 
 
@@ -45,7 +46,7 @@ namespace API.Control.Models
         public virtual ICollection<DriverPackage> DriverPackages { get; set; } = new List<DriverPackage>();
 
         // Appx associado ao dispositivo  
-        public virtual ICollection<AppxPackage> Appx { get; set; } = new List<AppxPackage>();
+        public virtual ICollection<AppxPackage> AppxPackages { get; set; } = new List<AppxPackage>();
 
     }
 }

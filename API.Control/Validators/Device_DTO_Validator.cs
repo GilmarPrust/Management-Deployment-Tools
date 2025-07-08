@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace API.Control.Validators;
 
-public class Device_CreateDTO_Validator : AbstractValidator<Device_CreateDTO>
+public class Device_DTO_Validator : AbstractValidator<Device_ReadDTO>
 {
-    public Device_CreateDTO_Validator()
+    public Device_DTO_Validator()
     {
         RuleFor(d => d.ComputerName)
             .NotEmpty().WithMessage("Computer name is required.")

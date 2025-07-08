@@ -14,13 +14,20 @@
         public bool Enabled { get; set; } = true;
 
 
-        // Dispositivos associados ao aplicativo.
-        public virtual ICollection<Device>? Devices { get; set; } = new List<Device>();
+        // Construtor vazio para o EF
+        public Application() { }
 
-        // Modelos de dispositivo associado ao aplicativo.
-        public virtual ICollection<DeviceModel>? DeviceModels { get; set; } = new List<DeviceModel>();
-
-        // Profiles associados ao aplicativo.
-        public virtual ICollection<ProfileDeploy>? ProfileDeploys { get; set; } = new List<ProfileDeploy>();
+        // Construtor com parâmetros para uso explícito.
+        public Application(string nameId, string displayName, string version, string filename, string argument, string source, string filter, string hash)
+        {
+            NameID = nameId;
+            DisplayName = displayName;
+            Version = version;
+            FileName = filename;
+            Argument = argument;
+            Source = source;
+            Filter = filter;
+            Hash = hash;
+        }
     }
 }

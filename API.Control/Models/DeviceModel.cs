@@ -9,18 +9,25 @@ namespace API.Control.Models
         public required string Model { get; set; }
         public string Type { get; set; } = string.Empty;
 
-        // Firmware associado ao modelo de dispositivo.
-        public Guid? FirmwareId { get; set; }
-        public virtual Firmware? Firmware { get; set; }
 
+        //Contrutor vazio para o EF
+        public DeviceModel() { }
+
+        // Construtor com parâmetros para uso explícito.
+        public DeviceModel(string manufacturer, string model, string type)
+        {
+            Manufacturer = manufacturer;
+            Model = model;
+            Type = type;
+        }
+
+
+        // Firmware associado ao modelo de dispositivo.
+        public Guid FirmwareId { get; set; } = Guid.Empty;
+        public virtual Firmware Firmware { get; set; } = null!;
 
         // DriverPacks associado ao modelo de dispositivo.
         public virtual ICollection<DriverPack> DriverPacks { get; set; } = new List<DriverPack>();
-
-
-        // Dispositivos associados ao modelo de dispositivo.
-        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
-
 
         // Aplicativos associados ao modelo de dispositivo.
         public virtual ICollection<Application> Applications { get; set; } = new List<Application>();

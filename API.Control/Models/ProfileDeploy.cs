@@ -20,16 +20,16 @@ namespace API.Control.Models
             Image = image;
         }
 
-        public ICollection<string> SourcePath { get; set; } = new List<string>();
+        public virtual ICollection<string> SourcePath { get; set; } = new List<string>();
 
 
         // Dispositivos associados ao perfil.
-        public ICollection<Device> Devices { get; set; } = new List<Device>();
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
 
         // Aplicativos associados ao perfil.
-        public ICollection<Application> Applications { get; set; } = new List<Application>();
+        public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 
         // Tarefas associadas ao perfil.
-        public ICollection<Task> ProfileTasks { get; set; } = new List<Task>();
+        public virtual ICollection<Task> ProfileTasks { get; set; } = new List<Task>();
     }
 }

@@ -3,6 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.Control.DTOs
 {
+    public class Device_WriteDTO
+    {
+        public string ComputerName { get; set; } = string.Empty;
+        public string SerialNumber { get; set; } = string.Empty;
+        public string MacAddress { get; set; } = string.Empty;
+        public Guid DeviceModelId { get; set; }
+    }
     public class Device_ReadDTO
     {
         public Guid Id { get; set; }

@@ -9,7 +9,7 @@
         public required string ShortName { get; set; }
         public required string EditionId { get; set; }
         public required string Version { get; set; }
-        public required string[] Languages { get; set; } = Array.Empty<string>();
+        public required string[] Languages { get; set; }
         public required long ImageSize { get; set; }
         public required string Source { get; set; }
 
@@ -29,10 +29,5 @@
             ImageSize = imageSize;
             Source = source;
         }
-
-
-        // Perfil associados à imagem.
-        public virtual ICollection<ProfileDeploy>? ProfileDeploys { get; set; }
-
     }
 }
