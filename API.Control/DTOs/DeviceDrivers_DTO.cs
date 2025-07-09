@@ -2,7 +2,7 @@
 
 namespace API.Control2.DTOs
 {
-    public class DeviceDriversDTO
+    public class DeviceDrivers_DTO
     {
         public Guid Id { get; set; }
 

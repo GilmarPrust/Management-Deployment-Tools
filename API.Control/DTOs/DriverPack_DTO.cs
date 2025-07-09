@@ -2,7 +2,7 @@
 
 namespace API.Control2.DTOs
 {
-    public class DriverPackDTO
+    public class DriverPack_DTO
     {
         public Guid Id { get; set; }
 

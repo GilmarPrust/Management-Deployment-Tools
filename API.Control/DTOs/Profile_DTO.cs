@@ -2,7 +2,7 @@
 
 namespace API.Control2.DTOs
 {
-    public class ProfileDTO
+    public class Profile_DTO
     {
         public Guid Id { get; set; }
 

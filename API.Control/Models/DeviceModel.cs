@@ -5,8 +5,8 @@ namespace API.Control.Models
     public class DeviceModel
     {
         public Guid Id { get; init; } = Guid.NewGuid();
-        public required string Manufacturer { get; set; }
-        public required string Model { get; set; }
+        public string Manufacturer { get; init; } = string.Empty;
+        public string Model { get; init; } = string.Empty;
         public string Type { get; set; } = string.Empty;
 
 
@@ -16,6 +16,11 @@ namespace API.Control.Models
         // Construtor com parâmetros para uso explícito.
         public DeviceModel(string manufacturer, string model, string type)
         {
+            if (string.IsNullOrWhiteSpace(manufacturer))
+                throw new ArgumentException("Manufacturer is required.", nameof(manufacturer));
+            if (string.IsNullOrWhiteSpace(model))
+                throw new ArgumentException("Model is required.", nameof(model));
+
             Manufacturer = manufacturer;
             Model = model;
             Type = type;

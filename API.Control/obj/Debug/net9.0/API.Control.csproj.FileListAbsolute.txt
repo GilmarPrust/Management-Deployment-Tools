@@ -172,3 +172,4 @@ D:\_DEV\PROJETOS\D.C.M2\API.Control\bin\Debug\net9.0\runtimes\win\lib\net6.0\Sys
 D:\_DEV\PROJETOS\D.C.M2\API.Control\bin\Debug\net9.0\Castle.Core.dll
 D:\_DEV\PROJETOS\D.C.M2\API.Control\bin\Debug\net9.0\FluentValidation.dll
 D:\_DEV\PROJETOS\D.C.M2\API.Control\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Proxies.dll
+D:\_DEV\PROJETOS\D.C.M2\API.Control\bin\Debug\net9.0\FluentValidation.DependencyInjectionExtensions.dll

@@ -4,7 +4,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Control.DTOs
 {
-    public class ApplicationDTO
+    public class Application_DTO
     {
         public Guid Id { get; set; } // opcional no POST
 

@@ -3,6 +3,34 @@
   "WorkspaceRootPath": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\mappings\\entityprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:mappings\\entityprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\api.control.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:api.control.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\validators\\devicemodel_validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:validators\\devicemodel_validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\devicemodel_dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\devicemodel_dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\validators\\device_validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:validators\\device_validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\device_dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\device_dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\models\\device.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:models\\device.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -18,32 +46,123 @@
       "DocumentGroups": [
         {
           "DockedWidth": 220,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "API.Control",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\API.Control.csproj",
+              "RelativeDocumentMoniker": "API.Control.csproj",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\API.Control.csproj",
+              "RelativeToolTip": "API.Control.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-07-08T23:59:14.303Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Device.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\Device.cs",
-              "RelativeDocumentMoniker": "Models\\Device.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\Device.cs",
-              "RelativeToolTip": "Models\\Device.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Title": "EntityProfiles.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Mappings\\EntityProfiles.cs",
+              "RelativeDocumentMoniker": "Mappings\\EntityProfiles.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Mappings\\EntityProfiles.cs",
+              "RelativeToolTip": "Mappings\\EntityProfiles.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-07T23:51:11.8Z",
+              "WhenOpened": "2025-07-08T23:48:47.82Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T23:43:37.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Device.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\Device.cs",
+              "RelativeDocumentMoniker": "Models\\Device.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\Device.cs",
+              "RelativeToolTip": "Models\\Device.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAACIAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T23:06:16.192Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Device_DTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\Device_DTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\Device_DTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\Device_DTO.cs",
+              "RelativeToolTip": "DTOs\\Device_DTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T23:06:09.44Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Device_Validator.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Validators\\Device_Validator.cs",
+              "RelativeDocumentMoniker": "Validators\\Device_Validator.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Validators\\Device_Validator.cs",
+              "RelativeToolTip": "Validators\\Device_Validator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T23:37:34.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "DeviceModel.cs",
               "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\DeviceModel.cs",
               "RelativeDocumentMoniker": "Models\\DeviceModel.cs",
               "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\DeviceModel.cs",
               "RelativeToolTip": "Models\\DeviceModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-07T23:48:41.625Z",
+              "WhenOpened": "2025-07-08T23:06:15.392Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DeviceModel_DTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeviceModel_DTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\DeviceModel_DTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeviceModel_DTO.cs",
+              "RelativeToolTip": "DTOs\\DeviceModel_DTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T23:06:11.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DeviceModel_Validator.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Validators\\DeviceModel_Validator.cs",
+              "RelativeDocumentMoniker": "Validators\\DeviceModel_Validator.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Validators\\DeviceModel_Validator.cs",
+              "RelativeToolTip": "Validators\\DeviceModel_Validator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T23:30:28.071Z",
               "EditorCaption": ""
             }
           ]

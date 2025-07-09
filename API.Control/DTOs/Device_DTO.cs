@@ -3,32 +3,43 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.Control.DTOs
 {
-    public class Device_WriteDTO
-    {
-        public string ComputerName { get; set; } = string.Empty;
-        public string SerialNumber { get; set; } = string.Empty;
-        public string MacAddress { get; set; } = string.Empty;
-        public Guid DeviceModelId { get; set; }
-    }
     public class Device_ReadDTO
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
+        public string ComputerName { get; init; } = string.Empty;
+        public string SerialNumber { get; init; } = string.Empty;
+        public string MacAddress { get; init; } = string.Empty;
+        public Guid DeviceModelId { get; init; } = Guid.Empty;
+        public Guid InventoryId { get; init; } = Guid.Empty;
+        public Guid ProfileId { get; init; } = Guid.Empty;
+        public List<Guid> ApplicationsId { get; init; } = new List<Guid>();
 
-        [Required]
+    }
+
+    public class Device_WriteDTO
+    {
+        [Required(ErrorMessage = "Computer name is required.")]
         public string ComputerName { get; set; } = string.Empty;
-
-        [Required]
         public string SerialNumber { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "MAC Address is required.")]
         public string MacAddress { get; set; } = string.Empty;
 
-
-        [Required]
+        [Required(ErrorMessage = "Device model Id is required.")]
         public Guid DeviceModelId { get; set; } = Guid.Empty;
+    }
+ 
+    public class Device_UpdateDTO
+    {
+        [Required(ErrorMessage = "Computer name is required.")]
+        public string ComputerName { get; set; } = string.Empty;
 
-        public Guid? InventoryId { get; set; } = null;
-        public Guid? ProfileId { get; set; } = null;
-        public List<Guid>? ApplicationsId { get; set; } = new List<Guid>();
+        public string SerialNumber { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "MAC Address is required.")]
+        public string MacAddress { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Device model Id is required.")]
+        public Guid DeviceModelId { get; set; } = Guid.Empty;
     }
 }

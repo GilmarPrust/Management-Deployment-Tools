@@ -13,11 +13,11 @@ namespace API.Control.Services
             _mapper = mapper;
         }
 
-        public ApplicationDTO Create(ApplicationCreateDto dto)
+        public Application_DTO Create(ApplicationCreateDto dto)
         {
             var model = _mapper.Map<Application>(dto);
             // salvar no banco, etc.
-            return _mapper.Map<ApplicationDTO>(model);
+            return _mapper.Map<Application_DTO>(model);
         }
     }
 }

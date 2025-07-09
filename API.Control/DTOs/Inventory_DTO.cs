@@ -2,7 +2,7 @@
 
 namespace API.Control2.DTOs
 {
-    public class InventoryDTO
+    public class Inventory_DTO
     {
         public Guid Id { get; set; }
 
