@@ -29,5 +29,14 @@
             Filter = filter;
             Hash = hash;
         }
+
+        // Applications associado ao aplicativo
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+
+        // DeviceModel associado ao aplicativo
+        public virtual ICollection<DeviceModel> DeviceModels { get; set; } = new List<DeviceModel>();
+
+        // Dispositivo associado ao aplicativo
+        public virtual ICollection<ProfileDeploy> ProfileDeploys { get; set; } = new List<ProfileDeploy>();
     }
 }

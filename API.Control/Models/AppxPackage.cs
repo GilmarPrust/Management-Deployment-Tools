@@ -36,5 +36,8 @@
             IsPartiallyStaged = isPartiallyStaged;
             Status = status;
         }
+
+        // Device associado ao perfil.  
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
     }
 }

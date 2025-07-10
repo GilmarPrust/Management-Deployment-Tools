@@ -26,9 +26,10 @@ namespace API.Control.Models
             Type = type;
         }
 
+        // Opcional: navegação inversa
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
 
         // Firmware associado ao modelo de dispositivo.
-        public Guid FirmwareId { get; set; } = Guid.Empty;
         public virtual Firmware Firmware { get; set; } = null!;
 
         // DriverPacks associado ao modelo de dispositivo.

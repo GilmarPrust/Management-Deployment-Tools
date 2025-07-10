@@ -1,4 +1,5 @@
 ﻿using API.Control.ValueObjects;
+using AutoMapper;
 
 
 namespace API.Control.Models
@@ -36,11 +37,11 @@ namespace API.Control.Models
         public required virtual DeviceModel DeviceModel { get; set; }
 
         // Inventory associado ao dispositivo  
-        public Guid InventoryId { get; set; } = Guid.Empty;
         public virtual Inventory Inventory { get; set; } = null!;
 
+
         // Profile associado ao dispositivo  
-        public Guid ProfileDeployId { get; set; } = Guid.Empty;
+        public required Guid ProfileDeployId { get; set; } = Guid.Empty;
         public virtual ProfileDeploy ProfileDeploy { get; set; } = null!;
 
         // Aplicativos associado ao dispositivo  

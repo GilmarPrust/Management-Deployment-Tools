@@ -21,5 +21,9 @@ namespace API.Control.Models
             Source = source;
             Hash = hash;
         }
+
+        // Dispositivo associado ao firmware.  
+        public required Guid DeviceModelId { get; set; } = Guid.Empty;
+        public required virtual DeviceModel DeviceModel { get; set; }
     }
 }

@@ -29,5 +29,9 @@
             ImageSize = imageSize;
             Source = source;
         }
+
+        // Profile associado a image.  
+        public required Guid ProfileDeployId { get; set; } = Guid.Empty;
+        public virtual ProfileDeploy ProfileDeploy { get; set; } = null!;
     }
 }

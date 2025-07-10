@@ -22,14 +22,13 @@ namespace API.Control.Models
 
         public virtual ICollection<string> SourcePath { get; set; } = new List<string>();
 
-
-        // Dispositivos associados ao perfil.
-        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
-
         // Aplicativos associados ao perfil.
         public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 
         // Tarefas associadas ao perfil.
         public virtual ICollection<Task> ProfileTasks { get; set; } = new List<Task>();
+
+        // Device associado ao perfil.  
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
     }
 }
