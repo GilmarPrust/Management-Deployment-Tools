@@ -6,7 +6,7 @@ namespace API.Control.ValueObjects
     {
         public string Value { get; }
 
-        private MacAddress(string value)
+        public MacAddress(string value)
         {
             Value = value.ToUpper();
         }

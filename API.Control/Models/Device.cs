@@ -1,6 +1,6 @@
 ﻿using API.Control.ValueObjects;
 using AutoMapper;
-
+using System.Diagnostics.CodeAnalysis;
 
 namespace API.Control.Models
 {
@@ -8,41 +8,25 @@ namespace API.Control.Models
     {
         public Guid Id { get; init; } = Guid.NewGuid();
 
-        public ComputerName ComputerName { get; set; } = null!;
+        public required ComputerName ComputerName { get; set; }
         public string SerialNumber { get; set; } = string.Empty;
-        public MacAddress MacAddress { get; init; } = null!;
+        public required MacAddress MacAddress { get; init; }
+        public bool Enabled { get; set; } = true;
 
         // Construtor vazio para o EF
         public Device() { }
 
-        public Device(string computerName, string serialNumber, string macAddress, DeviceModel deviceModel)
-        {
-            if (string.IsNullOrWhiteSpace(computerName))
-                throw new ArgumentException("Computer name is required.", nameof(computerName));
-
-            if (string.IsNullOrWhiteSpace(macAddress))
-                throw new ArgumentException("MAC Address is required.", nameof(macAddress));
-
-            if (deviceModel == null)
-                throw new ArgumentException("Device model is required.", nameof(deviceModel));
-
-            SerialNumber = serialNumber.ToUpper();
-            MacAddress = MacAddress.Create(macAddress);
-            DeviceModel = deviceModel;
-            ComputerName = ComputerName.Create(computerName);
-        }
 
         // DeviceModel associado ao dispositivo  
-        public required Guid DeviceModelId { get; set; } = Guid.Empty;
+        public required Guid DeviceModelId { get; set; }
         public required virtual DeviceModel DeviceModel { get; set; }
 
         // Inventory associado ao dispositivo  
-        public virtual Inventory Inventory { get; set; } = null!;
+        public virtual Inventory? Inventory { get; set; }
 
 
         // Profile associado ao dispositivo  
-        public required Guid ProfileDeployId { get; set; } = Guid.Empty;
-        public virtual ProfileDeploy ProfileDeploy { get; set; } = null!;
+        public virtual ProfileDeploy? ProfileDeploy { get; set; }
 
         // Aplicativos associado ao dispositivo  
         public virtual ICollection<Application> Applications { get; set; } = new List<Application>();

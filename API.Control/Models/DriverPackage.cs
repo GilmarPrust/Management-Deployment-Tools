@@ -10,6 +10,9 @@
         public string Hash { get; set; } = string.Empty;
         public bool Enabled { get; set; } = true;
 
+        // Construtor vazio para o EF
+        public DriverPackage() { }
+
         // Dispositivos associados ao pacote de driver.
         public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
     }

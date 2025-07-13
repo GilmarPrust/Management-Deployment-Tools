@@ -1,1 +1,260 @@
-[]
+[
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_0",
+    "RelativePath": "api/devicemodels/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeviceModels"
+    ],
+    "Description": "Provides endpoints to create, read, update, and delete device models.",
+    "Summary": "Endpoints for managing device models"
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_2",
+    "RelativePath": "api/devicemodels/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.DeviceModel.DeviceModelCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeviceModels"
+    ],
+    "Description": "Provides endpoints to create, read, update, and delete device models.",
+    "Summary": "Endpoints for managing device models"
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_3",
+    "RelativePath": "api/devicemodels/",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.DeviceModel.DeviceModelUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeviceModels"
+    ],
+    "Description": "Provides endpoints to create, read, update, and delete device models.",
+    "Summary": "Endpoints for managing device models"
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_1",
+    "RelativePath": "api/devicemodels/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeviceModels"
+    ],
+    "Description": "Provides endpoints to create, read, update, and delete device models.",
+    "Summary": "Endpoints for managing device models"
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_4",
+    "RelativePath": "api/devicemodels/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeviceModels"
+    ],
+    "Description": "Provides endpoints to create, read, update, and delete device models.",
+    "Summary": "Endpoints for managing device models"
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_0",
+    "RelativePath": "api/devices/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Devices"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_2",
+    "RelativePath": "api/devices/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.Device.DeviceCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Devices"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_1",
+    "RelativePath": "api/devices/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Devices"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_3",
+    "RelativePath": "api/devices/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.Device.DeviceUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Devices"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_4",
+    "RelativePath": "api/devices/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Devices"
+    ]
+  }
+]

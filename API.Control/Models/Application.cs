@@ -17,18 +17,6 @@
         // Construtor vazio para o EF
         public Application() { }
 
-        // Construtor com parâmetros para uso explícito.
-        public Application(string nameId, string displayName, string version, string filename, string argument, string source, string filter, string hash)
-        {
-            NameID = nameId;
-            DisplayName = displayName;
-            Version = version;
-            FileName = filename;
-            Argument = argument;
-            Source = source;
-            Filter = filter;
-            Hash = hash;
-        }
 
         // Applications associado ao aplicativo
         public virtual ICollection<Device> Devices { get; set; } = new List<Device>();

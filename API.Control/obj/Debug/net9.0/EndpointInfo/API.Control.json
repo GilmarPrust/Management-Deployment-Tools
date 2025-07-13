@@ -1,0 +1,349 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Minha API Incrível",
+    "description": "Documentação da API para gerencimento de EndPoints.",
+    "contact": {
+      "name": "Gilmar",
+      "email": "seu.email@dominio.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "v1"
+  },
+  "paths": {
+    "/api/devicemodels": {
+      "get": {
+        "tags": [
+          "DeviceModels"
+        ],
+        "summary": "Endpoints for managing device models",
+        "description": "Provides endpoints to create, read, update, and delete device models.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "DeviceModels"
+        ],
+        "summary": "Endpoints for managing device models",
+        "description": "Provides endpoints to create, read, update, and delete device models.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceModelCreateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "DeviceModels"
+        ],
+        "summary": "Endpoints for managing device models",
+        "description": "Provides endpoints to create, read, update, and delete device models.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceModelUpdateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/devicemodels/{id}": {
+      "get": {
+        "tags": [
+          "DeviceModels"
+        ],
+        "summary": "Endpoints for managing device models",
+        "description": "Provides endpoints to create, read, update, and delete device models.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "DeviceModels"
+        ],
+        "summary": "Endpoints for managing device models",
+        "description": "Provides endpoints to create, read, update, and delete device models.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/devices": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Devices"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceCreateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/devices/{id}": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Devices"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceUpdateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Devices"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DeviceCreateDTO": {
+        "required": [
+          "computerName",
+          "deviceModelId",
+          "macAddress"
+        ],
+        "type": "object",
+        "properties": {
+          "computerName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "serialNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "macAddress": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "deviceModelId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DeviceModelCreateDTO": {
+        "required": [
+          "manufacturer",
+          "model"
+        ],
+        "type": "object",
+        "properties": {
+          "manufacturer": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "model": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DeviceModelUpdateDTO": {
+        "required": [
+          "manufacturer",
+          "model"
+        ],
+        "type": "object",
+        "properties": {
+          "manufacturer": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "model": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DeviceUpdateDTO": {
+        "required": [
+          "computerName",
+          "deviceModelId",
+          "enabled",
+          "macAddress",
+          "serialNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "computerName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "serialNumber": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "macAddress": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "deviceModelId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

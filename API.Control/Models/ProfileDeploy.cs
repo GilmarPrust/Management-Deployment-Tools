@@ -1,4 +1,5 @@
 ﻿using API.Control.ValueObjects;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Control.Models
 {
@@ -7,28 +8,22 @@ namespace API.Control.Models
         public Guid Id { get; init; } = Guid.NewGuid();
         public required string Name { get; set; }
         public  string Description { get; set; } = string.Empty;
-        public required Image Image { get; set; }
+        public bool Enabled { get; set; } = true;
 
         //construtor vazio para o EF
         public ProfileDeploy() { }
 
-        // Construtor com parâmetros para uso explícito
-        public ProfileDeploy(string name, string description, Image image)
-        {
-            Name = name;
-            Description = description;
-            Image = image;
-        }
+
+        public required Guid ImageId { get; set; }
+        public required virtual Image Image { get; set; }
 
         public virtual ICollection<string> SourcePath { get; set; } = new List<string>();
 
         // Aplicativos associados ao perfil.
         public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 
-        // Tarefas associadas ao perfil.
-        public virtual ICollection<Task> ProfileTasks { get; set; } = new List<Task>();
-
         // Device associado ao perfil.  
         public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+
     }
 }

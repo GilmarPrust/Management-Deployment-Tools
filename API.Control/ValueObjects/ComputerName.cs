@@ -19,6 +19,13 @@ namespace API.Control.ValueObjects
 
             if (string.IsNullOrWhiteSpace(value))
                 return new ComputerName(Generate());
+            
+            // espaço para outras validações, como regex para caracteres permitidos.
+            if (!Regex.IsMatch(value, @"^[A-Z0-9-]+$"))
+                throw new ArgumentException("Nome do computador deve conter apenas letras maiúsculas, números e hífens.", nameof(value));
+
+            if (value.Contains("--") || value.StartsWith("-") || value.EndsWith("-"))
+                throw new ArgumentException("Nome do computador não pode conter hífens consecutivos ou começar/terminar com hífen.", nameof(value));
 
             return new ComputerName(value);
         }

@@ -3,9 +3,14 @@
     public class Inventory
     {
         public Guid Id { get; init; } = Guid.NewGuid();
-        public string Info { get; set; } = string.Empty;
-
-        public required Guid DeviceId { get; set; } = Guid.Empty;
+        public required Guid DeviceId { get; init; }
         public required virtual Device Device { get; set; }
+
+        // Construtor vazio para o EF
+        public Inventory() { }
+
+
+        public virtual ICollection<InventoryInfo> InventoryInfos { get; set; } = new List<InventoryInfo>();
+
     }
 }

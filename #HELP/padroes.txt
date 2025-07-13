@@ -1,0 +1,68 @@
+✅ Padrões aplicados:
+📌 ReadDTO
+Todas as propriedades com init
+
+Inclui Id
+
+Imutável após mapeamento
+
+csharp
+Copiar
+Editar
+public class Device_ReadDTO
+{
+    public Guid Id { get; init; }
+    public string SerialNumber { get; init; } = string.Empty;
+    // ...
+}
+📌 CreateDTO
+Sem Id
+
+Apenas campos obrigatórios para criação
+
+set padrão
+
+csharp
+Copiar
+Editar
+public class Device_CreateDTO
+{
+    public string SerialNumber { get; set; } = string.Empty;
+    // ...
+}
+📌 UpdateDTO
+Sem Id
+
+set padrão para permitir mapeamento em entidade existente
+
+ID passado sempre pela rota (PUT /{id})
+
+csharp
+Copiar
+Editar
+public class Device_UpdateDTO
+{
+    public string SerialNumber { get; set; } = string.Empty;
+    // ...
+}
+📌 Boas práticas aplicadas:
+Imutabilidade onde apropriado (init)
+
+Separação de DTOs por operação
+
+DTOs limpos e com apenas os campos relevantes
+
+Compatibilidade com AutoMapper
+
+Padrão de rota REST em PUT/{id} com UpdateDTO sem Id
+
+✅ Deseja que eu aplique isso agora aos DTOs já gerados para:
+Device
+
+DeviceModel
+
+Firmware
+
+Application
+
+Ou quer que eu siga com outras entidades também (como Profile, DriverPack, etc.) no mesmo padrão?

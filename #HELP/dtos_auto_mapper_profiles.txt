@@ -1,0 +1,437 @@
+// Estrutura: Uma pasta por entidade, com DTOs separados por tipo (Read/Create/Update)
+// AutoMapper Profile agrupando todos os mapeamentos
+
+// =========================
+// 📁 DTOs/DeviceModel/
+// =========================
+
+public class DeviceModelReadDTO
+{
+    public Guid Id { get; set; }
+    public string Manufacturer { get; set; } = string.Empty;
+    public string Model { get; set; } = string.Empty;
+    public string Type { get; set; } = string.Empty;
+}
+
+public class DeviceModelCreateDTO
+{
+    [Required(ErrorMessage = "Manufacturer is required.")]
+    public string Manufacturer { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Model is required.")]
+    public string Model { get; set; } = string.Empty;
+
+    public string Type { get; set; } = string.Empty;
+}
+
+public class DeviceModelUpdateDTO
+{
+    [Required]
+    public Guid Id { get; set; }
+
+    [Required(ErrorMessage = "Manufacturer is required.")]
+    public string Manufacturer { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Model is required.")]
+    public string Model { get; set; } = string.Empty;
+
+    public string Type { get; set; } = string.Empty;
+}
+
+// =========================
+// 📁 DTOs/Firmware/
+// =========================
+
+public class FirmwareReadDTO
+{
+    public Guid Id { get; set; }
+    public string FileName { get; set; } = string.Empty;
+    public string Version { get; set; } = string.Empty;
+    public string Source { get; set; } = string.Empty;
+    public string Hash { get; set; } = string.Empty;
+    public bool Enabled { get; set; }
+    public Guid DeviceModelId { get; set; }
+}
+
+public class FirmwareCreateDTO
+{
+    [Required] public string FileName { get; set; } = string.Empty;
+    [Required] public string Version { get; set; } = string.Empty;
+    [Required] public string Source { get; set; } = string.Empty;
+    [Required] public string Hash { get; set; } = string.Empty;
+    [Required] public Guid DeviceModelId { get; set; }
+}
+
+public class FirmwareUpdateDTO : FirmwareCreateDTO
+{
+    [Required] public Guid Id { get; set; }
+}
+
+// =========================
+// 📁 DTOs/Application/
+// =========================
+
+public class ApplicationReadDTO
+{
+    public Guid Id { get; set; }
+    public string NameID { get; set; } = string.Empty;
+    public string DisplayName { get; set; } = string.Empty;
+    public string Version { get; set; } = string.Empty;
+    public string FileName { get; set; } = string.Empty;
+    public string Argument { get; set; } = string.Empty;
+    public string Source { get; set; } = string.Empty;
+    public string Filter { get; set; } = string.Empty;
+    public string Hash { get; set; } = string.Empty;
+    public bool Enabled { get; set; }
+}
+
+public class ApplicationCreateDTO
+{
+    [Required] public string NameID { get; set; } = string.Empty;
+    [Required] public string DisplayName { get; set; } = string.Empty;
+    [Required] public string Version { get; set; } = string.Empty;
+    [Required] public string FileName { get; set; } = string.Empty;
+    public string Argument { get; set; } = string.Empty;
+    [Required] public string Source { get; set; } = string.Empty;
+    public string Filter { get; set; } = string.Empty;
+    public string Hash { get; set; } = string.Empty;
+    public bool Enabled { get; set; } = true;
+}
+
+public class ApplicationUpdateDTO : ApplicationCreateDTO
+{
+    [Required] public Guid Id { get; set; }
+}
+
+// =========================
+// 📁 DTOs/Device/
+// =========================
+
+public class DeviceReadDTO
+{
+    public Guid Id { get; set; }
+    public string ComputerName { get; set; } = string.Empty;
+    public string SerialNumber { get; set; } = string.Empty;
+    public string MacAddress { get; set; } = string.Empty;
+    public Guid DeviceModelId { get; set; }
+}
+
+public class DeviceCreateDTO
+{
+    [Required] public string ComputerName { get; set; } = string.Empty;
+    [Required] public string SerialNumber { get; set; } = string.Empty;
+    [Required] public string MacAddress { get; set; } = string.Empty;
+    [Required] public Guid DeviceModelId { get; set; }
+}
+
+public class DeviceUpdateDTO : DeviceCreateDTO
+{
+    [Required] public Guid Id { get; set; }
+}
+
+// =========================
+// 📁 DTOs/DriverPack/
+// =========================
+
+public class DriverPackReadDTO
+{
+    public Guid Id { get; set; }
+    public string FileName { get; set; } = string.Empty;
+    public string OS { get; set; } = string.Empty;
+    public string Version { get; set; } = string.Empty;
+    public string Source { get; set; } = string.Empty;
+    public string Hash { get; set; } = string.Empty;
+    public bool Enabled { get; set; }
+    public Guid DeviceModelId { get; set; }
+}
+
+public class DriverPackCreateDTO
+{
+    [Required] public string FileName { get; set; } = string.Empty;
+    [Required] public string OS { get; set; } = string.Empty;
+    [Required] public string Version { get; set; } = string.Empty;
+    [Required] public string Source { get; set; } = string.Empty;
+    [Required] public string Hash { get; set; } = string.Empty;
+    [Required] public Guid DeviceModelId { get; set; }
+}
+
+public class DriverPackUpdateDTO : DriverPackCreateDTO
+{
+    [Required] public Guid Id { get; set; }
+}
+
+// =========================
+// 📁 DTOs/DriverPackage/
+// =========================
+
+public class DriverPackageReadDTO
+{
+    public Guid Id { get; set; }
+    public string FileName { get; set; } = string.Empty;
+    public string OS { get; set; } = string.Empty;
+    public string Version { get; set; } = string.Empty;
+    public string Source { get; set; } = string.Empty;
+    public string Hash { get; set; } = string.Empty;
+    public bool Enabled { get; set; }
+}
+
+public class DriverPackageCreateDTO
+{
+    [Required] public string FileName { get; set; } = string.Empty;
+    public string OS { get; set; } = string.Empty;
+    public string Version { get; set; } = string.Empty;
+    [Required] public string Source { get; set; } = string.Empty;
+    public string Hash { get; set; } = string.Empty;
+    public bool Enabled { get; set; } = true;
+    public List<Guid> DeviceIds { get; set; } = new();
+}
+
+public class DriverPackageUpdateDTO : DriverPackageCreateDTO
+{
+    [Required] public Guid Id { get; set; }
+}
+
+// =========================
+// 📁 DTOs/Image/
+// =========================
+
+public class ImageReadDTO
+{
+    public Guid Id { get; set; }
+    public string ImageName { get; set; } = string.Empty;
+    public string ImageDescription { get; set; } = string.Empty;
+    public string ImageIndex { get; set; } = string.Empty;
+    public string ShortName { get; set; } = string.Empty;
+    public string EditionId { get; set; } = string.Empty;
+    public string Version { get; set; } = string.Empty;
+    public string[] Languages { get; set; } = Array.Empty<string>();
+    public long ImageSize { get; set; }
+    public string Source { get; set; } = string.Empty;
+}
+
+public class ImageCreateDTO
+{
+    [Required] public string ImageName { get; set; } = string.Empty;
+    [Required] public string ImageDescription { get; set; } = string.Empty;
+    [Required] public string ImageIndex { get; set; } = string.Empty;
+    [Required] public string ShortName { get; set; } = string.Empty;
+    [Required] public string EditionId { get; set; } = string.Empty;
+    [Required] public string Version { get; set; } = string.Empty;
+    [Required] public string[] Languages { get; set; } = Array.Empty<string>();
+    [Required] public long ImageSize { get; set; }
+    [Required] public string Source { get; set; } = string.Empty;
+}
+
+public class ImageUpdateDTO : ImageCreateDTO
+{
+    [Required] public Guid Id { get; set; }
+}
+
+// =========================
+// 📁 DTOs/Inventory/
+// =========================
+
+public class InventoryReadDTO
+{
+    public Guid Id { get; set; }
+    public string Info { get; set; } = string.Empty;
+    public Guid DeviceId { get; set; }
+}
+
+public class InventoryCreateDTO
+{
+    public string Info { get; set; } = string.Empty;
+    [Required] public Guid DeviceId { get; set; }
+}
+
+public class InventoryUpdateDTO : InventoryCreateDTO
+{
+    [Required] public Guid Id { get; set; }
+}
+
+// =========================
+// 📁 DTOs/ProfileDeploy/
+// =========================
+
+public class ProfileDeployReadDTO
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public Guid ImageId { get; set; }
+    public List<string> SourcePath { get; set; } = new();
+    public List<Guid> ApplicationIds { get; set; } = new();
+    public List<Guid> DeviceIds { get; set; } = new();
+}
+
+public class ProfileDeployCreateDTO
+{
+    [Required] public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    [Required] public Guid ImageId { get; set; }
+    public List<string> SourcePath { get; set; } = new();
+    public List<Guid> ApplicationIds { get; set; } = new();
+    public List<Guid> DeviceIds { get; set; } = new();
+}
+
+public class ProfileDeployUpdateDTO : ProfileDeployCreateDTO
+{
+    [Required] public Guid Id { get; set; }
+}
+
+// =========================
+// 📁 Mappings/EntityProfiles.cs
+// =========================
+
+public class EntityProfiles : Profile
+{
+    public EntityProfiles()
+    {
+        CreateMap<DeviceModel, DeviceModelReadDTO>();
+        CreateMap<DeviceModelCreateDTO, DeviceModel>();
+        CreateMap<DeviceModelUpdateDTO, DeviceModel>();
+
+        CreateMap<Firmware, FirmwareReadDTO>();
+        CreateMap<FirmwareCreateDTO, Firmware>();
+        CreateMap<FirmwareUpdateDTO, Firmware>();
+
+        CreateMap<Application, ApplicationReadDTO>();
+        CreateMap<ApplicationCreateDTO, Application>();
+        CreateMap<ApplicationUpdateDTO, Application>();
+
+        CreateMap<Device, DeviceReadDTO>()
+            .ForMember(dest => dest.ComputerName, opt => opt.MapFrom(src => src.ComputerName.Value))
+            .ForMember(dest => dest.MacAddress, opt => opt.MapFrom(src => src.MacAddress.Value));
+        CreateMap<DeviceCreateDTO, Device>()
+            .ForMember(dest => dest.ComputerName, opt => opt.MapFrom(src => ComputerName.Create(src.ComputerName)))
+            .ForMember(dest => dest.MacAddress, opt => opt.MapFrom(src => MacAddress.Create(src.MacAddress)));
+        CreateMap<DeviceUpdateDTO, Device>()
+            .ForMember(dest => dest.ComputerName, opt => opt.MapFrom(src => ComputerName.Create(src.ComputerName)))
+            .ForMember(dest => dest.MacAddress, opt => opt.MapFrom(src => MacAddress.Create(src.MacAddress)));
+
+        CreateMap<DriverPack, DriverPackReadDTO>();
+        CreateMap<DriverPackCreateDTO, DriverPack>();
+        CreateMap<DriverPackUpdateDTO, DriverPack>();
+
+        CreateMap<DriverPackage, DriverPackageReadDTO>();
+        CreateMap<DriverPackageCreateDTO, DriverPackage>();
+        CreateMap<DriverPackageUpdateDTO, DriverPackage>();
+
+        CreateMap<Image, ImageReadDTO>();
+        CreateMap<ImageCreateDTO, Image>();
+        CreateMap<ImageUpdateDTO, Image>();
+
+        CreateMap<Inventory, InventoryReadDTO>();
+        CreateMap<InventoryCreateDTO, Inventory>();
+        CreateMap<InventoryUpdateDTO, Inventory>();
+
+        CreateMap<ProfileDeploy, ProfileDeployReadDTO>();
+        CreateMap<ProfileDeployCreateDTO, ProfileDeploy>();
+        CreateMap<ProfileDeployUpdateDTO, ProfileDeploy>();
+    }
+}
+
+
+
+######################################################
+######################################################
+
+// =========================
+// 📁 Services/Interfaces/IDeviceModelService.cs
+// =========================
+
+public interface IDeviceModelService
+{
+    Task<IEnumerable<DeviceModelReadDTO>> GetAllAsync();
+    Task<DeviceModelReadDTO?> GetByIdAsync(Guid id);
+    Task<DeviceModelReadDTO> CreateAsync(DeviceModelCreateDTO dto);
+    Task<bool> UpdateAsync(DeviceModelUpdateDTO dto);
+    Task<bool> DeleteAsync(Guid id);
+}
+
+// =========================
+// 📁 Services/Implementations/DeviceModelService.cs
+// =========================
+
+public class DeviceModelService : IDeviceModelService
+{
+    private readonly AppDbContext _context;
+    private readonly IMapper _mapper;
+
+    public DeviceModelService(AppDbContext context, IMapper mapper)
+    {
+        _context = context;
+        _mapper = mapper;
+    }
+
+    public async Task<IEnumerable<DeviceModelReadDTO>> GetAllAsync()
+    {
+        var entities = await _context.DeviceModels.ToListAsync();
+        return _mapper.Map<IEnumerable<DeviceModelReadDTO>>(entities);
+    }
+
+    public async Task<DeviceModelReadDTO?> GetByIdAsync(Guid id)
+    {
+        var entity = await _context.DeviceModels.FindAsync(id);
+        return entity == null ? null : _mapper.Map<DeviceModelReadDTO>(entity);
+    }
+
+    public async Task<DeviceModelReadDTO> CreateAsync(DeviceModelCreateDTO dto)
+    {
+        var entity = _mapper.Map<DeviceModel>(dto);
+        _context.DeviceModels.Add(entity);
+        await _context.SaveChangesAsync();
+        return _mapper.Map<DeviceModelReadDTO>(entity);
+    }
+
+    public async Task<bool> UpdateAsync(DeviceModelUpdateDTO dto)
+    {
+        var exists = await _context.DeviceModels.AnyAsync(e => e.Id == dto.Id);
+        if (!exists) return false;
+
+        var entity = _mapper.Map<DeviceModel>(dto);
+        _context.DeviceModels.Update(entity);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        var entity = await _context.DeviceModels.FindAsync(id);
+        if (entity == null) return false;
+
+        _context.DeviceModels.Remove(entity);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+}
+
+// =========================
+// 📁 Endpoints/DeviceModelEndpoints.cs
+// =========================
+
+public static class DeviceModelEndpoints
+{
+    public static void MapDeviceModelEndpoints(this WebApplication app)
+    {
+        var group = app.MapGroup("/api/devicemodels").WithTags("DeviceModels");
+
+        group.MapGet("/", async (IDeviceModelService service) =>
+            Results.Ok(await service.GetAllAsync()));
+
+        group.MapGet("/{id:guid}", async (IDeviceModelService service, Guid id) =>
+        {
+            var dto = await service.GetByIdAsync(id);
+            return dto is not null ? Results.Ok(dto) : Results.NotFound();
+        });
+
+        group.MapPost("/", async (IDeviceModelService service, DeviceModelCreateDTO dto) =>
+            Results.Ok(await service.CreateAsync(dto)));
+
+        group.MapPut("/", async (IDeviceModelService service, DeviceModelUpdateDTO dto) =>
+            await service.UpdateAsync(dto) ? Results.NoContent() : Results.NotFound());
+
+        group.MapDelete("/{id:guid}", async (IDeviceModelService service, Guid id) =>
+            await service.DeleteAsync(id) ? Results.NoContent() : Results.NotFound());
+    }
+}

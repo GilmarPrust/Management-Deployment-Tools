@@ -13,17 +13,9 @@ namespace API.Control.Models
         // Construtor vazio para o EF  
         public Firmware() { }
 
-        // Construtor com parâmetros para uso explícito.
-        public Firmware(string filename, string version, string source, string hash)
-        {
-            FileName = filename;
-            Version = version;
-            Source = source;
-            Hash = hash;
-        }
 
         // Dispositivo associado ao firmware.  
-        public required Guid DeviceModelId { get; set; } = Guid.Empty;
+        public required Guid DeviceModelId { get; set; }
         public required virtual DeviceModel DeviceModel { get; set; }
     }
 }

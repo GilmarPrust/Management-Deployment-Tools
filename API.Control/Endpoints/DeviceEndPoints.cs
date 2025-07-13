@@ -1,42 +1,42 @@
-﻿using API.Control.Models;
+﻿using API.Control.DTOs.AppxPackage;
+using API.Control.DTOs.Device;
+using API.Control.Services.Interfaces;
+
 
 namespace API.Control.Endpoints
 {
-    public static class DeviceEndPoints
+    public static class DeviceEndpoints
     {
-        // In-memory storage for devices (for demonstration purposes only, not suitable for production use)
-        private static readonly List<Device> device = new();
-
-        public static void MapDeviceEndpoints(this IEndpointRouteBuilder app)
+        public static RouteGroupBuilder MapDeviceEndpoints(this RouteGroupBuilder group)
         {
-            // Define the API group for devices
-            var group = app.MapGroup("/api/devices");
+            group.MapGet("/", async (IDeviceService service) =>
+                Results.Ok(await service.GetAllAsync()));
 
-            // Initialize with some sample data
-            group.MapGet("/", () => Results.Ok(device));
-
-            // Get all devices
-            group.MapPost("/", (Device appData) =>
+            group.MapGet("/{id:guid}", async (IDeviceService service, Guid id) =>
             {
-                device.Add(appData);
-                return Results.Created($"/api/devices/{appData.Id}", appData);
+                var dto = await service.GetByIdAsync(id);
+                return dto is null ? Results.NotFound() : Results.Ok(dto);
             });
 
-            // Get a device by ID
-            group.MapGet("/{id:guid}", (Guid id) =>
+            group.MapPost("/", async (IDeviceService service, DeviceCreateDTO dto) =>
             {
-                var app = device.FirstOrDefault(a => a.Id == id);
-                return app is not null ? Results.Ok(app) : Results.NotFound();
+                var id = await service.CreateAsync(dto);
+                return Results.Created($"/api/devices/{id}", id);
             });
 
-            // Update a device by ID
-            group.MapDelete("/{id:guid}", (Guid id) =>
+            group.MapPut("/{id:guid}", async (IDeviceService service, Guid id, DeviceUpdateDTO dto) =>
             {
-                var app = device.FirstOrDefault(a => a.Id == id);
-                if (app is null) return Results.NotFound();
-                device.Remove(app);
-                return Results.NoContent();
+                var success = await service.UpdateAsync(id, dto);
+                return success ? Results.NoContent() : Results.NotFound();
             });
+
+            group.MapDelete("/{id:guid}", async (IDeviceService service, Guid id) =>
+            {
+                var deleted = await service.DeleteAsync(id);
+                return deleted ? Results.NoContent() : Results.NotFound();
+            });
+
+            return group;
         }
     }
 }

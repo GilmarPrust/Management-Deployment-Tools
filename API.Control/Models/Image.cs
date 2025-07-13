@@ -1,4 +1,6 @@
-﻿namespace API.Control.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace API.Control.Models
 {
     public class Image
     {
@@ -16,22 +18,8 @@
         // Contrutor vazio para o EF
         public Image() { }
 
-        // Construtor com parâmetros para uso explícito
-        public Image(string imageName, string imageDescription, string imageIndex, string shortName, string editionId, string version, string[] languages, long imageSize, string source)
-        {
-            ImageName = imageName;
-            ImageDescription = imageDescription;
-            ImageIndex = imageIndex;
-            ShortName = shortName;
-            EditionId = editionId;
-            Version = version;
-            Languages = languages;
-            ImageSize = imageSize;
-            Source = source;
-        }
 
-        // Profile associado a image.  
-        public required Guid ProfileDeployId { get; set; } = Guid.Empty;
-        public virtual ProfileDeploy ProfileDeploy { get; set; } = null!;
+        // Profiles associados a image.
+        public virtual ICollection<ProfileDeploy> Profiles { get; set; } = new List<ProfileDeploy>();
     }
 }

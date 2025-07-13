@@ -16,18 +16,9 @@ namespace API.Control.Models
         // Construtor vazio para o EF
         public DriverPack() { }
 
-        // Construtor com parâmetros para uso explícito.
-        public DriverPack(string filename, string os, string version, string source, string hash)
-        {
-            FileName = filename;
-            OS = os;
-            Version = version;
-            Source = source;
-            Hash = hash;
-        }
 
         // Dispositivo associado ao firmware.  
-        public required Guid DeviceModelId { get; set; } = Guid.Empty;
+        public required Guid DeviceModelId { get; set; }
         public required virtual DeviceModel DeviceModel { get; set; }
     }
 }

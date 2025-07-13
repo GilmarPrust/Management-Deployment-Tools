@@ -1,36 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace API.Control.Models
 {
     public class DeviceModel
     {
         public Guid Id { get; init; } = Guid.NewGuid();
-        public string Manufacturer { get; init; } = string.Empty;
-        public string Model { get; init; } = string.Empty;
+        public required string Manufacturer { get; set; }
+        public required string Model { get; set; }
         public string Type { get; set; } = string.Empty;
 
 
         //Contrutor vazio para o EF
         public DeviceModel() { }
 
-        // Construtor com parâmetros para uso explícito.
-        public DeviceModel(string manufacturer, string model, string type)
-        {
-            if (string.IsNullOrWhiteSpace(manufacturer))
-                throw new ArgumentException("Manufacturer is required.", nameof(manufacturer));
-            if (string.IsNullOrWhiteSpace(model))
-                throw new ArgumentException("Model is required.", nameof(model));
 
-            Manufacturer = manufacturer;
-            Model = model;
-            Type = type;
-        }
+        // Opcional: Firmware pode ou não estar associado
+        public virtual Firmware? Firmware { get; set; }
 
-        // Opcional: navegação inversa
+        // Dispositivos associados ao modelo de dispositivo.
         public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
-
-        // Firmware associado ao modelo de dispositivo.
-        public virtual Firmware Firmware { get; set; } = null!;
 
         // DriverPacks associado ao modelo de dispositivo.
         public virtual ICollection<DriverPack> DriverPacks { get; set; } = new List<DriverPack>();
