@@ -1,9 +1,9 @@
-﻿using API.Control.DTOs.Device;
-using API.Control.DTOs.DeviceModel;
+﻿using API.Control.DTOs.DeviceModel;
 using API.Control.Models;
 using API.Control.Services.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace API.Control.Services.Implementations
 {
@@ -11,60 +11,119 @@ namespace API.Control.Services.Implementations
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<DeviceModelService> _logger;
 
-        public DeviceModelService(AppDbContext context, IMapper mapper)
+        public DeviceModelService(AppDbContext context, IMapper mapper, ILogger<DeviceModelService> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<DeviceModelReadDTO>> GetAllAsync()
         {
-            var models = await _context.DeviceModels
-                .Include(dm => dm.Firmware)
-                .Include(dm => dm.DriverPacks)
-                .ToListAsync();
+            try
+            {
+                var models = await _context.DeviceModels
+                    .Include(dm => dm.Firmware)
+                    .Include(dm => dm.DriverPacks)
+                    .ToListAsync();
 
-            return _mapper.Map<IEnumerable<DeviceModelReadDTO>>(models);
+                return _mapper.Map<IEnumerable<DeviceModelReadDTO>>(models);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar todos os modelos de dispositivo.");
+                throw;
+            }
         }
 
         public async Task<DeviceModelReadDTO?> GetByIdAsync(Guid id)
         {
-            var model = await _context.DeviceModels
-                .Include(dm => dm.Firmware)
-                .Include(dm => dm.DriverPacks)
-                .FirstOrDefaultAsync(dm => dm.Id == id);
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
 
-            return model == null ? null : _mapper.Map<DeviceModelReadDTO>(model);
+            try
+            {
+                var model = await _context.DeviceModels
+                    .Include(dm => dm.Firmware)
+                    .Include(dm => dm.DriverPacks)
+                    .FirstOrDefaultAsync(dm => dm.Id == id);
+
+                return model == null ? null : _mapper.Map<DeviceModelReadDTO>(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar modelo de dispositivo por Id: {Id}", id);
+                throw;
+            }
         }
 
         public async Task<DeviceModelReadDTO> CreateAsync(DeviceModelCreateDTO dto)
         {
-            var entity = _mapper.Map<DeviceModel>(dto);
-            _context.DeviceModels.Add(entity);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<DeviceModelReadDTO>(entity);
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
+
+            try
+            {
+                var entity = _mapper.Map<DeviceModel>(dto);
+                _context.DeviceModels.Add(entity);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Modelo de dispositivo criado com Id: {Id}", entity.Id);
+                return _mapper.Map<DeviceModelReadDTO>(entity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao criar modelo de dispositivo.");
+                throw;
+            }
         }
 
         public async Task<bool> UpdateAsync(Guid id, DeviceModelUpdateDTO dto)
         {
-            var existing = await _context.DeviceModels.FindAsync(id);
-            if (existing == null) return false;
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
 
-            _mapper.Map(dto, existing);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var existing = await _context.DeviceModels.FindAsync(id);
+                if (existing == null) return false;
 
-            return true;
+                _mapper.Map(dto, existing);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Modelo de dispositivo atualizado: {Id}", id);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao atualizar modelo de dispositivo: {Id}", id);
+                throw;
+            }
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var entity = await _context.DeviceModels.FindAsync(id);
-            if (entity == null) return false;
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
 
-            _context.DeviceModels.Remove(entity);
-            await _context.SaveChangesAsync();
-            return true;
+            try
+            {
+                var entity = await _context.DeviceModels.FindAsync(id);
+                if (entity == null) return false;
+
+                _context.DeviceModels.Remove(entity);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Modelo de dispositivo removido: {Id}", id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao remover modelo de dispositivo: {Id}", id);
+                throw;
+            }
         }
     }
 }

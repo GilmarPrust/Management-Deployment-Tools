@@ -1,10 +1,10 @@
 ﻿using API.Control.DTOs.Device;
-using API.Control.DTOs.DriverPackage;
-using API.Control.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace API.Control.DTOs.AppxPackage
 {
+    /// <summary>
+    /// DTO para leitura de pacote Appx.
+    /// </summary>
     public class AppxPackageReadDTO
     {
         public Guid Id { get; init; }
@@ -14,15 +14,8 @@ namespace API.Control.DTOs.AppxPackage
         public string Architecture { get; init; } = string.Empty;
         public string PackageFamilyName { get; init; } = string.Empty;
         public string PackageFullName { get; init; } = string.Empty;
-        public bool IsFramework { get; init; }
-        public bool IsBundle { get; init; }
-        public bool IsResourcePackage { get; init; }
-        public bool IsDevelopmentMode { get; init; }
-        public bool IsPartiallyStaged { get; init; }
         public string Status { get; init; } = string.Empty;
         public bool Enabled { get; init; }
-
         public List<DeviceReadDTO> Devices { get; init; } = new();
-
     }
 }

@@ -1,13 +1,14 @@
 ﻿using API.Control.DTOs.Application;
 using API.Control.DTOs.AppxPackage;
 using API.Control.DTOs.DeviceModel;
-using API.Control.DTOs.DriverPackage;
-using API.Control.Models;
-using API.Control2.DTOs;
-using System.ComponentModel.DataAnnotations;
+using API.Control.DTOs.ProfileDeploy;
+using API.Control.DTOs.DriverPack;
 
 namespace API.Control.DTOs.Device
 {
+    /// <summary>
+    /// DTO para leitura de dispositivo.
+    /// </summary>
     public class DeviceReadDTO
     {
         public Guid Id { get; init; }
@@ -21,6 +22,6 @@ namespace API.Control.DTOs.Device
         public ProfileDeployReadDTO? ProfileDeploy { get; init; } = new ProfileDeployReadDTO();
         public List<ApplicationReadDTO> Applications { get; init; } = new();
         public List<AppxPackageReadDTO> AppxPackages { get; init; } = new();
-        public List<DriverPackageReadDTO> DriverPackages { get; init; } = new();
+        public List<DriverPackReadDTO> DriverPackages { get; init; } = new();
     }
 }

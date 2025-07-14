@@ -17,7 +17,6 @@ namespace API.Control.Models
         public DbSet<Device> Devices { get; set; }
         public DbSet<DeviceModel> DeviceModels { get; set; }
         public DbSet<DriverPack> DriverPacks { get; set; }
-        public DbSet<DriverPackage> DriverPackages { get; set; }
         public DbSet<Firmware> Firmwares { get; set; }
         public DbSet<Image> Image { get; set; }
         public DbSet<Inventory> Inventories { get; set; }

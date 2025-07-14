@@ -2,6 +2,9 @@
 
 namespace API.Control.ValueObjects
 {
+    /// <summary>
+    /// Representa um modelo de dispositivo.
+    /// </summary>
     public sealed class MacAddress
     {
         public string Value { get; }

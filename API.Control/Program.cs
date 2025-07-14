@@ -57,7 +57,6 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile(new AppxPackageProfile());
     cfg.AddProfile(new DeviceModelProfile());
     cfg.AddProfile(new DeviceProfile());
-    cfg.AddProfile(new DriverPackageProfile());
     cfg.AddProfile(new DriverPackProfile());
     cfg.AddProfile(new FirmwareProfile());
     cfg.AddProfile(new ImageProfile());

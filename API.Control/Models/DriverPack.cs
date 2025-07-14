@@ -1,24 +1,41 @@
-﻿using API.Control.ValueObjects;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace API.Control.Models
 {
+    /// <summary>
+    /// Representa um pacote de driver associado a um modelo de dispositivo.
+    /// </summary>
     public class DriverPack
     {
         public Guid Id { get; init; } = Guid.NewGuid();
-        public required string FileName { get; set; }
-        public required string OS { get; set; }
-        public required string Version { get; set; }
-        public required string Source { get; set; }
-        public required string Hash { get; set; }
-        public bool Enabled { get; set; } = true;
 
+        [Required, StringLength(100)]
+        public required string FileName { get; set; }
+
+        [Required, StringLength(50)]
+        public required string OS { get; set; }
+
+        [Required, StringLength(50)]
+        public required string Version { get; set; }
+
+        [Required, StringLength(200)]
+        public required string Source { get; set; }
+
+        [Required, StringLength(64)]
+        public required string Hash { get; set; }
+
+        public bool Enabled { get; set; } = true;
 
         // Construtor vazio para o EF
         public DriverPack() { }
 
 
-        // Dispositivo associado ao firmware.  
-        public required Guid DeviceModelId { get; set; }
-        public required virtual DeviceModel DeviceModel { get; set; }
+        // Dispositivos associados ao pacote de driver.
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+
+        public Guid DeviceModelId { get; set; }
+
+        public virtual DeviceModel? DeviceModel { get; set; }
+
     }
 }

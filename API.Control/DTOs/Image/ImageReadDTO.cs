@@ -1,4 +1,5 @@
 ﻿using API.Control.DTOs.Application;
+using API.Control.DTOs.ProfileDeploy;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Control2.DTOs

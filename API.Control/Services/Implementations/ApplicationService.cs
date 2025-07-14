@@ -3,6 +3,7 @@ using API.Control.Models;
 using API.Control.Services.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace API.Control.Services.Implementations
 {
@@ -10,55 +11,121 @@ namespace API.Control.Services.Implementations
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<ApplicationService> _logger;
 
-        public ApplicationService(AppDbContext context, IMapper mapper)
+        public ApplicationService(AppDbContext context, IMapper mapper, ILogger<ApplicationService> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<ApplicationReadDTO>> GetAllAsync()
         {
-            var apps = await _context.Applications.ToListAsync();
-            return _mapper.Map<IEnumerable<ApplicationReadDTO>>(apps);
+            try
+            {
+                var apps = await _context.Applications
+                    .Include(a => a.Devices)
+                    .Include(a => a.DeviceModels)
+                    .Include(a => a.ProfileDeploys)
+                    .ToListAsync();
+
+                return _mapper.Map<IEnumerable<ApplicationReadDTO>>(apps);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar todos os aplicativos.");
+                throw;
+            }
         }
 
         public async Task<ApplicationReadDTO?> GetByIdAsync(Guid id)
         {
-            var app = await _context.Applications.FindAsync(id);
-            return app == null ? null : _mapper.Map<ApplicationReadDTO>(app);
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+
+            try
+            {
+                var app = await _context.Applications
+                    .Include(a => a.Devices)
+                    .Include(a => a.DeviceModels)
+                    .Include(a => a.ProfileDeploys)
+                    .FirstOrDefaultAsync(a => a.Id == id);
+
+                return app == null ? null : _mapper.Map<ApplicationReadDTO>(app);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar aplicativo por Id: {Id}", id);
+                throw;
+            }
         }
 
         public async Task<ApplicationReadDTO> CreateAsync(ApplicationCreateDTO dto)
         {
-            var entity = _mapper.Map<Application>(dto);
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
 
-            _context.Applications.Add(entity);
-            await _context.SaveChangesAsync();
-
-            return _mapper.Map<ApplicationReadDTO>(entity);
+            try
+            {
+                var entity = _mapper.Map<Application>(dto);
+                _context.Applications.Add(entity);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Aplicativo criado com Id: {Id}", entity.Id);
+                return _mapper.Map<ApplicationReadDTO>(entity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao criar aplicativo.");
+                throw;
+            }
         }
 
         public async Task<bool> UpdateAsync(Guid id, ApplicationUpdateDTO dto)
         {
-            var existing = await _context.Applications.FindAsync(id);
-            if (existing == null) return false;
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
 
-            _mapper.Map(dto, existing);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var existing = await _context.Applications.FindAsync(id);
+                if (existing == null) return false;
 
-            return true;
+                _mapper.Map(dto, existing);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Aplicativo atualizado: {Id}", id);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao atualizar aplicativo: {Id}", id);
+                throw;
+            }
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var entity = await _context.Applications.FindAsync(id);
-            if (entity == null) return false;
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
 
-            _context.Applications.Remove(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var entity = await _context.Applications.FindAsync(id);
+                if (entity == null) return false;
 
-            return true;
+                _context.Applications.Remove(entity);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Aplicativo removido: {Id}", id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao remover aplicativo: {Id}", id);
+                throw;
+            }
         }
     }
 }

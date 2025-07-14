@@ -1,10 +1,15 @@
-﻿using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace API.Control.ValueObjects
 {
+    /// <summary>
+    /// Representa um modelo de dispositivo, incluindo fabricante, modelo, tipo e associações.
+    /// </summary>
     public sealed class ComputerName
     {
+        [Required, StringLength(15)]
         public string Value { get; set; }
 
         private ComputerName(string value)

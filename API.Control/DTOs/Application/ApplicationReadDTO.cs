@@ -1,11 +1,12 @@
-﻿using API.Control.DTOs.AppxPackage;
-using API.Control.DTOs.Device;
+﻿using API.Control.DTOs.Device;
 using API.Control.DTOs.DeviceModel;
-using API.Control.DTOs.DriverPackage;
-using API.Control2.DTOs;
+using API.Control.DTOs.ProfileDeploy;
 
 namespace API.Control.DTOs.Application
 {
+    /// <summary>
+    /// DTO para leitura de aplicativo.
+    /// </summary>
     public class ApplicationReadDTO
     {
         public Guid Id { get; init; }

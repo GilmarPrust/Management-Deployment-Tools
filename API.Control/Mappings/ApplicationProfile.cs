@@ -9,7 +9,10 @@ namespace API.Control.Mappings
         public ApplicationProfile()
         {
             // Entidade → DTO de leitura
-            CreateMap<Application, ApplicationReadDTO>();
+            CreateMap<Application, ApplicationReadDTO>()
+                .ForMember(dest => dest.Devices, opt => opt.MapFrom(src => src.Devices))
+                .ForMember(dest => dest.DeviceModels, opt => opt.MapFrom(src => src.DeviceModels))
+                .ForMember(dest => dest.ProfileDeploys, opt => opt.MapFrom(src => src.ProfileDeploys));
 
             // DTO de criação → Entidade
             CreateMap<ApplicationCreateDTO, Application>();

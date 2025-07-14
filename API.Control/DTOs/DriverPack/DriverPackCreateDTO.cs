@@ -19,7 +19,5 @@ namespace API.Control.DTOs.DriverPack
         [Required] 
         public string Hash { get; set; } = string.Empty;
 
-        [Required] 
-        public Guid DeviceModelId { get; set; }
     }
 }

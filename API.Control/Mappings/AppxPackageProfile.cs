@@ -9,7 +9,8 @@ namespace API.Control.Mappings
         public AppxPackageProfile()
         {
             // Entidade → DTO de leitura
-            CreateMap<AppxPackage, AppxPackageReadDTO>();
+            CreateMap<AppxPackage, AppxPackageReadDTO>()
+                .ForMember(dest => dest.Devices, opt => opt.MapFrom(src => src.Devices));
 
             // DTO de criação → Entidade
             CreateMap<AppxPackageCreateDTO, AppxPackage>();
