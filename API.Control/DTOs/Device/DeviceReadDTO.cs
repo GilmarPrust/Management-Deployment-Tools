@@ -1,9 +1,4 @@
-﻿using API.Control.DTOs.Application;
-using API.Control.DTOs.AppxPackage;
-using API.Control.DTOs.DeviceModel;
-using API.Control.DTOs.ProfileDeploy;
-using API.Control.DTOs.DriverPack;
-
+﻿
 namespace API.Control.DTOs.Device
 {
     /// <summary>
@@ -18,10 +13,10 @@ namespace API.Control.DTOs.Device
         public Guid DeviceModelId { get; init; }
         public bool Enabled { get; init; }
 
-        public DeviceModelReadDTO DeviceModel { get; init; } = new();
-        public ProfileDeployReadDTO? ProfileDeploy { get; init; } = new ProfileDeployReadDTO();
-        public List<ApplicationReadDTO> Applications { get; init; } = new();
-        public List<AppxPackageReadDTO> AppxPackages { get; init; } = new();
-        public List<DriverPackReadDTO> DriverPackages { get; init; } = new();
+        // Evita ciclo: retorna apenas IDs relacionados
+        public Guid? ProfileDeployId { get; init; }
+        public List<Guid> ApplicationIds { get; init; } = new();
+        public List<Guid> AppxPackageIds { get; init; } = new();
+        public List<Guid> DriverPackageIds { get; init; } = new();
     }
 }

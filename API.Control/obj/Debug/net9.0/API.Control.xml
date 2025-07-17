@@ -4,9 +4,24 @@
         <name>API.Control</name>
     </assembly>
     <members>
+        <member name="T:API.Control.Models.Application">
+            <summary>
+            Representa um aplicativo associado a dispositivos e modelos.
+            </summary>
+        </member>
         <member name="T:API.Control.Models.AppxPackage">
             <summary>
             Representa um pacote Appx associado a dispositivos.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.DeployProfile">
+            <summary>
+            Representa um perfil de implantação, incluindo imagem, aplicativos e dispositivos associados.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.Device">
+            <summary>
+            Representa um dispositivo físico, incluindo informações de identificação e associações.
             </summary>
         </member>
         <member name="T:API.Control.Models.DeviceModel">
@@ -29,14 +44,14 @@
             Representa uma imagem de sistema operacional, incluindo metadados e perfis associados.
             </summary>
         </member>
+        <member name="T:API.Control.Models.Inventory">
+            <summary>
+            Representa um inventário vinculado a um dispositivo.
+            </summary>
+        </member>
         <member name="T:API.Control.Models.InventoryInfo">
             <summary>
             Informações detalhadas de inventário.
-            </summary>
-        </member>
-        <member name="T:API.Control.Models.ProfileDeploy">
-            <summary>
-            Representa um perfil de implantação, incluindo imagem, aplicativos e dispositivos associados.
             </summary>
         </member>
         <member name="T:API.Control.DTOs.Application.ApplicationCreateDTO">
@@ -52,6 +67,11 @@
         <member name="T:API.Control.DTOs.AppxPackage.AppxPackageReadDTO">
             <summary>
             DTO para leitura de pacote Appx.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.ProfileDeploy.DeployProfileReadDTO">
+            <summary>
+            DTO para leitura de perfil de implantação.
             </summary>
         </member>
         <member name="T:API.Control.DTOs.DeviceModel.DeviceModelReadDTO">
@@ -74,17 +94,42 @@
         <member name="P:API.Control.DTOs.DeviceModel.DeviceModelReadDTO.Enabled">
             <summary>Indica se está habilitado.</summary>
         </member>
-        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelReadDTO.DriverPacks">
+        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelReadDTO.DriverPackIds">
             <summary>DriverPacks associados.</summary>
         </member>
-        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelReadDTO.AppxPackages">
+        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelReadDTO.AppxPackageIds">
             <summary>Pacotes Appx associados.</summary>
         </member>
-        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelReadDTO.Applications">
+        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelReadDTO.ApplicationIds">
             <summary>Aplicativos associados.</summary>
         </member>
-        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelReadDTO.Firmware">
+        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelReadDTO.FirmwareId">
             <summary>Firmware associado.</summary>
+        </member>
+        <member name="T:API.Control.DTOs.DeviceModel.DeviceModelUpdateDTO">
+            <summary>
+            DTO para atualização de modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelUpdateDTO.Manufacturer">
+            <summary>
+            Fabricante do dispositivo.
+            </summary>
+        </member>
+        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelUpdateDTO.Model">
+            <summary>
+            Modelo do dispositivo.
+            </summary>
+        </member>
+        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelUpdateDTO.Type">
+            <summary>
+            Tipo do dispositivo.
+            </summary>
+        </member>
+        <member name="P:API.Control.DTOs.DeviceModel.DeviceModelUpdateDTO.Enabled">
+            <summary>
+            Indica se está habilitado.
+            </summary>
         </member>
         <member name="T:API.Control.DTOs.Device.DeviceReadDTO">
             <summary>
@@ -96,57 +141,16 @@
             DTO para leitura de pacote de driver.
             </summary>
         </member>
-        <member name="T:API.Control.DTOs.ProfileDeploy.ProfileDeployReadDTO">
-            <summary>
-            DTO para leitura de perfil de implantação.
-            </summary>
-        </member>
-        <member name="T:API.Control.Migrations.InitialCreate">
+        <member name="T:API.Control.Migrations.migration1">
             <inheritdoc />
         </member>
-        <member name="M:API.Control.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:API.Control.Migrations.migration1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:API.Control.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:API.Control.Migrations.migration1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:API.Control.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:API.Control.Migrations.DropDevice">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.DropDevice.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.DropDevice.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.DropDevice.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:API.Control.Migrations.RecreateDevice">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.RecreateDevice.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.RecreateDevice.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.RecreateDevice.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:API.Control.Migrations.NomeDaNovaMigracao">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.NomeDaNovaMigracao.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.NomeDaNovaMigracao.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.NomeDaNovaMigracao.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:API.Control.Migrations.migration1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="T:API.Control.ValueObjects.ComputerName">
@@ -162,6 +166,31 @@
         <member name="T:ApplicationUpdateDTO">
             <summary>
             DTO para atualização de aplicativo.
+            </summary>
+        </member>
+        <member name="M:IDeployProfileService.GetAllAsync">
+            <summary>
+            Retorna todos os perfis de implantação.
+            </summary>
+        </member>
+        <member name="M:IDeployProfileService.GetByIdAsync(System.Guid)">
+            <summary>
+            Retorna um perfil de implantação pelo Id.
+            </summary>
+        </member>
+        <member name="M:IDeployProfileService.CreateAsync(API.Control.DTOs.ProfileDeploy.DeployProfileCreateDTO)">
+            <summary>
+            Cria um novo perfil de implantação.
+            </summary>
+        </member>
+        <member name="M:IDeployProfileService.UpdateAsync(System.Guid,API.Control.DTOs.ProfileDeploy.DeployProfileUpdateDTO)">
+            <summary>
+            Atualiza um perfil de implantação existente.
+            </summary>
+        </member>
+        <member name="M:IDeployProfileService.DeleteAsync(System.Guid)">
+            <summary>
+            Remove um perfil de implantação pelo Id.
             </summary>
         </member>
     </members>

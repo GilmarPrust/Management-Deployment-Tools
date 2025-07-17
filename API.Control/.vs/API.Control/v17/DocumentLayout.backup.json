@@ -3,8 +3,68 @@
   "WorkspaceRootPath": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\driverpack\\driverpackreaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\driverpack\\driverpackreaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\deployprofile\\deployprofilereaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\deployprofile\\deployprofilereaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\deployprofile\\deployprofileupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\deployprofile\\deployprofileupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\deployprofile\\deployprofilecreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\deployprofile\\deployprofilecreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\endpoints\\deployprofileendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:endpoints\\deployprofileendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\mappings\\deployprofileprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:mappings\\deployprofileprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\models\\deployprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:models\\deployprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\services\\implementations\\deployprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:services\\implementations\\deployprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\services\\interfaces\\ideployprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:services\\interfaces\\ideployprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\models\\application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:models\\application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\application\\applicationupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\application\\applicationupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\application\\applicationreaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\application\\applicationreaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\device\\devicereaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\device\\devicereaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\appxpackage\\appxpackagereaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\appxpackage\\appxpackagereaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\application\\applicationcreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\application\\applicationcreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\devicemodel\\devicemodelreaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\devicemodel\\devicemodelreaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\dtos\\devicemodel\\devicemodeladdapplicationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B39B2DF5-7BDB-1CB8-8783-0ABD8D56ACCF}|API.Control.csproj|solutionrelative:dtos\\devicemodel\\devicemodeladdapplicationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +79,209 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DriverPackReadDTO.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DriverPack\\DriverPackReadDTO.cs",
-              "RelativeDocumentMoniker": "DTOs\\DriverPack\\DriverPackReadDTO.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DriverPack\\DriverPackReadDTO.cs",
-              "RelativeToolTip": "DTOs\\DriverPack\\DriverPackReadDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Title": "DeployProfileReadDTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeployProfile\\DeployProfileReadDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\DeployProfile\\DeployProfileReadDTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeployProfile\\DeployProfileReadDTO.cs",
+              "RelativeToolTip": "DTOs\\DeployProfile\\DeployProfileReadDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-14T23:33:47.77Z",
+              "WhenOpened": "2025-07-17T22:51:35.691Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DeployProfileCreateDTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeployProfile\\DeployProfileCreateDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\DeployProfile\\DeployProfileCreateDTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeployProfile\\DeployProfileCreateDTO.cs",
+              "RelativeToolTip": "DTOs\\DeployProfile\\DeployProfileCreateDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:50:26.711Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DeployProfileUpdateDTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeployProfile\\DeployProfileUpdateDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\DeployProfile\\DeployProfileUpdateDTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeployProfile\\DeployProfileUpdateDTO.cs",
+              "RelativeToolTip": "DTOs\\DeployProfile\\DeployProfileUpdateDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:50:18.4Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DeployProfileEndPoints.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Endpoints\\DeployProfileEndPoints.cs",
+              "RelativeDocumentMoniker": "Endpoints\\DeployProfileEndPoints.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Endpoints\\DeployProfileEndPoints.cs",
+              "RelativeToolTip": "Endpoints\\DeployProfileEndPoints.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:49:50.83Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DeployProfileProfile.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Mappings\\DeployProfileProfile.cs",
+              "RelativeDocumentMoniker": "Mappings\\DeployProfileProfile.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Mappings\\DeployProfileProfile.cs",
+              "RelativeToolTip": "Mappings\\DeployProfileProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:49:35.364Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IDeployProfileService.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Services\\Interfaces\\IDeployProfileService.cs",
+              "RelativeDocumentMoniker": "Services\\Interfaces\\IDeployProfileService.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Services\\Interfaces\\IDeployProfileService.cs",
+              "RelativeToolTip": "Services\\Interfaces\\IDeployProfileService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:48:58.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DeployProfileService.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Services\\Implementations\\DeployProfileService.cs",
+              "RelativeDocumentMoniker": "Services\\Implementations\\DeployProfileService.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Services\\Implementations\\DeployProfileService.cs",
+              "RelativeToolTip": "Services\\Implementations\\DeployProfileService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:48:43.625Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DeployProfile.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\DeployProfile.cs",
+              "RelativeDocumentMoniker": "Models\\DeployProfile.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\DeployProfile.cs",
+              "RelativeToolTip": "Models\\DeployProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:48:24.737Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Application.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\Application.cs",
+              "RelativeDocumentMoniker": "Models\\Application.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Models\\Application.cs",
+              "RelativeToolTip": "Models\\Application.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:46:25.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ApplicationUpdateDTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\Application\\ApplicationUpdateDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\Application\\ApplicationUpdateDTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\Application\\ApplicationUpdateDTO.cs",
+              "RelativeToolTip": "DTOs\\Application\\ApplicationUpdateDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:46:19.856Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DeviceReadDTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\Device\\DeviceReadDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\Device\\DeviceReadDTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\Device\\DeviceReadDTO.cs",
+              "RelativeToolTip": "DTOs\\Device\\DeviceReadDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:45:22.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AppxPackageReadDTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\AppxPackage\\AppxPackageReadDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\AppxPackage\\AppxPackageReadDTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\AppxPackage\\AppxPackageReadDTO.cs",
+              "RelativeToolTip": "DTOs\\AppxPackage\\AppxPackageReadDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:45:15.889Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ApplicationReadDTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\Application\\ApplicationReadDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\Application\\ApplicationReadDTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\Application\\ApplicationReadDTO.cs",
+              "RelativeToolTip": "DTOs\\Application\\ApplicationReadDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:43:21.309Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ApplicationCreateDTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\Application\\ApplicationCreateDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\Application\\ApplicationCreateDTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\Application\\ApplicationCreateDTO.cs",
+              "RelativeToolTip": "DTOs\\Application\\ApplicationCreateDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:43:20.165Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "DeviceModelReadDTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeviceModel\\DeviceModelReadDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\DeviceModel\\DeviceModelReadDTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeviceModel\\DeviceModelReadDTO.cs",
+              "RelativeToolTip": "DTOs\\DeviceModel\\DeviceModelReadDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:43:13.99Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "DeviceModelAddApplicationDTO.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeviceModel\\DeviceModelAddApplicationDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\DeviceModel\\DeviceModelAddApplicationDTO.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\DTOs\\DeviceModel\\DeviceModelAddApplicationDTO.cs",
+              "RelativeToolTip": "DTOs\\DeviceModel\\DeviceModelAddApplicationDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T22:43:01.066Z",
               "EditorCaption": ""
             }
           ]

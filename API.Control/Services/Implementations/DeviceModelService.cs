@@ -125,5 +125,27 @@ namespace API.Control.Services.Implementations
                 throw;
             }
         }
+
+        public async Task<bool> AddApplicationsAsync(Guid deviceModelId, List<Guid> applicationIds)
+        {
+            var deviceModel = await _context.DeviceModels
+                .Include(dm => dm.Applications)
+                .FirstOrDefaultAsync(dm => dm.Id == deviceModelId);
+
+            if (deviceModel == null) return false;
+
+            var applications = await _context.Applications
+                .Where(a => applicationIds.Contains(a.Id))
+                .ToListAsync();
+
+            foreach (var app in applications)
+            {
+                if (!deviceModel.Applications.Contains(app))
+                    deviceModel.Applications.Add(app);
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

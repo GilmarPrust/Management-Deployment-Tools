@@ -14,6 +14,113 @@
     "version": "v1"
   },
   "paths": {
+    "/api/applications": {
+      "get": {
+        "tags": [
+          "Applications"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Applications"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationCreateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/applications/{id}": {
+      "get": {
+        "tags": [
+          "Applications"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Applications"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationUpdateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Applications"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/devicemodels": {
       "get": {
         "tags": [
@@ -38,39 +145,6 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/DeviceModelCreateDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "DeviceModels"
-        ],
-        "summary": "Endpoints for managing device models",
-        "description": "Provides endpoints to create, read, update, and delete device models.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeviceModelUpdateDTO"
               }
             }
           },
@@ -107,6 +181,39 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "DeviceModels"
+        ],
+        "summary": "Endpoints for managing device models",
+        "description": "Provides endpoints to create, read, update, and delete device models.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceModelUpdateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "DeviceModels"
@@ -124,6 +231,41 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/devicemodels/{id}/applications": {
+      "put": {
+        "tags": [
+          "DeviceModels"
+        ],
+        "summary": "Endpoints for managing device models",
+        "description": "Provides endpoints to create, read, update, and delete device models.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceModelAddApplicationDTO"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -241,6 +383,123 @@
   },
   "components": {
     "schemas": {
+      "ApplicationCreateDTO": {
+        "required": [
+          "displayName",
+          "fileName",
+          "hash",
+          "nameID",
+          "source",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "nameID": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "displayName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "version": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "fileName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "argument": {
+            "maxLength": 250,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "source": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string"
+          },
+          "filter": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "hash": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO para criação de aplicativo."
+      },
+      "ApplicationUpdateDTO": {
+        "required": [
+          "displayName",
+          "fileName",
+          "hash",
+          "nameID",
+          "source",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "nameID": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "displayName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "version": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "fileName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "argument": {
+            "maxLength": 250,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "source": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string"
+          },
+          "filter": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "hash": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO para atualização de aplicativo."
+      },
       "DeviceCreateDTO": {
         "required": [
           "computerName",
@@ -264,6 +523,22 @@
           "deviceModelId": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DeviceModelAddApplicationDTO": {
+        "required": [
+          "applicationIds"
+        ],
+        "type": "object",
+        "properties": {
+          "applicationIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         },
         "additionalProperties": false
@@ -298,19 +573,31 @@
         "type": "object",
         "properties": {
           "manufacturer": {
-            "minLength": 1,
-            "type": "string"
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "description": "Fabricante do dispositivo."
           },
           "model": {
-            "minLength": 1,
-            "type": "string"
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "description": "Modelo do dispositivo."
           },
           "type": {
+            "maxLength": 50,
+            "minLength": 0,
             "type": "string",
+            "description": "Tipo do dispositivo.",
             "nullable": true
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Indica se está habilitado."
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "DTO para atualização de modelo de dispositivo."
       },
       "DeviceUpdateDTO": {
         "required": [

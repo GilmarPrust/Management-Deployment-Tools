@@ -8,8 +8,9 @@
     ".NETCoreApp,Version=v9.0": {
       "API.Control/1.0.0": {
         "dependencies": {
-          "AutoMapper": "15.0.0",
+          "AutoMapper": "15.0.1",
           "FluentValidation": "12.0.0",
+          "FluentValidation.AspNetCore": "11.3.1",
           "FluentValidation.DependencyInjectionExtensions": "12.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.7",
           "Microsoft.AspNetCore.OpenApi": "9.0.7",
@@ -25,7 +26,7 @@
           "API.Control.dll": {}
         }
       },
-      "AutoMapper/15.0.0": {
+      "AutoMapper/15.0.1": {
         "dependencies": {
           "Microsoft.Extensions.Logging": "9.0.7",
           "Microsoft.Extensions.Options": "9.0.7",
@@ -34,7 +35,7 @@
         "runtime": {
           "lib/net9.0/AutoMapper.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "15.0.0.0"
+            "fileVersion": "15.0.1.0"
           }
         }
       },
@@ -89,6 +90,18 @@
           "lib/net8.0/FluentValidation.dll": {
             "assemblyVersion": "12.0.0.0",
             "fileVersion": "12.0.0.0"
+          }
+        }
+      },
+      "FluentValidation.AspNetCore/11.3.1": {
+        "dependencies": {
+          "FluentValidation": "12.0.0",
+          "FluentValidation.DependencyInjectionExtensions": "12.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/FluentValidation.AspNetCore.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.3.1.0"
           }
         }
       },
@@ -1312,12 +1325,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "AutoMapper/15.0.0": {
+    "AutoMapper/15.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-pIOxis0VM4WGV48heK5Y93wysT2gD+hPQd7xFM23wUKsXJ77otM0ugg/wSeUDGJApvJgS3x6kggfLWhK16+E2g==",
-      "path": "automapper/15.0.0",
-      "hashPath": "automapper.15.0.0.nupkg.sha512"
+      "sha512": "sha512-kNo7iIAi4p4XxoEbfif2WUQtc6RTx+UteiRYPqCOKj+4q4+YaWono06qTxoHBy+0N1HdganA//k5p/VmWw2AMA==",
+      "path": "automapper/15.0.1",
+      "hashPath": "automapper.15.0.1.nupkg.sha512"
     },
     "Azure.Core/1.38.0": {
       "type": "package",
@@ -1346,6 +1359,13 @@
       "sha512": "sha512-8NVLxtMUXynRHJIX3Hn1ACovaqZIJASufXIIFkD0EUbcd5PmMsL1xUD5h548gCezJ5BzlITaR9CAMrGe29aWpA==",
       "path": "fluentvalidation/12.0.0",
       "hashPath": "fluentvalidation.12.0.0.nupkg.sha512"
+    },
+    "FluentValidation.AspNetCore/11.3.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FjkfrGGwC+25oH8QpX1ti3gxkFjDDtotkAQWyQz2CkwQwEfRKTANjhh77I79kY8dov2ydK1SY+e4jiOWsbbDdQ==",
+      "path": "fluentvalidation.aspnetcore/11.3.1",
+      "hashPath": "fluentvalidation.aspnetcore.11.3.1.nupkg.sha512"
     },
     "FluentValidation.DependencyInjectionExtensions/12.0.0": {
       "type": "package",

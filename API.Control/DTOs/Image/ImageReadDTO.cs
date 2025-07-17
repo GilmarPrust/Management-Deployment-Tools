@@ -1,6 +1,4 @@
-﻿using API.Control.DTOs.Application;
-using API.Control.DTOs.ProfileDeploy;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace API.Control2.DTOs
 {
@@ -16,7 +14,6 @@ namespace API.Control2.DTOs
         public string[] Languages { get; init; } = Array.Empty<string>();
         public long ImageSize { get; init; }
         public string Source { get; init; } = string.Empty;
-
-        public List<ProfileDeployReadDTO> ProfilesDeploy { get; init; } = new();
+        public List<Guid> ProfilesDeployIds { get; init; } = new();
     }
 }

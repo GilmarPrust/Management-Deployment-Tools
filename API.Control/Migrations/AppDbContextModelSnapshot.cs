@@ -25,10 +25,12 @@ namespace API.Control.Migrations
 
                     b.Property<string>("Argument")
                         .IsRequired()
+                        .HasMaxLength(250)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Enabled")
@@ -36,26 +38,32 @@ namespace API.Control.Migrations
 
                     b.Property<string>("FileName")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Filter")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Hash")
                         .IsRequired()
+                        .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NameID")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Source")
                         .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Version")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -125,6 +133,39 @@ namespace API.Control.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppxPackages");
+                });
+
+            modelBuilder.Entity("API.Control.Models.DeployProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.PrimitiveCollection<string>("SourcePath")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("ProfileDeploys");
                 });
 
             modelBuilder.Entity("API.Control.Models.Device", b =>
@@ -371,37 +412,19 @@ namespace API.Control.Migrations
                     b.ToTable("InventoryInfos");
                 });
 
-            modelBuilder.Entity("API.Control.Models.ProfileDeploy", b =>
+            modelBuilder.Entity("ApplicationDeployProfile", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("ApplicationsId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(250)
+                    b.Property<Guid>("ProfileDeploysId")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("INTEGER");
+                    b.HasKey("ApplicationsId", "ProfileDeploysId");
 
-                    b.Property<Guid>("ImageId")
-                        .HasColumnType("TEXT");
+                    b.HasIndex("ProfileDeploysId");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.PrimitiveCollection<string>("SourcePath")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
-
-                    b.ToTable("ProfileDeploys");
+                    b.ToTable("ApplicationDeployProfile");
                 });
 
             modelBuilder.Entity("ApplicationDevice", b =>
@@ -434,21 +457,6 @@ namespace API.Control.Migrations
                     b.ToTable("ApplicationDeviceModel");
                 });
 
-            modelBuilder.Entity("ApplicationProfileDeploy", b =>
-                {
-                    b.Property<Guid>("ApplicationsId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ProfileDeploysId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ApplicationsId", "ProfileDeploysId");
-
-                    b.HasIndex("ProfileDeploysId");
-
-                    b.ToTable("ApplicationProfileDeploy");
-                });
-
             modelBuilder.Entity("AppxPackageDevice", b =>
                 {
                     b.Property<Guid>("AppxPackagesId")
@@ -479,6 +487,17 @@ namespace API.Control.Migrations
                     b.ToTable("DeviceDriverPack");
                 });
 
+            modelBuilder.Entity("API.Control.Models.DeployProfile", b =>
+                {
+                    b.HasOne("API.Control.Models.Image", "Image")
+                        .WithMany("Profiles")
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Image");
+                });
+
             modelBuilder.Entity("API.Control.Models.Device", b =>
                 {
                     b.HasOne("API.Control.Models.DeviceModel", "DeviceModel")
@@ -487,7 +506,7 @@ namespace API.Control.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Control.Models.ProfileDeploy", "ProfileDeploy")
+                    b.HasOne("API.Control.Models.DeployProfile", "ProfileDeploy")
                         .WithMany("Devices")
                         .HasForeignKey("ProfileDeployId");
 
@@ -559,15 +578,19 @@ namespace API.Control.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("API.Control.Models.ProfileDeploy", b =>
+            modelBuilder.Entity("ApplicationDeployProfile", b =>
                 {
-                    b.HasOne("API.Control.Models.Image", "Image")
-                        .WithMany("Profiles")
-                        .HasForeignKey("ImageId")
+                    b.HasOne("API.Control.Models.Application", null)
+                        .WithMany()
+                        .HasForeignKey("ApplicationsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Image");
+                    b.HasOne("API.Control.Models.DeployProfile", null)
+                        .WithMany()
+                        .HasForeignKey("ProfileDeploysId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ApplicationDevice", b =>
@@ -596,21 +619,6 @@ namespace API.Control.Migrations
                     b.HasOne("API.Control.Models.DeviceModel", null)
                         .WithMany()
                         .HasForeignKey("DeviceModelsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ApplicationProfileDeploy", b =>
-                {
-                    b.HasOne("API.Control.Models.Application", null)
-                        .WithMany()
-                        .HasForeignKey("ApplicationsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Control.Models.ProfileDeploy", null)
-                        .WithMany()
-                        .HasForeignKey("ProfileDeploysId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -645,6 +653,11 @@ namespace API.Control.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("API.Control.Models.DeployProfile", b =>
+                {
+                    b.Navigation("Devices");
+                });
+
             modelBuilder.Entity("API.Control.Models.Device", b =>
                 {
                     b.Navigation("Inventory");
@@ -667,11 +680,6 @@ namespace API.Control.Migrations
             modelBuilder.Entity("API.Control.Models.Inventory", b =>
                 {
                     b.Navigation("InventoryInfos");
-                });
-
-            modelBuilder.Entity("API.Control.Models.ProfileDeploy", b =>
-                {
-                    b.Navigation("Devices");
                 });
 #pragma warning restore 612, 618
         }

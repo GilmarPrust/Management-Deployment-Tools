@@ -1,5 +1,129 @@
 [
   {
+    "ContainingType": "API.Control.Endpoints.ApplicationEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapApplicationEndpoints\u003Eb__0_0",
+    "RelativePath": "api/applications/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Applications"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ApplicationEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapApplicationEndpoints\u003Eb__0_2",
+    "RelativePath": "api/applications/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.Application.ApplicationCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Applications"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ApplicationEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapApplicationEndpoints\u003Eb__0_1",
+    "RelativePath": "api/applications/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Applications"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ApplicationEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapApplicationEndpoints\u003Eb__0_3",
+    "RelativePath": "api/applications/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ApplicationUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Applications"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ApplicationEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapApplicationEndpoints\u003Eb__0_4",
+    "RelativePath": "api/applications/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Applications"
+    ]
+  },
+  {
     "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_0",
     "RelativePath": "api/devicemodels/",
@@ -49,8 +173,35 @@
   },
   {
     "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_1",
+    "RelativePath": "api/devicemodels/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeviceModels"
+    ],
+    "Description": "Provides endpoints to create, read, update, and delete device models.",
+    "Summary": "Endpoints for managing device models"
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_3",
-    "RelativePath": "api/devicemodels/",
+    "RelativePath": "api/devicemodels/{id:guid}",
     "HttpMethod": "PUT",
     "IsController": false,
     "Order": 0,
@@ -81,9 +232,9 @@
   },
   {
     "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_1",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_5",
     "RelativePath": "api/devicemodels/{id:guid}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": false,
     "Order": 0,
     "Parameters": [
@@ -109,14 +260,19 @@
   {
     "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_4",
-    "RelativePath": "api/devicemodels/{id:guid}",
-    "HttpMethod": "DELETE",
+    "RelativePath": "api/devicemodels/{id:guid}/applications",
+    "HttpMethod": "PUT",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.DeviceModel.DeviceModelAddApplicationDTO",
         "IsRequired": true
       }
     ],

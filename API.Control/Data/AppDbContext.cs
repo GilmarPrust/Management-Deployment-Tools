@@ -21,7 +21,7 @@ namespace API.Control.Models
         public DbSet<Image> Image { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<InventoryInfo> InventoryInfos { get; set; }
-        public DbSet<ProfileDeploy> ProfileDeploys { get; set; }
+        public DbSet<DeployProfile> ProfileDeploys { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

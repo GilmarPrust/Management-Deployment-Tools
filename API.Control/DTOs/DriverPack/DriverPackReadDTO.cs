@@ -16,8 +16,6 @@ namespace API.Control.DTOs.DriverPack
         public string Hash { get; init; } = string.Empty;
         public bool Enabled { get; init; }
         public Guid? DeviceModelId { get; init; }
-        public DeviceModelReadDTO DeviceModel { get; set; } = new();
-
-        public List<DeviceReadDTO> Devices { get; init; } = new();
+        public List<Guid> DeviceIds { get; init; } = new();
     }
 }

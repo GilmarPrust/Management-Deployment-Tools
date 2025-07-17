@@ -21,5 +21,8 @@ namespace API.Control.DTOs.DriverPack
 
         [Required]
         public bool Enabled { get; set; }
+
+        [Required]
+        public Guid DeviceModelId { get; set; }
     }
 }

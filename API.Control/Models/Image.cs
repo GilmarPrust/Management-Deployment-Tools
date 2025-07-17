@@ -42,6 +42,6 @@ namespace API.Control.Models
         public Image() { }
 
         // Perfis associados à imagem.
-        public virtual ICollection<ProfileDeploy> Profiles { get; set; } = new List<ProfileDeploy>();
+        public virtual ICollection<DeployProfile> Profiles { get; set; } = new List<DeployProfile>();
     }
 }

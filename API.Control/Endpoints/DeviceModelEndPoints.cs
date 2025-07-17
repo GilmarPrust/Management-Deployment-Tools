@@ -13,23 +13,51 @@ namespace API.Control.Endpoints
             group.WithSummary("Endpoints for managing device models")
                 .WithDescription("Provides endpoints to create, read, update, and delete device models.");
             
+            // GET all
             group.MapGet("/", async (IDeviceModelService service) =>
                 Results.Ok(await service.GetAllAsync()));
 
+            // GET by Id
             group.MapGet("/{id:guid}", async (IDeviceModelService service, Guid id) =>
             {
                 var dto = await service.GetByIdAsync(id);
                 return dto is not null ? Results.Ok(dto) : Results.NotFound();
             });
 
+            // POST
             group.MapPost("/", async (IDeviceModelService service, DeviceModelCreateDTO dto) =>
-                Results.Ok(await service.CreateAsync(dto)));
+            {
+                if (dto == null)
+                    return Results.BadRequest("Dados obrigatórios não informados.");
+                var created = await service.CreateAsync(dto);
+                return Results.Created($"/api/devicemodel/{created.Id}", created);
+            });
 
-            group.MapPut("/", async (Guid id, IDeviceModelService service, DeviceModelUpdateDTO dto) =>
-                await service.UpdateAsync(id, dto) ? Results.NoContent() : Results.NotFound());
+            // PUT (atualização)
+            group.MapPut("/{id:guid}", async (IDeviceModelService service, Guid id, DeviceModelUpdateDTO dto) =>
+            {
+                if (dto == null)
+                    return Results.BadRequest("Dados obrigatórios não informados.");
+                var success = await service.UpdateAsync(id, dto);
+                return success ? Results.NoContent() : Results.NotFound();
+            });
+            
+            // PUT (atualização) com aplicações
+            group.MapPut("/{id:guid}/applications", async (IDeviceModelService service, Guid id, DeviceModelAddApplicationDTO dto) =>
+            {
+                if (dto == null || dto.ApplicationIds.Count == 0)
+                    return Results.BadRequest("Informe ao menos um ApplicationId.");
 
+                var success = await service.AddApplicationsAsync(id, dto.ApplicationIds);
+                return success ? Results.NoContent() : Results.NotFound();
+            });
+
+            // DELETE
             group.MapDelete("/{id:guid}", async (IDeviceModelService service, Guid id) =>
-                await service.DeleteAsync(id) ? Results.NoContent() : Results.NotFound());
+            {
+                var deleted = await service.DeleteAsync(id);
+                return deleted ? Results.NoContent() : Results.NotFound();
+            });
 
             return group;
         }

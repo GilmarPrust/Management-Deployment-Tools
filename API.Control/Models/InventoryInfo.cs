@@ -10,10 +10,11 @@ namespace API.Control.Models
     {
         public Guid Id { get; init; } = Guid.NewGuid();
 
-        [Required]
-        public Guid InventoryId { get; set; }
+        [Required(ErrorMessage = "O campo InventoryId é obrigatório.")]
+        public required Guid InventoryId { get; set; }
 
-        public DateTime DateTime { get; set; } = DateTime.UtcNow;
+        [Required(ErrorMessage = "A data/hora é obrigatória.")]
+        public required DateTime DateTime { get; set; } = DateTime.UtcNow;
 
         public bool Enabled { get; set; } = true;
 

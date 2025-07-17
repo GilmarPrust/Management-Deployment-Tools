@@ -1,10 +1,8 @@
 ﻿using API.Control.DTOs.Inventory;
 using API.Control.Models;
-using API.Control.Services.Interfaces;
 using API.Control2.DTOs;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace API.Control.Services.Implementations
 {
@@ -21,11 +19,13 @@ namespace API.Control.Services.Implementations
             _logger = logger;
         }
 
-        public async Task<IEnumerable<InventoryReadDTO>> GetAllAsync()
+        async Task<IEnumerable<InventoryReadDTO>> IInventoryService.GetAllAsync()
         {
             try
             {
-                var inventories = await _context.Inventories.ToListAsync();
+                var inventories = await _context.Inventories
+                    .Include(i => i.InventoryInfos)
+                    .ToListAsync();
                 return _mapper.Map<IEnumerable<InventoryReadDTO>>(inventories);
             }
             catch (Exception ex)
@@ -42,7 +42,9 @@ namespace API.Control.Services.Implementations
 
             try
             {
-                var inventory = await _context.Inventories.FindAsync(id);
+                var inventory = await _context.Inventories
+                    .Include(i => i.InventoryInfos)
+                    .FirstOrDefaultAsync(i => i.Id == id);
                 return inventory == null ? null : _mapper.Map<InventoryReadDTO>(inventory);
             }
             catch (Exception ex)
@@ -119,10 +121,7 @@ namespace API.Control.Services.Implementations
             }
         }
 
-        Task<IEnumerable<InventoryReadDTO>> IInventoryService.GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
+        
 
         Task<InventoryReadDTO?> IInventoryService.GetByIdAsync(Guid id)
         {

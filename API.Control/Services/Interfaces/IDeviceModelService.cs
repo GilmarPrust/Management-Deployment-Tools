@@ -9,5 +9,6 @@ namespace API.Control.Services.Interfaces
         Task<DeviceModelReadDTO> CreateAsync(DeviceModelCreateDTO dto);
         Task<bool> UpdateAsync(Guid id, DeviceModelUpdateDTO dto);
         Task<bool> DeleteAsync(Guid id);
+        Task<bool> AddApplicationsAsync(Guid id, List<Guid> applicationIds);
     }
 }

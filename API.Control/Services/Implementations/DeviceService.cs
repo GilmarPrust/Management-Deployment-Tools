@@ -1,11 +1,8 @@
-﻿using API.Control.DTOs.AppxPackage;
-using API.Control.DTOs.Device;
+﻿using API.Control.DTOs.Device;
 using API.Control.Models;
 using API.Control.Services.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
 
 namespace API.Control.Services.Implementations
 {
@@ -74,6 +71,11 @@ namespace API.Control.Services.Implementations
 
             try
             {
+                // Validação: verifica se o DeviceModelId existe
+                var deviceModelExists = await _context.DeviceModels.AnyAsync(dm => dm.Id == dto.DeviceModelId);
+                if (!deviceModelExists)
+                    throw new ArgumentException("DeviceModelId informado não existe.", nameof(dto.DeviceModelId));
+
                 var entity = _mapper.Map<Device>(dto);
                 _context.Devices.Add(entity);
                 await _context.SaveChangesAsync();
