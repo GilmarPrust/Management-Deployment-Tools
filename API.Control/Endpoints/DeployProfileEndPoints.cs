@@ -1,34 +1,35 @@
-﻿using API.Control.DTOs.ProfileDeploy;
+﻿using API.Control.DTOs.DeployProfile;
 using API.Control.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Control.Endpoints
 {
-    public static class DeployProfileEndPoints
+    public static class DeployProfileEndpoints
     {
-        public static RouteGroupBuilder MapProfileDeployEndpoints(this RouteGroupBuilder group)
+        public static RouteGroupBuilder MapDeployProfileEndpoints(this RouteGroupBuilder group)
         {
             // GET all
-            group.MapGet("/", async (IDeployProfileService service) =>
+            group.MapGet("/", async ([FromServices] IDeployProfileService service) =>
                 Results.Ok(await service.GetAllAsync()));
 
             // GET by Id
-            group.MapGet("/{id:guid}", async (IDeployProfileService service, Guid id) =>
+            group.MapGet("/{id:guid}", async ([FromServices] IDeployProfileService service, Guid id) =>
             {
                 var dto = await service.GetByIdAsync(id);
                 return dto is not null ? Results.Ok(dto) : Results.NotFound();
             });
 
             // POST
-            group.MapPost("/", async (IDeployProfileService service, DeployProfileCreateDTO dto) =>
+            group.MapPost("/", async ([FromServices] IDeployProfileService service, DeployProfileCreateDTO dto) =>
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
                 var created = await service.CreateAsync(dto);
-                return Results.Created($"/api/profilesdeploy/{created.Id}", created);
+                return Results.Created($"/api/deployprofiles/{created.Id}", created);
             });
 
             // PUT (atualização)
-            group.MapPut("/{id:guid}", async (IDeployProfileService service, Guid id, DeployProfileUpdateDTO dto) =>
+            group.MapPut("/{id:guid}", async ([FromServices] IDeployProfileService service, Guid id, DeployTaskUpdateDTO dto) =>
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
@@ -37,7 +38,7 @@ namespace API.Control.Endpoints
             });
 
             // DELETE
-            group.MapDelete("/{id:guid}", async (IDeployProfileService service, Guid id) =>
+            group.MapDelete("/{id:guid}", async ([FromServices] IDeployProfileService service, Guid id) =>
             {
                 var deleted = await service.DeleteAsync(id);
                 return deleted ? Results.NoContent() : Results.NotFound();

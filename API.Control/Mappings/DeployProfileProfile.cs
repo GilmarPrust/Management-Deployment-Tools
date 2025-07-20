@@ -1,6 +1,5 @@
-﻿using API.Control.DTOs.ProfileDeploy;
+﻿using API.Control.DTOs.DeployProfile;
 using API.Control.Models;
-using API.Control2.DTOs;
 using AutoMapper;
 
 namespace API.Control.Mappings
@@ -10,13 +9,14 @@ namespace API.Control.Mappings
         public DeployProfileProfile()
         {
             // Entidade → DTO de leitura
-            CreateMap<DeployProfile, DeployProfileReadDTO>();
+            CreateMap<DeployProfile, DeployProfileReadDTO>()
+                .ForMember(dest => dest.DeviceIds, opt => opt.MapFrom(src => src.Devices.Select(d => d.Id)));
 
             // DTO de criação → Entidade
             CreateMap<DeployProfileCreateDTO, DeployProfile>();
 
             // DTO de atualização → Entidade
-            CreateMap<DeployProfileUpdateDTO, DeployProfile>();
+            CreateMap<DeployTaskUpdateDTO, DeployProfile>();
         }
     }
 }

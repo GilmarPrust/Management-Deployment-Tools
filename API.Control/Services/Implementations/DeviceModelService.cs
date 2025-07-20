@@ -26,7 +26,9 @@ namespace API.Control.Services.Implementations
             {
                 var models = await _context.DeviceModels
                     .Include(dm => dm.Firmware)
-                    .Include(dm => dm.DriverPacks)
+                    .Include(dm => dm.DriverPacksOEM)
+                    .Include(dm => dm.Applications)
+                    .Include(dm => dm.Devices)
                     .ToListAsync();
 
                 return _mapper.Map<IEnumerable<DeviceModelReadDTO>>(models);
@@ -47,7 +49,9 @@ namespace API.Control.Services.Implementations
             {
                 var model = await _context.DeviceModels
                     .Include(dm => dm.Firmware)
-                    .Include(dm => dm.DriverPacks)
+                    .Include(dm => dm.DriverPacksOEM)
+                    .Include(dm => dm.Applications)
+                    .Include(dm => dm.Devices)
                     .FirstOrDefaultAsync(dm => dm.Id == id);
 
                 return model == null ? null : _mapper.Map<DeviceModelReadDTO>(model);
@@ -146,6 +150,21 @@ namespace API.Control.Services.Implementations
 
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public Task<bool> AddDriverPackAsync(Guid id, List<Guid> applicationIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> AddFirmwareAsync(Guid id, List<Guid> applicationIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> AddDeviceAsync(Guid id, List<Guid> applicationIds)
+        {
+            throw new NotImplementedException();
         }
     }
 }

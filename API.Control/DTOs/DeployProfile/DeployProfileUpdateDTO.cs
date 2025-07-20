@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.Control.DTOs.ProfileDeploy
+namespace API.Control.DTOs.DeployProfile
 {
-    public class DeployProfileUpdateDTO
+    public class DeployTaskUpdateDTO
     {
         [Required]
         public string Name { get; set; } = string.Empty;

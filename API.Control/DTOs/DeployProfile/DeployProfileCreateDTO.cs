@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.Control.DTOs.ProfileDeploy
+namespace API.Control.DTOs.DeployProfile
 {
     public class DeployProfileCreateDTO
     {

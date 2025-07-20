@@ -1,10 +1,13 @@
 ﻿using API.Control.DTOs.DriverPack;
 
-public interface IDriverPackService
+namespace API.Control.Services.Interfaces
 {
-    Task<IEnumerable<DriverPackReadDTO>> GetAllAsync();
-    Task<DriverPackReadDTO?> GetByIdAsync(Guid id);
-    Task<DriverPackReadDTO> CreateAsync(DriverPackCreateDTO dto);
-    Task<bool> UpdateAsync(Guid id, DriverPackUpdateDTO dto);
-    Task<bool> DeleteAsync(Guid id);
+    public interface IDriverPackService
+    {
+        Task<IEnumerable<DriverPackReadDTO>> GetAllAsync();
+        Task<DriverPackReadDTO?> GetByIdAsync(Guid id);
+        Task<DriverPackReadDTO> CreateAsync(DriverPackCreateDTO dto);
+        Task<bool> UpdateAsync(Guid id, DriverPackUpdateDTO dto);
+        Task<bool> DeleteAsync(Guid id);
+    }
 }

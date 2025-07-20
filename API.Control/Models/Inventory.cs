@@ -11,15 +11,13 @@ namespace API.Control.Models
 
         [Required(ErrorMessage = "O campo DeviceId é obrigatório.")]
         public required Guid DeviceId { get; init; }
-
-        [Required(ErrorMessage = "O dispositivo associado é obrigatório.")]
-        public required virtual Device Device { get; set; }
+        public virtual Device Device { get; set; } = null!;
 
         public bool Enabled { get; set; } = true;
 
         // Construtor vazio para o EF
         public Inventory() { }
 
-        public virtual ICollection<InventoryInfo> InventoryInfos { get; set; } = new List<InventoryInfo>();
+        public virtual ICollection<InventoryInfo> Infos { get; set; } = new List<InventoryInfo>();
     }
 }

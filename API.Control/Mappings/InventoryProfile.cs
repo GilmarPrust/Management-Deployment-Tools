@@ -1,6 +1,5 @@
 ﻿using API.Control.DTOs.Inventory;
 using API.Control.Models;
-using API.Control2.DTOs;
 using AutoMapper;
 
 namespace API.Control.Mappings
@@ -10,7 +9,8 @@ namespace API.Control.Mappings
         public InventoryProfile()
         {
             // Mapping configurations for Inventory
-            CreateMap<Inventory, InventoryReadDTO>();
+            CreateMap<Inventory, InventoryReadDTO>()
+                .ForMember(dest => dest.Info, opt => opt.MapFrom(src => src.Infos.Select(i => i.Id)));
 
             // DTO to Entity mappings
             CreateMap<InventoryCreateDTO, Inventory>();

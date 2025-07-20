@@ -13,10 +13,11 @@ namespace API.Control.Mappings
         {
             // Entidade → DTO de leitura
             CreateMap<DeviceModel, DeviceModelReadDTO>()
-                .ForMember(dest => dest.DriverPackIds, opt => opt.MapFrom(src => src.DriverPacks.Select(dp => dp.Id)))
+                .ForMember(dest => dest.DriverPacks, opt => opt.MapFrom(src => src.DriverPacksOEM.Select(dp => dp.Id)))
+                .ForMember(dest => dest.Firmware, opt => opt.MapFrom(src => src.Firmware != null ? src.Firmware.Id : (Guid?)null))
                 .ForMember(dest => dest.ApplicationIds, opt => opt.MapFrom(src => src.Applications.Select(app => app.Id)))
-                .ForMember(dest => dest.FirmwareId, opt => opt.MapFrom(src => src.Firmware != null ? src.Firmware.Id : (Guid?)null))
                 .ForMember(dest => dest.Enabled, opt => opt.MapFrom(src => src.Enabled));
+
 
             // DTO de criação → Entidade
             CreateMap<DeviceModelCreateDTO, DeviceModel>();

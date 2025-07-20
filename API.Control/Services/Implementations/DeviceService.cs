@@ -25,7 +25,7 @@ namespace API.Control.Services.Implementations
             {
                 var devices = await _context.Devices
                     .Include(d => d.DeviceModel)
-                    .Include(d => d.ProfileDeploy)
+                    .Include(d => d.DeployProfile)
                     .Include(d => d.Applications)
                     .Include(d => d.DriverPacks)
                     .Include(d => d.AppxPackages)
@@ -49,7 +49,7 @@ namespace API.Control.Services.Implementations
             {
                 var device = await _context.Devices
                     .Include(d => d.DeviceModel)
-                    .Include(d => d.ProfileDeploy)
+                    .Include(d => d.DeployProfile)
                     .Include(d => d.Applications)
                     .Include(d => d.DriverPacks)
                     .Include(d => d.AppxPackages)

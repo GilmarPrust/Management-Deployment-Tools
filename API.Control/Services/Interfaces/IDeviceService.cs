@@ -1,5 +1,4 @@
-﻿using API.Control.DTOs.AppxPackage;
-using API.Control.DTOs.Device;
+﻿using API.Control.DTOs.Device;
 
 namespace API.Control.Services.Interfaces
 {

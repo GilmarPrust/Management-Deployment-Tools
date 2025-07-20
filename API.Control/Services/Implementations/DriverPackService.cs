@@ -25,7 +25,6 @@ namespace API.Control.Services.Implementations
             try
             {
                 var packages = await _context.DriverPacks
-                    .Include(dp => dp)
                     .ToListAsync();
 
                 return _mapper.Map<IEnumerable<DriverPackReadDTO>>(packages);
@@ -45,7 +44,6 @@ namespace API.Control.Services.Implementations
             try
             {
                 var package = await _context.DriverPacks
-                    .Include(dp => dp.Devices)
                     .FirstOrDefaultAsync(dp => dp.Id == id);
 
                 return package == null ? null : _mapper.Map<DriverPackReadDTO>(package);

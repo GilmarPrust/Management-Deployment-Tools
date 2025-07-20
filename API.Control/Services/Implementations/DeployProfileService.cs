@@ -1,4 +1,4 @@
-﻿using API.Control.DTOs.ProfileDeploy;
+﻿using API.Control.DTOs.DeployProfile;
 using API.Control.Models;
 using API.Control.Services.Interfaces;
 using AutoMapper;
@@ -28,6 +28,7 @@ namespace API.Control.Services.Implementations
                     .Include(p => p.Image)
                     .Include(p => p.Applications)
                     .Include(p => p.Devices)
+                    .Include(p => p.DeployTasks)
                     .ToListAsync();
 
                 return _mapper.Map<IEnumerable<DeployProfileReadDTO>>(profiles);
@@ -50,6 +51,8 @@ namespace API.Control.Services.Implementations
                     .Include(p => p.Image)
                     .Include(p => p.Applications)
                     .Include(p => p.Devices)
+                    .Include(p => p.DeployTasks)
+                    .Include(p => p.SourcePath)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
                 return profile == null ? null : _mapper.Map<DeployProfileReadDTO>(profile);
@@ -81,30 +84,6 @@ namespace API.Control.Services.Implementations
             }
         }
 
-        public async Task<bool> UpdateAsync(Guid id, DeployProfileUpdateDTO dto)
-        {
-            if (id == Guid.Empty)
-                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto));
-
-            try
-            {
-                var existing = await _context.ProfileDeploys.FindAsync(id);
-                if (existing == null) return false;
-
-                _mapper.Map(dto, existing);
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("Perfil de implantação atualizado: {Id}", id);
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Erro ao atualizar perfil de implantação: {Id}", id);
-                throw;
-            }
-        }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
@@ -126,6 +105,11 @@ namespace API.Control.Services.Implementations
                 _logger.LogError(ex, "Erro ao remover perfil de implantação: {Id}", id);
                 throw;
             }
+        }
+
+        public Task<bool> UpdateAsync(Guid id, DeployTaskUpdateDTO dto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

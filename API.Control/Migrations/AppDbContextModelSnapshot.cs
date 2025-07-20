@@ -168,10 +168,46 @@ namespace API.Control.Migrations
                     b.ToTable("ProfileDeploys");
                 });
 
+            modelBuilder.Entity("API.Control.Models.DeployTask", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("DeployProfileId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeployProfileId");
+
+                    b.ToTable("DeployTask");
+                });
+
             modelBuilder.Entity("API.Control.Models.Device", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("DeployProfileId")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("DeviceModelId")
@@ -184,9 +220,6 @@ namespace API.Control.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ProfileDeployId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("SerialNumber")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -194,9 +227,9 @@ namespace API.Control.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DeviceModelId");
+                    b.HasIndex("DeployProfileId");
 
-                    b.HasIndex("ProfileDeployId");
+                    b.HasIndex("DeviceModelId");
 
                     b.ToTable("Devices");
                 });
@@ -236,7 +269,12 @@ namespace API.Control.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("DeviceModelId")
+                    b.Property<Guid?>("DeviceId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Enabled")
@@ -269,9 +307,13 @@ namespace API.Control.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DeviceModelId");
+                    b.HasIndex("DeviceId");
 
                     b.ToTable("DriverPacks");
+
+                    b.HasDiscriminator().HasValue("DriverPack");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("API.Control.Models.Firmware", b =>
@@ -417,12 +459,12 @@ namespace API.Control.Migrations
                     b.Property<Guid>("ApplicationsId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ProfileDeploysId")
+                    b.Property<Guid>("DeployProfilesId")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ApplicationsId", "ProfileDeploysId");
+                    b.HasKey("ApplicationsId", "DeployProfilesId");
 
-                    b.HasIndex("ProfileDeploysId");
+                    b.HasIndex("DeployProfilesId");
 
                     b.ToTable("ApplicationDeployProfile");
                 });
@@ -472,25 +514,22 @@ namespace API.Control.Migrations
                     b.ToTable("AppxPackageDevice");
                 });
 
-            modelBuilder.Entity("DeviceDriverPack", b =>
+            modelBuilder.Entity("API.Control.Models.DriverPackOEM", b =>
                 {
-                    b.Property<Guid>("DevicesId")
+                    b.HasBaseType("API.Control.Models.DriverPack");
+
+                    b.Property<Guid>("DeviceModelId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("DriverPacksId")
-                        .HasColumnType("TEXT");
+                    b.HasIndex("DeviceModelId");
 
-                    b.HasKey("DevicesId", "DriverPacksId");
-
-                    b.HasIndex("DriverPacksId");
-
-                    b.ToTable("DeviceDriverPack");
+                    b.HasDiscriminator().HasValue("DriverPackOEM");
                 });
 
             modelBuilder.Entity("API.Control.Models.DeployProfile", b =>
                 {
                     b.HasOne("API.Control.Models.Image", "Image")
-                        .WithMany("Profiles")
+                        .WithMany("DeployProfiles")
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -498,17 +537,26 @@ namespace API.Control.Migrations
                     b.Navigation("Image");
                 });
 
+            modelBuilder.Entity("API.Control.Models.DeployTask", b =>
+                {
+                    b.HasOne("API.Control.Models.DeployProfile", "DeployProfile")
+                        .WithMany("DeployTasks")
+                        .HasForeignKey("DeployProfileId");
+
+                    b.Navigation("DeployProfile");
+                });
+
             modelBuilder.Entity("API.Control.Models.Device", b =>
                 {
+                    b.HasOne("API.Control.Models.DeployProfile", "DeployProfile")
+                        .WithMany("Devices")
+                        .HasForeignKey("DeployProfileId");
+
                     b.HasOne("API.Control.Models.DeviceModel", "DeviceModel")
                         .WithMany("Devices")
                         .HasForeignKey("DeviceModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("API.Control.Models.DeployProfile", "ProfileDeploy")
-                        .WithMany("Devices")
-                        .HasForeignKey("ProfileDeployId");
 
                     b.OwnsOne("API.Control.ValueObjects.ComputerName", "ComputerName", b1 =>
                         {
@@ -531,20 +579,16 @@ namespace API.Control.Migrations
                     b.Navigation("ComputerName")
                         .IsRequired();
 
-                    b.Navigation("DeviceModel");
+                    b.Navigation("DeployProfile");
 
-                    b.Navigation("ProfileDeploy");
+                    b.Navigation("DeviceModel");
                 });
 
             modelBuilder.Entity("API.Control.Models.DriverPack", b =>
                 {
-                    b.HasOne("API.Control.Models.DeviceModel", "DeviceModel")
+                    b.HasOne("API.Control.Models.Device", null)
                         .WithMany("DriverPacks")
-                        .HasForeignKey("DeviceModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DeviceModel");
+                        .HasForeignKey("DeviceId");
                 });
 
             modelBuilder.Entity("API.Control.Models.Firmware", b =>
@@ -571,11 +615,13 @@ namespace API.Control.Migrations
 
             modelBuilder.Entity("API.Control.Models.InventoryInfo", b =>
                 {
-                    b.HasOne("API.Control.Models.Inventory", null)
-                        .WithMany("InventoryInfos")
+                    b.HasOne("API.Control.Models.Inventory", "Inventory")
+                        .WithMany("Infos")
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Inventory");
                 });
 
             modelBuilder.Entity("ApplicationDeployProfile", b =>
@@ -588,7 +634,7 @@ namespace API.Control.Migrations
 
                     b.HasOne("API.Control.Models.DeployProfile", null)
                         .WithMany()
-                        .HasForeignKey("ProfileDeploysId")
+                        .HasForeignKey("DeployProfilesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -638,28 +684,28 @@ namespace API.Control.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DeviceDriverPack", b =>
+            modelBuilder.Entity("API.Control.Models.DriverPackOEM", b =>
                 {
-                    b.HasOne("API.Control.Models.Device", null)
-                        .WithMany()
-                        .HasForeignKey("DevicesId")
+                    b.HasOne("API.Control.Models.DeviceModel", "DeviceModel")
+                        .WithMany("DriverPacksOEM")
+                        .HasForeignKey("DeviceModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Control.Models.DriverPack", null)
-                        .WithMany()
-                        .HasForeignKey("DriverPacksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("DeviceModel");
                 });
 
             modelBuilder.Entity("API.Control.Models.DeployProfile", b =>
                 {
+                    b.Navigation("DeployTasks");
+
                     b.Navigation("Devices");
                 });
 
             modelBuilder.Entity("API.Control.Models.Device", b =>
                 {
+                    b.Navigation("DriverPacks");
+
                     b.Navigation("Inventory");
                 });
 
@@ -667,19 +713,19 @@ namespace API.Control.Migrations
                 {
                     b.Navigation("Devices");
 
-                    b.Navigation("DriverPacks");
+                    b.Navigation("DriverPacksOEM");
 
                     b.Navigation("Firmware");
                 });
 
             modelBuilder.Entity("API.Control.Models.Image", b =>
                 {
-                    b.Navigation("Profiles");
+                    b.Navigation("DeployProfiles");
                 });
 
             modelBuilder.Entity("API.Control.Models.Inventory", b =>
                 {
-                    b.Navigation("InventoryInfos");
+                    b.Navigation("Infos");
                 });
 #pragma warning restore 612, 618
         }

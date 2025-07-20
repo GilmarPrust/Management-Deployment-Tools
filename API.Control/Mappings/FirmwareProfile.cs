@@ -10,7 +10,8 @@ namespace API.Control.Mappings
         public FirmwareProfile()
         {
             // Entidade → DTO de leitura
-            CreateMap<Firmware, FirmwareReadDTO>();
+            CreateMap<Firmware, FirmwareReadDTO>()
+                .ForMember(dest => dest.DeviceModel, opt => opt.MapFrom(src => src.DeviceModel != null ? src.DeviceModel.Id : (Guid?)null));
 
             // DTO de criação → Entidade
             CreateMap<FirmwareCreateDTO, Firmware>();

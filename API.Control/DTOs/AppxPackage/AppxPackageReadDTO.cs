@@ -1,6 +1,4 @@
-﻿using API.Control.DTOs.Device;
-
-namespace API.Control.DTOs.AppxPackage
+﻿namespace API.Control.DTOs.AppxPackage
 {
     /// <summary>
     /// DTO para leitura de pacote Appx.
@@ -16,7 +14,6 @@ namespace API.Control.DTOs.AppxPackage
         public string PackageFullName { get; init; } = string.Empty;
         public string Status { get; init; } = string.Empty;
         public bool Enabled { get; init; }
-        // Evita ciclo: retorna apenas IDs dos dispositivos
         public List<Guid> DeviceIds { get; init; } = new();
     }
 }

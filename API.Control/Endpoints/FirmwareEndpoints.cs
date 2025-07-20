@@ -1,5 +1,6 @@
 ﻿using API.Control.DTOs.Firmware;
 using API.Control.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Control.Endpoints
 {
@@ -8,18 +9,18 @@ namespace API.Control.Endpoints
         public static RouteGroupBuilder MapFirmwareEndpoints(this RouteGroupBuilder group)
         {
             // GET all
-            group.MapGet("/", async (IFirmwareService service) =>
+            group.MapGet("/", async ([FromServices] IFirmwareService service) =>
                 Results.Ok(await service.GetAllAsync()));
 
             // GET by Id
-            group.MapGet("/{id:guid}", async (IFirmwareService service, Guid id) =>
+            group.MapGet("/{id:guid}", async ([FromServices] IFirmwareService service, Guid id) =>
             {
                 var dto = await service.GetByIdAsync(id);
                 return dto is not null ? Results.Ok(dto) : Results.NotFound();
             });
 
             // POST
-            group.MapPost("/", async (IFirmwareService service, FirmwareCreateDTO dto) =>
+            group.MapPost("/", async ([FromServices] IFirmwareService service, FirmwareCreateDTO dto) =>
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
@@ -28,7 +29,7 @@ namespace API.Control.Endpoints
             });
 
             // PUT (atualização)
-            group.MapPut("/{id:guid}", async (IFirmwareService service, Guid id, FirmwareUpdateDTO dto) =>
+            group.MapPut("/{id:guid}", async ([FromServices] IFirmwareService service, Guid id, FirmwareUpdateDTO dto) =>
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
@@ -37,7 +38,7 @@ namespace API.Control.Endpoints
             });
 
             // DELETE
-            group.MapDelete("/{id:guid}", async (IFirmwareService service, Guid id) =>
+            group.MapDelete("/{id:guid}", async ([FromServices] IFirmwareService service, Guid id) =>
             {
                 var deleted = await service.DeleteAsync(id);
                 return deleted ? Results.NoContent() : Results.NotFound();

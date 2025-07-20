@@ -1,4 +1,7 @@
-﻿
+﻿using API.Control.DTOs.Application;
+using API.Control.DTOs.DeviceModel;
+using API.Control.DTOs.Inventory;
+
 namespace API.Control.DTOs.Device
 {
     /// <summary>
@@ -10,13 +13,16 @@ namespace API.Control.DTOs.Device
         public string ComputerName { get; init; } = string.Empty;
         public string SerialNumber { get; init; } = string.Empty;
         public string MacAddress { get; init; } = string.Empty;
-        public Guid DeviceModelId { get; init; }
         public bool Enabled { get; init; }
+        public DeviceModelReadDTO DeviceModel { get; init; } = null!;
 
-        // Evita ciclo: retorna apenas IDs relacionados
-        public Guid? ProfileDeployId { get; init; }
+        public InventoryReadDTO? Inventory { get; init; } = null;
+
+
+        public Guid? DeployProfileId { get; init; } = null;
         public List<Guid> ApplicationIds { get; init; } = new();
         public List<Guid> AppxPackageIds { get; init; } = new();
         public List<Guid> DriverPackageIds { get; init; } = new();
+
     }
 }

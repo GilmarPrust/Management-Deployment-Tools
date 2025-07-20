@@ -20,5 +20,7 @@ namespace API.Control.Models
 
         // Construtor vazio para EF
         public InventoryInfo() { }
+
+        public virtual Inventory Inventory { get; set; } = null!;
     }
 }

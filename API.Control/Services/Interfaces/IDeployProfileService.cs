@@ -1,29 +1,17 @@
-﻿using API.Control.DTOs.ProfileDeploy;
+﻿using API.Control.DTOs.DeployProfile;
 
-public interface IDeployProfileService
+namespace API.Control.Services.Interfaces
 {
-    /// <summary>
-    /// Retorna todos os perfis de implantação.
-    /// </summary>
-    Task<IEnumerable<DeployProfileReadDTO>> GetAllAsync();
+    public interface IDeployProfileService
+    {
+        Task<IEnumerable<DeployProfileReadDTO>> GetAllAsync();
 
-    /// <summary>
-    /// Retorna um perfil de implantação pelo Id.
-    /// </summary>
-    Task<DeployProfileReadDTO?> GetByIdAsync(Guid id);
+        Task<DeployProfileReadDTO?> GetByIdAsync(Guid id);
 
-    /// <summary>
-    /// Cria um novo perfil de implantação.
-    /// </summary>
-    Task<DeployProfileReadDTO> CreateAsync(DeployProfileCreateDTO dto);
+        Task<DeployProfileReadDTO> CreateAsync(DeployProfileCreateDTO dto);
 
-    /// <summary>
-    /// Atualiza um perfil de implantação existente.
-    /// </summary>
-    Task<bool> UpdateAsync(Guid id, DeployProfileUpdateDTO dto);
+        Task<bool> UpdateAsync(Guid id, DeployTaskUpdateDTO dto);
 
-    /// <summary>
-    /// Remove um perfil de implantação pelo Id.
-    /// </summary>
-    Task<bool> DeleteAsync(Guid id);
+        Task<bool> DeleteAsync(Guid id);
+    }
 }

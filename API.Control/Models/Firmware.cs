@@ -10,26 +10,25 @@ namespace API.Control.Models
         public Guid Id { get; init; } = Guid.NewGuid();
 
         [Required, StringLength(100)]
-        public required string FileName { get; set; }
+        public required string FileName { get; init; }
 
         [Required, StringLength(50)]
-        public required string Version { get; set; }
+        public required string Version { get; init; }
 
         [Required, StringLength(250)]
-        public required string Source { get; set; }
+        public required string Source { get; init; }
 
         [Required, StringLength(64)]
-        public required string Hash { get; set; }
+        public required string Hash { get; init; }
 
         public bool Enabled { get; set; } = true;
 
-        // Construtor vazio para o EF  
         public Firmware() { }
 
-        [Required]
-        public required Guid DeviceModelId { get; set; }
 
         [Required]
-        public required virtual DeviceModel DeviceModel { get; set; }
+        public required Guid DeviceModelId { get; init; }
+
+        public virtual DeviceModel DeviceModel { get; init; } = null!;
     }
 }

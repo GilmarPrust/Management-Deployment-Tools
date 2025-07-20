@@ -27,13 +27,14 @@ namespace API.Control.Models
 
         [Required(ErrorMessage = "Modelo de dispositivo é obrigatório")]
         public required Guid DeviceModelId { get; set; }
+        public virtual DeviceModel DeviceModel { get; set; } = null!;
 
-        [Required]
-        public required virtual DeviceModel DeviceModel { get; set; }
+        // Inventário associado ao dispositivo.
+        public virtual Inventory? Inventory { get; set; } = null;
 
-        public virtual Inventory? Inventory { get; set; }
-        public virtual DeployProfile? ProfileDeploy { get; set; }
-        
+        // Perfil de implantação associado ao dispositivo.
+        public virtual DeployProfile? DeployProfile { get; set; } = null;
+
         public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
         public virtual ICollection<DriverPack> DriverPacks { get; set; } = new List<DriverPack>();
         public virtual ICollection<AppxPackage> AppxPackages { get; set; } = new List<AppxPackage>();

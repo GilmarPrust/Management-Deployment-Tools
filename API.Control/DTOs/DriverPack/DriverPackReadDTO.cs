@@ -1,5 +1,4 @@
-﻿using API.Control.DTOs.Device;
-using API.Control.DTOs.DeviceModel;
+﻿using API.Control.DTOs.DeviceModel;
 
 namespace API.Control.DTOs.DriverPack
 {
@@ -15,7 +14,7 @@ namespace API.Control.DTOs.DriverPack
         public string Source { get; init; } = string.Empty;
         public string Hash { get; init; } = string.Empty;
         public bool Enabled { get; init; }
-        public Guid? DeviceModelId { get; init; }
-        public List<Guid> DeviceIds { get; init; } = new();
+
+        public DeviceModelReadDTO? DeviceModel { get; init; } = null;
     }
 }

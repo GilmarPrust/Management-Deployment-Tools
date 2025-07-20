@@ -124,6 +124,254 @@
     ]
   },
   {
+    "ContainingType": "API.Control.Endpoints.AppxPackageEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAppxPackageEndPoints\u003Eb__0_0",
+    "RelativePath": "api/appxpackages/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "AppxPackages"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.AppxPackageEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAppxPackageEndPoints\u003Eb__0_2",
+    "RelativePath": "api/appxpackages/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.AppxPackage.AppxPackageCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "AppxPackages"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.AppxPackageEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAppxPackageEndPoints\u003Eb__0_1",
+    "RelativePath": "api/appxpackages/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "AppxPackages"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.AppxPackageEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAppxPackageEndPoints\u003Eb__0_3",
+    "RelativePath": "api/appxpackages/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.AppxPackage.AppxPackageUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "AppxPackages"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.AppxPackageEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAppxPackageEndPoints\u003Eb__0_4",
+    "RelativePath": "api/appxpackages/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "AppxPackages"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_0",
+    "RelativePath": "api/deployprofiles/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfiles"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_2",
+    "RelativePath": "api/deployprofiles/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.DeployProfile.DeployProfileCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfiles"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_1",
+    "RelativePath": "api/deployprofiles/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfiles"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_3",
+    "RelativePath": "api/deployprofiles/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.DeployProfile.DeployTaskUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfiles"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_4",
+    "RelativePath": "api/deployprofiles/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfiles"
+    ]
+  },
+  {
     "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_0",
     "RelativePath": "api/devicemodels/",
@@ -411,6 +659,502 @@
     ],
     "Tags": [
       "Devices"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_0",
+    "RelativePath": "api/driverpacks/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPacks"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_2",
+    "RelativePath": "api/driverpacks/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.DriverPack.DriverPackCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPacks"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_1",
+    "RelativePath": "api/driverpacks/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPacks"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_3",
+    "RelativePath": "api/driverpacks/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.DriverPack.DriverPackUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPacks"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_4",
+    "RelativePath": "api/driverpacks/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPacks"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.FirmwareEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFirmwareEndpoints\u003Eb__0_0",
+    "RelativePath": "api/firmwares/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Firmwares"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.FirmwareEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFirmwareEndpoints\u003Eb__0_2",
+    "RelativePath": "api/firmwares/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.Firmware.FirmwareCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Firmwares"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.FirmwareEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFirmwareEndpoints\u003Eb__0_1",
+    "RelativePath": "api/firmwares/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Firmwares"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.FirmwareEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFirmwareEndpoints\u003Eb__0_3",
+    "RelativePath": "api/firmwares/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.Firmware.FirmwareUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Firmwares"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.FirmwareEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFirmwareEndpoints\u003Eb__0_4",
+    "RelativePath": "api/firmwares/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Firmwares"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapImageEndpoints\u003Eb__0_0",
+    "RelativePath": "api/image/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Images"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapImageEndpoints\u003Eb__0_2",
+    "RelativePath": "api/image/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.Image.ImageCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Images"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapImageEndpoints\u003Eb__0_1",
+    "RelativePath": "api/image/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Images"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapImageEndpoints\u003Eb__0_3",
+    "RelativePath": "api/image/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.Image.ImageUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Images"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapImageEndpoints\u003Eb__0_4",
+    "RelativePath": "api/image/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Images"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapInventoryEndpoints\u003Eb__0_0",
+    "RelativePath": "api/inventory/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Inventory"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapInventoryEndpoints\u003Eb__0_2",
+    "RelativePath": "api/inventory/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.Inventory.InventoryCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Inventory"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapInventoryEndpoints\u003Eb__0_1",
+    "RelativePath": "api/inventory/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Inventory"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapInventoryEndpoints\u003Eb__0_3",
+    "RelativePath": "api/inventory/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.Inventory.InventoryUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Inventory"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapInventoryEndpoints\u003Eb__0_4",
+    "RelativePath": "api/inventory/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Inventory"
     ]
   }
 ]

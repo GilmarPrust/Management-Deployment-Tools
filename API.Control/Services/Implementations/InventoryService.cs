@@ -1,6 +1,6 @@
 ﻿using API.Control.DTOs.Inventory;
 using API.Control.Models;
-using API.Control2.DTOs;
+using API.Control.Services.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +24,6 @@ namespace API.Control.Services.Implementations
             try
             {
                 var inventories = await _context.Inventories
-                    .Include(i => i.InventoryInfos)
                     .ToListAsync();
                 return _mapper.Map<IEnumerable<InventoryReadDTO>>(inventories);
             }
@@ -43,7 +42,7 @@ namespace API.Control.Services.Implementations
             try
             {
                 var inventory = await _context.Inventories
-                    .Include(i => i.InventoryInfos)
+                    .Include(i => i.Infos)
                     .FirstOrDefaultAsync(i => i.Id == id);
                 return inventory == null ? null : _mapper.Map<InventoryReadDTO>(inventory);
             }

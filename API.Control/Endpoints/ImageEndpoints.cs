@@ -1,37 +1,50 @@
-﻿using API.Control.Models;
+﻿using API.Control.DTOs.Image;
+using API.Control.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Control.Endpoints
 {
     public static class ImageEndpoints
     {
-        private static readonly List<Image> imagens = new();
-
-        public static void MapImagenEndpoints(this IEndpointRouteBuilder app)
+        public static RouteGroupBuilder MapImageEndpoints(this RouteGroupBuilder group)
         {
-            var group = app.MapGroup("/api/imagens");
+            // GET all
+            group.MapGet("/", async ([FromServices] IImageService service) =>
+                Results.Ok(await service.GetAllAsync()));
 
-            group.MapGet("/", () => Results.Ok(imagens));
-
-            group.MapPost("/", (Image img) =>
+            // GET by Id
+            group.MapGet("/{id:guid}", async ([FromServices] IImageService service, Guid id) =>
             {
-                imagens.Add(img);
-                return Results.Created($"/api/imagens/{img.Id}", img);
+                var dto = await service.GetByIdAsync(id);
+                return dto is not null ? Results.Ok(dto) : Results.NotFound();
             });
 
-            group.MapGet("/{id:guid}", (Guid id) =>
+            // POST
+            group.MapPost("/", async ([FromServices] IImageService service, ImageCreateDTO dto) =>
             {
-                var img = imagens.FirstOrDefault(i => i.Id == id);
-                return img is not null ? Results.Ok(img) : Results.NotFound();
+                if (dto == null)
+                    return Results.BadRequest("Dados obrigatórios não informados.");
+                var created = await service.CreateAsync(dto);
+                return Results.Created($"/api/images/{created.Id}", created);
             });
 
-            group.MapDelete("/{id:guid}", (Guid id) =>
+            // PUT (atualização)
+            group.MapPut("/{id:guid}", async ([FromServices] IImageService service, Guid id, ImageUpdateDTO dto) =>
             {
-                var img = imagens.FirstOrDefault(i => i.Id == id);
-                if (img is null) return Results.NotFound();
-                imagens.Remove(img);
-                return Results.NoContent();
+                if (dto == null)
+                    return Results.BadRequest("Dados obrigatórios não informados.");
+                var success = await service.UpdateAsync(id, dto);
+                return success ? Results.NoContent() : Results.NotFound();
             });
+
+            // DELETE
+            group.MapDelete("/{id:guid}", async ([FromServices] IImageService service, Guid id) =>
+            {
+                var deleted = await service.DeleteAsync(id);
+                return deleted ? Results.NoContent() : Results.NotFound();
+            });
+
+            return group;
         }
     }
-
 }

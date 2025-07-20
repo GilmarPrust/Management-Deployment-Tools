@@ -1,6 +1,6 @@
-﻿using API.Control.DTOs.AppxPackage;
-using API.Control.DTOs.Device;
+﻿using API.Control.DTOs.Device;
 using API.Control.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace API.Control.Endpoints
@@ -10,18 +10,18 @@ namespace API.Control.Endpoints
         public static RouteGroupBuilder MapDeviceEndpoints(this RouteGroupBuilder group)
         {
             // GET all
-            group.MapGet("/", async (IDeviceService service) =>
+            group.MapGet("/", async ([FromServices] IDeviceService service) =>
                 Results.Ok(await service.GetAllAsync()));
 
             // GET by Id
-            group.MapGet("/{id:guid}", async (IDeviceService service, Guid id) =>
+            group.MapGet("/{id:guid}", async ([FromServices] IDeviceService service, Guid id) =>
             {
                 var dto = await service.GetByIdAsync(id);
-                return dto is null ? Results.NotFound() : Results.Ok(dto);
+                return dto is not null ? Results.Ok(dto) : Results.NotFound();
             });
 
             // POST
-            group.MapPost("/", async (IDeviceService service, DeviceCreateDTO dto) =>
+            group.MapPost("/", async ([FromServices] IDeviceService service, DeviceCreateDTO dto) =>
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
@@ -30,7 +30,7 @@ namespace API.Control.Endpoints
             });
 
             // PUT (atualização)
-            group.MapPut("/{id:guid}", async (IDeviceService service, Guid id, DeviceUpdateDTO dto) =>
+            group.MapPut("/{id:guid}", async ([FromServices] IDeviceService service, Guid id, DeviceUpdateDTO dto) =>
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
@@ -39,7 +39,7 @@ namespace API.Control.Endpoints
             });
 
             // DELETE
-            group.MapDelete("/{id:guid}", async (IDeviceService service, Guid id) =>
+            group.MapDelete("/{id:guid}", async ([FromServices] IDeviceService service, Guid id) =>
             {
                 var deleted = await service.DeleteAsync(id);
                 return deleted ? Results.NoContent() : Results.NotFound();

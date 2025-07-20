@@ -1,26 +1,26 @@
 ﻿using API.Control.DTOs.Application;
 using API.Control.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Control.Endpoints
 {
     public static class ApplicationEndpoints
     {
-        // Mapeia endpoints para o grupo recebido
         public static RouteGroupBuilder MapApplicationEndpoints(this RouteGroupBuilder group)
         {
             // GET all
-            group.MapGet("/", async (IApplicationService service) =>
+            group.MapGet("/", async ([FromServices] IApplicationService service) =>
                 Results.Ok(await service.GetAllAsync()));
 
             // GET by Id
-            group.MapGet("/{id:guid}", async (IApplicationService service, Guid id) =>
+            group.MapGet("/{id:guid}", async ([FromServices] IApplicationService service, Guid id) =>
             {
                 var dto = await service.GetByIdAsync(id);
-                return dto is null ? Results.NotFound() : Results.Ok(dto);
+                return dto is not null ? Results.Ok(dto) : Results.NotFound();
             });
 
             // POST
-            group.MapPost("/", async (IApplicationService service, ApplicationCreateDTO dto) =>
+            group.MapPost("/", async ([FromServices] IApplicationService service, ApplicationCreateDTO dto) =>
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
@@ -29,7 +29,7 @@ namespace API.Control.Endpoints
             });
 
             // PUT (atualização)
-            group.MapPut("/{id:guid}", async (IApplicationService service, Guid id, ApplicationUpdateDTO dto) =>
+            group.MapPut("/{id:guid}", async ([FromServices] IApplicationService service, Guid id, ApplicationUpdateDTO dto) =>
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
@@ -38,7 +38,7 @@ namespace API.Control.Endpoints
             });
 
             // DELETE
-            group.MapDelete("/{id:guid}", async (IApplicationService service, Guid id) =>
+            group.MapDelete("/{id:guid}", async ([FromServices] IApplicationService service, Guid id) =>
             {
                 var deleted = await service.DeleteAsync(id);
                 return deleted ? Results.NoContent() : Results.NotFound();

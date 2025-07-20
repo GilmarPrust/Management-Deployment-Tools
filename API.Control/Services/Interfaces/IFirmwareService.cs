@@ -1,5 +1,4 @@
-﻿using API.Control.DTOs;
-using API.Control.DTOs.Firmware;
+﻿using API.Control.DTOs.Firmware;
 
 namespace API.Control.Services.Interfaces
 {

@@ -1,25 +1,26 @@
 ﻿using API.Control.DTOs.DriverPack;
 using API.Control.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Control.Endpoints
 {
-    public static class DriverPackEndPoints
+    public static class DriverPackEndpoints
     {
         public static RouteGroupBuilder MapDriverPackEndpoints(this RouteGroupBuilder group)
         {
             // GET all
-            group.MapGet("/", async (IDriverPackService service) =>
+            group.MapGet("/", async ([FromServices] IDriverPackService service) =>
                 Results.Ok(await service.GetAllAsync()));
 
             // GET by Id
-            group.MapGet("/{id:guid}", async (IDriverPackService service, Guid id) =>
+            group.MapGet("/{id:guid}", async ([FromServices] IDriverPackService service, Guid id) =>
             {
                 var dto = await service.GetByIdAsync(id);
                 return dto is not null ? Results.Ok(dto) : Results.NotFound();
             });
 
             // POST
-            group.MapPost("/", async (IDriverPackService service, DriverPackCreateDTO dto) =>
+            group.MapPost("/", async ([FromServices] IDriverPackService service, DriverPackCreateDTO dto) =>
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
@@ -28,7 +29,7 @@ namespace API.Control.Endpoints
             });
 
             // PUT (atualização)
-            group.MapPut("/{id:guid}", async (IDriverPackService service, Guid id, DriverPackUpdateDTO dto) =>
+            group.MapPut("/{id:guid}", async ([FromServices] IDriverPackService service, Guid id, DriverPackUpdateDTO dto) =>
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
@@ -37,7 +38,7 @@ namespace API.Control.Endpoints
             });
 
             // DELETE
-            group.MapDelete("/{id:guid}", async (IDriverPackService service, Guid id) =>
+            group.MapDelete("/{id:guid}", async ([FromServices] IDriverPackService service, Guid id) =>
             {
                 var deleted = await service.DeleteAsync(id);
                 return deleted ? Results.NoContent() : Results.NotFound();

@@ -1,8 +1,4 @@
-﻿using API.Control.DTOs.Device;
-using API.Control.DTOs.DeviceModel;
-using API.Control.DTOs.ProfileDeploy;
-
-namespace API.Control.DTOs.Application
+﻿namespace API.Control.DTOs.Application
 {
     /// <summary>
     /// DTO para leitura de aplicativo.
@@ -20,7 +16,6 @@ namespace API.Control.DTOs.Application
         public string Hash { get; init; } = string.Empty;
         public bool Enabled { get; init; }
 
-        // Evita ciclo: retorna apenas os IDs relacionados
         public List<Guid> DeviceIds { get; init; } = new();
         public List<Guid> DeviceModelIds { get; init; } = new();
         public List<Guid> ProfileDeployIds { get; init; } = new();

@@ -14,28 +14,22 @@ namespace API.Control.Models
         [StringLength(100, ErrorMessage = "O nome do perfil deve ter no máximo 100 caracteres.")]
         public required string Name { get; set; }
 
+
         [StringLength(250, ErrorMessage = "A descrição deve ter no máximo 250 caracteres.")]
         public string Description { get; set; } = string.Empty;
 
         public bool Enabled { get; set; } = true;
 
-        // Construtor vazio para o EF
         public DeployProfile() { }
 
         [Required(ErrorMessage = "A imagem associada é obrigatória.")]
         public required Guid ImageId { get; set; }
+        public virtual Image Image { get; set; } = null!;
 
-        [Required(ErrorMessage = "Objeto de imagem é obrigatória.")]
-        public required virtual Image Image { get; set; }
 
-        // Se SourcePath for obrigatório, adicione [MinLength(1)]
-        [MinLength(1, ErrorMessage = "Deve haver pelo menos um caminho de origem.")]
-        public virtual ICollection<string> SourcePath { get; set; } = new List<string>();
-
-        // Se pelo menos um aplicativo for obrigatório, adicione [MinLength(1)]
-        [MinLength(1, ErrorMessage = "Deve haver pelo menos um aplicativo associado ao perfil.")]
+        public virtual ICollection<String> SourcePath { get; set; } = new List<String>();
         public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
-
         public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+        public virtual ICollection<DeployTask> DeployTasks { get; set; } = new List<DeployTask>();
     }
 }

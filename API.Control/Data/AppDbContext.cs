@@ -75,7 +75,7 @@ namespace API.Control.Models
                       .OnDelete(DeleteBehavior.Cascade);
 
                 // Relacionamento 1:N com DriverPack
-                entity.HasMany(dm => dm.DriverPacks)
+                entity.HasMany(dm => dm.DriverPacksOEM)
                       .WithOne(dp => dp.DeviceModel)
                       .HasForeignKey(dp => dp.DeviceModelId)
                       .OnDelete(DeleteBehavior.Cascade);

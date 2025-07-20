@@ -1,6 +1,6 @@
 ﻿using API.Control.DTOs.Application;
-using API.Control.DTOs.AppxPackage;
 using API.Control.DTOs.DriverPack;
+using API.Control.DTOs.Firmware;
 
 namespace API.Control.DTOs.DeviceModel
 {
@@ -9,31 +9,16 @@ namespace API.Control.DTOs.DeviceModel
     /// </summary>
     public class DeviceModelReadDTO
     {
-        /// <summary>Identificador único do modelo.</summary>
         public Guid Id { get; init; }
-
-        /// <summary>Fabricante do dispositivo.</summary>
         public string Manufacturer { get; init; } = string.Empty;
-
-        /// <summary>Modelo do dispositivo.</summary>
         public string Model { get; init; } = string.Empty;
-
-        /// <summary>Tipo do dispositivo.</summary>
         public string Type { get; init; } = string.Empty;
-
-        /// <summary>Indica se está habilitado.</summary>
         public bool Enabled { get; init; }
 
-        /// <summary>DriverPacks associados.</summary>
-        public List<Guid> DriverPackIds { get; init; } = new();
-
-        /// <summary>Pacotes Appx associados.</summary>
-        public List<Guid> AppxPackageIds { get; init; } = new();
-
-        /// <summary>Aplicativos associados.</summary>
+        public FirmwareReadDTO? Firmware { get; init; } = null;
+        public List<DriverPackReadDTO>? DriverPacks { get; init; } = null;
         public List<Guid> ApplicationIds { get; init; } = new();
+        public List<Guid> DeviceIds { get; init; } = new();
 
-        /// <summary>Firmware associado.</summary>
-        public Guid? FirmwareId { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control2.DTOs
+﻿namespace API.Control.DTOs.Image
 {
     public class ImageReadDTO
     {
@@ -14,6 +12,6 @@ namespace API.Control2.DTOs
         public string[] Languages { get; init; } = Array.Empty<string>();
         public long ImageSize { get; init; }
         public string Source { get; init; } = string.Empty;
-        public List<Guid> ProfilesDeployIds { get; init; } = new();
+        public List<Guid> DeployProfileIds { get; init; } = new();
     }
 }

@@ -16,8 +16,9 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddEndpointsApiExplorer();
+// Configuração do OpenAPI
+builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -35,13 +36,13 @@ builder.Services.AddSwaggerGen(options =>
     options.EnableAnnotations();
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
-        Title = "Minha API Incrível",
+        Title = "API.Control",
         Version = "v1",
         Description = "Documentação da API para gerencimento de EndPoints.",
         Contact = new Microsoft.OpenApi.Models.OpenApiContact
         {
-            Name = "Gilmar",
-            Email = "seu.email@dominio.com",
+            Name = "Gilmar Prust",
+            Email = "gilmar.prust@outlook.com",
         },
         License = new OpenApiLicense
         {
@@ -54,51 +55,45 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath);
 });
 
-// Configuração do OpenAPI
-builder.Services.AddOpenApi();
 
-// Adicione serviços ao contêiner.
-builder.Services.AddValidatorsFromAssemblyContaining<DeviceModel_Validator>(); // Certifique-se de que o pacote FluentValidation.Extensions.DependencyInjection está instalado.
-
+// Configuração do AutoMapper, mapeamento de DTOs para entidades e vice-versa.
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile(new ApplicationProfile());
     cfg.AddProfile(new AppxPackageProfile());
+    cfg.AddProfile(new DeployProfileProfile());
     cfg.AddProfile(new DeviceModelProfile());
     cfg.AddProfile(new DeviceProfile());
     cfg.AddProfile(new DriverPackProfile());
     cfg.AddProfile(new FirmwareProfile());
     cfg.AddProfile(new ImageProfile());
     cfg.AddProfile(new InventoryProfile());
-    cfg.AddProfile(new DeployProfileProfile());
 });
 
-builder.Services.AddScoped<IDeviceService, DeviceService>();
-builder.Services.AddScoped<IDeviceModelService, DeviceModelService>();
-builder.Services.AddScoped<IFirmwareService, FirmwareService>();
+
+// Configuração dos serviços de injeção de dependência, registrando as implementações dos serviços.
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IAppxPackageService, AppxPackageService>();
 builder.Services.AddScoped<IDeployProfileService, DeployProfileService>();
+builder.Services.AddScoped<IDeviceModelService, DeviceModelService>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<IDriverPackService, DriverPackService>();
+builder.Services.AddScoped<IFirmwareService, FirmwareService>();
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+
 
 // Adicione os serviços de validação
 builder.Services.AddValidatorsFromAssemblyContaining<Device_Validator>();
 builder.Services.AddValidatorsFromAssemblyContaining<DeviceModel_Validator>();
 builder.Services.AddValidatorsFromAssemblyContaining<MacAddress_Validator>();
 
+
 // Configuração do FluentValidation, validação automática para endpoints minimalistas:
 builder.Services.AddFluentValidationAutoValidation(config => config.DisableDataAnnotationsValidation = true);
-builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 
-// Configuração do CORS, permitindo qualquer origem, cabeçalho e método.
-/*builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-});*/
 
-
-// Configuração do AutoMapper, mapeamento de DTOs para entidades e vice-versa.
 var app = builder.Build();
 
 
@@ -116,12 +111,19 @@ if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("EnableS
 
 
 
-
 // Configuração do CORS, permitindo qualquer origem, cabeçalho e método.
 app.MapGroup("/api/applications").WithTags("Applications").MapApplicationEndpoints();
+app.MapGroup("/api/appxpackages").WithTags("AppxPackages").MapAppxPackageEndPoints();
+app.MapGroup("/api/deployprofiles").WithTags("DeployProfiles").MapDeployProfileEndpoints();
 app.MapGroup("/api/devices").WithTags("Devices").MapDeviceEndpoints();
 app.MapGroup("/api/devicemodels").WithTags("DeviceModels").MapDeviceModelsEndpoints();
+app.MapGroup("/api/driverpacks").WithTags("DriverPacks").MapDriverPackEndpoints();
+app.MapGroup("/api/firmwares").WithTags("Firmwares").MapFirmwareEndpoints();
+app.MapGroup("/api/image").WithTags("Images").MapImageEndpoints();
+app.MapGroup("/api/inventory").WithTags("Inventory").MapInventoryEndpoints();
 
+// Middleware para uso de arquivos estáticos, como imagens, CSS e JavaScript.
+app.UseStaticFiles();
 
 // Middleware para uso de CORS.
 app.UseHttpsRedirection();

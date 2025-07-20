@@ -25,9 +25,9 @@ namespace API.Control.Services.Implementations
             try
             {
                 var apps = await _context.Applications
-                    .Include(a => a.Devices)
                     .Include(a => a.DeviceModels)
-                    .Include(a => a.ProfileDeploys)
+                    .Include(a => a.DeployProfiles)
+                    .Include(a => a.DeployProfiles)
                     .ToListAsync();
 
                 return _mapper.Map<IEnumerable<ApplicationReadDTO>>(apps);
@@ -47,9 +47,9 @@ namespace API.Control.Services.Implementations
             try
             {
                 var app = await _context.Applications
-                    .Include(a => a.Devices)
                     .Include(a => a.DeviceModels)
-                    .Include(a => a.ProfileDeploys)
+                    .Include(a => a.DeployProfiles)
+                    .Include(a => a.DeployProfiles)
                     .FirstOrDefaultAsync(a => a.Id == id);
 
                 return app == null ? null : _mapper.Map<ApplicationReadDTO>(app);

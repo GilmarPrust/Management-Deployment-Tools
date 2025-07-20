@@ -1,6 +1,5 @@
 ﻿using API.Control.DTOs.Image;
 using API.Control.Models;
-using API.Control2.DTOs;
 using AutoMapper;
 
 namespace API.Control.Mappings
@@ -10,7 +9,8 @@ namespace API.Control.Mappings
         public ImageProfile()
         {
             // Map Image to ImageReadDTO
-            CreateMap<Image, ImageReadDTO>();
+            CreateMap<Image, ImageReadDTO>()
+                .ForMember(dest => dest.DeployProfileIds, opt => opt.MapFrom(src => src.DeployProfiles.Select(dp => dp.Id)));
 
             // Map ImageCreateDTO to Image
             CreateMap<ImageCreateDTO, Image>();

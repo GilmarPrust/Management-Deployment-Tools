@@ -26,16 +26,7 @@ namespace API.Control.Models
 
         public bool Enabled { get; set; } = true;
 
-        // Construtor vazio para o EF
         public DriverPack() { }
-
-
-        // Dispositivos associados ao pacote de driver.
-        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
-
-        public Guid DeviceModelId { get; set; }
-
-        public virtual DeviceModel? DeviceModel { get; set; }
 
     }
 }

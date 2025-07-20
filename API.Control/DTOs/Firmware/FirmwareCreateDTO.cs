@@ -4,19 +4,15 @@ namespace API.Control.DTOs.Firmware
 {
     public class FirmwareCreateDTO
     {
-        [Required] 
+        [Required]
         public string FileName { get; set; } = string.Empty;
-
-        [Required] 
+        [Required]
         public string Version { get; set; } = string.Empty;
-
-        [Required] 
+        [Required]
         public string Source { get; set; } = string.Empty;
-
-        [Required] 
+        [Required]
         public string Hash { get; set; } = string.Empty;
-
-        [Required] 
+        [Required]
         public Guid DeviceModelId { get; set; }
     }
 }

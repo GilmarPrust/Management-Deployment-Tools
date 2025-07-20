@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.Control2.DTOs
+namespace API.Control.DTOs.Inventory
 {
     public class InventoryReadDTO
     {
