@@ -104,11 +104,6 @@
             DTO para leitura de pacote de driver.
             </summary>
         </member>
-        <member name="T:API.Control.DTO.Deploy.Task.ProfileTaskReadDTO">
-            <summary>
-            DTO para leitura de perfil de implantação.
-            </summary>
-        </member>
         <member name="T:API.Control.Migrations.migration1">
             <inheritdoc />
         </member>
@@ -203,6 +198,18 @@
             <inheritdoc />
         </member>
         <member name="M:API.Control.Migrations.migration8.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:API.Control.Migrations.NomeDaMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.NomeDaMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.NomeDaMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.NomeDaMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="T:API.Control.ValueObjects.ComputerName">

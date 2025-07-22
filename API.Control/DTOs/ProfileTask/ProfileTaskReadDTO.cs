@@ -1,10 +1,6 @@
-﻿using API.Control.DTOs.Image;
-
-namespace API.Control.DTO.Deploy.Task
+﻿
+namespace API.Control.DTOs.ProfileTask
 {
-    /// <summary>
-    /// DTO para leitura de perfil de implantação.
-    /// </summary>
     public class ProfileTaskReadDTO
     {
         public Guid Id { get; init; }
@@ -12,7 +8,6 @@ namespace API.Control.DTO.Deploy.Task
         public string Description { get; init; } = string.Empty;
         public bool Enabled { get; init; }
 
-        public ImageReadDTO? Image { get; init; } = null;
     }
 }
 

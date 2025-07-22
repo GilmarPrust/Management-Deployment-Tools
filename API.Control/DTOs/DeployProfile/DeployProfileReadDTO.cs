@@ -1,5 +1,5 @@
 ﻿using API.Control.DTOs.Image;
-using API.Control.DTO.Deploy.Task;
+using API.Control.DTOs.ProfileTask;
 
 namespace API.Control.DTOs.DeployProfile
 {

@@ -1,6 +1,4 @@
-﻿using API.Control.DTO.Deploy.Task;
-using API.Control.DTOs.DeployProfile;
-using API.Control.DTOs.DeployTask;
+﻿using API.Control.DTOs.ProfileTask;
 
 namespace API.Control.Services.Interfaces
 {

@@ -1,6 +1,5 @@
-﻿using API.Control.DTO.Deploy.Task;
-using API.Control.DTOs.DeployProfile;
-using API.Control.DTOs.DeployTask;
+﻿using API.Control.DTOs.ProfileTask;
+
 using API.Control.Models;
 using API.Control.Services.Interfaces;
 using AutoMapper;
@@ -13,9 +12,9 @@ namespace API.Control.Services.Implementations
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        private readonly ILogger<DeployProfileService> _logger;
+        private readonly ILogger<ProfileTaskService> _logger;
 
-        public ProfileTaskService(AppDbContext context, IMapper mapper, ILogger<DeployProfileService> logger)
+        public ProfileTaskService(AppDbContext context, IMapper mapper, ILogger<ProfileTaskService> logger)
         {
             _context = context;
             _mapper = mapper;

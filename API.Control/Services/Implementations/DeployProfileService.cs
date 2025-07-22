@@ -1,4 +1,5 @@
 ﻿using API.Control.DTOs.DeployProfile;
+using API.Control.DTOs.ProfileTask;
 using API.Control.Models;
 using API.Control.Services.Interfaces;
 using AutoMapper;
@@ -28,7 +29,6 @@ namespace API.Control.Services.Implementations
                     .Include(p => p.Image)
                     .Include(p => p.Applications)
                     .Include(p => p.Devices)
-                    .Include(p => p.DeployTasks)
                     .ToListAsync();
 
                 return _mapper.Map<IEnumerable<DeployProfileReadDTO>>(profiles);

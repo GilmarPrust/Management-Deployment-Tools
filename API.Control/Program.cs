@@ -68,6 +68,7 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile(new FirmwareProfile());
     cfg.AddProfile(new ImageProfile());
     cfg.AddProfile(new InventoryProfile());
+    cfg.AddProfile(new ProfileTaskProfile());
 });
 
 

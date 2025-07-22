@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.Control.DTOs.DeployTask
+namespace API.Control.DTOs.ProfileTask
 {
     public class ProfileTaskUpdateDTO
     {

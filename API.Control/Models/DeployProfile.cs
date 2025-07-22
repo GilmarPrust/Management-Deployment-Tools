@@ -30,6 +30,6 @@ namespace API.Control.Models
         public virtual ICollection<String> SourcePath { get; set; } = new List<String>();
         public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
         public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
-        public virtual ICollection<DeployTask> DeployTasks { get; set; } = new List<DeployTask>();
+        public virtual ICollection<ProfileTask> DeployTasks { get; set; } = new List<ProfileTask>();
     }
 }

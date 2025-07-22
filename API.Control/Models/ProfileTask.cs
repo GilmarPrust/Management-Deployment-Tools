@@ -2,7 +2,7 @@
 
 namespace API.Control.Models
 {
-    public class DeployTask
+    public class ProfileTask
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; } = string.Empty;
@@ -11,12 +11,12 @@ namespace API.Control.Models
         public DateTime? UpdatedAt { get; set; }
         public bool IsActive { get; set; } = true;
 
-
-        public virtual DeployProfile? DeployProfile { get; set; }
+        public required Guid ImageId { get; set; }
+        public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
 
     }
 
-    public class DeployTasksList : DeployTask
+    public class ProfileTaskList : ProfileTask
     {
         public Guid ApplicationId { get; set; }
     }  
