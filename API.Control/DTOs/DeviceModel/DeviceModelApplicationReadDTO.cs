@@ -1,0 +1,12 @@
+﻿namespace API.Control.DTOs.DeviceModel
+{
+    /// <summary>
+    /// DTO para leitura de modelo de dispositivo.
+    /// </summary>
+    public class DeviceModelApplicationReadDTO
+    {
+        public List<Guid> ApplicationIds { get; init; } = new();
+        public List<Guid> DeviceIds { get; init; } = new();
+
+    }
+}

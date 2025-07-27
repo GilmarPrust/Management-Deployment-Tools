@@ -1,7 +1,4 @@
-﻿using API.Control.DTOs.Device;
-using FluentValidation;
-
-namespace API.Control.Validators
+﻿namespace API.Control.Validators
 {
     public class MacAddress_Validator : AbstractValidator<DeviceCreateDTO>
     {

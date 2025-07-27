@@ -1,13 +1,15 @@
-﻿using API.Control.DTOs.Inventory;
-using API.Control.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Control.Endpoints
+﻿namespace API.Control.Endpoints
 {
     public static class InventoryEndpoints
     {
         public static RouteGroupBuilder MapInventoryEndpoints(this RouteGroupBuilder group)
         {
+            group.MapGroup("/api/inventories")
+                .WithTags("Inventory")
+                .WithName("InventoryEndpoints")
+                .WithSummary("Endpoints for managing inventory items")
+                .WithDescription("Provides endpoints to create, read, update, and delete inventory items.");
+
             // GET all
             group.MapGet("/", async ([FromServices] IInventoryService service) =>
                 Results.Ok(await service.GetAllAsync()));

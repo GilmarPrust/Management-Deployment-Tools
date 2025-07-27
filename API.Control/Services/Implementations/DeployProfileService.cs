@@ -1,12 +1,4 @@
-﻿using API.Control.DTOs.DeployProfile;
-using API.Control.DTOs.ProfileTask;
-using API.Control.Models;
-using API.Control.Services.Interfaces;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
-namespace API.Control.Services.Implementations
+﻿namespace API.Control.Services.Implementations
 {
     public class DeployProfileService : IDeployProfileService
     {
@@ -25,17 +17,19 @@ namespace API.Control.Services.Implementations
         {
             try
             {
-                var profiles = await _context.ProfileDeploys
+                var profiles = await _context.DeployProfiles
                     .Include(p => p.Image)
                     .Include(p => p.Applications)
                     .Include(p => p.Devices)
+                    .Include(p => p.ProfileTasks)
+                    .AsNoTracking()
                     .ToListAsync();
 
                 return _mapper.Map<IEnumerable<DeployProfileReadDTO>>(profiles);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar todos os perfis de implantação.");
+                _logger.LogError(ex, "[GetAllAsync] Erro ao buscar todos os perfis de implantação.");
                 throw;
             }
         }
@@ -47,12 +41,11 @@ namespace API.Control.Services.Implementations
 
             try
             {
-                var profile = await _context.ProfileDeploys
+                var profile = await _context.DeployProfiles
                     .Include(p => p.Image)
                     .Include(p => p.Applications)
                     .Include(p => p.Devices)
-                    .Include(p => p.DeployTasks)
-                    .Include(p => p.SourcePath)
+                    .Include(p => p.ProfileTasks)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
                 return profile == null ? null : _mapper.Map<DeployProfileReadDTO>(profile);
@@ -72,7 +65,7 @@ namespace API.Control.Services.Implementations
             try
             {
                 var entity = _mapper.Map<DeployProfile>(dto);
-                _context.ProfileDeploys.Add(entity);
+                _context.DeployProfiles.Add(entity);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Perfil de implantação criado com Id: {Id}", entity.Id);
                 return _mapper.Map<DeployProfileReadDTO>(entity);
@@ -84,6 +77,35 @@ namespace API.Control.Services.Implementations
             }
         }
 
+        public async Task<DeployProfileReadDTO?> UpdateAsync(Guid id, DeployProfileUpdateDTO dto)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
+
+            try
+            {
+                var existing = await _context.DeployProfiles
+                    .Include(p => p.Applications)
+                    .Include(p => p.Devices)
+                    .Include(p => p.ProfileTasks)
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
+                if (existing == null) return null;
+
+                _mapper.Map(dto, existing);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Perfil de implantação atualizado: {Id}", id);
+
+                return _mapper.Map<DeployProfileReadDTO>(existing);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao atualizar perfil de implantação: {Id}", id);
+                throw;
+            }
+        }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
@@ -92,10 +114,10 @@ namespace API.Control.Services.Implementations
 
             try
             {
-                var entity = await _context.ProfileDeploys.FindAsync(id);
+                var entity = await _context.DeployProfiles.FindAsync(id);
                 if (entity == null) return false;
 
-                _context.ProfileDeploys.Remove(entity);
+                _context.DeployProfiles.Remove(entity);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Perfil de implantação removido: {Id}", id);
                 return true;
@@ -105,11 +127,6 @@ namespace API.Control.Services.Implementations
                 _logger.LogError(ex, "Erro ao remover perfil de implantação: {Id}", id);
                 throw;
             }
-        }
-
-        public Task<bool> UpdateAsync(Guid id, DeployTaskUpdateDTO dto)
-        {
-            throw new NotImplementedException();
         }
     }
 }

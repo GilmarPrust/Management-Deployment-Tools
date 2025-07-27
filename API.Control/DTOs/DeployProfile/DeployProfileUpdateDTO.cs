@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.DeployProfile
+﻿namespace API.Control.DTOs.DeployProfile
 {
-    public class DeployTaskUpdateDTO
+    public class DeployProfileUpdateDTO
     {
         [Required]
         public string Name { get; set; } = string.Empty;
@@ -15,10 +13,12 @@ namespace API.Control.DTOs.DeployProfile
         [Required]
         public Guid ImageId { get; set; }
 
-        public List<String> SourcePath { get; set; } = new();
+        public List<PathToCopy> PathToCopy { get; set; } = new();
 
         public List<Guid> ApplicationIds { get; set; } = new();
 
         public List<Guid> DeviceIds { get; set; } = new();
+
+        public ProfileTaskReadDTO? ProfileTasks { get; set; } = null;
     }
 }

@@ -1,12 +1,4 @@
-﻿using API.Control.DTOs.ProfileTask;
-
-using API.Control.Models;
-using API.Control.Services.Interfaces;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
-namespace API.Control.Services.Implementations
+﻿namespace API.Control.Services.Implementations
 {
     public class ProfileTaskService : IProfileTaskService
     {
@@ -25,12 +17,8 @@ namespace API.Control.Services.Implementations
         {
             try
             {
-                var profiles = await _context.ProfileDeploys
-                    .Include(p => p.Image)
-                    .Include(p => p.Applications)
-                    .Include(p => p.Devices)
-                    .Include(p => p.DeployTasks)
-                    .Include(p => p.SourcePath)
+                var profiles = await _context.ProfileTasks
+                    .Include(p => p.DeployProfiles)
                     .ToListAsync();
 
                 return _mapper.Map<IEnumerable<ProfileTaskReadDTO>>(profiles);
@@ -49,12 +37,8 @@ namespace API.Control.Services.Implementations
 
             try
             {
-                var profile = await _context.ProfileDeploys
-                    .Include(p => p.Image)
-                    .Include(p => p.Applications)
-                    .Include(p => p.Devices)
-                    .Include(p => p.DeployTasks)
-                    .Include(p => p.SourcePath)
+                var profile = await _context.ProfileTasks
+                    .Include(p => p.DeployProfiles)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
                 return profile == null ? null : _mapper.Map<ProfileTaskReadDTO>(profile);
@@ -74,7 +58,7 @@ namespace API.Control.Services.Implementations
             try
             {
                 var entity = _mapper.Map<DeployProfile>(dto);
-                _context.ProfileDeploys.Add(entity);
+                _context.DeployProfiles.Add(entity);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Perfil de implantação criado com Id: {Id}", entity.Id);
                 return _mapper.Map<ProfileTaskReadDTO>(entity);
@@ -94,13 +78,14 @@ namespace API.Control.Services.Implementations
 
             try
             {
-                var entity = await _context.ProfileDeploys.FindAsync(id);
+                var entity = await _context.ProfileTasks.FindAsync(id);
                 if (entity == null) return false;
 
-                _context.ProfileDeploys.Remove(entity);
+                _context.ProfileTasks.Remove(entity);
                 await _context.SaveChangesAsync();
-                _logger.LogInformation("Perfil de implantação removido: {Id}", id);
+                _logger.LogInformation("Tarefa de perfil removido: {Id}", id);
                 return true;
+
             }
             catch (Exception ex)
             {

@@ -1,8 +1,4 @@
-﻿using API.Control.DTOs.Image;
-using API.Control.Models;
-using AutoMapper;
-
-namespace API.Control.Mappings
+﻿namespace API.Control.Mappings
 {
     public class ImageProfile : Profile
     {
@@ -13,7 +9,7 @@ namespace API.Control.Mappings
                 .ForMember(dest => dest.DeployProfileIds, opt => opt.MapFrom(src => src.DeployProfiles.Select(dp => dp.Id)));
 
             // Map ImageCreateDTO to Image
-            CreateMap<ImageCreateDTO, Image>();
+            CreateMap<ManufacturerCreateDTO, Image>();
 
             // Map ImageUpdateDTO to Image
             CreateMap<ImageUpdateDTO, Image>();

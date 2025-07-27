@@ -1,11 +1,4 @@
-﻿using API.Control.DTOs.DeviceModel;
-using API.Control.Models;
-using API.Control.Services.Interfaces;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
-namespace API.Control.Services.Implementations
+﻿namespace API.Control.Services.Implementations
 {
     public class DeviceModelService : IDeviceModelService
     {
@@ -83,7 +76,7 @@ namespace API.Control.Services.Implementations
             }
         }
 
-        public async Task<bool> UpdateAsync(Guid id, DeviceModelUpdateDTO dto)
+        public async Task<DeviceModelReadDTO?> UpdateAsync(Guid id, DeviceModelUpdateDTO dto)
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("Id não pode ser vazio.", nameof(id));
@@ -92,14 +85,21 @@ namespace API.Control.Services.Implementations
 
             try
             {
-                var existing = await _context.DeviceModels.FindAsync(id);
-                if (existing == null) return false;
+                var existing = await _context.DeviceModels
+                    .Include(dm => dm.Firmware)
+                    .Include(dm => dm.DriverPacksOEM)
+                    .Include(dm => dm.Applications)
+                    .Include(dm => dm.Devices)
+                    .FirstOrDefaultAsync(dm => dm.Id == id);
+
+                if (existing == null) return null;
 
                 _mapper.Map(dto, existing);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Modelo de dispositivo atualizado: {Id}", id);
 
-                return true;
+                // Retorna o DTO atualizado
+                return _mapper.Map<DeviceModelReadDTO>(existing);
             }
             catch (Exception ex)
             {

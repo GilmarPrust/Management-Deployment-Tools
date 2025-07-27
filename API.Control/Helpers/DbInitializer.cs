@@ -1,0 +1,87 @@
+﻿namespace API.Control.Helpers
+{
+    public static class DbInitializer
+    {
+        public static void SeedDefaultData(this AppDbContext context)
+        {
+
+            // 1. Adiciona fabricantes padrão se não existirem.
+            if (!context.Manufacturers.Any())
+            {
+                context.Manufacturers.AddRange(
+                    new Manufacturer { ShortName = "Unknown", Name = "Unknown" },
+                    new Manufacturer { ShortName = "Dell", Name = "Dell Inc." },
+                    new Manufacturer { ShortName = "Lenovo", Name = "Lenovo" },
+                    new Manufacturer { ShortName = "HP", Name = "Hewlett-Packard" },
+                    new Manufacturer { ShortName = "Asus", Name = "ASUSTeK Computer Inc." }
+                );
+                context.SaveChanges();
+            }
+
+
+            // 1. Garante que o modelo de dispositivo desconhecido existe.
+            if (!context.DeviceModels.Any(dm => dm.Model == "Unknown"))
+            {
+                var defaultmanufacturer = context.Manufacturers.First(m => m.Name == "Unknown");
+                var defaultDeviceModel = new DeviceModel
+                {
+                    Manufacturer = defaultmanufacturer.Name,
+                    Model = "Unknown",
+                    Type = ""
+                };
+                context.DeviceModels.Add(defaultDeviceModel);
+                context.SaveChanges();
+            }
+
+            // 2. Garante que o dispositivo padrão existe.
+            if (!context.Devices.Any(d => d.ComputerName == new ComputerName("VM-0000")))
+            {
+                var defaultDeviceModel = context.DeviceModels.First(dm => dm.Model == "Unknown");
+                var device = new Device
+                {
+                    ComputerName = new ComputerName("VM-0000"),
+                    SerialNumber = "SN000000",
+                    MacAddress = new MacAddress("10-7C-61-B4-F0-DA"),
+                    DeviceModelId = defaultDeviceModel.Id
+                };
+                context.Devices.Add(device);
+                context.SaveChanges();
+            }
+
+            // 3. Garante que o Application de teste existe.
+            if (!context.Applications.Any(a => a.NameID == "TestApp"))
+            {
+                var application = new Application
+                {
+                    NameID = "TestApp",
+                    DisplayName = "Aplicativo para testes",
+                    Version = "1.0",
+                    FileName = "SetupTestApp.exe",
+                    Argument = "--quiet --force",
+                    Source = "\\Applications\\TestApp\\1.0",
+                    Filter = "",
+                    Hash = "1234567890abcdef1234567890abcdef1234567890abcdef1234567890fdsaer",
+                };
+                context.Applications.Add(application);
+                context.SaveChanges();
+            }
+
+            // 4. Garante que o AppxPackage de teste existe.
+            if (!context.AppxPackages.Any(dm => dm.Name == "Test.AppX"))
+            {
+                var appxpackage = new AppxPackage
+                {
+                    Name = "Test.AppX",
+                    Version = "1.0",
+                    Publisher = "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                    Architecture = "X64",
+                    PackageFamilyName = "Microsoft.AppxForWindows_8wekyb3d8bbwe",
+                    PackageFullName = "Microsoft.AppxForWindows_1.0000.000.000_x64__8wekyb3d8bbwe",
+                    Status = "OK"
+                };
+                context.AppxPackages.Add(appxpackage);
+                context.SaveChanges();
+            }
+        }
+    }
+}

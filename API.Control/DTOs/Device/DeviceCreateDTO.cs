@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.Device
+﻿namespace API.Control.DTOs.Device
 {
     public class DeviceCreateDTO
     {

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.DriverPack
+﻿namespace API.Control.DTOs.DriverPack
 {
     public class DriverPackCreateDTO
     {

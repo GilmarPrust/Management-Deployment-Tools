@@ -12,6 +12,8 @@
         public string[] Languages { get; init; } = Array.Empty<string>();
         public long ImageSize { get; init; }
         public string Source { get; init; } = string.Empty;
+        public bool Enabled { get; init; }
+
         public List<Guid> DeployProfileIds { get; init; } = new();
     }
 }

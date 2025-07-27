@@ -1,43 +1,43 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.RegularExpressions;
-
-namespace API.Control.ValueObjects
+﻿namespace API.Control.ValueObjects
 {
     /// <summary>
-    /// Representa um modelo de dispositivo, incluindo fabricante, modelo, tipo e associações.
+    /// Representa um nome de computador válido.
     /// </summary>
     public sealed class ComputerName
     {
         [Required, StringLength(15)]
-        public string Value { get; set; }
+        public string Value { get; } = string.Empty;
 
-        private ComputerName(string value)
-        {
-            Value = value.ToUpper();
-        }
+        // Construtor padrão privado para o EF Core
+        private ComputerName() { }
 
-        public static ComputerName Create(string value)
+        public ComputerName(string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+                value = Generate();
+
             if (value.Length > 15)
                 throw new ArgumentException("Nome do computador não pode ter mais de 15 caracteres.", nameof(value));
 
-            if (string.IsNullOrWhiteSpace(value))
-                return new ComputerName(Generate());
-            
-            // espaço para outras validações, como regex para caracteres permitidos.
             if (!Regex.IsMatch(value, @"^[A-Z0-9-]+$"))
                 throw new ArgumentException("Nome do computador deve conter apenas letras maiúsculas, números e hífens.", nameof(value));
 
             if (value.Contains("--") || value.StartsWith("-") || value.EndsWith("-"))
                 throw new ArgumentException("Nome do computador não pode conter hífens consecutivos ou começar/terminar com hífen.", nameof(value));
 
-            return new ComputerName(value);
+            Value = value.ToUpperInvariant();
         }
+
+        public override string ToString() => Value;
+
+        public override bool Equals(object? obj) => obj is ComputerName other && Value == other.Value;
+
+        public override int GetHashCode() => Value.GetHashCode();
+
 
         private static string Generate()
         {
-            string[] prefixes = { "KIOSK", "DSKTP", "NOTBK", "TABLT", "SERVR" };
+            string[] prefixes = { "KIOSK", "DSKTP", "NOTBK", "TABLT", "SERVR", "VM" };
             var random = new Random(Guid.NewGuid().GetHashCode());
             string prefix = prefixes[random.Next(prefixes.Length)];
 
@@ -49,11 +49,5 @@ namespace API.Control.ValueObjects
 
             return ($"{prefix}-{hex}");
         }
-
-        public override string ToString() => Value;
-
-        public override bool Equals(object? obj) => obj is ComputerName other && Value == other.Value;
-
-        public override int GetHashCode() => Value.GetHashCode();
     }
 }

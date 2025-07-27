@@ -1,6 +1,4 @@
-﻿using API.Control.DTOs.DeviceModel;
-
-namespace API.Control.DTOs.Firmware
+﻿namespace API.Control.DTOs.Firmware
 {
     public class FirmwareReadDTO
     {
@@ -10,6 +8,6 @@ namespace API.Control.DTOs.Firmware
         public string Source { get; init; } = string.Empty;
         public string Hash { get; init; } = string.Empty;
         public bool Enabled { get; init; }
-        public DeviceModelReadDTO? DeviceModel { get; init; } = null;
+        public Guid DeviceModelId { get; set; }
     }
 }

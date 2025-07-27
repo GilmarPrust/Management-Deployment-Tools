@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.Inventory
+﻿namespace API.Control.DTOs.Inventory
 {
     public class InventoryReadDTO
     {
@@ -8,6 +6,6 @@ namespace API.Control.DTOs.Inventory
 
         public Guid DeviceId { get; init; } = Guid.Empty;
 
-        public string Info { get; init; } = string.Empty;
+        public Dictionary<string, string> Data { get; init; } = new();
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace API.Control.DTOs.ProfileTask
+﻿namespace API.Control.DTOs.ProfileTask
 {
     public class ProfileTaskReadDTO
     {

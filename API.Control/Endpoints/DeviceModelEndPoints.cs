@@ -1,8 +1,4 @@
-﻿using API.Control.DTOs.DeviceModel;
-using API.Control.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Control.Endpoints
+﻿namespace API.Control.Endpoints
 {
     public static class DeviceModelEndpoints
     {
@@ -39,14 +35,14 @@ namespace API.Control.Endpoints
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
-                var success = await service.UpdateAsync(id, dto);
-                return success ? Results.NoContent() : Results.NotFound();
+                var updated = await service.UpdateAsync(id, dto);
+                return updated is not null ? Results.Ok(updated) : Results.NotFound();
             });
             
             // PUT (atualização) com aplicações
-            group.MapPut("/{id:guid}/applications", async ([FromServices] IDeviceModelService service, Guid id, DeviceModelAddApplicationDTO dto) =>
+            group.MapPut("/{id:guid}/application", async ([FromServices] IDeviceModelService service, Guid id, DeviceModelAddApplicationDTO dto) =>
             {
-                if (dto == null || dto.ApplicationIds.Count == 0)
+                if (dto == null || dto.ApplicationIds == null || dto.ApplicationIds.Count == 0)
                     return Results.BadRequest("Informe ao menos um ApplicationId.");
 
                 var success = await service.AddApplicationsAsync(id, dto.ApplicationIds);

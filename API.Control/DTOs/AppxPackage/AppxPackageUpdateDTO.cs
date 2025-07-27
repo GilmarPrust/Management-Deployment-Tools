@@ -1,22 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.AppxPackage
+﻿namespace API.Control.DTOs.AppxPackage
 {
     public class AppxPackageUpdateDTO
     {
         [Required]
-        public string ComputerName { get; set; } = string.Empty;
+        public required string Name { get; set; }
 
         [Required]
-        public string SerialNumber { get; set; } = string.Empty;
+        public required string Version { get; set; }
 
         [Required]
-        public string MacAddress { get; set; } = string.Empty;
+        public required string Publisher { get; set; }
+        public string Architecture { get; set; } = string.Empty;
+        public string PackageFamilyName { get; set; } = string.Empty;
 
         [Required]
-        public Guid DeviceModelId { get; set; }
-
-        [Required]
+        public required string PackageFullName { get; set; }
+        public bool IsFramework { get; set; } = false;
+        public bool IsBundle { get; set; } = false;
+        public bool IsResourcePackage { get; set; } = false;
+        public bool IsDevelopmentMode { get; set; } = false;
+        public bool IsPartiallyStaged { get; set; } = false;
+        public string Status { get; set; } = string.Empty;
         public bool Enabled { get; init; }
+        public List<Guid> DeviceIds { get; init; } = new();
     }
 }

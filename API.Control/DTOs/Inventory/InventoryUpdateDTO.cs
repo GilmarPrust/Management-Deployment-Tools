@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.Inventory
+﻿namespace API.Control.DTOs.Inventory
 {
     public class InventoryUpdateDTO
     {
         [Required]
-        public string Info { get; set; } = string.Empty;
-
+        public Dictionary<string, string> Data { get; set; } = new();
     }
 }

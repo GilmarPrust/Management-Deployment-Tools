@@ -1,13 +1,15 @@
-﻿using API.Control.DTOs.Application;
-using API.Control.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Control.Endpoints
+﻿namespace API.Control.Endpoints
 {
     public static class ApplicationEndpoints
     {
         public static RouteGroupBuilder MapApplicationEndpoints(this RouteGroupBuilder group)
         {
+            group.MapGroup("/api/applications")
+                .WithTags("Applications")
+                .WithName("ApplicationEndpoints")
+                .WithSummary("Endpoints for managing applications")
+                .WithDescription("Provides endpoints to create, read, update, and delete applications.");
+
             // GET all
             group.MapGet("/", async ([FromServices] IApplicationService service) =>
                 Results.Ok(await service.GetAllAsync()));
@@ -33,8 +35,8 @@ namespace API.Control.Endpoints
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
-                var success = await service.UpdateAsync(id, dto);
-                return success ? Results.NoContent() : Results.NotFound();
+                var updated = await service.UpdateAsync(id, dto);
+                return updated is not null ? Results.Ok(updated) : Results.NotFound();
             });
 
             // DELETE

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.Device
+﻿namespace API.Control.DTOs.Device
 {
     public class DeviceUpdateDTO
     {
@@ -18,5 +16,10 @@ namespace API.Control.DTOs.Device
 
         [Required]
         public bool Enabled { get; init; }
+
+        public Guid? DeployProfileId { get; init; } = null;
+        public List<Guid> ApplicationIds { get; init; } = new();
+        public List<Guid> AppxPackageIds { get; init; } = new();
+        public List<Guid> DriverPackIds { get; init; } = new();
     }
 }

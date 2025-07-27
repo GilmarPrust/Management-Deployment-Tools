@@ -1,13 +1,15 @@
-﻿using API.Control.DTOs.DeployProfile;
-using API.Control.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Control.Endpoints
+﻿namespace API.Control.Endpoints
 {
     public static class DeployProfileEndpoints
     {
         public static RouteGroupBuilder MapDeployProfileEndpoints(this RouteGroupBuilder group)
         {
+            group.MapGroup("/api/deployprofiles")
+                .WithTags("Deploy Profiles")
+                .WithName("DeployProfileEndpoints")
+                .WithSummary("Endpoints for managing Deploy Profiles")
+                .WithDescription("Provides endpoints to create, read, update, and delete deploy profiles.");
+
             // GET all
             group.MapGet("/", async ([FromServices] IDeployProfileService service) =>
                 Results.Ok(await service.GetAllAsync()));
@@ -29,12 +31,12 @@ namespace API.Control.Endpoints
             });
 
             // PUT (atualização)
-            group.MapPut("/{id:guid}", async ([FromServices] IDeployProfileService service, Guid id, DeployTaskUpdateDTO dto) =>
+            group.MapPut("/{id:guid}", async ([FromServices] IDeployProfileService service, Guid id, DeployProfileUpdateDTO dto) =>
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
-                var success = await service.UpdateAsync(id, dto);
-                return success ? Results.NoContent() : Results.NotFound();
+                var updated = await service.UpdateAsync(id, dto);
+                return updated is not null ? Results.Ok(updated) : Results.NotFound();
             });
 
             // DELETE

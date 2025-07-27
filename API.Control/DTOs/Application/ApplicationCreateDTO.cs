@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.Application
+﻿namespace API.Control.DTOs.Application
 {
     /// <summary>
     /// DTO para criação de aplicativo.
@@ -9,7 +7,6 @@ namespace API.Control.DTOs.Application
     {
         [Required, StringLength(50)]
         public string NameID { get; set; } = string.Empty;
-
 
         [Required, StringLength(100)]
         public string DisplayName { get; set; } = string.Empty;

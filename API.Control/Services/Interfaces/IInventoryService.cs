@@ -1,6 +1,4 @@
-﻿using API.Control.DTOs.Inventory;
-
-namespace API.Control.Services.Interfaces
+﻿namespace API.Control.Services.Interfaces
 {
     public interface IInventoryService
     {

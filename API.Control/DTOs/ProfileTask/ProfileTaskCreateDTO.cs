@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.ProfileTask
+﻿namespace API.Control.DTOs.ProfileTask
 {
     public class ProfileTaskCreateDTO
     {

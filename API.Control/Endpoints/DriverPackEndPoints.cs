@@ -1,13 +1,15 @@
-﻿using API.Control.DTOs.DriverPack;
-using API.Control.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Control.Endpoints
+﻿namespace API.Control.Endpoints
 {
     public static class DriverPackEndpoints
     {
         public static RouteGroupBuilder MapDriverPackEndpoints(this RouteGroupBuilder group)
         {
+            group.MapGroup("/api/driverpacks")
+                .WithTags("Driver Packs")
+                .WithName("DriverPackEndpoints")
+                .WithSummary("Endpoints for managing Driver Packs")
+                .WithDescription("Provides endpoints to create, read, update, and delete driver packs.");
+
             // GET all
             group.MapGet("/", async ([FromServices] IDriverPackService service) =>
                 Results.Ok(await service.GetAllAsync()));

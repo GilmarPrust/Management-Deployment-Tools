@@ -15,7 +15,7 @@
       }
     ],
     "Tags": [
-      "Applications"
+      "Application"
     ]
   },
   {
@@ -40,7 +40,7 @@
       }
     ],
     "Tags": [
-      "Applications"
+      "Application"
     ]
   },
   {
@@ -65,7 +65,7 @@
       }
     ],
     "Tags": [
-      "Applications"
+      "Application"
     ]
   },
   {
@@ -83,7 +83,7 @@
       },
       {
         "Name": "dto",
-        "Type": "ApplicationUpdateDTO",
+        "Type": "API.Control.DTOs.Application.ApplicationUpdateDTO",
         "IsRequired": true
       }
     ],
@@ -95,7 +95,7 @@
       }
     ],
     "Tags": [
-      "Applications"
+      "Application"
     ]
   },
   {
@@ -120,7 +120,7 @@
       }
     ],
     "Tags": [
-      "Applications"
+      "Application"
     ]
   },
   {
@@ -139,7 +139,7 @@
       }
     ],
     "Tags": [
-      "AppxPackages"
+      "AppxPackage"
     ]
   },
   {
@@ -164,7 +164,7 @@
       }
     ],
     "Tags": [
-      "AppxPackages"
+      "AppxPackage"
     ]
   },
   {
@@ -189,7 +189,7 @@
       }
     ],
     "Tags": [
-      "AppxPackages"
+      "AppxPackage"
     ]
   },
   {
@@ -219,7 +219,7 @@
       }
     ],
     "Tags": [
-      "AppxPackages"
+      "AppxPackage"
     ]
   },
   {
@@ -244,7 +244,7 @@
       }
     ],
     "Tags": [
-      "AppxPackages"
+      "AppxPackage"
     ]
   },
   {
@@ -263,7 +263,7 @@
       }
     ],
     "Tags": [
-      "DeployProfiles"
+      "DeployProfile"
     ]
   },
   {
@@ -288,7 +288,7 @@
       }
     ],
     "Tags": [
-      "DeployProfiles"
+      "DeployProfile"
     ]
   },
   {
@@ -313,7 +313,7 @@
       }
     ],
     "Tags": [
-      "DeployProfiles"
+      "DeployProfile"
     ]
   },
   {
@@ -331,7 +331,7 @@
       },
       {
         "Name": "dto",
-        "Type": "API.Control.DTOs.DeployProfile.DeployTaskUpdateDTO",
+        "Type": "API.Control.DTOs.DeployProfile.DeployProfileUpdateDTO",
         "IsRequired": true
       }
     ],
@@ -343,7 +343,7 @@
       }
     ],
     "Tags": [
-      "DeployProfiles"
+      "DeployProfile"
     ]
   },
   {
@@ -368,7 +368,7 @@
       }
     ],
     "Tags": [
-      "DeployProfiles"
+      "DeployProfile"
     ]
   },
   {
@@ -387,7 +387,7 @@
       }
     ],
     "Tags": [
-      "DeviceModels"
+      "DeviceModel"
     ],
     "Description": "Provides endpoints to create, read, update, and delete device models.",
     "Summary": "Endpoints for managing device models"
@@ -414,7 +414,7 @@
       }
     ],
     "Tags": [
-      "DeviceModels"
+      "DeviceModel"
     ],
     "Description": "Provides endpoints to create, read, update, and delete device models.",
     "Summary": "Endpoints for managing device models"
@@ -441,7 +441,7 @@
       }
     ],
     "Tags": [
-      "DeviceModels"
+      "DeviceModel"
     ],
     "Description": "Provides endpoints to create, read, update, and delete device models.",
     "Summary": "Endpoints for managing device models"
@@ -473,7 +473,7 @@
       }
     ],
     "Tags": [
-      "DeviceModels"
+      "DeviceModel"
     ],
     "Description": "Provides endpoints to create, read, update, and delete device models.",
     "Summary": "Endpoints for managing device models"
@@ -500,7 +500,7 @@
       }
     ],
     "Tags": [
-      "DeviceModels"
+      "DeviceModel"
     ],
     "Description": "Provides endpoints to create, read, update, and delete device models.",
     "Summary": "Endpoints for managing device models"
@@ -508,7 +508,7 @@
   {
     "ContainingType": "API.Control.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_4",
-    "RelativePath": "api/devicemodels/{id:guid}/applications",
+    "RelativePath": "api/devicemodels/{id:guid}/application",
     "HttpMethod": "PUT",
     "IsController": false,
     "Order": 0,
@@ -532,7 +532,7 @@
       }
     ],
     "Tags": [
-      "DeviceModels"
+      "DeviceModel"
     ],
     "Description": "Provides endpoints to create, read, update, and delete device models.",
     "Summary": "Endpoints for managing device models"
@@ -553,7 +553,7 @@
       }
     ],
     "Tags": [
-      "Devices"
+      "Device"
     ]
   },
   {
@@ -578,7 +578,7 @@
       }
     ],
     "Tags": [
-      "Devices"
+      "Device"
     ]
   },
   {
@@ -603,42 +603,12 @@
       }
     ],
     "Tags": [
-      "Devices"
+      "Device"
     ]
   },
   {
     "ContainingType": "API.Control.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapDeviceEndpoints\u003Eb__0_3",
-    "RelativePath": "api/devices/{id:guid}",
-    "HttpMethod": "PUT",
-    "IsController": false,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "dto",
-        "Type": "API.Control.DTOs.Device.DeviceUpdateDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ],
-    "Tags": [
-      "Devices"
-    ]
-  },
-  {
-    "ContainingType": "API.Control.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_4",
     "RelativePath": "api/devices/{id:guid}",
     "HttpMethod": "DELETE",
     "IsController": false,
@@ -658,7 +628,7 @@
       }
     ],
     "Tags": [
-      "Devices"
+      "Device"
     ]
   },
   {
@@ -677,7 +647,7 @@
       }
     ],
     "Tags": [
-      "DriverPacks"
+      "DriverPack"
     ]
   },
   {
@@ -702,7 +672,7 @@
       }
     ],
     "Tags": [
-      "DriverPacks"
+      "DriverPack"
     ]
   },
   {
@@ -727,7 +697,7 @@
       }
     ],
     "Tags": [
-      "DriverPacks"
+      "DriverPack"
     ]
   },
   {
@@ -757,7 +727,7 @@
       }
     ],
     "Tags": [
-      "DriverPacks"
+      "DriverPack"
     ]
   },
   {
@@ -782,7 +752,131 @@
       }
     ],
     "Tags": [
-      "DriverPacks"
+      "DriverPack"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_0",
+    "RelativePath": "api/driverpacksOEM/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPackOEM"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_2",
+    "RelativePath": "api/driverpacksOEM/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.DriverPack.DriverPackCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPackOEM"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_1",
+    "RelativePath": "api/driverpacksOEM/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPackOEM"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_3",
+    "RelativePath": "api/driverpacksOEM/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.DriverPack.DriverPackUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPackOEM"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_4",
+    "RelativePath": "api/driverpacksOEM/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPackOEM"
     ]
   },
   {
@@ -801,7 +895,7 @@
       }
     ],
     "Tags": [
-      "Firmwares"
+      "Firmware"
     ]
   },
   {
@@ -826,7 +920,7 @@
       }
     ],
     "Tags": [
-      "Firmwares"
+      "Firmware"
     ]
   },
   {
@@ -851,7 +945,7 @@
       }
     ],
     "Tags": [
-      "Firmwares"
+      "Firmware"
     ]
   },
   {
@@ -881,7 +975,7 @@
       }
     ],
     "Tags": [
-      "Firmwares"
+      "Firmware"
     ]
   },
   {
@@ -906,13 +1000,13 @@
       }
     ],
     "Tags": [
-      "Firmwares"
+      "Firmware"
     ]
   },
   {
     "ContainingType": "API.Control.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapImageEndpoints\u003Eb__0_0",
-    "RelativePath": "api/image/",
+    "RelativePath": "api/images/",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
@@ -925,13 +1019,13 @@
       }
     ],
     "Tags": [
-      "Images"
+      "Image"
     ]
   },
   {
     "ContainingType": "API.Control.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapImageEndpoints\u003Eb__0_2",
-    "RelativePath": "api/image/",
+    "RelativePath": "api/images/",
     "HttpMethod": "POST",
     "IsController": false,
     "Order": 0,
@@ -950,13 +1044,13 @@
       }
     ],
     "Tags": [
-      "Images"
+      "Image"
     ]
   },
   {
     "ContainingType": "API.Control.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapImageEndpoints\u003Eb__0_1",
-    "RelativePath": "api/image/{id:guid}",
+    "RelativePath": "api/images/{id:guid}",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
@@ -975,13 +1069,13 @@
       }
     ],
     "Tags": [
-      "Images"
+      "Image"
     ]
   },
   {
     "ContainingType": "API.Control.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapImageEndpoints\u003Eb__0_3",
-    "RelativePath": "api/image/{id:guid}",
+    "RelativePath": "api/images/{id:guid}",
     "HttpMethod": "PUT",
     "IsController": false,
     "Order": 0,
@@ -1005,13 +1099,13 @@
       }
     ],
     "Tags": [
-      "Images"
+      "Image"
     ]
   },
   {
     "ContainingType": "API.Control.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapImageEndpoints\u003Eb__0_4",
-    "RelativePath": "api/image/{id:guid}",
+    "RelativePath": "api/images/{id:guid}",
     "HttpMethod": "DELETE",
     "IsController": false,
     "Order": 0,
@@ -1030,13 +1124,13 @@
       }
     ],
     "Tags": [
-      "Images"
+      "Image"
     ]
   },
   {
     "ContainingType": "API.Control.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapInventoryEndpoints\u003Eb__0_0",
-    "RelativePath": "api/inventory/",
+    "RelativePath": "api/inventories/",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
@@ -1055,7 +1149,7 @@
   {
     "ContainingType": "API.Control.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapInventoryEndpoints\u003Eb__0_2",
-    "RelativePath": "api/inventory/",
+    "RelativePath": "api/inventories/",
     "HttpMethod": "POST",
     "IsController": false,
     "Order": 0,
@@ -1080,7 +1174,7 @@
   {
     "ContainingType": "API.Control.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapInventoryEndpoints\u003Eb__0_1",
-    "RelativePath": "api/inventory/{id:guid}",
+    "RelativePath": "api/inventories/{id:guid}",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
@@ -1105,7 +1199,7 @@
   {
     "ContainingType": "API.Control.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapInventoryEndpoints\u003Eb__0_3",
-    "RelativePath": "api/inventory/{id:guid}",
+    "RelativePath": "api/inventories/{id:guid}",
     "HttpMethod": "PUT",
     "IsController": false,
     "Order": 0,
@@ -1135,7 +1229,7 @@
   {
     "ContainingType": "API.Control.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CMapInventoryEndpoints\u003Eb__0_4",
-    "RelativePath": "api/inventory/{id:guid}",
+    "RelativePath": "api/inventories/{id:guid}",
     "HttpMethod": "DELETE",
     "IsController": false,
     "Order": 0,
@@ -1155,6 +1249,224 @@
     ],
     "Tags": [
       "Inventory"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ManufacturerEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapManufacturerEndpoints\u003Eb__0_0",
+    "RelativePath": "api/manufacturers/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Manufacturer"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ManufacturerEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapManufacturerEndpoints\u003Eb__0_2",
+    "RelativePath": "api/manufacturers/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.Manufacturer.ManufacturerCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Manufacturer"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ManufacturerEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapManufacturerEndpoints\u003Eb__0_1",
+    "RelativePath": "api/manufacturers/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Manufacturer"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ManufacturerEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapManufacturerEndpoints\u003Eb__0_3",
+    "RelativePath": "api/manufacturers/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Manufacturer"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ProfileTaskEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProfileTaskEndpoints\u003Eb__0_0",
+    "RelativePath": "api/profiletasks/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "ProfileTask"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ProfileTaskEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProfileTaskEndpoints\u003Eb__0_2",
+    "RelativePath": "api/profiletasks/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.ProfileTask.ProfileTaskCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "ProfileTask"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ProfileTaskEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProfileTaskEndpoints\u003Eb__0_1",
+    "RelativePath": "api/profiletasks/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "ProfileTask"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ProfileTaskEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProfileTaskEndpoints\u003Eb__0_3",
+    "RelativePath": "api/profiletasks/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API.Control.DTOs.ProfileTask.ProfileTaskUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "ProfileTask"
+    ]
+  },
+  {
+    "ContainingType": "API.Control.Endpoints.ProfileTaskEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProfileTaskEndpoints\u003Eb__0_4",
+    "RelativePath": "api/profiletasks/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "ProfileTask"
     ]
   }
 ]

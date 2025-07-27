@@ -1,11 +1,4 @@
-﻿using API.Control.DTOs.Image;
-using API.Control.Models;
-using API.Control.Services.Interfaces;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
-namespace API.Control.Services.Implementations
+﻿namespace API.Control.Services.Implementations
 {
     public class ImageService : IImageService
     {
@@ -24,7 +17,7 @@ namespace API.Control.Services.Implementations
         {
             try
             {
-                var images = await _context.Image
+                var images = await _context.Images
                     .Include(i => i.DeployProfiles)
                     .ToListAsync();
                 return _mapper.Map<IEnumerable<ImageReadDTO>>(images);
@@ -42,7 +35,7 @@ namespace API.Control.Services.Implementations
                 throw new ArgumentException("Id não pode ser vazio.", nameof(id));
             try
             {
-                var image = await _context.Image
+                var image = await _context.Images
                     .Include(i => i.DeployProfiles)
                     .FirstOrDefaultAsync(i => i.Id == id);
 
@@ -62,7 +55,7 @@ namespace API.Control.Services.Implementations
             try
             {
                 var entity = _mapper.Map<Image>(dto);
-                _context.Image.Add(entity);
+                _context.Images.Add(entity);
                 await _context.SaveChangesAsync();
                 return _mapper.Map<ImageReadDTO>(entity);
             }
@@ -73,7 +66,7 @@ namespace API.Control.Services.Implementations
             }
         }
 
-        public async Task<bool> UpdateAsync(Guid id, ImageUpdateDTO dto)
+        public async Task<ImageReadDTO?> UpdateAsync(Guid id, ImageUpdateDTO dto)
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("Id não pode ser vazio.", nameof(id));
@@ -81,12 +74,15 @@ namespace API.Control.Services.Implementations
                 throw new ArgumentNullException(nameof(dto));
             try
             {
-                var image = await _context.Image.FindAsync(id);
-                if (image == null) return false;
+                var image = await _context.Images
+                    .Include(i => i.DeployProfiles)
+                    .FirstOrDefaultAsync(i => i.Id == id);
+
+                if (image == null) return null;
 
                 _mapper.Map(dto, image);
                 await _context.SaveChangesAsync();
-                return true;
+                return _mapper.Map<ImageReadDTO>(image);
             }
             catch (Exception ex)
             {
@@ -101,10 +97,10 @@ namespace API.Control.Services.Implementations
                 throw new ArgumentException("Id não pode ser vazio.", nameof(id));
             try
             {
-                var image = await _context.Image.FindAsync(id);
+                var image = await _context.Images.FindAsync(id);
                 if (image == null) return false;
 
-                _context.Image.Remove(image);
+                _context.Images.Remove(image);
                 await _context.SaveChangesAsync();
                 return true;
             }

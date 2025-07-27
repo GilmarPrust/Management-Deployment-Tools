@@ -4,61 +4,6 @@
         <name>API.Control</name>
     </assembly>
     <members>
-        <member name="T:API.Control.Models.Application">
-            <summary>
-            Representa um aplicativo associado a dispositivos e modelos.
-            </summary>
-        </member>
-        <member name="T:API.Control.Models.AppxPackage">
-            <summary>
-            Representa um pacote Appx associado a dispositivos.
-            </summary>
-        </member>
-        <member name="T:API.Control.Models.DeployProfile">
-            <summary>
-            Representa um perfil de implantação, incluindo imagem, aplicativos e dispositivos associados.
-            </summary>
-        </member>
-        <member name="T:API.Control.Models.Device">
-            <summary>
-            Representa um dispositivo físico, incluindo informações de identificação e associações.
-            </summary>
-        </member>
-        <member name="T:API.Control.Models.DeviceModel">
-            <summary>
-            Representa um modelo de dispositivo, incluindo fabricante, modelo, tipo e associações.
-            </summary>
-        </member>
-        <member name="T:API.Control.Models.DriverPack">
-            <summary>
-            Representa um pacote de driver associado a um modelo de dispositivo.
-            </summary>
-        </member>
-        <member name="T:API.Control.Models.DriverPackOEM">
-            <summary>
-            Representa um pacote de driver associado a um modelo de dispositivo.
-            </summary>
-        </member>
-        <member name="T:API.Control.Models.Firmware">
-            <summary>
-            Representa um firmware associado a um modelo de dispositivo.
-            </summary>
-        </member>
-        <member name="T:API.Control.Models.Image">
-            <summary>
-            Representa uma imagem de sistema operacional, incluindo metadados e perfis associados.
-            </summary>
-        </member>
-        <member name="T:API.Control.Models.Inventory">
-            <summary>
-            Representa um inventário vinculado a um dispositivo.
-            </summary>
-        </member>
-        <member name="T:API.Control.Models.InventoryInfo">
-            <summary>
-            Informações detalhadas de inventário.
-            </summary>
-        </member>
         <member name="T:API.Control.DTOs.Application.ApplicationCreateDTO">
             <summary>
             DTO para criação de aplicativo.
@@ -69,6 +14,11 @@
             DTO para leitura de aplicativo.
             </summary>
         </member>
+        <member name="T:API.Control.DTOs.Application.ApplicationUpdateDTO">
+            <summary>
+            DTO para atualização de aplicativo.
+            </summary>
+        </member>
         <member name="T:API.Control.DTOs.AppxPackage.AppxPackageReadDTO">
             <summary>
             DTO para leitura de pacote Appx.
@@ -77,6 +27,31 @@
         <member name="T:API.Control.DTOs.DeployProfile.DeployProfileReadDTO">
             <summary>
             DTO para leitura de perfil de implantação.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.DeviceModel.DeviceModelApplicationReadDTO">
+            <summary>
+            DTO para leitura de modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.DeviceModel.DeviceModelApplicationsReadDTO">
+            <summary>
+            DTO para leitura de modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.DeviceModel.DeviceModelDevicesReadDTO">
+            <summary>
+            DTO para leitura de modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.DeviceModel.DeviceModelDriverPackReadDTO">
+            <summary>
+            DTO para leitura de modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.DeviceModel.DeviceModelFirmwareReadDTO">
+            <summary>
+            DTO para leitura de modelo de dispositivo.
             </summary>
         </member>
         <member name="T:API.Control.DTOs.DeviceModel.DeviceModelReadDTO">
@@ -104,127 +79,124 @@
             DTO para leitura de pacote de driver.
             </summary>
         </member>
-        <member name="T:API.Control.Migrations.migration1">
-            <inheritdoc />
+        <member name="T:API.Control.Entities.Application">
+            <summary>
+            Representa um aplicativo associado a dispositivos e modelos.
+            </summary>
         </member>
-        <member name="M:API.Control.Migrations.migration1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
+        <member name="T:API.Control.Entities.AppxPackage">
+            <summary>
+            Representa um pacote Appx associado a dispositivos.
+            </summary>
         </member>
-        <member name="M:API.Control.Migrations.migration1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
+        <member name="T:API.Control.Entities.DeployProfile">
+            <summary>
+            Representa um perfil de implantação, incluindo imagem, aplicativos e dispositivos associados.
+            </summary>
         </member>
-        <member name="M:API.Control.Migrations.migration1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
+        <member name="T:API.Control.Entities.Device">
+            <summary>
+            Representa um dispositivo físico, incluindo informações de identificação e associações.
+            </summary>
         </member>
-        <member name="T:API.Control.Migrations.migration2">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:API.Control.Migrations.migration3">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration3.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration3.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration3.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:API.Control.Migrations.migration4">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration4.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration4.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration4.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:API.Control.Migrations.migration5">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration5.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration5.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration5.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:API.Control.Migrations.migration6">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration6.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration6.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration6.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:API.Control.Migrations.migration7">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration7.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration7.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration7.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:API.Control.Migrations.migration8">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration8.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration8.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.migration8.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:API.Control.Migrations.NomeDaMigration">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.NomeDaMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.NomeDaMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:API.Control.Migrations.NomeDaMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:API.Control.ValueObjects.ComputerName">
+        <member name="T:API.Control.Entities.DeviceModel">
             <summary>
             Representa um modelo de dispositivo, incluindo fabricante, modelo, tipo e associações.
             </summary>
         </member>
-        <member name="T:API.Control.ValueObjects.MacAddress">
+        <member name="T:API.Control.Entities.DriverPack">
             <summary>
-            Representa um modelo de dispositivo.
+            Representa um pacote de driver associado a um modelo de dispositivo.
             </summary>
         </member>
-        <member name="T:ApplicationUpdateDTO">
+        <member name="T:API.Control.Entities.DriverPackOEM">
             <summary>
-            DTO para atualização de aplicativo.
+            Representa um pacote de driver OEM associado a um modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.Entities.Firmware">
+            <summary>
+            Representa um firmware associado a um modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.Entities.Image">
+            <summary>
+            Representa uma imagem de sistema operacional, incluindo metadados e perfis associados.
+            </summary>
+        </member>
+        <member name="T:API.Control.Entities.Inventory">
+            <summary>
+            Representa um inventário vinculado a um dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.Migrations.mig1">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:API.Control.Migrations.mig2">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:API.Control.Migrations.mig3">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig3.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig3.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig3.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:API.Control.Migrations.mig4">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig4.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig4.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig4.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:API.Control.Migrations.mig5">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig5.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig5.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.mig5.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:API.Control.ValueObjects.ComputerName">
+            <summary>
+            Representa um nome de computador válido.
+            </summary>
+        </member>
+        <member name="T:API.Control.ValueObjects.MacAddress">
+            <summary>
+            Representa um endereço MAC válido.
             </summary>
         </member>
     </members>

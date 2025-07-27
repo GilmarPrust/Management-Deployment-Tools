@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.Image
+﻿namespace API.Control.DTOs.Image
 {
     public class ImageCreateDTO
     {
@@ -30,5 +28,6 @@ namespace API.Control.DTOs.Image
 
         [Required] 
         public string Source { get; set; } = string.Empty;
+
     }
 }

@@ -1,13 +1,15 @@
-﻿using API.Control.DTOs.AppxPackage;
-using API.Control.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Control.Endpoints
+﻿namespace API.Control.Endpoints
 {
     public static class AppxPackageEndPoints
     {
         public static RouteGroupBuilder MapAppxPackageEndPoints(this RouteGroupBuilder group)
         {
+            group.MapGroup("/api/appxpackages")
+                .WithTags("Appx Packages")
+                .WithName("AppxPackageEndpoints")
+                .WithSummary("Endpoints for managing Appx Packages")
+                .WithDescription("Provides endpoints to create, read, update, and delete Appx Packages.");
+
             // GET all
             group.MapGet("/", async ([FromServices] IAppxPackageService service) =>
                 Results.Ok(await service.GetAllAsync()));
@@ -33,8 +35,8 @@ namespace API.Control.Endpoints
             {
                 if (dto == null)
                     return Results.BadRequest("Dados obrigatórios não informados.");
-                var success = await service.UpdateAsync(id, dto);
-                return success ? Results.NoContent() : Results.NotFound();
+                var updated = await service.UpdateAsync(id, dto);
+                return updated is not null ? Results.Ok(updated) : Results.NotFound();
             });
 
             // DELETE

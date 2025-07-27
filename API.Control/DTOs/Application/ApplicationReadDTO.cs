@@ -15,7 +15,6 @@
         public string Filter { get; init; } = string.Empty;
         public string Hash { get; init; } = string.Empty;
         public bool Enabled { get; init; }
-
         public List<Guid> DeviceIds { get; init; } = new();
         public List<Guid> DeviceModelIds { get; init; } = new();
         public List<Guid> ProfileDeployIds { get; init; } = new();

@@ -1,13 +1,15 @@
-﻿using API.Control.DTOs.Firmware;
-using API.Control.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Control.Endpoints
+﻿namespace API.Control.Endpoints
 {
     public static class FirmwareEndpoints
     {
         public static RouteGroupBuilder MapFirmwareEndpoints(this RouteGroupBuilder group)
         {
+            group.MapGroup("/api/firmwares")
+                .WithTags("Firmware")
+                .WithName("FirmwareEndpoints")
+                .WithSummary("Endpoints for managing firmware")
+                .WithDescription("Provides endpoints to create, read, update, and delete firmware.");
+
             // GET all
             group.MapGet("/", async ([FromServices] IFirmwareService service) =>
                 Results.Ok(await service.GetAllAsync()));

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.AppxPackage
+﻿namespace API.Control.DTOs.AppxPackage
 {
     public class AppxPackageCreateDTO
     {

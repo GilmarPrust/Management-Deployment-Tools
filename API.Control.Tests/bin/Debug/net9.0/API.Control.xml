@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API.Control</name>
+    </assembly>
+    <members>
+        <member name="T:API.Control.Models.Application">
+            <summary>
+            Representa um aplicativo associado a dispositivos e modelos.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.AppxPackage">
+            <summary>
+            Representa um pacote Appx associado a dispositivos.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.DeployProfile">
+            <summary>
+            Representa um perfil de implantação, incluindo imagem, aplicativos e dispositivos associados.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.Device">
+            <summary>
+            Representa um dispositivo físico, incluindo informações de identificação e associações.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.DeviceModel">
+            <summary>
+            Representa um modelo de dispositivo, incluindo fabricante, modelo, tipo e associações.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.DriverPack">
+            <summary>
+            Representa um pacote de driver associado a um modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.DriverPackOEM">
+            <summary>
+            Representa um pacote de driver associado a um modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.Firmware">
+            <summary>
+            Representa um firmware associado a um modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.Image">
+            <summary>
+            Representa uma imagem de sistema operacional, incluindo metadados e perfis associados.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.Inventory">
+            <summary>
+            Representa um inventário vinculado a um dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.Models.InventoryInfo">
+            <summary>
+            Informações detalhadas de inventário.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.Application.ApplicationCreateDTO">
+            <summary>
+            DTO para criação de aplicativo.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.Application.ApplicationReadDTO">
+            <summary>
+            DTO para leitura de aplicativo.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.Application.ApplicationUpdateDTO">
+            <summary>
+            DTO para atualização de aplicativo.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.AppxPackage.AppxPackageReadDTO">
+            <summary>
+            DTO para leitura de pacote Appx.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.DeployProfile.DeployProfileReadDTO">
+            <summary>
+            DTO para leitura de perfil de implantação.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.DeviceModel.DeviceModelReadDTO">
+            <summary>
+            DTO para leitura de modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.DeviceModel.DeviceModelUpdateDTO">
+            <summary>
+            DTO para atualização de modelo de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.Device.DeviceReadDTO">
+            <summary>
+            DTO para leitura de dispositivo.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.DriverPackOEM.DriverPackOEMReadDTO">
+            <summary>
+            DTO para leitura de pacote de driver.
+            </summary>
+        </member>
+        <member name="T:API.Control.DTOs.DriverPack.DriverPackReadDTO">
+            <summary>
+            DTO para leitura de pacote de driver.
+            </summary>
+        </member>
+        <member name="T:API.Control.Migrations.migration1">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.migration1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.migration1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Control.Migrations.migration1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:API.Control.ValueObjects.ComputerName">
+            <summary>
+            Representa um modelo de dispositivo, incluindo fabricante, modelo, tipo e associações.
+            </summary>
+        </member>
+        <member name="T:API.Control.ValueObjects.MacAddress">
+            <summary>
+            Representa um modelo de dispositivo.
+            </summary>
+        </member>
+    </members>
+</doc>

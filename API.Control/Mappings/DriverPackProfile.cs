@@ -1,8 +1,4 @@
-﻿using API.Control.DTOs.DriverPack;
-using API.Control.Models;
-using AutoMapper;
-
-namespace API.Control.Mappings
+﻿namespace API.Control.Mappings
 {
     public class DriverPackProfile : Profile
     {

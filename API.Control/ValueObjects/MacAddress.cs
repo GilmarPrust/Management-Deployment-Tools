@@ -1,20 +1,16 @@
-﻿using System.Text.RegularExpressions;
-
-namespace API.Control.ValueObjects
+﻿namespace API.Control.ValueObjects
 {
     /// <summary>
-    /// Representa um modelo de dispositivo.
+    /// Representa um endereço MAC válido.
     /// </summary>
     public sealed class MacAddress
     {
-        public string Value { get; }
+        public string Value { get; } = string.Empty;
+
+        // Construtor padrão privado para o EF Core
+        private MacAddress() { }
 
         public MacAddress(string value)
-        {
-            Value = value.ToUpper();
-        }
-
-        public static MacAddress Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException("MAC address não pode ser vazio.", nameof(value));
@@ -22,7 +18,7 @@ namespace API.Control.ValueObjects
             if (!Regex.IsMatch(value, @"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$"))
                 throw new ArgumentException("Formato de MAC address inválido.", nameof(value));
 
-            return new MacAddress(value);
+            Value = value.ToUpper();
         }
 
         public override string ToString() => Value;

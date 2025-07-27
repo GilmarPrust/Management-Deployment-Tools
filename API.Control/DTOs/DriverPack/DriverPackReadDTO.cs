@@ -1,6 +1,4 @@
-﻿using API.Control.DTOs.DeviceModel;
-
-namespace API.Control.DTOs.DriverPack
+﻿namespace API.Control.DTOs.DriverPack
 {
     /// <summary>
     /// DTO para leitura de pacote de driver.
@@ -15,6 +13,5 @@ namespace API.Control.DTOs.DriverPack
         public string Hash { get; init; } = string.Empty;
         public bool Enabled { get; init; }
 
-        public DeviceModelReadDTO? DeviceModel { get; init; } = null;
     }
 }

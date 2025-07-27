@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace API.Control.DTOs.DeviceModel
 {
     public class DeviceModelAddApplicationDTO

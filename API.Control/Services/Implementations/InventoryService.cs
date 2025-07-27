@@ -1,10 +1,4 @@
-﻿using API.Control.DTOs.Inventory;
-using API.Control.Models;
-using API.Control.Services.Interfaces;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-
-namespace API.Control.Services.Implementations
+﻿namespace API.Control.Services.Implementations
 {
     public class InventoryService : IInventoryService
     {
@@ -42,7 +36,7 @@ namespace API.Control.Services.Implementations
             try
             {
                 var inventory = await _context.Inventories
-                    .Include(i => i.Infos)
+                    .Include(i => i.Hardware)
                     .FirstOrDefaultAsync(i => i.Id == id);
                 return inventory == null ? null : _mapper.Map<InventoryReadDTO>(inventory);
             }

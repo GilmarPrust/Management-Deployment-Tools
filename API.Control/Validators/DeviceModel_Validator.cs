@@ -1,7 +1,4 @@
-﻿using API.Control.DTOs.DeviceModel;
-using FluentValidation;
-
-namespace API.Control.Validators
+﻿namespace API.Control.Validators
 {
     public class DeviceModel_Validator : AbstractValidator<DeviceModelCreateDTO>
     {

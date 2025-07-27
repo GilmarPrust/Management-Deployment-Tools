@@ -1,9 +1,4 @@
-﻿using API.Control.DTOs.AppxPackage;
-using API.Control.Models;
-using AutoMapper;
-using System.Linq;
-
-namespace API.Control.Mappings
+﻿namespace API.Control.Mappings
 {
     public class AppxPackageProfile : Profile
     {

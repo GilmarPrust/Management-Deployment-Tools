@@ -1,17 +1,5 @@
-using API.Control.Endpoints;
-using API.Control.Mappings;
-using API.Control.Models;
-using API.Control.Services.Implementations;
-using API.Control.Services.Interfaces;
-using API.Control.Validators;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
+
+using API.Control.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,10 +53,12 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile(new DeviceModelProfile());
     cfg.AddProfile(new DeviceProfile());
     cfg.AddProfile(new DriverPackProfile());
+    cfg.AddProfile(new DriverPackOEMProfile());
     cfg.AddProfile(new FirmwareProfile());
     cfg.AddProfile(new ImageProfile());
     cfg.AddProfile(new InventoryProfile());
     cfg.AddProfile(new ProfileTaskProfile());
+    cfg.AddProfile(new ManufacturerProfile());
 });
 
 
@@ -79,9 +69,12 @@ builder.Services.AddScoped<IDeployProfileService, DeployProfileService>();
 builder.Services.AddScoped<IDeviceModelService, DeviceModelService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IDriverPackService, DriverPackService>();
+builder.Services.AddScoped<IDriverPackOEMService, DriverPackOEMService>();
 builder.Services.AddScoped<IFirmwareService, FirmwareService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IProfileTaskService, ProfileTaskService>();
+builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
 
 
 // Adicione os serviços de validação
@@ -111,17 +104,19 @@ if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("EnableS
 }
 
 
-
 // Configuração do CORS, permitindo qualquer origem, cabeçalho e método.
-app.MapGroup("/api/applications").WithTags("Applications").MapApplicationEndpoints();
-app.MapGroup("/api/appxpackages").WithTags("AppxPackages").MapAppxPackageEndPoints();
-app.MapGroup("/api/deployprofiles").WithTags("DeployProfiles").MapDeployProfileEndpoints();
-app.MapGroup("/api/devices").WithTags("Devices").MapDeviceEndpoints();
-app.MapGroup("/api/devicemodels").WithTags("DeviceModels").MapDeviceModelsEndpoints();
-app.MapGroup("/api/driverpacks").WithTags("DriverPacks").MapDriverPackEndpoints();
-app.MapGroup("/api/firmwares").WithTags("Firmwares").MapFirmwareEndpoints();
-app.MapGroup("/api/image").WithTags("Images").MapImageEndpoints();
-app.MapGroup("/api/inventory").WithTags("Inventory").MapInventoryEndpoints();
+app.MapGroup("/api/applications").WithTags("Application").MapApplicationEndpoints();
+app.MapGroup("/api/appxpackages").WithTags("AppxPackage").MapAppxPackageEndPoints();
+app.MapGroup("/api/deployprofiles").WithTags("DeployProfile").MapDeployProfileEndpoints();
+app.MapGroup("/api/devices").WithTags("Device").MapDeviceEndpoints();
+app.MapGroup("/api/devicemodels").WithTags("DeviceModel").MapDeviceModelsEndpoints();
+app.MapGroup("/api/driverpacks").WithTags("DriverPack").MapDriverPackEndpoints();
+app.MapGroup("/api/driverpacksOEM").WithTags("DriverPackOEM").MapDriverPackEndpoints();
+app.MapGroup("/api/firmwares").WithTags("Firmware").MapFirmwareEndpoints();
+app.MapGroup("/api/images").WithTags("Image").MapImageEndpoints();
+app.MapGroup("/api/inventories").WithTags("Inventory").MapInventoryEndpoints();
+app.MapGroup("/api/profiletasks").WithTags("ProfileTask").MapProfileTaskEndpoints();
+app.MapGroup("/api/manufacturers").WithTags("Manufacturer").MapManufacturerEndpoints();
 
 // Middleware para uso de arquivos estáticos, como imagens, CSS e JavaScript.
 app.UseStaticFiles();
@@ -136,5 +131,14 @@ app.Map("/error", (HttpContext httpContext) =>
 {
     return Results.Problem("Ocorreu um erro inesperado.");
 });
+
+
+// Migração automática ou criação de banco
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated(); // ou db.Database.Migrate();
+    db.SeedDefaultData(); // chama o método de seed para dados padrão
+}
 
 app.Run();

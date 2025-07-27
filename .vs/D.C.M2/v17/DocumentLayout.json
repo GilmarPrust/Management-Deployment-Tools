@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "D:\\_DEV\\PROJETOS\\D.C.M2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A69CA26F-6212-771D-23D1-D766D06EB793}|ProjetoPedidos\\ProjetoPedidos.csproj|d:\\_dev\\projetos\\d.c.m2\\projetopedidos\\controllers\\clientescontroller.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A69CA26F-6212-771D-23D1-D766D06EB793}|ProjetoPedidos\\ProjetoPedidos.csproj|solutionrelative:projetopedidos\\controllers\\clientescontroller.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\services\\implementations\\inventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|solutionrelative:api.control\\services\\implementations\\inventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A69CA26F-6212-771D-23D1-D766D06EB793}|ProjetoPedidos\\ProjetoPedidos.csproj|d:\\_dev\\projetos\\d.c.m2\\projetopedidos\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A69CA26F-6212-771D-23D1-D766D06EB793}|ProjetoPedidos\\ProjetoPedidos.csproj|solutionrelative:projetopedidos\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\entities\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|solutionrelative:api.control\\entities\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A69CA26F-6212-771D-23D1-D766D06EB793}|ProjetoPedidos\\ProjetoPedidos.csproj|d:\\_dev\\projetos\\d.c.m2\\projetopedidos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A69CA26F-6212-771D-23D1-D766D06EB793}|ProjetoPedidos\\ProjetoPedidos.csproj|solutionrelative:projetopedidos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A69CA26F-6212-771D-23D1-D766D06EB793}|ProjetoPedidos\\ProjetoPedidos.csproj|d:\\_dev\\projetos\\d.c.m2\\projetopedidos\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A69CA26F-6212-771D-23D1-D766D06EB793}|ProjetoPedidos\\ProjetoPedidos.csproj|solutionrelative:projetopedidos\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|solutionrelative:api.control\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 218,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ClientesController.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\ProjetoPedidos\\Controllers\\ClientesController.cs",
-              "RelativeDocumentMoniker": "ProjetoPedidos\\Controllers\\ClientesController.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\ProjetoPedidos\\Controllers\\ClientesController.cs",
-              "RelativeToolTip": "ProjetoPedidos\\Controllers\\ClientesController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "Inventory.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Entities\\Inventory.cs",
+              "RelativeDocumentMoniker": "API.Control\\Entities\\Inventory.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Entities\\Inventory.cs",
+              "RelativeToolTip": "API.Control\\Entities\\Inventory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-06T00:07:07.92Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ClienteService.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\ProjetoPedidos\\Services\\ClienteService.cs",
-              "RelativeDocumentMoniker": "ProjetoPedidos\\Services\\ClienteService.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\ProjetoPedidos\\Services\\ClienteService.cs",
-              "RelativeToolTip": "ProjetoPedidos\\Services\\ClienteService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T23:56:27.039Z",
+              "WhenOpened": "2025-07-27T20:34:42.493Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\ProjetoPedidos\\Program.cs",
-              "RelativeDocumentMoniker": "ProjetoPedidos\\Program.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\ProjetoPedidos\\Program.cs",
-              "RelativeToolTip": "ProjetoPedidos\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAARAAAAAAAAAA==",
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "API.Control\\Data\\AppDbContext.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "API.Control\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAKkAAAAAAAAAAAAqwMoAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T23:56:06.094Z",
+              "WhenOpened": "2025-07-27T20:33:44.968Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\ProjetoPedidos\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "ProjetoPedidos\\Data\\AppDbContext.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\ProjetoPedidos\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "ProjetoPedidos\\Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAABAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "InventoryService.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Services\\Implementations\\InventoryService.cs",
+              "RelativeDocumentMoniker": "API.Control\\Services\\Implementations\\InventoryService.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Services\\Implementations\\InventoryService.cs",
+              "RelativeToolTip": "API.Control\\Services\\Implementations\\InventoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T23:54:10.611Z",
+              "WhenOpened": "2025-07-27T20:25:20.892Z",
               "EditorCaption": ""
             }
           ]

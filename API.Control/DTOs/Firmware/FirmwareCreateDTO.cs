@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.Firmware
+﻿namespace API.Control.DTOs.Firmware
 {
     public class FirmwareCreateDTO
     {

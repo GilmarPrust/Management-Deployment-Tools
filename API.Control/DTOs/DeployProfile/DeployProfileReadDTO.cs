@@ -1,7 +1,4 @@
-﻿using API.Control.DTOs.Image;
-using API.Control.DTOs.ProfileTask;
-
-namespace API.Control.DTOs.DeployProfile
+﻿namespace API.Control.DTOs.DeployProfile
 {
     /// <summary>
     /// DTO para leitura de perfil de implantação.
@@ -12,7 +9,7 @@ namespace API.Control.DTOs.DeployProfile
         public string Name { get; init; } = string.Empty;
         public string Description { get; init; } = string.Empty;
         public bool Enabled { get; init; }
-        public ImageReadDTO Image { get; init; } = null!;
+        public ManufacturerReadDTO Image { get; init; } = null!;
         public List<Guid> ApplicationIds { get; init; } = new();
         public List<Guid> DeviceIds { get; init; } = new();
         public List<String> SourcePath { get; set; } = new List<String>();

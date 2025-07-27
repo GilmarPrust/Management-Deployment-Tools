@@ -1,8 +1,4 @@
-﻿using API.Control.DTOs.DeployProfile;
-using API.Control.Models;
-using AutoMapper;
-
-namespace API.Control.Mappings
+﻿namespace API.Control.Mappings
 {
     public class DeployProfileProfile : Profile
     {
@@ -16,7 +12,7 @@ namespace API.Control.Mappings
             CreateMap<DeployProfileCreateDTO, DeployProfile>();
 
             // DTO de atualização → Entidade
-            CreateMap<DeployTaskUpdateDTO, DeployProfile>();
+            CreateMap<DeployProfileUpdateDTO, DeployProfile>();
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Numerics;
-using System.Runtime.Intrinsics.X86;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace API.Control.DTOs.DeviceModel
+﻿namespace API.Control.DTOs.DeviceModel
 {
     /// <summary>
     /// DTO para atualização de modelo de dispositivo.
@@ -21,8 +16,6 @@ namespace API.Control.DTOs.DeviceModel
         [StringLength(50, ErrorMessage = "O campo Type deve ter no máximo 50 caracteres.")]
         public string Type { get; set; } = string.Empty;
 
-        [Required]
-        public bool Enabled { get; set; } = true;
 
     }
 }

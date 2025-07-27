@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace API.Control.DTOs.DriverPackOEM
+﻿namespace API.Control.DTOs.DriverPackOEM
 {
     public class DriverPackOEMCreateDTO
     {
@@ -18,6 +16,9 @@ namespace API.Control.DTOs.DriverPackOEM
 
         [Required] 
         public string Hash { get; set; } = string.Empty;
+
+        [Required]
+        public Guid DeviceModelId { get; set; }
 
     }
 }

@@ -1,6 +1,4 @@
-﻿using API.Control.DTOs.ProfileTask;
-
-namespace API.Control.Services.Interfaces
+﻿namespace API.Control.Services.Interfaces
 {
     public interface IProfileTaskService
     {
