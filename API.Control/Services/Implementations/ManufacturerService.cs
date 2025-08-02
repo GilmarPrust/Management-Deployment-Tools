@@ -1,4 +1,6 @@
-﻿namespace API.Control.Services.Implementations
+﻿using API.Control.Entities.Auxiliary;
+
+namespace API.Control.Services.Implementations
 {
     public class ManufacturerService : IManufacturerService
     {

@@ -1,16 +1,38 @@
 ﻿namespace API.Control.DTOs.Firmware
 {
+    /// <summary>
+    /// DTO para criação de firmware.
+    /// </summary>
     public class FirmwareCreateDTO
     {
+        /// <summary>
+        /// Nome do arquivo do firmware.
+        /// </summary>
         [Required]
-        public string FileName { get; set; } = string.Empty;
+        public string FileName { get; init; } = string.Empty;
+
+        /// <summary>
+        /// Versão do firmware.
+        /// </summary>
         [Required]
-        public string Version { get; set; } = string.Empty;
+        public string Version { get; init; } = string.Empty;
+
+        /// <summary>
+        /// Caminho de origem do firmware.
+        /// </summary>
         [Required]
-        public string Source { get; set; } = string.Empty;
+        public string Source { get; init; } = string.Empty;
+
+        /// <summary>
+        /// Hash do arquivo do firmware.
+        /// </summary>
         [Required]
-        public string Hash { get; set; } = string.Empty;
+        public string Hash { get; init; } = string.Empty;
+
+        /// <summary>
+        /// Identificador do modelo de dispositivo associado ao firmware.
+        /// </summary>
         [Required]
-        public Guid DeviceModelId { get; set; }
+        public Guid DeviceModelId { get; init; }
     }
 }

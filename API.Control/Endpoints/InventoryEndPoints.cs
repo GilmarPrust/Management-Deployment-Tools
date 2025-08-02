@@ -30,14 +30,6 @@
                 return Results.Created($"/api/inventories/{created.Id}", created);
             });
 
-            // PUT (atualização)
-            group.MapPut("/{id:guid}", async ([FromServices] IInventoryService service, Guid id, InventoryUpdateDTO dto) =>
-            {
-                if (dto == null)
-                    return Results.BadRequest("Dados obrigatórios não informados.");
-                var success = await service.UpdateAsync(id, dto);
-                return success ? Results.NoContent() : Results.NotFound();
-            });
 
             // DELETE
             group.MapDelete("/{id:guid}", async ([FromServices] IInventoryService service, Guid id) =>

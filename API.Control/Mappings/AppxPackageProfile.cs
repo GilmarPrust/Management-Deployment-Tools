@@ -5,8 +5,7 @@
         public AppxPackageProfile()
         {
             // Entidade → DTO de leitura
-            CreateMap<AppxPackage, AppxPackageReadDTO>()
-                .ForMember(dest => dest.DeviceIds, opt => opt.MapFrom(src => src.Devices.Select(d => d.Id)));
+            CreateMap<AppxPackage, AppxPackageReadDTO>();
 
             // DTO de criação → Entidade
             CreateMap<AppxPackageCreateDTO, AppxPackage>();

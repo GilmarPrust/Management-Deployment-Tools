@@ -1,4 +1,6 @@
-﻿namespace API.Control.Endpoints
+﻿using API.Control.DTOs.DeployProfile.Applications;
+
+namespace API.Control.Endpoints
 {
     public static class DeployProfileEndpoints
     {
@@ -44,6 +46,42 @@
             {
                 var deleted = await service.DeleteAsync(id);
                 return deleted ? Results.NoContent() : Results.NotFound();
+            });
+
+
+            // GET - Applications by DeployProfileId
+
+            group.MapGet("/{id:guid}/applications", async (Guid id, [FromServices] IDeployProfileService service) =>
+            {
+                var applications = await service.GetApplicationsByDeployProfileIdAsync(id);
+                return applications is not null ? Results.Ok(applications) : Results.NotFound();
+            });
+            
+
+
+            // GET - Devices by DeployProfileId
+            group.MapGet("/{id:guid}/devices", async (Guid id, [FromServices] IDeployProfileService service) =>
+            {
+                var devices = await service.GetDevicesByDeployProfileIdAsync(id);
+                return devices is not null ? Results.Ok(devices) : Results.NotFound();
+            });
+            // PUT - Update devices
+            group.MapPut("/{id:guid}/devices", async (Guid id, AppxPackageDevicesUpdateDTO dto, [FromServices] IDeployProfileService service) =>
+            {
+                var result = await service.UpdateDevicesAsync(id, dto.DeviceIds);
+                return result ? Results.NoContent() : Results.NotFound();
+            });
+            // PUT - Add device
+            group.MapPut("/{id:guid}/device", async (Guid id, AppxPackageDevicesAddDTO dto, [FromServices] IDeployProfileService service) =>
+            {
+                var result = await service.AddDeviceAsync(id, dto.DeviceId);
+                return result ? Results.NoContent() : Results.NotFound();
+            });
+            // DELETE - Remove device
+            group.MapDelete("/{id:guid}/device/{deviceId:guid}", async (Guid id, Guid deviceId, [FromServices] IDeployProfileService service) =>
+            {
+                var result = await service.RemoveDeviceAsync(id, deviceId);
+                return result ? Results.NoContent() : Results.NotFound();
             });
 
             return group;

@@ -1,5 +1,10 @@
+using OperatingSystem = API.Control.Entities.Auxiliary.OperatingSystem;
+
 namespace API.Control.Data
 {
+    /// <summary>
+    /// Contexto principal do Entity Framework para o domínio da aplicação.
+    /// </summary>
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
@@ -15,8 +20,38 @@ namespace API.Control.Data
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<DeployProfile> DeployProfiles { get; set; }
         public DbSet<ProfileTask> ProfileTasks { get; set; }
-        public DbSet<PathToCopy> PathsToCopy { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
+        public DbSet<OperatingSystem> OperatingSystems { get; set; }
+
+        /// <summary>
+        /// Atualiza o campo UpdatedAt automaticamente para entidades modificadas.
+        /// </summary>
+        public override int SaveChanges()
+        {
+            SetUpdatedAt();
+            return base.SaveChanges();
+        }
+
+        /// <summary>
+        /// Atualiza o campo UpdatedAt automaticamente para entidades modificadas (assíncrono).
+        /// </summary>
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            SetUpdatedAt();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Define a data de atualização para entidades modificadas.
+        /// </summary>
+        private void SetUpdatedAt()
+        {
+            var entidadesAlteradas = ChangeTracker.Entries<BaseEntity>()
+                .Where(e => e.State == EntityState.Modified);
+
+            foreach (var entry in entidadesAlteradas)
+                entry.Entity.UpdatedAt = DateTime.UtcNow;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -67,7 +102,6 @@ namespace API.Control.Data
             {
                 entity.HasKey(dm => dm.Id);
 
-                // Corrigido: Remover mapeamento direto da propriedade de navegação Manufacturer
                 entity.Property(dm => dm.Model)
                       .IsRequired()
                       .HasMaxLength(100);
@@ -139,16 +173,6 @@ namespace API.Control.Data
                 entity.HasMany(dp => dp.ProfileTasks);
             });
 
-            // PATH TO COPY
-            modelBuilder.Entity<PathToCopy>(entity =>
-            {
-                entity.HasKey(pc => pc.Id);
-
-                entity.Property(pc => pc.Path)
-                      .IsRequired()
-                      .HasMaxLength(100);
-            });
-
             // PROFILE TASK
             modelBuilder.Entity<ProfileTask>(entity =>
             {
@@ -157,6 +181,10 @@ namespace API.Control.Data
                 entity.Property(pt => pt.Name)
                       .IsRequired()
                       .HasMaxLength(100);
+
+                // Salvar o enum ProfileTaskPhase como string no banco
+                entity.Property(pt => pt.Phase)
+                      .HasConversion<string>();
             });
 
             // IMAGE
@@ -174,10 +202,6 @@ namespace API.Control.Data
                 entity.Property(i => i.ImageIndex)
                       .IsRequired()
                       .HasMaxLength(20);
-
-                entity.Property(i => i.ShortName)
-                      .IsRequired()
-                      .HasMaxLength(50);
 
                 entity.Property(i => i.EditionId)
                       .IsRequired()
@@ -201,6 +225,13 @@ namespace API.Control.Data
             // INVENTORY
             modelBuilder.Entity<Inventory>()
                 .Property(e => e.Hardware)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                    v => string.IsNullOrEmpty(v) ? new Dictionary<string, string>() : JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions?)null)
+                );
+
+            modelBuilder.Entity<Inventory>()
+                .Property(e => e.Softwares)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
                     v => string.IsNullOrEmpty(v) ? new Dictionary<string, string>() : JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions?)null)

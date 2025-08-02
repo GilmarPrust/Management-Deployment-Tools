@@ -1,19 +1,13 @@
 ﻿namespace API.Control.DTOs.Firmware
 {
+    /// <summary>
+    /// DTO para atualização de firmware.
+    /// </summary>
     public class FirmwareUpdateDTO
     {
-        [Required]
-        public string FileName { get; set; } = string.Empty;
-        [Required]
-        public string Version { get; set; } = string.Empty;
-        [Required]
-        public string Source { get; set; } = string.Empty;
-        [Required]
-        public string Hash { get; set; } = string.Empty;
-
+        /// <summary>
+        /// Indica se o firmware está habilitado.
+        /// </summary>
         public bool Enabled { get; init; }
-
-        [Required]
-        public Guid DeviceModelId { get; set; }
     }
 }

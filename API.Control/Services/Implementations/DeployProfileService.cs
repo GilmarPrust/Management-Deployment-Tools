@@ -128,5 +128,35 @@
                 throw;
             }
         }
+
+        public Task<bool> UpdateDevicesAsync(Guid id, IReadOnlyList<Guid> deviceIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> AddDeviceAsync(Guid id, Guid deviceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RemoveDeviceAsync(Guid id, Guid deviceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<object?> GetDevicesByDeployProfileIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<object?> GetApplicationsByDeployProfileIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateApplicationsAsync(Guid id, object applicationIds)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

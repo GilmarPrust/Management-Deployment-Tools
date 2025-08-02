@@ -1,37 +1,72 @@
 ﻿namespace API.Control.DTOs.Image
 {
+    /// <summary>
+    /// DTO para atualização de imagem de sistema operacional.
+    /// </summary>
     public class ImageUpdateDTO
     {
-        [Required]
-        public string ImageName { get; set; } = string.Empty;
+        /// <summary>
+        /// Nome da imagem do sistema operacional.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string ImageName { get; init; } = string.Empty;
 
-        [Required]
-        public string ImageDescription { get; set; } = string.Empty;
+        /// <summary>
+        /// Descrição da imagem do sistema operacional.
+        /// </summary>
+        [Required, StringLength(250)]
+        public string ImageDescription { get; init; } = string.Empty;
 
-        [Required]
-        public string ImageIndex { get; set; } = string.Empty;
+        /// <summary>
+        /// Índice da imagem no arquivo de origem.
+        /// </summary>
+        [Required, Range(1, 100)]
+        public int ImageIndex { get; init; }
 
-        [Required]
-        public string ShortName { get; set; } = string.Empty;
+        /// <summary>
+        /// Identificador da edição da imagem.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string EditionId { get; init; } = string.Empty;
 
-        [Required]
-        public string EditionId { get; set; } = string.Empty;
+        /// <summary>
+        /// Versão da imagem.
+        /// </summary>
+        [Required, StringLength(20)]
+        public string Version { get; init; } = string.Empty;
 
+        /// <summary>
+        /// Idiomas suportados pela imagem.
+        /// </summary>
         [Required]
-        public string Version { get; set; } = string.Empty;
+        public IReadOnlyList<string> Languages { get; init; } = Array.Empty<string>();
 
+        /// <summary>
+        /// Tamanho da imagem em bytes.
+        /// </summary>
         [Required]
-        public string[] Languages { get; set; } = Array.Empty<string>();
+        public long ImageSize { get; init; } = 0;
 
-        [Required]
-        public long ImageSize { get; set; } = 0;
+        /// <summary>
+        /// Caminho de origem da imagem.
+        /// </summary>
+        [Required, StringLength(250)]
+        public string Source { get; init; } = string.Empty;
 
-        [Required]
-        public string Source { get; set; } = string.Empty;
-
+        /// <summary>
+        /// Indica se a imagem está habilitada.
+        /// </summary>
         public bool Enabled { get; init; }
 
-        public List<Guid> DeployProfileIds { get; init; } = new();
+        /// <summary>
+        /// Lista de IDs dos perfis de implantação associados à imagem.
+        /// </summary>
+        public IReadOnlyList<Guid> DeployProfileIds { get; init; } = Array.Empty<Guid>();
 
+        /// <summary>
+        /// Identificador do sistema operacional associado à imagem.
+        /// </summary>
+        [Required]
+        public Guid OperatingSystemId { get; init; }
     }
 }

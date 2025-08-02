@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<NoWarn>$(NoWarn);1591</NoWarn>
+	<UserSecretsId>c56fe565-f546-480b-8285-c8b0500b0705</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,7 @@
     <EmbeddedResource Remove="#HELP\**" />
     <None Remove="#HELP\**" />
   </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="15.0.1" />
@@ -36,8 +38,15 @@
 
   <ItemGroup>
     <Folder Include="Auth\" />
+    <Folder Include="DTOs\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Tests\EndPoints\" />
+    <Folder Include="Tests\" />
+    <Folder Include="Data\" />
+    <Folder Include="EndPoints\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Mappings\" />
+    <Folder Include="Services\" />
+    <Folder Include="Validators\" />
   </ItemGroup>
 
 </Project>

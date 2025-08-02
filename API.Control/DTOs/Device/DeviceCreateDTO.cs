@@ -1,16 +1,31 @@
 ﻿namespace API.Control.DTOs.Device
 {
+    /// <summary>
+    /// DTO para criação de dispositivo.
+    /// </summary>
     public class DeviceCreateDTO
     {
-        [Required] 
+        /// <summary>
+        /// Nome do computador do dispositivo.
+        /// </summary>
+        [Required]
         public string ComputerName { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Número de série do dispositivo.
+        /// </summary>
         public string SerialNumber { get; set; } = string.Empty;
 
-        [Required] 
+        /// <summary>
+        /// Endereço MAC do dispositivo.
+        /// </summary>
+        [Required]
         public string MacAddress { get; set; } = string.Empty;
 
-        [Required] 
+        /// <summary>
+        /// ID do modelo de dispositivo.
+        /// </summary>
+        [Required]
         public Guid DeviceModelId { get; set; }
     }
 }

@@ -10,8 +10,6 @@
             // DTO to Entity mappings
             CreateMap<InventoryCreateDTO, Inventory>();
 
-            // DTO to Entity mappings for updates
-            CreateMap<InventoryUpdateDTO, Inventory>();
         }
     }
 }

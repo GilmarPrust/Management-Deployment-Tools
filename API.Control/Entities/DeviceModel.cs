@@ -3,26 +3,49 @@
     /// <summary>
     /// Representa um modelo de dispositivo, incluindo fabricante, modelo, tipo e associações.
     /// </summary>
-    public class DeviceModel : _BaseEntity
+    public class DeviceModel : BaseEntity
     {
-
+        /// <summary>
+        /// Nome do fabricante do modelo de dispositivo.
+        /// </summary>
         [Required, StringLength(50)]
         public required string Manufacturer { get; init; }
 
+        /// <summary>
+        /// Nome do modelo do dispositivo.
+        /// </summary>
         [Required, StringLength(50)]
         public required string Model { get; set; }
 
+        /// <summary>
+        /// Tipo do modelo de dispositivo.
+        /// </summary>
         [StringLength(50)]
         public string Type { get; set; } = string.Empty;
 
-
-        // Construtor vazio para o EF
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
         public DeviceModel() { }
 
-
+        /// <summary>
+        /// Firmware associado ao modelo de dispositivo.
+        /// </summary>
         public virtual Firmware? Firmware { get; set; } = null;
+
+        /// <summary>
+        /// Dispositivos físicos associados ao modelo.
+        /// </summary>
         public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+
+        /// <summary>
+        /// Pacotes de driver OEM associados ao modelo.
+        /// </summary>
         public virtual ICollection<DriverPackOEM> DriverPacksOEM { get; set; } = new List<DriverPackOEM>();
+
+        /// <summary>
+        /// Aplicações associadas ao modelo de dispositivo.
+        /// </summary>
         public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
     }
 }

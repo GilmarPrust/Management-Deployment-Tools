@@ -5,8 +5,7 @@
         public DeployProfileProfile()
         {
             // Entidade → DTO de leitura
-            CreateMap<DeployProfile, DeployProfileReadDTO>()
-                .ForMember(dest => dest.DeviceIds, opt => opt.MapFrom(src => src.Devices.Select(d => d.Id)));
+            CreateMap<DeployProfile, DeployProfileReadDTO>();
 
             // DTO de criação → Entidade
             CreateMap<DeployProfileCreateDTO, DeployProfile>();

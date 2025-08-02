@@ -1,11 +1,24 @@
-﻿namespace API.Control.Helpers
+﻿
+namespace API.Control.Helpers
 {
     public static class DbInitializer
     {
         public static void SeedDefaultData(this AppDbContext context)
         {
+            // 0. Adiciona sistemas operacionais, se não existirem.
+            if (!context.OperatingSystems.Any())
+            {
+                context.OperatingSystems.AddRange(
+                    new API.Control.Entities.Auxiliary.OperatingSystem { Name = "Windows 11", ShortName = "Win11" },
+                    new API.Control.Entities.Auxiliary.OperatingSystem { Name = "Windows 10", ShortName = "Win10" },
+                    new API.Control.Entities.Auxiliary.OperatingSystem { Name = "Windows 8",  ShortName = "Win8" },
+                    new API.Control.Entities.Auxiliary.OperatingSystem { Name = "Windows 7",  ShortName = "Win7" }
+                );
+                context.SaveChanges();
+            }
 
-            // 1. Adiciona fabricantes padrão se não existirem.
+
+            // 1. Adiciona fabricantes padrão, se não existirem.
             if (!context.Manufacturers.Any())
             {
                 context.Manufacturers.AddRange(
@@ -41,7 +54,7 @@
                 {
                     ComputerName = new ComputerName("VM-0000"),
                     SerialNumber = "SN000000",
-                    MacAddress = new MacAddress("10-7C-61-B4-F0-DA"),
+                    MacAddress = new MacAddress("00-00-00-00-00-00"),
                     DeviceModelId = defaultDeviceModel.Id
                 };
                 context.Devices.Add(device);

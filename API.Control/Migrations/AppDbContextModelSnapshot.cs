@@ -31,6 +31,9 @@ namespace API.Control.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -91,6 +94,9 @@ namespace API.Control.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("Enabled")
                         .HasColumnType("INTEGER");
 
@@ -147,6 +153,48 @@ namespace API.Control.Migrations
                     b.ToTable("AppxPackages");
                 });
 
+            modelBuilder.Entity("API.Control.Entities.Auxiliary.Manufacturer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Manufacturers");
+                });
+
+            modelBuilder.Entity("API.Control.Entities.Auxiliary.OperatingSystem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OperatingSystems");
+                });
+
             modelBuilder.Entity("API.Control.Entities.DeployProfile", b =>
                 {
                     b.Property<Guid>("Id")
@@ -154,6 +202,9 @@ namespace API.Control.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
@@ -197,6 +248,9 @@ namespace API.Control.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid?>("DeployProfileId")
                         .HasColumnType("TEXT");
 
@@ -236,6 +290,9 @@ namespace API.Control.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("Enabled")
                         .HasColumnType("INTEGER");
 
@@ -269,6 +326,9 @@ namespace API.Control.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Discriminator")
@@ -325,6 +385,9 @@ namespace API.Control.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("DeviceModelId")
                         .HasColumnType("TEXT");
 
@@ -371,6 +434,9 @@ namespace API.Control.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("EditionId")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -384,10 +450,9 @@ namespace API.Control.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ImageIndex")
-                        .IsRequired()
+                    b.Property<int>("ImageIndex")
                         .HasMaxLength(20)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ImageName")
                         .IsRequired()
@@ -401,9 +466,7 @@ namespace API.Control.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ShortName")
-                        .IsRequired()
-                        .HasMaxLength(50)
+                    b.Property<Guid>("OperatingSystemId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Source")
@@ -421,6 +484,8 @@ namespace API.Control.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OperatingSystemId");
+
                     b.ToTable("Images");
                 });
 
@@ -433,6 +498,9 @@ namespace API.Control.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("DeviceId")
                         .HasColumnType("TEXT");
 
@@ -440,6 +508,9 @@ namespace API.Control.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Hardware")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Softwares")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -453,69 +524,6 @@ namespace API.Control.Migrations
                     b.ToTable("Inventories");
                 });
 
-            modelBuilder.Entity("API.Control.Entities.Manufacturer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ShortName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Manufacturers");
-                });
-
-            modelBuilder.Entity("API.Control.Entities.PathToCopy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("DeployProfileId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ProfileTasksId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProfileTasksId");
-
-                    b.ToTable("PathsToCopy");
-                });
-
             modelBuilder.Entity("API.Control.Entities.ProfileTask", b =>
                 {
                     b.Property<Guid>("Id")
@@ -523,6 +531,9 @@ namespace API.Control.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
@@ -535,6 +546,10 @@ namespace API.Control.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Phase")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -686,6 +701,17 @@ namespace API.Control.Migrations
                     b.Navigation("DeviceModel");
                 });
 
+            modelBuilder.Entity("API.Control.Entities.Image", b =>
+                {
+                    b.HasOne("API.Control.Entities.Auxiliary.OperatingSystem", "OperatingSystem")
+                        .WithMany()
+                        .HasForeignKey("OperatingSystemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OperatingSystem");
+                });
+
             modelBuilder.Entity("API.Control.Entities.Inventory", b =>
                 {
                     b.HasOne("API.Control.Entities.Device", "Device")
@@ -695,17 +721,6 @@ namespace API.Control.Migrations
                         .IsRequired();
 
                     b.Navigation("Device");
-                });
-
-            modelBuilder.Entity("API.Control.Entities.PathToCopy", b =>
-                {
-                    b.HasOne("API.Control.Entities.ProfileTask", "ProfileTasks")
-                        .WithMany()
-                        .HasForeignKey("ProfileTasksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProfileTasks");
                 });
 
             modelBuilder.Entity("ApplicationDeployProfile", b =>

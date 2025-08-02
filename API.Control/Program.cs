@@ -1,6 +1,4 @@
 
-using API.Control.Helpers;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -59,6 +57,7 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile(new InventoryProfile());
     cfg.AddProfile(new ProfileTaskProfile());
     cfg.AddProfile(new ManufacturerProfile());
+    cfg.AddProfile(new OperatingSystemProfile());
 });
 
 
@@ -75,6 +74,7 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IProfileTaskService, ProfileTaskService>();
 builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
+builder.Services.AddScoped<IOperatingSystemService, OperatingSystemService>();
 
 
 // Adicione os serviços de validação
@@ -117,6 +117,7 @@ app.MapGroup("/api/images").WithTags("Image").MapImageEndpoints();
 app.MapGroup("/api/inventories").WithTags("Inventory").MapInventoryEndpoints();
 app.MapGroup("/api/profiletasks").WithTags("ProfileTask").MapProfileTaskEndpoints();
 app.MapGroup("/api/manufacturers").WithTags("Manufacturer").MapManufacturerEndpoints();
+app.MapGroup("/api/operatingsystems").WithTags("OperatingSystem").MapOperatingSystemEndpoints();
 
 // Middleware para uso de arquivos estáticos, como imagens, CSS e JavaScript.
 app.UseStaticFiles();
@@ -142,3 +143,23 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+
+
+var config = new UnattendConfig
+{
+    ComputerName = "PC-FILIAL01",
+    DomainName = "empresa.local",
+    DomainUser = "instalador",
+    DomainPassword = "senha@123",
+    OUPath = "OU=TI,DC=empresa,DC=local",
+    TimeZone = "E. South America Standard Time",
+    LocalAdminPassword = "SenhaSegura@2025"
+};
+
+var generator = new UnattendXmlGenerator();
+var xml = generator.GenerateXml(config);
+
+File.WriteAllText("unattend.xml", xml);
+
+Console.WriteLine("Arquivo unattend.xml gerado com sucesso!");

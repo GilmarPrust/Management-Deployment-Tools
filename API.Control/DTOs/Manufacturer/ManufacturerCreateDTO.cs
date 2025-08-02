@@ -1,13 +1,20 @@
 ﻿namespace API.Control.DTOs.Manufacturer
 {
+    /// <summary>
+    /// DTO para criação de fabricante.
+    /// </summary>
     public class ManufacturerCreateDTO
     {
-
+        /// <summary>
+        /// Nome completo do fabricante.
+        /// </summary>
         [Required, StringLength(50)]
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; init; } = string.Empty;
 
-        [Required, StringLength(50)]
-        public string ShortName { get; set; } = string.Empty;
-
+        /// <summary>
+        /// Nome curto do fabricante.
+        /// </summary>
+        [Required, StringLength(5)]
+        public string ShortName { get; init; } = string.Empty;
     }
 }

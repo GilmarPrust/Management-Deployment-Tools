@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "D:\\_DEV\\PROJETOS\\D.C.M2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\services\\implementations\\inventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|solutionrelative:api.control\\services\\implementations\\inventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\entities\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|solutionrelative:api.control\\entities\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|solutionrelative:api.control\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|d:\\_dev\\projetos\\d.c.m2\\api.control\\services\\implementations\\operatingsystemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{274B9DF5-7FE5-AE1E-9481-12ADB555EDAA}|API.Control\\API.Control.csproj|solutionrelative:api.control\\services\\implementations\\operatingsystemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +14,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 218,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Inventory.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Entities\\Inventory.cs",
-              "RelativeDocumentMoniker": "API.Control\\Entities\\Inventory.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Entities\\Inventory.cs",
-              "RelativeToolTip": "API.Control\\Entities\\Inventory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-27T20:34:42.493Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "API.Control\\Data\\AppDbContext.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "API.Control\\Data\\AppDbContext.cs",
-              "ViewState": "AgIAAKkAAAAAAAAAAAAqwMoAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-27T20:33:44.968Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "InventoryService.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Services\\Implementations\\InventoryService.cs",
-              "RelativeDocumentMoniker": "API.Control\\Services\\Implementations\\InventoryService.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Services\\Implementations\\InventoryService.cs",
-              "RelativeToolTip": "API.Control\\Services\\Implementations\\InventoryService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAQAAAAAAAAAA==",
+              "Title": "OperatingSystemService.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Services\\Implementations\\OperatingSystemService.cs",
+              "RelativeDocumentMoniker": "API.Control\\Services\\Implementations\\OperatingSystemService.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Services\\Implementations\\OperatingSystemService.cs",
+              "RelativeToolTip": "API.Control\\Services\\Implementations\\OperatingSystemService.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAxwBwAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-27T20:25:20.892Z",
+              "WhenOpened": "2025-08-02T22:13:35.948Z",
               "EditorCaption": ""
             }
           ]

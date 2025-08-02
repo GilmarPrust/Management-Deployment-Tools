@@ -52,6 +52,10 @@
         {
             if (dto == null)
                 throw new ArgumentNullException(nameof(dto));
+            if (dto.ImageIndex < 1 || dto.ImageIndex > 100)
+                throw new ArgumentOutOfRangeException(nameof(dto.ImageIndex), "O índice da imagem deve estar entre 1 e 100.");
+            if (dto.OperatingSystemId == Guid.Empty)
+                throw new ArgumentException("O ID do sistema operacional não pode ser vazio.", nameof(dto.OperatingSystemId));
             try
             {
                 var entity = _mapper.Map<Image>(dto);
@@ -72,6 +76,11 @@
                 throw new ArgumentException("Id não pode ser vazio.", nameof(id));
             if (dto == null)
                 throw new ArgumentNullException(nameof(dto));
+            if (dto.ImageIndex < 1 || dto.ImageIndex > 100)
+                throw new ArgumentOutOfRangeException(nameof(dto.ImageIndex), "O índice da imagem deve estar entre 1 e 100.");
+            if (dto.OperatingSystemId == Guid.Empty)
+                throw new ArgumentException("O ID do sistema operacional não pode ser vazio.", nameof(dto.OperatingSystemId));
+
             try
             {
                 var image = await _context.Images

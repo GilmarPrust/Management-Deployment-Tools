@@ -1,12 +1,34 @@
 ﻿namespace API.Control.DTOs.ProfileTask
 {
+    /// <summary>
+    /// DTO para leitura de uma tarefa de perfil (ProfileTask).
+    /// </summary>
     public class ProfileTaskReadDTO
     {
+        /// <summary>
+        /// Identificador único da tarefa de perfil.
+        /// </summary>
         public Guid Id { get; init; }
+
+        /// <summary>
+        /// Nome da tarefa de perfil.
+        /// </summary>
         public string Name { get; init; } = string.Empty;
+
+        /// <summary>
+        /// Descrição da tarefa de perfil.
+        /// </summary>
         public string Description { get; init; } = string.Empty;
+
+        /// <summary>
+        /// Indica se a tarefa está habilitada.
+        /// </summary>
         public bool Enabled { get; init; }
 
+        /// <summary>
+        /// Fase da tarefa de perfil.
+        /// </summary>
+        public ProfileTaskPhase Phase { get; init; }
     }
 }
 

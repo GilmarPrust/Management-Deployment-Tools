@@ -5,10 +5,7 @@
         public ApplicationProfile()
         {
             // Entidade → DTO de leitura
-            CreateMap<Application, ApplicationReadDTO>()
-                .ForMember(dest => dest.DeviceIds, opt => opt.MapFrom(src => src.Devices.Select(d => d.Id)))
-                .ForMember(dest => dest.DeviceModelIds, opt => opt.MapFrom(src => src.DeviceModels.Select(dm => dm.Id)))
-                .ForMember(dest => dest.ProfileDeployIds, opt => opt.MapFrom(src => src.DeployProfiles.Select(pd => pd.Id)));
+            CreateMap<Application, ApplicationReadDTO>();
 
             // DTO de criação → Entidade
             CreateMap<ApplicationCreateDTO, Application>();

@@ -67,30 +67,6 @@
             }
         }
 
-        public async Task<bool> UpdateAsync(Guid id, InventoryUpdateDTO dto)
-        {
-            if (id == Guid.Empty)
-                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto));
-
-            try
-            {
-                var existing = await _context.Inventories.FindAsync(id);
-                if (existing == null) return false;
-
-                _mapper.Map(dto, existing);
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("Inventário atualizado: {Id}", id);
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Erro ao atualizar inventário: {Id}", id);
-                throw;
-            }
-        }
 
         public async Task<bool> DeleteAsync(Guid id)
         {

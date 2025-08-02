@@ -1,4 +1,6 @@
-﻿namespace API.Control.Endpoints
+﻿using API.Control.DTOs.DeviceModel.Applications;
+
+namespace API.Control.Endpoints
 {
     public static class DeviceModelEndpoints
     {
@@ -39,15 +41,6 @@
                 return updated is not null ? Results.Ok(updated) : Results.NotFound();
             });
             
-            // PUT (atualização) com aplicações
-            group.MapPut("/{id:guid}/application", async ([FromServices] IDeviceModelService service, Guid id, DeviceModelAddApplicationDTO dto) =>
-            {
-                if (dto == null || dto.ApplicationIds == null || dto.ApplicationIds.Count == 0)
-                    return Results.BadRequest("Informe ao menos um ApplicationId.");
-
-                var success = await service.AddApplicationsAsync(id, dto.ApplicationIds);
-                return success ? Results.NoContent() : Results.NotFound();
-            });
 
             // DELETE
             group.MapDelete("/{id:guid}", async ([FromServices] IDeviceModelService service, Guid id) =>
