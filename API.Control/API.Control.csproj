@@ -38,7 +38,6 @@
 
   <ItemGroup>
     <Folder Include="Auth\" />
-    <Folder Include="DTOs\" />
     <Folder Include="Migrations\" />
     <Folder Include="Tests\" />
     <Folder Include="Data\" />
@@ -46,7 +45,6 @@
     <Folder Include="Entities\" />
     <Folder Include="Mappings\" />
     <Folder Include="Services\" />
-    <Folder Include="Validators\" />
   </ItemGroup>
 
 </Project>

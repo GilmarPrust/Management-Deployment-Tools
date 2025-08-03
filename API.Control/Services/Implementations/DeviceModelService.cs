@@ -19,7 +19,7 @@
             {
                 var models = await _context.DeviceModels
                     .Include(dm => dm.Firmware)
-                    .Include(dm => dm.DriverPacksOEM)
+                    .Include(dm => dm.DriverPacks)
                     .Include(dm => dm.Applications)
                     .Include(dm => dm.Devices)
                     .ToListAsync();
@@ -42,7 +42,7 @@
             {
                 var model = await _context.DeviceModels
                     .Include(dm => dm.Firmware)
-                    .Include(dm => dm.DriverPacksOEM)
+                    .Include(dm => dm.DriverPacks)
                     .Include(dm => dm.Applications)
                     .Include(dm => dm.Devices)
                     .FirstOrDefaultAsync(dm => dm.Id == id);
@@ -87,7 +87,7 @@
             {
                 var existing = await _context.DeviceModels
                     .Include(dm => dm.Firmware)
-                    .Include(dm => dm.DriverPacksOEM)
+                    .Include(dm => dm.DriverPacks)
                     .Include(dm => dm.Applications)
                     .Include(dm => dm.Devices)
                     .FirstOrDefaultAsync(dm => dm.Id == id);

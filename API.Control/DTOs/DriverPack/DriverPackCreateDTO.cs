@@ -34,5 +34,17 @@
         /// </summary>
         [Required]
         public string Hash { get; init; } = string.Empty;
+
+        /// <summary>
+        /// Identificador do modelo de dispositivo associado ao pacote de driver OEM.
+        /// </summary>
+        [Required]
+        public Guid DeviceModelId { get; init; }
+
+        /// <summary>
+        /// Indica se o pacote de driver é OEM.
+        /// </summary>
+        [Required]
+        public required bool IsOEM { get; init; }
     }
 }

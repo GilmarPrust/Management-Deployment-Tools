@@ -62,15 +62,21 @@ namespace API.Control.Data
             {
                 entity.HasKey(d => d.Id);
 
-                entity.Property(d => d.SerialNumber)
+                entity.Property(s => s.SerialNumber)
                       .IsRequired()
                       .HasMaxLength(50);
 
-                entity.Property(d => d.MacAddress)
+                entity.HasIndex(s => s.SerialNumber)
+                      .IsUnique();
+
+                entity.Property(m => m.MacAddress)
                     .HasConversion(
                         mac => mac.Value,
                         value => new MacAddress(value)
                     );
+
+                entity.HasIndex(m => m.MacAddress)
+                      .IsUnique();
 
                 entity.Property(d => d.ComputerName)
                     .HasConversion(
@@ -80,6 +86,9 @@ namespace API.Control.Data
                     .IsRequired()
                     .HasMaxLength(15)
                     .HasColumnName("ComputerName");
+
+                entity.HasIndex(c => c.ComputerName)
+                      .IsUnique();
 
                 entity.HasOne(d => d.DeviceModel)
                       .WithMany(dm => dm.Devices)
@@ -119,7 +128,7 @@ namespace API.Control.Data
                       .OnDelete(DeleteBehavior.Cascade);
 
                 // Relacionamento 1:N com DriverPack
-                entity.HasMany(dm => dm.DriverPacksOEM)
+                entity.HasMany(dm => dm.DriverPacks)
                       .WithOne(dp => dp.DeviceModel)
                       .HasForeignKey(dp => dp.DeviceModelId)
                       .OnDelete(DeleteBehavior.Cascade);

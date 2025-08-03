@@ -1,13 +1,13 @@
-﻿namespace API.Control.DTOs.DeviceModel.DriverPackOEM
+﻿namespace API.Control.DTOs.DeviceModel.DriverPacks
 {
     /// <summary>
     /// DTO para leitura dos pacotes de driver OEM associados a um modelo de dispositivo.
     /// </summary>
-    public class DeviceModelDriverPackOEMReadDTO
+    public class DeviceModelDriverPackReadDTO
     {
         /// <summary>
         /// Lista dos pacotes de driver OEM associados ao modelo de dispositivo.
         /// </summary>
-        public IReadOnlyList<DriverPackOEMReadDTO> DriverPacks { get; init; } = Array.Empty<DriverPackOEMReadDTO>();
+        public IReadOnlyList<DriverPackReadDTO> DriverPacks { get; init; } = Array.Empty<DriverPackReadDTO>();
     }
 }

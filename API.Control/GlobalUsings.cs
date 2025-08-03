@@ -16,7 +16,6 @@ global using API.Control.DTOs.AppxPackage;
 global using API.Control.DTOs.Application;
 global using API.Control.DTOs.DeployProfile;
 global using API.Control.DTOs.DriverPack;
-global using API.Control.DTOs.DriverPackOEM;
 global using API.Control.DTOs.Firmware;
 global using API.Control.DTOs.Image;
 global using API.Control.DTOs.Inventory;

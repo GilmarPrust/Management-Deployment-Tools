@@ -1,5 +1,4 @@
-﻿
-namespace API.Control.Helpers
+﻿namespace API.Control.Helpers
 {
     public static class DbInitializer
     {
@@ -49,13 +48,12 @@ namespace API.Control.Helpers
             // 2. Garante que o dispositivo padrão existe.
             if (!context.Devices.Any(d => d.ComputerName == new ComputerName("VM-0000")))
             {
-                var defaultDeviceModel = context.DeviceModels.First(dm => dm.Model == "Unknown");
                 var device = new Device
                 {
                     ComputerName = new ComputerName("VM-0000"),
                     SerialNumber = "SN000000",
                     MacAddress = new MacAddress("00-00-00-00-00-00"),
-                    DeviceModelId = defaultDeviceModel.Id
+                    DeviceModelId = context.DeviceModels.First(dm => dm.Model == "Unknown").Id,
                 };
                 context.Devices.Add(device);
                 context.SaveChanges();
@@ -93,6 +91,38 @@ namespace API.Control.Helpers
                     Status = "OK"
                 };
                 context.AppxPackages.Add(appxpackage);
+                context.SaveChanges();
+            }
+
+            // 5. Garante que o DriverPack de teste existe.
+            if (!context.DriverPacks.Any(dp => dp.FileName == "Test.DriverPack.cab"))
+            {
+                var driverPack = new DriverPack
+                {
+                    FileName = "Test.DriverPack.cab",
+                    OS = "Win11",
+                    Version = "1.0.0",
+                    Source = "\\DriverPacks\\Test.DriverPack\\1.0",
+                    Hash = "bbcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567891",
+                    DeviceModelId = context.DeviceModels.First(dm => dm.Model == "Unknown").Id,
+                    IsOEM = true,
+                };
+                context.DriverPacks.Add(driverPack);
+                context.SaveChanges();
+            }
+
+            // 6. Garante que o Firmware de teste existe.
+            if (!context.Firmwares.Any(f => f.FileName == "TestFirmware.exe"))
+            {
+                var firmware = new Firmware
+                {
+                    FileName = "TestFirmware.exe",
+                    Version = "1.0.0",
+                    Source = "\\Firmwares\\TestFirmware\\1.0",
+                    Hash = "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+                    DeviceModelId = context.DeviceModels.First(dm => dm.Model == "Unknown").Id
+                };
+                context.Firmwares.Add(firmware);
                 context.SaveChanges();
             }
         }

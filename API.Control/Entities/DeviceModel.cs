@@ -41,7 +41,7 @@
         /// <summary>
         /// Pacotes de driver OEM associados ao modelo.
         /// </summary>
-        public virtual ICollection<DriverPackOEM> DriverPacksOEM { get; set; } = new List<DriverPackOEM>();
+        public virtual ICollection<DriverPack> DriverPacks { get; set; } = new List<DriverPack>();
 
         /// <summary>
         /// Aplicações associadas ao modelo de dispositivo.

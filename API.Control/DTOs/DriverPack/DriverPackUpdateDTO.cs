@@ -39,5 +39,17 @@
         /// Indica se o pacote de driver está habilitado.
         /// </summary>
         public bool Enabled { get; init; }
+
+        /// <summary>
+        /// Identificador do modelo de dispositivo associado ao pacote de driver OEM.
+        /// </summary>
+        [Required]
+        public Guid DeviceModelId { get; init; }
+
+        /// <summary>
+        /// Indica se o pacote de driver é OEM.
+        /// </summary>
+        [Required]
+        public required bool IsOEM { get; init; }
     }
 }

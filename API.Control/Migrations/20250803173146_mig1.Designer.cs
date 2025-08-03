@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Control.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250802222702_mig1")]
+    [Migration("20250803173146_mig1")]
     partial class mig1
     {
         /// <inheritdoc />
@@ -277,9 +277,18 @@ namespace API.Control.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ComputerName")
+                        .IsUnique();
+
                     b.HasIndex("DeployProfileId");
 
                     b.HasIndex("DeviceModelId");
+
+                    b.HasIndex("MacAddress")
+                        .IsUnique();
+
+                    b.HasIndex("SerialNumber")
+                        .IsUnique();
 
                     b.ToTable("Devices");
                 });
@@ -334,9 +343,7 @@ namespace API.Control.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
+                    b.Property<Guid?>("DeviceModelId")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Enabled")
@@ -351,6 +358,9 @@ namespace API.Control.Migrations
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsOEM")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("OS")
                         .IsRequired()
@@ -372,11 +382,9 @@ namespace API.Control.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DeviceModelId");
+
                     b.ToTable("DriverPacks");
-
-                    b.HasDiscriminator().HasValue("DriverPack");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("API.Control.Entities.Firmware", b =>
@@ -653,18 +661,6 @@ namespace API.Control.Migrations
                     b.ToTable("DeviceDriverPack");
                 });
 
-            modelBuilder.Entity("API.Control.Entities.DriverPackOEM", b =>
-                {
-                    b.HasBaseType("API.Control.Entities.DriverPack");
-
-                    b.Property<Guid>("DeviceModelId")
-                        .HasColumnType("TEXT");
-
-                    b.HasIndex("DeviceModelId");
-
-                    b.HasDiscriminator().HasValue("DriverPackOEM");
-                });
-
             modelBuilder.Entity("API.Control.Entities.DeployProfile", b =>
                 {
                     b.HasOne("API.Control.Entities.Image", "Image")
@@ -689,6 +685,16 @@ namespace API.Control.Migrations
                         .IsRequired();
 
                     b.Navigation("DeployProfile");
+
+                    b.Navigation("DeviceModel");
+                });
+
+            modelBuilder.Entity("API.Control.Entities.DriverPack", b =>
+                {
+                    b.HasOne("API.Control.Entities.DeviceModel", "DeviceModel")
+                        .WithMany("DriverPacks")
+                        .HasForeignKey("DeviceModelId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("DeviceModel");
                 });
@@ -816,17 +822,6 @@ namespace API.Control.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("API.Control.Entities.DriverPackOEM", b =>
-                {
-                    b.HasOne("API.Control.Entities.DeviceModel", "DeviceModel")
-                        .WithMany("DriverPacksOEM")
-                        .HasForeignKey("DeviceModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DeviceModel");
-                });
-
             modelBuilder.Entity("API.Control.Entities.DeployProfile", b =>
                 {
                     b.Navigation("Devices");
@@ -841,7 +836,7 @@ namespace API.Control.Migrations
                 {
                     b.Navigation("Devices");
 
-                    b.Navigation("DriverPacksOEM");
+                    b.Navigation("DriverPacks");
 
                     b.Navigation("Firmware");
                 });

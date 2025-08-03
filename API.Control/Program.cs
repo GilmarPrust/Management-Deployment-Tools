@@ -1,4 +1,3 @@
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -51,7 +50,6 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile(new DeviceModelProfile());
     cfg.AddProfile(new DeviceProfile());
     cfg.AddProfile(new DriverPackProfile());
-    cfg.AddProfile(new DriverPackOEMProfile());
     cfg.AddProfile(new FirmwareProfile());
     cfg.AddProfile(new ImageProfile());
     cfg.AddProfile(new InventoryProfile());
@@ -68,7 +66,6 @@ builder.Services.AddScoped<IDeployProfileService, DeployProfileService>();
 builder.Services.AddScoped<IDeviceModelService, DeviceModelService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IDriverPackService, DriverPackService>();
-builder.Services.AddScoped<IDriverPackOEMService, DriverPackOEMService>();
 builder.Services.AddScoped<IFirmwareService, FirmwareService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
@@ -81,6 +78,7 @@ builder.Services.AddScoped<IOperatingSystemService, OperatingSystemService>();
 builder.Services.AddValidatorsFromAssemblyContaining<Device_Validator>();
 builder.Services.AddValidatorsFromAssemblyContaining<DeviceModel_Validator>();
 builder.Services.AddValidatorsFromAssemblyContaining<MacAddress_Validator>();
+builder.Services.AddValidatorsFromAssemblyContaining<DriverPackCreateDTOValidator>();
 
 
 // Configuração do FluentValidation, validação automática para endpoints minimalistas:
@@ -111,7 +109,6 @@ app.MapGroup("/api/deployprofiles").WithTags("DeployProfile").MapDeployProfileEn
 app.MapGroup("/api/devices").WithTags("Device").MapDeviceEndpoints();
 app.MapGroup("/api/devicemodels").WithTags("DeviceModel").MapDeviceModelsEndpoints();
 app.MapGroup("/api/driverpacks").WithTags("DriverPack").MapDriverPackEndpoints();
-app.MapGroup("/api/driverpacksOEM").WithTags("DriverPackOEM").MapDriverPackEndpoints();
 app.MapGroup("/api/firmwares").WithTags("Firmware").MapFirmwareEndpoints();
 app.MapGroup("/api/images").WithTags("Image").MapImageEndpoints();
 app.MapGroup("/api/inventories").WithTags("Inventory").MapInventoryEndpoints();

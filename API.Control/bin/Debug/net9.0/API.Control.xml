@@ -724,22 +724,22 @@
             Lista de IDs dos dispositivos que devem ser associados ao modelo de dispositivo.
             </summary>
         </member>
-        <member name="T:API.Control.DTOs.DeviceModel.DriverPackOEM.DeviceModelDriverPackOEMReadDTO">
+        <member name="T:API.Control.DTOs.DeviceModel.DriverPacks.DeviceModelDriverPackReadDTO">
             <summary>
             DTO para leitura dos pacotes de driver OEM associados a um modelo de dispositivo.
             </summary>
         </member>
-        <member name="P:API.Control.DTOs.DeviceModel.DriverPackOEM.DeviceModelDriverPackOEMReadDTO.DriverPacks">
+        <member name="P:API.Control.DTOs.DeviceModel.DriverPacks.DeviceModelDriverPackReadDTO.DriverPacks">
             <summary>
             Lista dos pacotes de driver OEM associados ao modelo de dispositivo.
             </summary>
         </member>
-        <member name="T:API.Control.DTOs.DeviceModel.DriverPackOEM.DeviceModelDriverPackOEMUpdateDTO">
+        <member name="T:API.Control.DTOs.DeviceModel.DriverPacks.DeviceModelDriverPackUpdateDTO">
             <summary>
             DTO para leitura dos pacotes de driver OEM associados a um modelo de dispositivo.
             </summary>
         </member>
-        <member name="P:API.Control.DTOs.DeviceModel.DriverPackOEM.DeviceModelDriverPackOEMUpdateDTO.DriverPacks">
+        <member name="P:API.Control.DTOs.DeviceModel.DriverPacks.DeviceModelDriverPackUpdateDTO.DriverPacks">
             <summary>
             Lista dos objetos de pacotes de driver OEM associados ao modelo de dispositivo.
             </summary>
@@ -899,131 +899,6 @@
             Lista de IDs dos pacotes de driver associados ao dispositivo.
             </summary>
         </member>
-        <member name="T:API.Control.DTOs.DriverPackOEM.DriverPackOEMCreateDTO">
-            <summary>
-            DTO para criação de pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMCreateDTO.FileName">
-            <summary>
-            Nome do arquivo do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMCreateDTO.OS">
-            <summary>
-            Sistema operacional suportado pelo pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMCreateDTO.Version">
-            <summary>
-            Versão do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMCreateDTO.Source">
-            <summary>
-            Caminho de origem do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMCreateDTO.Hash">
-            <summary>
-            Hash do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMCreateDTO.DeviceModelId">
-            <summary>
-            Identificador do modelo de dispositivo associado ao pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="T:API.Control.DTOs.DriverPackOEM.DriverPackOEMReadDTO">
-            <summary>
-            DTO para leitura de pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMReadDTO.Id">
-            <summary>
-            Identificador único do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMReadDTO.FileName">
-            <summary>
-            Nome do arquivo do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMReadDTO.OS">
-            <summary>
-            Sistema operacional suportado pelo pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMReadDTO.Version">
-            <summary>
-            Versão do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMReadDTO.Source">
-            <summary>
-            Caminho de origem do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMReadDTO.Hash">
-            <summary>
-            Hash do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMReadDTO.Enabled">
-            <summary>
-            Indica se o pacote de driver OEM está habilitado.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMReadDTO.DeviceModelId">
-            <summary>
-            Identificador do modelo de dispositivo associado ao pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="T:API.Control.DTOs.DriverPackOEM.DriverPackOEMUpdateDTO">
-            <summary>
-            DTO para atualização de pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMUpdateDTO.Id">
-            <summary>
-            Identificador único do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMUpdateDTO.FileName">
-            <summary>
-            Nome do arquivo do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMUpdateDTO.OS">
-            <summary>
-            Sistema operacional suportado pelo pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMUpdateDTO.Version">
-            <summary>
-            Versão do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMUpdateDTO.Source">
-            <summary>
-            Caminho de origem do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMUpdateDTO.Hash">
-            <summary>
-            Hash do pacote de driver OEM.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMUpdateDTO.Enabled">
-            <summary>
-            Indica se o pacote de driver OEM está habilitado.
-            </summary>
-        </member>
-        <member name="P:API.Control.DTOs.DriverPackOEM.DriverPackOEMUpdateDTO.DeviceModelId">
-            <summary>
-            Identificador do modelo de dispositivo associado ao pacote de driver OEM.
-            </summary>
-        </member>
         <member name="T:API.Control.DTOs.DriverPack.DriverPackCreateDTO">
             <summary>
             DTO para criação de pacote de driver.
@@ -1052,6 +927,16 @@
         <member name="P:API.Control.DTOs.DriverPack.DriverPackCreateDTO.Hash">
             <summary>
             Hash do pacote de driver.
+            </summary>
+        </member>
+        <member name="P:API.Control.DTOs.DriverPack.DriverPackCreateDTO.DeviceModelId">
+            <summary>
+            Identificador do modelo de dispositivo associado ao pacote de driver OEM.
+            </summary>
+        </member>
+        <member name="P:API.Control.DTOs.DriverPack.DriverPackCreateDTO.IsOEM">
+            <summary>
+            Indica se o pacote de driver é OEM.
             </summary>
         </member>
         <member name="T:API.Control.DTOs.DriverPack.DriverPackReadDTO">
@@ -1094,6 +979,16 @@
             Indica se o pacote de driver está habilitado.
             </summary>
         </member>
+        <member name="P:API.Control.DTOs.DriverPack.DriverPackReadDTO.DeviceModelId">
+            <summary>
+            Identificador do modelo de dispositivo associado ao pacote de driver OEM.
+            </summary>
+        </member>
+        <member name="P:API.Control.DTOs.DriverPack.DriverPackReadDTO.IsOEM">
+            <summary>
+            Indica se o pacote de driver é OEM.
+            </summary>
+        </member>
         <member name="T:API.Control.DTOs.DriverPack.DriverPackUpdateDTO">
             <summary>
             DTO para atualização de pacote de driver.
@@ -1127,6 +1022,16 @@
         <member name="P:API.Control.DTOs.DriverPack.DriverPackUpdateDTO.Enabled">
             <summary>
             Indica se o pacote de driver está habilitado.
+            </summary>
+        </member>
+        <member name="P:API.Control.DTOs.DriverPack.DriverPackUpdateDTO.DeviceModelId">
+            <summary>
+            Identificador do modelo de dispositivo associado ao pacote de driver OEM.
+            </summary>
+        </member>
+        <member name="P:API.Control.DTOs.DriverPack.DriverPackUpdateDTO.IsOEM">
+            <summary>
+            Indica se o pacote de driver é OEM.
             </summary>
         </member>
         <member name="T:API.Control.DTOs.Firmware.FirmwareCreateDTO">
@@ -1949,7 +1854,7 @@
             Dispositivos físicos associados ao modelo.
             </summary>
         </member>
-        <member name="P:API.Control.Entities.DeviceModel.DriverPacksOEM">
+        <member name="P:API.Control.Entities.DeviceModel.DriverPacks">
             <summary>
             Pacotes de driver OEM associados ao modelo.
             </summary>
@@ -1989,24 +1894,24 @@
             Hash do pacote de driver.
             </summary>
         </member>
+        <member name="P:API.Control.Entities.DriverPack.DeviceModelId">
+            <summary>
+            ID do modelo de dispositivo ao qual o pacote de driver está vinculado (opcional para não-OEM).
+            </summary>
+        </member>
+        <member name="P:API.Control.Entities.DriverPack.DeviceModel">
+            <summary>
+            Modelo de dispositivo associado ao pacote de driver (opcional para não-OEM).
+            </summary>
+        </member>
+        <member name="P:API.Control.Entities.DriverPack.IsOEM">
+            <summary>
+            Indica se o pacote de driver é OEM.
+            </summary>
+        </member>
         <member name="M:API.Control.Entities.DriverPack.#ctor">
             <summary>
             Construtor vazio para o Entity Framework.
-            </summary>
-        </member>
-        <member name="T:API.Control.Entities.DriverPackOEM">
-            <summary>
-            Representa um pacote de driver OEM associado a um modelo de dispositivo.
-            </summary>
-        </member>
-        <member name="P:API.Control.Entities.DriverPackOEM.DeviceModelId">
-            <summary>
-            ID do modelo de dispositivo ao qual o pacote de driver OEM está vinculado.
-            </summary>
-        </member>
-        <member name="P:API.Control.Entities.DriverPackOEM.DeviceModel">
-            <summary>
-            Modelo de dispositivo associado ao pacote de driver OEM.
             </summary>
         </member>
         <member name="T:API.Control.Entities.Firmware">

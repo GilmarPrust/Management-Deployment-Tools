@@ -157,8 +157,8 @@ namespace API.Control.Migrations
                     Version = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Source = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     Hash = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
-                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 13, nullable: false),
                     DeviceModelId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    IsOEM = table.Column<bool>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
@@ -466,6 +466,12 @@ namespace API.Control.Migrations
                 column: "DriverPacksId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Devices_ComputerName",
+                table: "Devices",
+                column: "ComputerName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Devices_DeployProfileId",
                 table: "Devices",
                 column: "DeployProfileId");
@@ -474,6 +480,18 @@ namespace API.Control.Migrations
                 name: "IX_Devices_DeviceModelId",
                 table: "Devices",
                 column: "DeviceModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Devices_MacAddress",
+                table: "Devices",
+                column: "MacAddress",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Devices_SerialNumber",
+                table: "Devices",
+                column: "SerialNumber",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_DriverPacks_DeviceModelId",

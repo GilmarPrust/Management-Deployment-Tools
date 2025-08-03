@@ -26,7 +26,7 @@
         /// <summary>
         /// Caminho de origem do pacote de driver.
         /// </summary>
-        [Required, StringLength(200)]
+        [Required, StringLength(250)]
         public required string Source { get; set; }
 
         /// <summary>
@@ -34,6 +34,22 @@
         /// </summary>
         [Required, StringLength(64)]
         public required string Hash { get; set; }
+
+        /// <summary>
+        /// ID do modelo de dispositivo ao qual o pacote de driver está vinculado (opcional para não-OEM).
+        /// </summary>
+        public Guid? DeviceModelId { get; init; }
+
+        /// <summary>
+        /// Modelo de dispositivo associado ao pacote de driver (opcional para não-OEM).
+        /// </summary>
+        public virtual DeviceModel? DeviceModel { get; init; } = null;
+
+        /// <summary>
+        /// Indica se o pacote de driver é OEM.
+        /// </summary>
+        [Required]
+        public required bool IsOEM { get; init; } = false;
 
         /// <summary>
         /// Construtor vazio para o Entity Framework.
