@@ -48,7 +48,7 @@
               "RelativeDocumentMoniker": "API.Control\\Entities\\Device.cs",
               "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.Control\\Entities\\Device.cs",
               "RelativeToolTip": "API.Control\\Entities\\Device.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwEQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-03T17:30:43.762Z",
               "EditorCaption": ""
@@ -63,8 +63,7 @@
               "RelativeToolTip": "API.Control\\Services\\Implementations\\DeviceService.cs",
               "ViewState": "AgIAAFcAAAAAAAAAAAAowHIAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T01:45:00.136Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-03T01:45:00.136Z"
             },
             {
               "$type": "Document",
