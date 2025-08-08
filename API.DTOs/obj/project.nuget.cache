@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "cwL2YkJUEGk=",
+  "success": true,
+  "projectFilePath": "D:\\_DEV\\PROJETOS\\D.C.M2\\API.DTOs\\API.DTOs.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Gilma\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",
+    "C:\\Users\\Gilma\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

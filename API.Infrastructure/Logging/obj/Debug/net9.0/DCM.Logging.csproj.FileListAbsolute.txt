@@ -1,0 +1,12 @@
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\bin\Debug\net9.0\DCM.Logging.deps.json
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\bin\Debug\net9.0\DCM.Logging.dll
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\bin\Debug\net9.0\DCM.Logging.pdb
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\obj\Debug\net9.0\DCM.Logging.GeneratedMSBuildEditorConfig.editorconfig
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\obj\Debug\net9.0\DCM.Logging.AssemblyInfoInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\obj\Debug\net9.0\DCM.Logging.AssemblyInfo.cs
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\obj\Debug\net9.0\DCM.Logging.csproj.CoreCompileInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\obj\Debug\net9.0\DCM.Logging.sourcelink.json
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\obj\Debug\net9.0\DCM.Logging.dll
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\obj\Debug\net9.0\refint\DCM.Logging.dll
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\obj\Debug\net9.0\DCM.Logging.pdb
+D:\_DEV\PROJETOS\D.C.M2\DCM.Infrastructure\Logging\obj\Debug\net9.0\ref\DCM.Logging.dll

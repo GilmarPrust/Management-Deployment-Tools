@@ -1,0 +1,13 @@
+﻿using DCM.DTOs.AppxPackage;
+
+namespace DCM.Services.Interfaces
+{
+    public interface IAppxPackageService
+    {
+        Task<IEnumerable<AppxPackageReadDTO>> GetAllAsync();
+        Task<AppxPackageReadDTO?> GetByIdAsync(Guid id);
+        Task<AppxPackageReadDTO> CreateAsync(AppxPackageCreateDTO dto);
+        Task<AppxPackageReadDTO?> UpdateAsync(Guid id, AppxPackageUpdateDTO dto);
+        Task<bool> DeleteAsync(Guid id);
+    }
+}

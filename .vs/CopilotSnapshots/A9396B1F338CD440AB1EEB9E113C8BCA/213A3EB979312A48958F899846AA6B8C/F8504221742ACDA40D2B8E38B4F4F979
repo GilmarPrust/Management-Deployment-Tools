@@ -1,0 +1,51 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Core.Entities
+{
+    /// <summary>
+    /// Representa um firmware associado a um modelo de dispositivo.
+    /// </summary>
+    public class Firmware : BaseEntity
+    {
+        /// <summary>
+        /// Nome do arquivo do firmware.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string FileName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Versão do firmware.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Version { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Caminho de origem do firmware.
+        /// </summary>
+        [Required, StringLength(250)]
+        public string Source { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Hash do arquivo do firmware.
+        /// </summary>
+        [Required, StringLength(64)]
+        public string Hash { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public Firmware() { }
+
+        /// <summary>
+        /// ID do modelo de dispositivo ao qual o firmware está vinculado.
+        /// </summary>
+        [Required]
+        public Guid DeviceModelId { get; set; }
+
+        /// <summary>
+        /// Modelo de dispositivo associado ao firmware.
+        /// </summary>
+        public virtual DeviceModel DeviceModel { get; set; }
+    }
+}

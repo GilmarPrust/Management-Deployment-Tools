@@ -1,0 +1,14 @@
+﻿using System.Linq;
+using DCM.Core.Entities;
+using API.Control.Data;
+
+namespace API.Infrastructure.Helpers
+{
+    public static class DbInitializer
+    {
+        public static void SeedDefaultData(this AppDbContext context)
+        {
+            // ...existing code from API.Control.Helpers.DbInitializer...
+        }
+    }
+}

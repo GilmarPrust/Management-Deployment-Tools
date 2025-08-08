@@ -8,10 +8,10 @@
             if (!context.OperatingSystems.Any())
             {
                 context.OperatingSystems.AddRange(
-                    new API.Control.Entities.Auxiliary.OperatingSystem { Name = "Windows 11", ShortName = "Win11" },
-                    new API.Control.Entities.Auxiliary.OperatingSystem { Name = "Windows 10", ShortName = "Win10" },
-                    new API.Control.Entities.Auxiliary.OperatingSystem { Name = "Windows 8",  ShortName = "Win8" },
-                    new API.Control.Entities.Auxiliary.OperatingSystem { Name = "Windows 7",  ShortName = "Win7" }
+                    new DCM.Core.Entities.OperatingSystem { Name = "Windows 11", ShortName = "Win11" },
+                    new DCM.Core.Entities.OperatingSystem { Name = "Windows 10", ShortName = "Win10" },
+                    new DCM.Core.Entities.OperatingSystem { Name = "Windows 8",  ShortName = "Win8" },
+                    new DCM.Core.Entities.OperatingSystem { Name = "Windows 7",  ShortName = "Win7" }
                 );
                 context.SaveChanges();
             }

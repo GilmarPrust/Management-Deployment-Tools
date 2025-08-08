@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace Core.Entities
+{
+    /// <summary>
+    /// Representa um inventário vinculado a um dispositivo.
+    /// </summary>
+    public class Inventory : BaseEntity
+    {
+        /// <summary>
+        /// ID do dispositivo ao qual o inventário está vinculado.
+        /// </summary>
+        [Required]
+        public Guid DeviceId { get; set; }
+
+        /// <summary>
+        /// Dispositivo associado ao inventário.
+        /// </summary>
+        public virtual Device Device { get; set; }
+
+        /// <summary>
+        /// Dados de hardware do inventário (ex: processador, memória, fabricante).
+        /// </summary>
+        public Dictionary<string, string> Hardware { get; set; } = new Dictionary<string, string>();
+
+        /// <summary>
+        /// Dados de softwares do inventário (ex: sistema operacional, aplicativos instalados).
+        /// </summary>
+        public Dictionary<string, string> Softwares { get; set; } = new Dictionary<string, string>();
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public Inventory() { }
+    }
+}

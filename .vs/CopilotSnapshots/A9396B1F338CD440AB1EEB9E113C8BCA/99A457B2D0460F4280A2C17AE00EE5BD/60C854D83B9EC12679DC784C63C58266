@@ -1,0 +1,14 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace DCM.Core.Intefaces
+{
+    public interface IApplicationService
+    {
+        Task<System.Collections.Generic.IEnumerable<ApplicationReadDTO>> GetAllAsync();
+        Task<ApplicationReadDTO?> GetByIdAsync(Guid id);
+        Task<ApplicationReadDTO> CreateAsync(ApplicationCreateDTO dto);
+        Task<ApplicationReadDTO?> UpdateAsync(Guid id, ApplicationUpdateDTO dto);
+        Task<bool> DeleteAsync(Guid id);
+    }
+}

@@ -1,0 +1,6 @@
+D:\_DEV\PROJETOS\D.C.M2\API.DTOs\obj\Debug\net9.0\API.DTOs.csproj.AssemblyReference.cache
+D:\_DEV\PROJETOS\D.C.M2\API.DTOs\obj\Debug\net9.0\API.DTOs.GeneratedMSBuildEditorConfig.editorconfig
+D:\_DEV\PROJETOS\D.C.M2\API.DTOs\obj\Debug\net9.0\API.DTOs.AssemblyInfoInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\API.DTOs\obj\Debug\net9.0\API.DTOs.AssemblyInfo.cs
+D:\_DEV\PROJETOS\D.C.M2\API.DTOs\obj\Debug\net9.0\API.DTOs.csproj.CoreCompileInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\API.DTOs\obj\Debug\net9.0\API.DTOs.sourcelink.json

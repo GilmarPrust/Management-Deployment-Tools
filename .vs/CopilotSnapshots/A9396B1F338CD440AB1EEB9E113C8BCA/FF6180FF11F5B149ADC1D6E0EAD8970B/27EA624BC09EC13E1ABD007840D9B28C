@@ -1,0 +1,82 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using OperatingSystem = API.Control.Entities.Auxiliary.OperatingSystem;
+
+namespace Core.Entities
+{
+    /// <summary>
+    /// Representa uma imagem de sistema operacional, incluindo metadados e perfis associados.
+    /// </summary>
+    public class Image : BaseEntity
+    {
+        /// <summary>
+        /// Nome da imagem do sistema operacional.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string ImageName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Descrição da imagem do sistema operacional.
+        /// </summary>
+        [StringLength(250)]
+        public string ImageDescription { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Índice da imagem no arquivo de origem.
+        /// </summary>
+        [Required, Range(1, 100, ErrorMessage = "O índice da imagem deve estar entre 1 e 100.")]
+        public int ImageIndex { get; set; }
+
+        /// <summary>
+        /// Identificador da edição da imagem.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string EditionId { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Versão da imagem.
+        /// </summary>
+        [Required, StringLength(20)]
+        public string Version { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Idiomas suportados pela imagem.
+        /// </summary>
+        [Required]
+        public List<string> Languages { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Tamanho da imagem em bytes.
+        /// </summary>
+        [Range(0, long.MaxValue)]
+        public long ImageSize { get; set; }
+
+        /// <summary>
+        /// Caminho de origem da imagem.
+        /// </summary>
+        [Required, StringLength(250)]
+        public string Source { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Chave estrangeira para o sistema operacional associado.
+        /// </summary>
+        [Required]
+        public Guid OperatingSystemId { get; set; }
+
+        /// <summary>
+        /// Sistema operacional associado à imagem.
+        /// </summary>
+        public virtual OperatingSystem OperatingSystem { get; set; }
+
+        /// <summary>
+        /// Perfis de implantação associados à imagem.
+        /// </summary>
+        public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public Image() { }
+    }
+}

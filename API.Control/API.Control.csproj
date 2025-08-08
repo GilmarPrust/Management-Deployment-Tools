@@ -37,14 +37,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Auth\" />
     <Folder Include="Migrations\" />
     <Folder Include="Tests\" />
-    <Folder Include="Data\" />
     <Folder Include="EndPoints\" />
-    <Folder Include="Entities\" />
     <Folder Include="Mappings\" />
-    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\API.Core\DCM.Core.csproj" />
   </ItemGroup>
 
 </Project>

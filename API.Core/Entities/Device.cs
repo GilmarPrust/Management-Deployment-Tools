@@ -1,0 +1,73 @@
+﻿using DCM.Core.Utilities;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities
+{
+    /// <summary>
+    /// Representa um dispositivo físico, incluindo informações de identificação e associações.
+    /// </summary>
+    public class Device : BaseEntity
+    {
+        /// <summary>
+        /// Nome do computador do dispositivo.
+        /// </summary>
+        [Required]
+        public ComputerName ComputerName { get; set; }
+
+        /// <summary>
+        /// Número de série do dispositivo.
+        /// </summary>
+        [StringLength(100, MinimumLength = 5)]
+        [RegularExpression(@"^[A-Z0-9\-]+$", ErrorMessage = "Número de série deve conter apenas letras maiúsculas, números e hífens")]
+        public string SerialNumber { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Endereço MAC do dispositivo.
+        /// </summary>
+        [Required]
+        public MacAddress MacAddress { get; set; }
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public Device() { }
+
+        /// <summary>
+        /// ID do modelo de dispositivo.
+        /// </summary>
+        [Required]
+        public Guid DeviceModelId { get; set; }
+
+        /// <summary>
+        /// Modelo do dispositivo.
+        /// </summary>
+        public virtual DeviceModel DeviceModel { get; set; }
+
+        /// <summary>
+        /// Inventário associado ao dispositivo.
+        /// </summary>
+        public virtual Inventory Inventory { get; set; }
+
+        /// <summary>
+        /// Perfil de implantação associado ao dispositivo.
+        /// </summary>
+        public virtual DeployProfile DeployProfile { get; set; }
+
+        /// <summary>
+        /// Aplicativos associados ao dispositivo.
+        /// </summary>
+        public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
+
+        /// <summary>
+        /// Pacotes de driver associados ao dispositivo.
+        /// </summary>
+        public virtual ICollection<DriverPack> DriverPacks { get; set; } = new List<DriverPack>();
+
+        /// <summary>
+        /// Pacotes Appx associados ao dispositivo.
+        /// </summary>
+        public virtual ICollection<AppxPackage> AppxPackages { get; set; } = new List<AppxPackage>();
+    }
+}

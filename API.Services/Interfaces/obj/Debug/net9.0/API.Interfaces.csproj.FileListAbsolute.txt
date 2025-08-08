@@ -1,0 +1,6 @@
+D:\_DEV\PROJETOS\D.C.M2\DCM.Services\Interfaces\obj\Debug\net9.0\API.Interfaces.csproj.AssemblyReference.cache
+D:\_DEV\PROJETOS\D.C.M2\DCM.Services\Interfaces\obj\Debug\net9.0\API.Interfaces.GeneratedMSBuildEditorConfig.editorconfig
+D:\_DEV\PROJETOS\D.C.M2\DCM.Services\Interfaces\obj\Debug\net9.0\API.Interfaces.AssemblyInfoInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\DCM.Services\Interfaces\obj\Debug\net9.0\API.Interfaces.AssemblyInfo.cs
+D:\_DEV\PROJETOS\D.C.M2\DCM.Services\Interfaces\obj\Debug\net9.0\API.Interfaces.csproj.CoreCompileInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\DCM.Services\Interfaces\obj\Debug\net9.0\API.Interfaces.sourcelink.json

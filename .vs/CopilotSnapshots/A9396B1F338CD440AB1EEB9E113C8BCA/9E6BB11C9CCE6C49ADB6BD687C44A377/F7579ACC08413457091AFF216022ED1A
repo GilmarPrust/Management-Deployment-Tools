@@ -1,0 +1,83 @@
+﻿using System.Collections.Generic;
+using System;
+using System.Text;
+using System.ComponentModel.DataAnnotations;
+
+namespace Core.Entities
+{
+    /// <summary>
+    /// Representa um aplicativo associado a dispositivos, modelos e perfis de implantação.
+    /// </summary>
+    public class Application : BaseEntity
+    {
+        /// <summary>
+        /// Identificador único do aplicativo.
+        /// </summary>
+        [Required, StringLength(50)]
+        public required string NameID { get; set; }
+
+        /// <summary>
+        /// Nome de exibição do aplicativo.
+        /// </summary>
+        [Required, StringLength(100)]
+        public required string DisplayName { get; set; }
+
+        /// <summary>
+        /// Versão do aplicativo.
+        /// </summary>
+        [Required, StringLength(50)]
+        public required string Version { get; set; }
+
+        /// <summary>
+        /// Nome do arquivo de instalação do aplicativo.
+        /// </summary>
+        [Required, StringLength(100)]
+        public required string FileName { get; set; }
+
+        /// <summary>
+        /// Argumentos de linha de comando para instalação.
+        /// </summary>
+        [StringLength(250)]
+        public string Argument { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Caminho de origem do instalador.
+        /// </summary>
+        [Required, StringLength(200)]
+        public required string Source { get; set; }
+
+        /// <summary>
+        /// Filtro opcional para o aplicativo.
+        /// </summary>
+        [StringLength(100)]
+        public string Filter { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Hash do arquivo de instalação.
+        /// </summary>
+        [StringLength(64)]
+        public string Hash { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public Application() { }
+
+        /// <summary>
+        /// Dispositivos associados ao aplicativo.
+        /// </summary>
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+
+        /// <summary>
+        /// Modelos de dispositivo associados ao aplicativo.
+        /// </summary>
+        public virtual ICollection<DeviceModel> DeviceModels { get; set; } = new List<DeviceModel>();
+
+        /// <summary>
+        /// Perfis de implantação associados ao aplicativo.
+        /// </summary>
+        public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
+    }
+}
+
+// implementar Grupos Applications.
