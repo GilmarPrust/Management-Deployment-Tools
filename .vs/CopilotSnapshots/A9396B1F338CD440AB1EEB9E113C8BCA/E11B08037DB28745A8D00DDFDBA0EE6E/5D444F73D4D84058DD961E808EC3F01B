@@ -1,0 +1,33 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Core.Enums
+{
+    /// <summary>
+    /// Representa um fabricante de dispositivos.
+    /// </summary>
+    public class Manufacturer
+    {
+        /// <summary>
+        /// Identificador único da arquitetura.
+        /// </summary>
+        public Guid Id { get; set; } = Guid.NewGuid();
+
+        /// <summary>
+        /// Nome completo do fabricante.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Nome curto do fabricante.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string ShortName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public Manufacturer() { }
+    }
+}

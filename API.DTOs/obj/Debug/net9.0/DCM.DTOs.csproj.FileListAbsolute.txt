@@ -1,0 +1,12 @@
+D:\_DEV\PROJETOS\D.C.M2\DTOs\obj\Debug\net9.0\DCM.DTOs.GeneratedMSBuildEditorConfig.editorconfig
+D:\_DEV\PROJETOS\D.C.M2\DTOs\obj\Debug\net9.0\DCM.DTOs.AssemblyInfoInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\DTOs\obj\Debug\net9.0\DCM.DTOs.AssemblyInfo.cs
+D:\_DEV\PROJETOS\D.C.M2\DTOs\obj\Debug\net9.0\DCM.DTOs.csproj.CoreCompileInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\DTOs\obj\Debug\net9.0\DCM.DTOs.sourcelink.json
+D:\_DEV\PROJETOS\D.C.M2\DTOs\obj\Debug\net9.0\DCM.DTOs.csproj.AssemblyReference.cache
+D:\_DEV\PROJETOS\D.C.M2\DCM.DTOs\obj\Debug\net9.0\DCM.DTOs.csproj.AssemblyReference.cache
+D:\_DEV\PROJETOS\D.C.M2\DCM.DTOs\obj\Debug\net9.0\DCM.DTOs.GeneratedMSBuildEditorConfig.editorconfig
+D:\_DEV\PROJETOS\D.C.M2\DCM.DTOs\obj\Debug\net9.0\DCM.DTOs.AssemblyInfoInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\DCM.DTOs\obj\Debug\net9.0\DCM.DTOs.AssemblyInfo.cs
+D:\_DEV\PROJETOS\D.C.M2\DCM.DTOs\obj\Debug\net9.0\DCM.DTOs.csproj.CoreCompileInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\DCM.DTOs\obj\Debug\net9.0\DCM.DTOs.sourcelink.json

@@ -1,0 +1,16 @@
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\obj\Debug\net9.0\DCM.Infrastructure.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\obj\Debug\net9.0\DCM.Infrastructure.Data.AssemblyInfoInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\obj\Debug\net9.0\DCM.Infrastructure.Data.AssemblyInfo.cs
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\obj\Debug\net9.0\DCM.Infrastructure.Data.csproj.CoreCompileInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\obj\Debug\net9.0\DCM.Infrastructure.Data.sourcelink.json
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\bin\Debug\net9.0\DCM.Infrastructure.Data.deps.json
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\bin\Debug\net9.0\DCM.Infrastructure.Data.dll
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\bin\Debug\net9.0\DCM.Infrastructure.Data.pdb
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\bin\Debug\net9.0\DCM.Core.dll
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\bin\Debug\net9.0\DCM.Core.pdb
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\obj\Debug\net9.0\DCM.Infrastructure.Data.csproj.AssemblyReference.cache
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\obj\Debug\net9.0\DCM.Infr.ABD7E665.Up2Date
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\obj\Debug\net9.0\DCM.Infrastructure.Data.dll
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\obj\Debug\net9.0\refint\DCM.Infrastructure.Data.dll
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\obj\Debug\net9.0\DCM.Infrastructure.Data.pdb
+D:\_DEV\PROJETOS\D.C.M2\API.Infrastructure\DCM.Infrastructure.Data\obj\Debug\net9.0\ref\DCM.Infrastructure.Data.dll

@@ -5,9 +5,9 @@
         public OperatingSystemProfile()
         {
             // Map OperatingSystem to OperatingSystemReadDTO
-            CreateMap<API.Control.Entities.Auxiliary.OperatingSystem, OperatingSystemReadDTO>();
+            CreateMap<DCM.Core.Entities.OperatingSystem, OperatingSystemReadDTO>();
             // Map OperatingSystemCreateDTO to OperatingSystem
-            CreateMap<OperatingSystemCreateDTO, API.Control.Entities.Auxiliary.OperatingSystem>();
+            CreateMap<OperatingSystemCreateDTO, DCM.Core.Entities.OperatingSystem>();
         }
     }
 }

@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+
+namespace API.Control.Services.Implementations
+{
+    public class ManufacturerService : IManufacturerService
+    {
+        private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly ILogger<ManufacturerService> _logger;
+
+        public ManufacturerService(AppDbContext context, IMapper mapper, ILogger<ManufacturerService> logger)
+        {
+            _context = context;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
+        public async Task<ManufacturerReadDTO> CreateAsync(ManufacturerCreateDTO dto)
+        {
+            ArgumentNullException.ThrowIfNull(dto);
+            var manufacturer = _mapper.Map<Manufacturer>(dto);
+            _context.Manufacturers.Add(manufacturer);
+            await _context.SaveChangesAsync();
+            _logger.LogInformation("Fabricante criado com sucesso: {Name}", manufacturer.Name);
+            return _mapper.Map<ManufacturerReadDTO>(manufacturer);
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var manufacturer = await _context.Manufacturers.FindAsync(id);
+            if (manufacturer == null)
+            {
+                _logger.LogWarning("Tentativa de exclusão de fabricante não encontrado: {Id}", id);
+                return false;
+            }
+            _context.Manufacturers.Remove(manufacturer);
+            await _context.SaveChangesAsync();
+            _logger.LogInformation("Fabricante removido: {Name}", manufacturer.Name);
+            return true;
+        }
+
+        public async Task<IEnumerable<ManufacturerReadDTO>> GetAllAsync()
+        {
+            var manufacturers = await _context.Manufacturers.AsNoTracking().ToListAsync();
+            _logger.LogInformation("Consulta de todos os fabricantes realizada. Total: {Count}", manufacturers.Count);
+            return _mapper.Map<IEnumerable<ManufacturerReadDTO>>(manufacturers);
+        }
+
+        public async Task<ManufacturerReadDTO?> GetByIdAsync(Guid id)
+        {
+            var manufacturer = await _context.Manufacturers.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
+            if (manufacturer == null)
+            {
+                _logger.LogWarning("Fabricante não encontrado: {Id}", id);
+                return null;
+            }
+            _logger.LogInformation("Consulta de fabricante por Id: {Id}", id);
+            return _mapper.Map<ManufacturerReadDTO>(manufacturer);
+        }
+    }
+}

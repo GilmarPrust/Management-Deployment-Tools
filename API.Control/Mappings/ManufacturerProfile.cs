@@ -1,6 +1,4 @@
-﻿using API.Control.Entities.Auxiliary;
-
-namespace API.Control.Mappings
+﻿namespace API.Control.Mappings
 {
     public class ManufacturerProfile : Profile
     {

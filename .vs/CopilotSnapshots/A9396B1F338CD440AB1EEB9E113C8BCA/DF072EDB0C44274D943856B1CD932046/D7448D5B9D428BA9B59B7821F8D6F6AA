@@ -1,0 +1,36 @@
+﻿using System.Collections.Generic;
+using Core.Enums;
+
+namespace Core.Entities
+{
+    /// <summary>
+    /// Representa uma tarefa de perfil, utilizada em processos de implantação.
+    /// </summary>
+    public class ProfileTask : BaseEntity
+    {
+        /// <summary>
+        /// Nome da tarefa de perfil.
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Descrição da tarefa de perfil.
+        /// </summary>
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Fase da tarefa de perfil.
+        /// </summary>
+        public ProfileTaskPhase Phase { get; set; } = ProfileTaskPhase.None;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public ProfileTask() { }
+
+        /// <summary>
+        /// Perfis de implantação associados à tarefa de perfil.
+        /// </summary>
+        public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
+    }
+}

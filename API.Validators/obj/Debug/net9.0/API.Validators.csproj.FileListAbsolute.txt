@@ -1,0 +1,6 @@
+D:\_DEV\PROJETOS\D.C.M2\API.Validators\obj\Debug\net9.0\API.Validators.csproj.AssemblyReference.cache
+D:\_DEV\PROJETOS\D.C.M2\API.Validators\obj\Debug\net9.0\API.Validators.GeneratedMSBuildEditorConfig.editorconfig
+D:\_DEV\PROJETOS\D.C.M2\API.Validators\obj\Debug\net9.0\API.Validators.AssemblyInfoInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\API.Validators\obj\Debug\net9.0\API.Validators.AssemblyInfo.cs
+D:\_DEV\PROJETOS\D.C.M2\API.Validators\obj\Debug\net9.0\API.Validators.csproj.CoreCompileInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\API.Validators\obj\Debug\net9.0\API.Validators.sourcelink.json

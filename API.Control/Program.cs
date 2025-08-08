@@ -136,7 +136,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated(); // ou db.Database.Migrate();
-    db.SeedDefaultData(); // chama o método de seed para dados padrão
+    db.SeedDefaultData(); // chama o método de seed para dados padrão.
 }
 
 app.Run();
