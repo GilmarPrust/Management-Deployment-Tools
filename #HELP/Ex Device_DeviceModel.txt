@@ -1,0 +1,374 @@
+Perfeito, Gilmar! Vamos montar uma Minimal API completa com:
+✅ Estrutura organizada
+✅ Entidades Device e DeviceModel
+✅ Validação com FluentValidation
+✅ Persistência com Entity Framework Core + SQLite
+✅ Swagger para documentação
+✅ Testes com xUnit
+
+🧱 Estrutura de Pastas
+/Dtos
+  ├── CreateDeviceDto.cs
+  └── CreateDeviceModelDto.cs
+/Validators
+  ├── CreateDeviceDtoValidator.cs
+  └── CreateDeviceModelDtoValidator.cs
+/Endpoints
+  ├── DeviceEndpoints.cs
+  └── DeviceModelEndpoints.cs
+/Services
+  ├── DeviceService.cs
+  └── DeviceModelService.cs
+/Data
+  └── AppDbContext.cs
+/Models
+  ├── Device.cs
+  └── DeviceModel.cs
+/ValueObjects
+  ├── ComputerName.cs
+  └── MacAddress.cs
+/Repositories
+  ├── DeviceRepository.cs
+  └── DeviceModelRepository.cs
+/Tests
+  └── DeviceTests.cs
+Program.cs
+
+
+
+🧩 1. Models e Value Objects
+Device.cs e DeviceModel.cs
+Você já forneceu essas classes — vamos mantê-las como estão.
+ComputerName.cs e MacAddress.cs (Value Objects)
+namespace ValueObjects;
+
+public record ComputerName(string Value)
+{
+    public static ComputerName Create(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            throw new ArgumentException("Computer name is required.");
+        return new ComputerName(value.Trim());
+    }
+}
+
+public record MacAddress(string Value)
+{
+    public static MacAddress Create(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            throw new ArgumentException("MAC address is required.");
+        return new MacAddress(value.Trim().ToUpper());
+    }
+}
+
+
+
+📦 2. DTOs
+CreateDeviceDto.cs
+namespace Dtos;
+
+public record CreateDeviceDto(
+    string ComputerName,
+    string SerialNumber,
+    string MacAddress,
+    Guid DeviceModelId);
+
+
+CreateDeviceModelDto.cs
+namespace Dtos;
+
+public record CreateDeviceModelDto(
+    string Manufacturer,
+    string Model,
+    string Type);
+
+
+
+✅ 3. Validadores
+CreateDeviceDtoValidator.cs
+using Dtos;
+using FluentValidation;
+
+namespace Validators;
+
+public class CreateDeviceDtoValidator : AbstractValidator<CreateDeviceDto>
+{
+    public CreateDeviceDtoValidator()
+    {
+        RuleFor(x => x.ComputerName).NotEmpty();
+        RuleFor(x => x.SerialNumber).NotEmpty();
+        RuleFor(x => x.MacAddress).NotEmpty();
+        RuleFor(x => x.DeviceModelId).NotEmpty();
+    }
+}
+
+
+CreateDeviceModelDtoValidator.cs
+using Dtos;
+using FluentValidation;
+
+namespace Validators;
+
+public class CreateDeviceModelDtoValidator : AbstractValidator<CreateDeviceModelDto>
+{
+    public CreateDeviceModelDtoValidator()
+    {
+        RuleFor(x => x.Manufacturer).NotEmpty();
+        RuleFor(x => x.Model).NotEmpty();
+        RuleFor(x => x.Type).NotEmpty();
+    }
+}
+
+
+
+🗃️ 4. Repositórios
+DeviceRepository.cs
+using Data;
+using Microsoft.EntityFrameworkCore;
+using Models;
+
+namespace Repositories;
+
+public class DeviceRepository
+{
+    private readonly AppDbContext _context;
+
+    public DeviceRepository(AppDbContext context) => _context = context;
+
+    public async Task AddAsync(Device device)
+    {
+        _context.Devices.Add(device);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<Device>> GetAllAsync() =>
+        await _context.Devices.Include(d => d.DeviceModel).ToListAsync();
+}
+
+
+DeviceModelRepository.cs
+using Data;
+using Microsoft.EntityFrameworkCore;
+using Models;
+
+namespace Repositories;
+
+public class DeviceModelRepository
+{
+    private readonly AppDbContext _context;
+
+    public DeviceModelRepository(AppDbContext context) => _context = context;
+
+    public async Task AddAsync(DeviceModel model)
+    {
+        _context.DeviceModels.Add(model);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<DeviceModel?> GetByIdAsync(Guid id) =>
+        await _context.DeviceModels.FindAsync(id);
+}
+
+
+
+⚙️ 5. Serviços
+DeviceService.cs
+using Dtos;
+using Models;
+using Repositories;
+using ValueObjects;
+
+namespace Services;
+
+public class DeviceService
+{
+    private readonly DeviceRepository _deviceRepo;
+    private readonly DeviceModelRepository _modelRepo;
+
+    public DeviceService(DeviceRepository deviceRepo, DeviceModelRepository modelRepo)
+    {
+        _deviceRepo = deviceRepo;
+        _modelRepo = modelRepo;
+    }
+
+    public async Task<Device> CreateAsync(CreateDeviceDto dto)
+    {
+        var model = await _modelRepo.GetByIdAsync(dto.DeviceModelId)
+            ?? throw new ArgumentException("Device model not found.");
+
+        var device = new Device(dto.ComputerName, dto.SerialNumber, dto.MacAddress, model);
+        await _deviceRepo.AddAsync(device);
+        return device;
+    }
+
+    public Task<List<Device>> GetAllAsync() => _deviceRepo.GetAllAsync();
+}
+
+
+DeviceModelService.cs
+using Dtos;
+using Models;
+using Repositories;
+
+namespace Services;
+
+public class DeviceModelService
+{
+    private readonly DeviceModelRepository _repo;
+
+    public DeviceModelService(DeviceModelRepository repo) => _repo = repo;
+
+    public async Task<DeviceModel> CreateAsync(CreateDeviceModelDto dto)
+    {
+        var model = new DeviceModel(dto.Manufacturer, dto.Model, dto.Type);
+        await _repo.AddAsync(model);
+        return model;
+    }
+}
+
+
+
+🌐 6. Endpoints
+DeviceEndpoints.cs
+using Dtos;
+using FluentValidation;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Services;
+
+namespace Endpoints;
+
+public static class DeviceEndpoints
+{
+    public static void MapDeviceEndpoints(this IEndpointRouteBuilder app)
+    {
+        app.MapPost("/devices", async (
+            CreateDeviceDto dto,
+            IValidator<CreateDeviceDto> validator,
+            DeviceService service) =>
+        {
+            var validation = await validator.ValidateAsync(dto);
+            if (!validation.IsValid)
+                return Results.BadRequest(validation.Errors);
+
+            var device = await service.CreateAsync(dto);
+            return Results.Created($"/devices/{device.Id}", device);
+        });
+
+        app.MapGet("/devices", async (DeviceService service) =>
+        {
+            var devices = await service.GetAllAsync();
+            return Results.Ok(devices);
+        });
+    }
+}
+
+
+DeviceModelEndpoints.cs
+using Dtos;
+using FluentValidation;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Services;
+
+namespace Endpoints;
+
+public static class DeviceModelEndpoints
+{
+    public static void MapDeviceModelEndpoints(this IEndpointRouteBuilder app)
+    {
+        app.MapPost("/device-models", async (
+            CreateDeviceModelDto dto,
+            IValidator<CreateDeviceModelDto> validator,
+            DeviceModelService service) =>
+        {
+            var validation = await validator.ValidateAsync(dto);
+            if (!validation.IsValid)
+                return Results.BadRequest(validation.Errors);
+
+            var model = await service.CreateAsync(dto);
+            return Results.Created($"/device-models/{model.Id}", model);
+        });
+    }
+}
+
+
+
+🗃️ 7. EF Core + SQLite
+AppDbContext.cs
+using Microsoft.EntityFrameworkCore;
+using Models;
+
+namespace Data;
+
+public class AppDbContext : DbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+    public DbSet<Device> Devices => Set<Device>();
+    public DbSet<DeviceModel> DeviceModels => Set<DeviceModel>();
+}
+
+
+
+🚀 8. Program.cs
+using Data;
+using Endpoints;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
+using Repositories;
+using Services;
+using Validators;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AppDbContext>(opt =>
+    opt.UseSqlite("Data Source=devices.db"));
+
+builder.Services.AddScoped<DeviceRepository>();
+builder.Services.AddScoped<DeviceModelRepository>();
+builder.Services.AddScoped<DeviceService>();
+builder.Services.AddScoped<DeviceModelService>();
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateDeviceDtoValidator>();
+builder.Services.AddFluentValidationAutoValidation();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.MapDeviceEndpoints();
+app.MapDeviceModelEndpoints();
+
+app.Run();
+
+
+
+🧪 9. Testes com xUnit (DeviceTests.cs)
+using Models;
+using Xunit;
+
+namespace Tests;
+
+public class DeviceTests
+{
+    [Fact]
+    public void Should_Create_Device_With_Valid_Data()
+    {
+        var model = new DeviceModel("Dell", "XPS 13", "Laptop");
+        var device = new Device("PC-01", "ABC123", "00:11:22:33:44:55", model);
+
+        Assert.Equal("ABC123", device.SerialNumber);
+        Assert.Equal("00:11:22:33:44:55", device.MacAddress.Value);
+        Assert.Equal("PC-01", device.ComputerName.Value);
+        Assert.Equal(model, device.DeviceModel);
+    }
+}
+
+
+
+Se quiser, posso te ajudar a criar um script para popular o banco com dados iniciais ou configurar testes de integração com banco em memória. Quer seguir por

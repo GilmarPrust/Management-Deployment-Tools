@@ -1,0 +1,93 @@
+✅ 1. Criar os Services (Camada de Serviço)
+Essa camada concentra a lógica de negócio e é chamada pelos endpoints. Cada entidade normalmente tem seu XXXService, por exemplo:
+
+DeviceService
+
+DeviceModelService
+
+FirmwareService
+
+O que fazer:
+
+Métodos como GetAll, GetById, Create, Update, Delete
+
+Aplicar validações de regra de negócio (não apenas de modelo)
+
+Usar DbContext, AutoMapper e retorno tipado
+
+✅ 2. Criar os Endpoints (Minimal APIs)
+Agora conecte os serviços à camada de apresentação da API, usando MapGroup() ou MapXXXEndpoints() separados por entidade.
+
+Boas práticas:
+
+Agrupar por rota base (/api/devices, /api/device-models)
+
+Separar por arquivos/pastas para manter organização
+
+Usar DTOs nos endpoints (entrada e saída)
+
+✅ 3. Tratamento de Erros (Middlewares)
+Adicionar um middleware global para capturar exceções e retornar erros formatados.
+
+csharp
+Copiar
+Editar
+app.UseExceptionHandler("/error");
+✅ 4. Validação com FluentValidation (Opcional e recomendado)
+Para validações mais avançadas do que [Required], crie validadores separados.
+
+Exemplo:
+
+csharp
+Copiar
+Editar
+public class DeviceDTOValidator : AbstractValidator<DeviceDTO>
+{
+    public DeviceDTOValidator()
+    {
+        RuleFor(x => x.SerialNumber).NotEmpty().WithMessage("Serial é obrigatório");
+        // Outras regras
+    }
+}
+✅ 5. Swagger (Documentação)
+Se ainda não fez, habilite o Swagger:
+
+csharp
+Copiar
+Editar
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+E no app:
+
+csharp
+Copiar
+Editar
+app.UseSwagger();
+app.UseSwaggerUI();
+✅ 6. Autenticação/Autorização (Se necessário)
+Se a API for usada por usuários autenticados, implemente:
+
+JWT
+
+Autorização por Role ou Claims
+
+✅ 7. Testes (Unitários e de Integração)
+Implemente testes automatizados (xUnit, NUnit ou MSTest) especialmente para os Services.
+
+✅ 8. Preparar para Produção
+Configurar ConnectionStrings via appsettings.Production.json
+
+Usar Migrations do EF Core (dotnet ef migrations)
+
+Configurar CORS se necessário
+
+Resumo de Estrutura:
+Copiar
+Editar
+/DTOs
+/Services
+/Endpoints
+/Mappings
+/Validators
+Program.cs
+ApplicationDbContext.cs

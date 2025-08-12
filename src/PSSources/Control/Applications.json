@@ -1,0 +1,24 @@
+[
+  {
+    "Guid": "c1d27442-401b-4a9a-95c2-156d38436527",
+    "Enabled": true,
+    "NameID": "7-zip",
+    "DisplayName": "7-Zip",
+    "Version": "24.09",
+    "FileName": "7z2409-x64.msi",
+    "Argument": "/qb /norestart",
+    "Source": "\\Applications\\7-Zip",
+	"Filter": "(Get-CimInstance -ClassName Win32_SystemEnclosure -Property ChassisTypes) -match '(9|10)'"
+  },
+  {
+    "Guid": "657b3971-4a6b-466d-a263-63e94acced91",
+    "Enabled": true,
+    "NameID": "AdobeReaderDC",
+    "DisplayName": "Adobe Reader DC",
+    "Version": "23.008.20470",
+    "FileName": "Setup.exe",
+    "Argument": "/sPB /ini setup.ini",
+    "Source": "\\Applications\\AdobeReaderDC",
+	"Filter": "846c3c8d-dd1a-4174-83b0-f88855f996c9"
+  }
+]

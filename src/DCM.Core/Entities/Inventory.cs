@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities
+{
+    /// <summary>
+    /// Representa um inventário vinculado a um dispositivo.
+    /// </summary>
+    public class Inventory : BaseEntity
+    {
+        /// <summary>
+        /// ID do dispositivo ao qual o inventário está vinculado.
+        /// </summary>
+        [Required]
+        public Guid DeviceId { get; set; }
+
+        /// <summary>
+        /// Dispositivo associado ao inventário.
+        /// </summary>
+        public virtual Device Device { get; set; }
+
+        /// <summary>
+        /// Dados de hardware do inventário (ex: processador, memória, fabricante).
+        /// </summary>
+        public ICollection<InventoryHardware> Hardware { get; set; } = new List<InventoryHardware>();
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public Inventory() { }
+    }
+
+    public class InventoryHardware
+    {
+        public int Id { get; set; }
+        public string Key { get; set; }
+        public string Value { get; set; }
+        public int InventoryId { get; set; }
+        public Inventory Inventory { get; set; }
+    }
+}

@@ -1,0 +1,1748 @@
+[
+  {
+    "ContainingType": "DCM.API.Endpoints.ApplicationEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapApplicationEndpoints\u003Eb__0_0",
+    "RelativePath": "api/applications/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Application"
+    ],
+    "EndpointName": "GetAllApplications",
+    "Description": "Retorna uma lista de todas as aplica\u00E7\u00F5es cadastradas.",
+    "Summary": "Obt\u00E9m todas as aplica\u00E7\u00F5es."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ApplicationEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapApplicationEndpoints\u003Eb__0_2",
+    "RelativePath": "api/applications/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.Application.ApplicationCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Application"
+    ],
+    "EndpointName": "CreateApplication",
+    "Description": "Adiciona uma nova aplica\u00E7\u00E3o ao sistema.",
+    "Summary": "Cria uma nova aplica\u00E7\u00E3o."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ApplicationEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapApplicationEndpoints\u003Eb__0_1",
+    "RelativePath": "api/applications/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Application"
+    ],
+    "EndpointName": "GetApplicationById",
+    "Description": "Retorna os dados de uma aplica\u00E7\u00E3o espec\u00EDfica pelo seu identificador.",
+    "Summary": "Obt\u00E9m uma aplica\u00E7\u00E3o pelo Id."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ApplicationEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapApplicationEndpoints\u003Eb__0_3",
+    "RelativePath": "api/applications/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.Application.ApplicationUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Application"
+    ],
+    "EndpointName": "UpdateApplication",
+    "Description": "Atualiza os dados de uma aplica\u00E7\u00E3o pelo seu identificador.",
+    "Summary": "Atualiza uma aplica\u00E7\u00E3o existente."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ApplicationEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapApplicationEndpoints\u003Eb__0_4",
+    "RelativePath": "api/applications/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Application"
+    ],
+    "EndpointName": "DeleteApplication",
+    "Description": "Remove uma aplica\u00E7\u00E3o do sistema pelo seu identificador.",
+    "Summary": "Remove uma aplica\u00E7\u00E3o."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.AppxPackageEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAppxPackageEndPoints\u003Eb__0_0",
+    "RelativePath": "api/appxpackages/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "AppxPackage"
+    ],
+    "EndpointName": "GetAllAppxPackages",
+    "Description": "Retorna todos os pacotes Appx cadastrados.",
+    "Summary": "Lista todos os Appx Packages"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.AppxPackageEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAppxPackageEndPoints\u003Eb__0_2",
+    "RelativePath": "api/appxpackages/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.AppxPackage.AppxPackageCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "AppxPackage"
+    ],
+    "EndpointName": "CreateAppxPackage",
+    "Description": "Cria um novo pacote Appx com os dados informados.",
+    "Summary": "Cria um novo Appx Package"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.AppxPackageEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAppxPackageEndPoints\u003Eb__0_1",
+    "RelativePath": "api/appxpackages/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "AppxPackage"
+    ],
+    "EndpointName": "GetAppxPackageById",
+    "Description": "Retorna o pacote Appx correspondente ao Id informado.",
+    "Summary": "Busca um Appx Package pelo Id"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.AppxPackageEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAppxPackageEndPoints\u003Eb__0_3",
+    "RelativePath": "api/appxpackages/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.AppxPackage.AppxPackageUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "AppxPackage"
+    ],
+    "EndpointName": "UpdateAppxPackage",
+    "Description": "Atualiza os dados de um pacote Appx existente.",
+    "Summary": "Atualiza um Appx Package"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.AppxPackageEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAppxPackageEndPoints\u003Eb__0_4",
+    "RelativePath": "api/appxpackages/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "AppxPackage"
+    ],
+    "EndpointName": "DeleteAppxPackage",
+    "Description": "Remove o pacote Appx correspondente ao Id informado.",
+    "Summary": "Remove um Appx Package"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_0",
+    "RelativePath": "api/deployprofiles/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfile"
+    ],
+    "EndpointName": "GetAllDeployProfiles",
+    "Description": "Retorna todos os perfis de implanta\u00E7\u00E3o cadastrados.",
+    "Summary": "Lista todos os perfis de implanta\u00E7\u00E3o"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_2",
+    "RelativePath": "api/deployprofiles/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.DeployProfile.DeployProfileCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfile"
+    ],
+    "EndpointName": "CreateDeployProfile",
+    "Description": "Cria um novo perfil de implanta\u00E7\u00E3o com os dados informados.",
+    "Summary": "Cria um novo perfil de implanta\u00E7\u00E3o"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_1",
+    "RelativePath": "api/deployprofiles/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfile"
+    ],
+    "EndpointName": "GetDeployProfileById",
+    "Description": "Retorna o perfil de implanta\u00E7\u00E3o correspondente ao Id informado.",
+    "Summary": "Busca um perfil de implanta\u00E7\u00E3o pelo Id"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_3",
+    "RelativePath": "api/deployprofiles/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.DeployProfile.DeployProfileUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfile"
+    ],
+    "EndpointName": "UpdateDeployProfile",
+    "Description": "Atualiza os dados de um perfil de implanta\u00E7\u00E3o existente.",
+    "Summary": "Atualiza um perfil de implanta\u00E7\u00E3o"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_4",
+    "RelativePath": "api/deployprofiles/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfile"
+    ],
+    "EndpointName": "DeleteDeployProfile",
+    "Description": "Remove o perfil de implanta\u00E7\u00E3o correspondente ao Id informado.",
+    "Summary": "Remove um perfil de implanta\u00E7\u00E3o"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_5",
+    "RelativePath": "api/deployprofiles/{id:guid}/applications",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfile"
+    ],
+    "EndpointName": "GetApplicationsByDeployProfileId",
+    "Description": "Provides endpoints to create, read, update, and delete DeployProfiles.",
+    "Summary": "Endpoints for managing DeployProfiles"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_8",
+    "RelativePath": "api/deployprofiles/{id:guid}/device",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.AppxPackage.Devices.AppxPackageDevicesAddDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfile"
+    ],
+    "EndpointName": "AddDeviceToDeployProfile",
+    "Description": "Provides endpoints to create, read, update, and delete DeployProfiles.",
+    "Summary": "Endpoints for managing DeployProfiles"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_9",
+    "RelativePath": "api/deployprofiles/{id:guid}/device/{deviceId:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "deviceId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfile"
+    ],
+    "EndpointName": "RemoveDeviceFromDeployProfile",
+    "Description": "Provides endpoints to create, read, update, and delete DeployProfiles.",
+    "Summary": "Endpoints for managing DeployProfiles"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_6",
+    "RelativePath": "api/deployprofiles/{id:guid}/devices",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfile"
+    ],
+    "EndpointName": "GetDevicesByDeployProfileId",
+    "Description": "Provides endpoints to create, read, update, and delete DeployProfiles.",
+    "Summary": "Endpoints for managing DeployProfiles"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeployProfileEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeployProfileEndpoints\u003Eb__0_7",
+    "RelativePath": "api/deployprofiles/{id:guid}/devices",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.AppxPackage.Devices.AppxPackageDevicesUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeployProfile"
+    ],
+    "EndpointName": "UpdateDevicesByDeployProfileId",
+    "Description": "Provides endpoints to create, read, update, and delete DeployProfiles.",
+    "Summary": "Endpoints for managing DeployProfiles"
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_0",
+    "RelativePath": "api/devicemodels/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeviceModel"
+    ],
+    "EndpointName": "GetAllDeviceModels",
+    "Description": "Retorna uma lista de todos os modelos de dispositivo cadastrados.",
+    "Summary": "Obt\u00E9m todos os modelos de dispositivo."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_2",
+    "RelativePath": "api/devicemodels/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.DeviceModel.DeviceModelCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeviceModel"
+    ],
+    "EndpointName": "CreateDeviceModel",
+    "Description": "Adiciona um novo modelo de dispositivo ao sistema.",
+    "Summary": "Cria um novo modelo de dispositivo."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_1",
+    "RelativePath": "api/devicemodels/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeviceModel"
+    ],
+    "EndpointName": "GetDeviceModelById",
+    "Description": "Retorna os dados de um modelo de dispositivo espec\u00EDfico pelo seu identificador.",
+    "Summary": "Obt\u00E9m um modelo de dispositivo pelo Id."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_3",
+    "RelativePath": "api/devicemodels/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.DeviceModel.DeviceModelUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeviceModel"
+    ],
+    "EndpointName": "UpdateDeviceModel",
+    "Description": "Atualiza os dados de um modelo de dispositivo pelo seu identificador.",
+    "Summary": "Atualiza um modelo de dispositivo existente."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeviceModelEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceModelsEndpoints\u003Eb__0_4",
+    "RelativePath": "api/devicemodels/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DeviceModel"
+    ],
+    "EndpointName": "DeleteDeviceModel",
+    "Description": "Remove um modelo de dispositivo do sistema pelo seu identificador.",
+    "Summary": "Remove um modelo de dispositivo."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_0",
+    "RelativePath": "api/devices/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Device"
+    ],
+    "EndpointName": "GetAllDevices",
+    "Description": "Retorna uma lista de todos os dispositivos cadastrados.",
+    "Summary": "Obt\u00E9m todos os dispositivos."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_2",
+    "RelativePath": "api/devices/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.Device.DeviceCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Device"
+    ],
+    "EndpointName": "CreateDevice",
+    "Description": "Adiciona um novo dispositivo ao sistema.",
+    "Summary": "Cria um novo dispositivo."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_1",
+    "RelativePath": "api/devices/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Device"
+    ],
+    "EndpointName": "GetDeviceById",
+    "Description": "Retorna os dados de um dispositivo espec\u00EDfico pelo seu identificador.",
+    "Summary": "Obt\u00E9m um dispositivo pelo Id."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_3",
+    "RelativePath": "api/devices/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.Device.DeviceUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Device"
+    ],
+    "EndpointName": "UpdateDevice",
+    "Description": "Atualiza os dados de um dispositivo pelo seu identificador.",
+    "Summary": "Atualiza um dispositivo existente."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DeviceEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDeviceEndpoints\u003Eb__0_4",
+    "RelativePath": "api/devices/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Device"
+    ],
+    "EndpointName": "DeleteDevice",
+    "Description": "Remove um dispositivo do sistema pelo seu identificador.",
+    "Summary": "Remove um dispositivo."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_0",
+    "RelativePath": "api/driverpacks/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPack"
+    ],
+    "EndpointName": "GetAllDriverPacks",
+    "Description": "Retorna uma lista de todos os pacotes de driver cadastrados.",
+    "Summary": "Obt\u00E9m todos os pacotes de driver."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_2",
+    "RelativePath": "api/driverpacks/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.DriverPack.DriverPackCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPack"
+    ],
+    "EndpointName": "CreateDriverPack",
+    "Description": "Adiciona um novo pacote de driver ao sistema.",
+    "Summary": "Cria um novo pacote de driver."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_1",
+    "RelativePath": "api/driverpacks/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPack"
+    ],
+    "EndpointName": "GetDriverPackById",
+    "Description": "Retorna os dados de um pacote de driver espec\u00EDfico pelo seu identificador.",
+    "Summary": "Obt\u00E9m um pacote de driver pelo Id."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_3",
+    "RelativePath": "api/driverpacks/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.DriverPack.DriverPackUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPack"
+    ],
+    "EndpointName": "UpdateDriverPack",
+    "Description": "Atualiza os dados de um pacote de driver pelo seu identificador.",
+    "Summary": "Atualiza um pacote de driver existente."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.DriverPackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDriverPackEndpoints\u003Eb__0_4",
+    "RelativePath": "api/driverpacks/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "DriverPack"
+    ],
+    "EndpointName": "DeleteDriverPack",
+    "Description": "Remove um pacote de driver do sistema pelo seu identificador.",
+    "Summary": "Remove um pacote de driver."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.FirmwareEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFirmwareEndpoints\u003Eb__0_0",
+    "RelativePath": "api/firmwares/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Firmware"
+    ],
+    "EndpointName": "GetAllFirmwares",
+    "Description": "Retorna uma lista de todos os firmwares cadastrados.",
+    "Summary": "Obt\u00E9m todos os firmwares."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.FirmwareEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFirmwareEndpoints\u003Eb__0_2",
+    "RelativePath": "api/firmwares/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.Firmware.FirmwareCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Firmware"
+    ],
+    "EndpointName": "CreateFirmware",
+    "Description": "Adiciona um novo firmware ao sistema.",
+    "Summary": "Cria um novo firmware."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.FirmwareEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFirmwareEndpoints\u003Eb__0_1",
+    "RelativePath": "api/firmwares/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Firmware"
+    ],
+    "EndpointName": "GetFirmwareById",
+    "Description": "Retorna os dados de um firmware espec\u00EDfico pelo seu identificador.",
+    "Summary": "Obt\u00E9m um firmware pelo Id."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.FirmwareEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFirmwareEndpoints\u003Eb__0_3",
+    "RelativePath": "api/firmwares/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.Firmware.FirmwareUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Firmware"
+    ],
+    "EndpointName": "UpdateFirmware",
+    "Description": "Atualiza os dados de um firmware pelo seu identificador.",
+    "Summary": "Atualiza um firmware existente."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.FirmwareEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFirmwareEndpoints\u003Eb__0_4",
+    "RelativePath": "api/firmwares/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Firmware"
+    ],
+    "EndpointName": "DeleteFirmware",
+    "Description": "Remove um firmware do sistema pelo seu identificador.",
+    "Summary": "Remove um firmware."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapImageEndpoints\u003Eb__0_0",
+    "RelativePath": "api/images/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Image"
+    ],
+    "EndpointName": "GetAllImages",
+    "Description": "Retorna uma lista de todas as imagens de sistema operacional cadastradas.",
+    "Summary": "Obt\u00E9m todas as imagens de sistema operacional."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapImageEndpoints\u003Eb__0_2",
+    "RelativePath": "api/images/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.Image.ImageCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Image"
+    ],
+    "EndpointName": "CreateImage",
+    "Description": "Adiciona uma nova imagem de sistema operacional ao sistema.",
+    "Summary": "Cria uma nova imagem de sistema operacional."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapImageEndpoints\u003Eb__0_1",
+    "RelativePath": "api/images/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Image"
+    ],
+    "EndpointName": "GetImageById",
+    "Description": "Retorna os dados de uma imagem de sistema operacional espec\u00EDfica pelo seu identificador.",
+    "Summary": "Obt\u00E9m uma imagem de sistema operacional pelo Id."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapImageEndpoints\u003Eb__0_3",
+    "RelativePath": "api/images/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.Image.ImageUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Image"
+    ],
+    "EndpointName": "UpdateImage",
+    "Description": "Atualiza os dados de uma imagem de sistema operacional pelo seu identificador.",
+    "Summary": "Atualiza uma imagem de sistema operacional existente."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ImageEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapImageEndpoints\u003Eb__0_4",
+    "RelativePath": "api/images/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Image"
+    ],
+    "EndpointName": "DeleteImage",
+    "Description": "Remove uma imagem de sistema operacional do sistema pelo seu identificador.",
+    "Summary": "Remove uma imagem de sistema operacional."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapInventoryEndpoints\u003Eb__0_0",
+    "RelativePath": "api/inventories/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Inventory"
+    ],
+    "EndpointName": "GetAllInventories",
+    "Description": "Retorna uma lista de todos os invent\u00E1rios cadastrados.",
+    "Summary": "Obt\u00E9m todos os invent\u00E1rios."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapInventoryEndpoints\u003Eb__0_2",
+    "RelativePath": "api/inventories/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.Inventory.InventoryCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Inventory"
+    ],
+    "EndpointName": "CreateInventory",
+    "Description": "Adiciona um novo invent\u00E1rio ao sistema.",
+    "Summary": "Cria um novo invent\u00E1rio."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapInventoryEndpoints\u003Eb__0_1",
+    "RelativePath": "api/inventories/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Inventory"
+    ],
+    "EndpointName": "GetInventoryById",
+    "Description": "Retorna os dados de um invent\u00E1rio espec\u00EDfico pelo seu identificador.",
+    "Summary": "Obt\u00E9m um invent\u00E1rio pelo Id."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.InventoryEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapInventoryEndpoints\u003Eb__0_3",
+    "RelativePath": "api/inventories/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Inventory"
+    ],
+    "EndpointName": "DeleteInventory",
+    "Description": "Remove um invent\u00E1rio do sistema pelo seu identificador.",
+    "Summary": "Remove um invent\u00E1rio."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ManufacturerEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapManufacturerEndpoints\u003Eb__0_0",
+    "RelativePath": "api/manufacturers/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Manufacturer"
+    ],
+    "EndpointName": "GetAllManufacturers",
+    "Description": "Retorna uma lista de todos os fabricantes cadastrados.",
+    "Summary": "Obt\u00E9m todos os fabricantes."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ManufacturerEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapManufacturerEndpoints\u003Eb__0_2",
+    "RelativePath": "api/manufacturers/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.Manufacturer.ManufacturerCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Manufacturer"
+    ],
+    "EndpointName": "CreateManufacturer",
+    "Description": "Adiciona um novo fabricante ao sistema.",
+    "Summary": "Cria um novo fabricante."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ManufacturerEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapManufacturerEndpoints\u003Eb__0_1",
+    "RelativePath": "api/manufacturers/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Manufacturer"
+    ],
+    "EndpointName": "GetManufacturerById",
+    "Description": "Retorna os dados de um fabricante espec\u00EDfico pelo seu identificador.",
+    "Summary": "Obt\u00E9m um fabricante pelo Id."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ManufacturerEndPoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapManufacturerEndpoints\u003Eb__0_3",
+    "RelativePath": "api/manufacturers/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Manufacturer"
+    ],
+    "EndpointName": "DeleteManufacturer",
+    "Description": "Remove um fabricante do sistema pelo seu identificador.",
+    "Summary": "Remove um fabricante."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.OperatingSystemEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapOperatingSystemEndpoints\u003Eb__0_0",
+    "RelativePath": "api/operatingsystems/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "OperatingSystem"
+    ],
+    "EndpointName": "GetAllOperatingSystems",
+    "Description": "Retorna uma lista de todos os sistemas operacionais cadastrados.",
+    "Summary": "Obt\u00E9m todos os sistemas operacionais."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.OperatingSystemEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapOperatingSystemEndpoints\u003Eb__0_2",
+    "RelativePath": "api/operatingsystems/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.OperatingSystem.OperatingSystemCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "OperatingSystem"
+    ],
+    "EndpointName": "CreateOperatingSystem",
+    "Description": "Adiciona um novo sistema operacional ao sistema.",
+    "Summary": "Cria um novo sistema operacional."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.OperatingSystemEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapOperatingSystemEndpoints\u003Eb__0_1",
+    "RelativePath": "api/operatingsystems/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "OperatingSystem"
+    ],
+    "EndpointName": "GetOperatingSystemById",
+    "Description": "Retorna os dados de um sistema operacional espec\u00EDfico pelo seu identificador.",
+    "Summary": "Obt\u00E9m um sistema operacional pelo Id."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.OperatingSystemEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapOperatingSystemEndpoints\u003Eb__0_3",
+    "RelativePath": "api/operatingsystems/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "OperatingSystem"
+    ],
+    "EndpointName": "DeleteOperatingSystem",
+    "Description": "Remove um sistema operacional do sistema pelo seu identificador.",
+    "Summary": "Remove um sistema operacional."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ProfileTaskEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProfileTaskEndpoints\u003Eb__0_0",
+    "RelativePath": "api/profiletasks/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "ProfileTask"
+    ],
+    "EndpointName": "GetAllProfileTasks",
+    "Description": "Retorna uma lista de todas as tarefas de perfil cadastradas.",
+    "Summary": "Obt\u00E9m todas as tarefas de perfil."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ProfileTaskEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProfileTaskEndpoints\u003Eb__0_2",
+    "RelativePath": "api/profiletasks/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.ProfileTask.ProfileTaskCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "ProfileTask"
+    ],
+    "EndpointName": "CreateProfileTask",
+    "Description": "Adiciona uma nova tarefa de perfil ao sistema.",
+    "Summary": "Cria uma nova tarefa de perfil."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ProfileTaskEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProfileTaskEndpoints\u003Eb__0_1",
+    "RelativePath": "api/profiletasks/{id:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "ProfileTask"
+    ],
+    "EndpointName": "GetProfileTaskById",
+    "Description": "Retorna os dados de uma tarefa de perfil espec\u00EDfica pelo seu identificador.",
+    "Summary": "Obt\u00E9m uma tarefa de perfil pelo Id."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ProfileTaskEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProfileTaskEndpoints\u003Eb__0_3",
+    "RelativePath": "api/profiletasks/{id:guid}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DCM.Application.DTOs.ProfileTask.ProfileTaskUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "ProfileTask"
+    ],
+    "EndpointName": "UpdateProfileTask",
+    "Description": "Atualiza os dados de uma tarefa de perfil pelo seu identificador.",
+    "Summary": "Atualiza uma tarefa de perfil existente."
+  },
+  {
+    "ContainingType": "DCM.API.Endpoints.ProfileTaskEndPoint\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProfileTaskEndpoints\u003Eb__0_4",
+    "RelativePath": "api/profiletasks/{id:guid}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "ProfileTask"
+    ],
+    "EndpointName": "DeleteProfileTask",
+    "Description": "Remove uma tarefa de perfil do sistema pelo seu identificador.",
+    "Summary": "Remove uma tarefa de perfil."
+  },
+  {
+    "ContainingType": "Program\u002B\u003C\u003Ec",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_2",
+    "RelativePath": "hello",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Test"
+    ],
+    "EndpointName": "HelloWorld"
+  }
+]

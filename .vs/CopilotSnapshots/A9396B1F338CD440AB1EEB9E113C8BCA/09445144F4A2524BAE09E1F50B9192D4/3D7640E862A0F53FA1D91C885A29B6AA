@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace DCM.Core.Interfaces
+{
+    /// <summary>
+    /// Interface para operações de serviço de aplicativos.
+    /// Os DTOs referenciados devem estar em um projeto de contratos/DTOs.
+    /// </summary>
+    public interface IApplicationService
+    {
+        Task<IEnumerable<ApplicationReadDTO>> GetAllAsync();
+        Task<ApplicationReadDTO?> GetByIdAsync(Guid id);
+        Task<ApplicationReadDTO> CreateAsync(ApplicationCreateDTO dto);
+        Task<ApplicationReadDTO?> UpdateAsync(Guid id, ApplicationUpdateDTO dto);
+        Task<bool> DeleteAsync(Guid id);
+    }
+}

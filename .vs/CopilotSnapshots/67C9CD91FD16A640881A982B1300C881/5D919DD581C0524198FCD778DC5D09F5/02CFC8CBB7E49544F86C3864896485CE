@@ -1,0 +1,128 @@
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+
+namespace API.EndPoints
+{
+    public static class EndpointRegistration
+    {
+        public static void MapEndpoints(this IEndpointRouteBuilder app)
+        {
+            var endpointTypes = typeof(EndpointRegistration).Assembly
+                .GetTypes()
+                .Where(t => typeof(IEndpointDefinition).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+
+            foreach (var type in endpointTypes)
+            {
+                var instance = (IEndpointDefinition)Activator.CreateInstance(type)!;
+                instance.RegisterEndpoints(app);
+            }
+        }
+    }
+
+    public interface IEndpointDefinition
+    {
+        void RegisterEndpoints(IEndpointRouteBuilder app);
+    }
+
+    public class ApplicationEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/applications")
+                .WithTags("Application")
+                .WithName("ApplicationEndpoints")
+                .WithSummary("Endpoints for managing applications")
+                .WithDescription("Provides endpoints to create, read, update, and delete applications.")
+                .MapApplicationEndpoints();
+        }
+    }
+
+    public class AppxPackageEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/appxpackages").WithTags("AppxPackage").MapAppxPackageEndPoints();
+        }
+    }
+
+    public class DeployProfileEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/deployprofiles").WithTags("DeployProfile").MapDeployProfileEndpoints();
+        }
+    }
+
+    public class DeviceEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/devices").WithTags("Device").MapDeviceEndpoints();
+        }
+    }
+
+    public class DeviceModelEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/devicemodels").WithTags("DeviceModel").MapDeviceModelsEndpoints();
+        }
+    }
+
+    public class DriverPackEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/driverpacks").WithTags("DriverPack").MapDriverPackEndpoints();
+        }
+    }
+
+    public class FirmwareEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/firmwares").WithTags("Firmware").MapFirmwareEndpoints();
+        }
+    }
+
+    public class ImageEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/images").WithTags("Image").MapImageEndpoints();
+        }
+    }
+
+    public class InventoryEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/inventories").WithTags("Inventory").MapInventoryEndpoints();
+        }
+    }
+
+    public class ProfileTaskEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/profiletasks").WithTags("ProfileTask").MapProfileTaskEndpoints();
+        }
+    }
+
+    public class ManufacturerEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/manufacturers").WithTags("Manufacturer").MapManufacturerEndpoints();
+        }
+    }
+
+    public class OperatingSystemEndpointDefinition : IEndpointDefinition
+    {
+        public void RegisterEndpoints(IEndpointRouteBuilder app)
+        {
+            app.MapGroup("/api/operatingsystems").WithTags("OperatingSystem").MapOperatingSystemEndpoints();
+        }
+    }
+}

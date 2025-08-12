@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\_DEV\\PROJETOS\\D.C.M2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2D72CD44-E84F-B051-EEAA-1F3428F22C5F}|src\\DCM.API\\DCM.API.csproj|d:\\_dev\\projetos\\d.c.m2\\src\\dcm.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D72CD44-E84F-B051-EEAA-1F3428F22C5F}|src\\DCM.API\\DCM.API.csproj|solutionrelative:src\\dcm.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 218,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.API\\Program.cs",
+              "RelativeDocumentMoniker": "src\\DCM.API\\Program.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.API\\Program.cs",
+              "RelativeToolTip": "src\\DCM.API\\Program.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwDkAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-12T23:10:52.665Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

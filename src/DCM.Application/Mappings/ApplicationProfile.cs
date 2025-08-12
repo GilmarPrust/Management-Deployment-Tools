@@ -1,0 +1,21 @@
+﻿using AutoMapper;
+using DCM.Application.DTOs.Application;
+using DCM.Core.Entities;
+
+namespace DCM.Application.Mappings
+{
+    public class ApplicationProfile : Profile
+    {
+        public ApplicationProfile()
+        {
+            // Entidade → DTO de leitura
+            CreateMap<DCM.Core.Entities.Application, ApplicationReadDTO>();
+
+            // DTO de criação → Entidade
+            CreateMap<ApplicationCreateDTO, DCM.Core.Entities.Application>();
+
+            // DTO de atualização → Entidade
+            CreateMap<ApplicationUpdateDTO, DCM.Core.Entities.Application>();
+        }
+    }
+}

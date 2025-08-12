@@ -1,0 +1,67 @@
+﻿using API.DTOs.AppxPackage;
+using API.DTOs.DriverPack;
+using API.Services.Interfaces;
+using FluentValidation;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+
+namespace API.EndPoints
+{
+    public static class DriverPackEndpoints
+    {
+        public static RouteGroupBuilder MapDriverPackEndpoints(this RouteGroupBuilder group)
+        {
+            group.MapGroup("/api/driverpacks")
+                .WithTags("Driver Packs")
+                .WithName("DriverPackEndpoints")
+                .WithSummary("Endpoints for managing Driver Packs")
+                .WithDescription("Provides endpoints to create, read, update, and delete driver packs.");
+
+            // GET all
+            group.MapGet("/", async ([FromServices] IDriverPackService service) =>
+                Results.Ok(await service.GetAllAsync()));
+
+            // GET by Id
+            group.MapGet("/{id:guid}", async ([FromServices] IDriverPackService service, Guid id) =>
+            {
+                var dto = await service.GetByIdAsync(id);
+                return dto is not null ? Results.Ok(dto) : Results.NotFound();
+            });
+
+            // POST
+            group.MapPost("/", async ([FromServices] IDriverPackService service, [FromServices] IValidator<DriverPackCreateDTO> validator, DriverPackCreateDTO dto) =>
+            {
+                if (dto == null)
+                    return Results.BadRequest("Dados obrigatórios não informados.");
+                var validation = await validator.ValidateAsync(dto);
+                if (!validation.IsValid)
+                    return Results.BadRequest(validation.Errors);
+                var created = await service.CreateAsync(dto);
+                return Results.Created($"/api/driverpacks/{created.Id}", created);
+            });
+
+            // PUT (atualização)
+            group.MapPut("/{id:guid}", async ([FromServices] IDriverPackService service, [FromServices] IValidator<DriverPackUpdateDTO> validator, Guid id, DriverPackUpdateDTO dto) =>
+            {
+                if (dto == null)
+                    return Results.BadRequest("Dados obrigatórios não informados.");
+                var validation = await validator.ValidateAsync(dto);
+                if (!validation.IsValid)
+                    return Results.BadRequest(validation.Errors);
+                var success = await service.UpdateAsync(id, dto);
+                return success ? Results.NoContent() : Results.NotFound();
+            });
+
+            // DELETE
+            group.MapDelete("/{id:guid}", async ([FromServices] IDriverPackService service, Guid id) =>
+            {
+                var deleted = await service.DeleteAsync(id);
+                return deleted ? Results.NoContent() : Results.NotFound();
+            });
+
+            return group;
+        }
+    }
+}

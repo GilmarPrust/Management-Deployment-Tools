@@ -1,0 +1,20 @@
+[
+  {
+    "Guid": "8ef46368-d8c0-43e4-9414-e590eda104ee",
+    "Manufacturer": "Dell Inc.",
+    "Model": "Optiplex 3070",
+    "Type": "0930"
+  },
+  {
+    "Guid": "6aae1236-ba2c-4bc5-97b8-e8150803f5f6",
+    "Manufacturer": "ASUS2",
+    "Model": "System Product Name3",
+    "Type": ""
+  },
+  {
+    "Guid": "7aae1236-ba2c-4bc5-97b8-e8150803f5f8",
+    "Manufacturer": "ASUS",
+    "Model": "System Product Name 2",
+    "Type": ""
+  }
+]

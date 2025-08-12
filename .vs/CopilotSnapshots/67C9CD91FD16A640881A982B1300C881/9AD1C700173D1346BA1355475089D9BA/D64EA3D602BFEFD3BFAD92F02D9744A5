@@ -1,0 +1,24 @@
+﻿namespace API.Host.Helpers
+{
+    public static class MiddlewareRegistrationExtensions
+    {
+        public static IApplicationBuilder UseCustomMiddlewares(this IApplicationBuilder app)
+        {
+            // Middleware para uso de arquivos estáticos
+            app.UseStaticFiles();
+
+            // Middleware para uso de CORS
+            app.UseHttpsRedirection();
+            app.UseCors();
+
+            // Middleware para tratamento de erros
+            app.UseExceptionHandler("/error");
+            app.Map("/error", (HttpContext httpContext) =>
+            {
+                return Results.Problem("Ocorreu um erro inesperado.");
+            });
+
+            return app;
+        }
+    }
+}

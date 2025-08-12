@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DCM.API</name>
+    </assembly>
+    <members>
+        <member name="T:DCM.API.Endpoints.ApplicationEndpoints">
+            <summary>
+            Define os endpoints para operações CRUD de Application.
+            O agrupamento e as especificações de rota são definidos na chamada de MapGroup.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.ApplicationEndpoints.MapApplicationEndpoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de Application no grupo fornecido.
+            As configurações de rota, tags e documentação devem ser feitas na chamada de MapGroup.
+            </summary>
+            <param name="group">O RouteGroupBuilder já configurado com rota base e metadados.</param>
+            <returns>O RouteGroupBuilder com endpoints mapeados.</returns>
+        </member>
+        <member name="T:DCM.API.Endpoints.AppxPackageEndPoints">
+            <summary>
+            Endpoints para operações CRUD de AppxPackage.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.AppxPackageEndPoints.MapAppxPackageEndPoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de AppxPackage no grupo fornecido.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Endpoints.DeployProfileEndpoints">
+            <summary>
+            Endpoints para operações CRUD de DeployProfile.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.DeployProfileEndpoints.MapDeployProfileEndpoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de DeployProfile no grupo fornecido.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Endpoints.DeviceEndpoints">
+            <summary>
+            Endpoints para operações CRUD de dispositivos.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.DeviceEndpoints.MapDeviceEndpoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de Device no grupo fornecido.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Endpoints.DeviceModelEndpoints">
+            <summary>
+            Endpoints para operações CRUD de modelos de dispositivo.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.DeviceModelEndpoints.MapDeviceModelsEndpoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de DeviceModel no grupo fornecido.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Endpoints.DriverPackEndpoints">
+            <summary>
+            Endpoints para operações CRUD de DriverPack.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.DriverPackEndpoints.MapDriverPackEndpoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de DriverPack no grupo fornecido.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Endpoints.FirmwareEndpoints">
+            <summary>
+            Endpoints para operações CRUD de firmware.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.FirmwareEndpoints.MapFirmwareEndpoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de Firmware no grupo fornecido.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Endpoints.ImageEndpoints">
+            <summary>
+            Endpoints para operações CRUD de imagens de sistema operacional.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.ImageEndpoints.MapImageEndpoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de Image no grupo fornecido.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Endpoints.InventoryEndpoints">
+            <summary>
+            Endpoints para operações CRUD de inventário.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.InventoryEndpoints.MapInventoryEndpoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de Inventory no grupo fornecido.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Endpoints.ManufacturerEndPoints">
+            <summary>
+            Endpoints para operações CRUD de fabricantes.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.ManufacturerEndPoints.MapManufacturerEndpoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de Manufacturer no grupo fornecido.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Endpoints.OperatingSystemEndPoint">
+            <summary>
+            Endpoints para operações CRUD de sistemas operacionais.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.OperatingSystemEndPoint.MapOperatingSystemEndpoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de OperatingSystem no grupo fornecido.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Endpoints.ProfileTaskEndPoint">
+            <summary>
+            Endpoints para operações CRUD de tarefas de perfil.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Endpoints.ProfileTaskEndPoint.MapProfileTaskEndpoints(Microsoft.AspNetCore.Routing.RouteGroupBuilder)">
+            <summary>
+            Mapeia os endpoints de ProfileTask no grupo fornecido.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.EndpointRegistration">
+            <summary>
+            Responsável por registrar todos os grupos de endpoints da aplicação via descoberta automática.
+            </summary>
+        </member>
+        <member name="M:DCM.API.Helpers.EndpointRegistration.MapEndpoints(Microsoft.AspNetCore.Routing.IEndpointRouteBuilder)">
+            <summary>
+            Descobre e registra todos os endpoints implementados via IEndpointDefinition.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.IEndpointDefinition">
+            <summary>
+            Contrato para definição de grupos de endpoints.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.ApplicationEndpointDefinition">
+            <summary>
+            Grupo de endpoints para Application.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.AppxPackageEndpointDefinition">
+            <summary>
+            Grupo de endpoints para AppxPackage.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.DeployProfileEndpointDefinition">
+            <summary>
+            Grupo de endpoints para DeployProfile.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.DeviceEndpointDefinition">
+            <summary>
+            Grupo de endpoints para Device.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.DeviceModelEndpointDefinition">
+            <summary>
+            Grupo de endpoints para DeviceModel.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.DriverPackEndpointDefinition">
+            <summary>
+            Grupo de endpoints para DriverPack.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.FirmwareEndpointDefinition">
+            <summary>
+            Grupo de endpoints para Firmware.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.ImageEndpointDefinition">
+            <summary>
+            Grupo de endpoints para Image.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.InventoryEndpointDefinition">
+            <summary>
+            Grupo de endpoints para Inventory.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.ProfileTaskEndpointDefinition">
+            <summary>
+            Grupo de endpoints para ProfileTask.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.ManufacturerEndpointDefinition">
+            <summary>
+            Grupo de endpoints para Manufacturer.
+            </summary>
+        </member>
+        <member name="T:DCM.API.Helpers.OperatingSystemEndpointDefinition">
+            <summary>
+            Grupo de endpoints para OperatingSystem.
+            </summary>
+        </member>
+    </members>
+</doc>

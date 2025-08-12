@@ -1,0 +1,266 @@
+using API.Control.ValueObjects;
+
+
+namespace API.Control.Models
+{
+    public class Device
+    {
+        public Guid Id { get; init; } = Guid.NewGuid();
+
+        public required ComputerName ComputerName { get; set; }
+        public string SerialNumber { get; set; } = string.Empty;
+        public required MacAddress MacAddress { get; init; }
+
+
+        // Construtor vazio para o EF
+        public Device() { }
+
+        // Construtor com parâmetros para uso explícito
+        public Device(string computerName, string serialNumber, string macAddress)
+        {
+            ComputerName = ComputerName.Create(computerName);
+            SerialNumber = serialNumber.ToUpper();
+            MacAddress = MacAddress.Create(macAddress);
+        }
+
+        // DeviceModel associado ao dispositivo  
+        public Guid? DeviceModelId { get; set; }
+        public virtual DeviceModel? DeviceModel { get; set; }
+
+
+        // Inventory associado ao dispositivo  
+        public Guid? InventoryId { get; set; }
+        public virtual Inventory? Inventory { get; set; }
+
+
+        // Profile associado ao dispositivo  
+        public Guid? ProfileId { get; set; }
+        public virtual Profile? Profile { get; set; }
+
+
+        // Aplicativos instalados no dispositivo  
+        public virtual ICollection<Application>? Applications { get; set; } = new List<Application>();
+
+        // Pacotes de drivers associados ao dispositivo
+        public virtual ICollection<DeviceDrivers>? DriverPackages { get; set; } = new List<DeviceDrivers>();
+
+        // Appx associado ao dispositivo  
+        public virtual ICollection<Appx>? Appx { get; set; } = new List<Appx>();
+
+    }
+}
+
+###
+
+namespace API.Control.Models
+{
+    public class Application
+    {
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public required string NameID { get; set; }
+        public required string DisplayName { get; set; }
+        public required string Version { get; set; }
+        public required string FileName { get; set; }
+        public string Argument { get; set; } = string.Empty;
+        public required string Source { get; set; }
+        public string Filter { get; set; } = string.Empty;
+        public string Hash { get; set; } = string.Empty;
+        public bool Enabled { get; set; } = true;
+
+
+        // Dispositivos associados ao aplicativo.
+        public virtual ICollection<Device>? Devices { get; set; } = new List<Device>();
+
+        // Modelos de dispositivo associado ao aplicativo.
+        public virtual ICollection<DeviceModel>? DeviceModels { get; set; } = new List<DeviceModel>();
+
+        // Profiles associados ao aplicativo.
+        public virtual ICollection<Profile>? Profiles { get; set; } = new List<Profile>();
+    }
+}
+
+
+###
+
+namespace API.Control.Models
+{
+    public class Appx
+    {
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public string Name { get; set; } = string.Empty;
+        public string Version { get; set; } = string.Empty;
+        public string Publisher { get; set; } = string.Empty;
+        public string Architecture { get; set; } = string.Empty;
+        public string PackageFamilyName { get; set; } = string.Empty;
+        public string PackageFullName { get; set; } = string.Empty;
+        public bool IsFramework { get; set; } = false;
+        public bool IsBundle { get; set; } = false;
+        public bool IsResourcePackage { get; set; } = false;
+        public bool IsDevelopmentMode { get; set; } = false;
+        public bool IsPartiallyStaged { get; set; } = false;
+        public string Status { get; set; } = string.Empty;
+    }
+}
+
+###
+
+namespace API.Control.Models
+{
+    public class DeviceDrivers
+    {
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public string FileName { get; set; } = string.Empty;
+        public string OS { get; set; } = string.Empty;
+        public string Version { get; set; } = string.Empty;
+        public string Source { get; set; } = string.Empty;
+        public string Hash { get; set; } = string.Empty;
+        public bool Enabled { get; set; } = true;
+
+        // Dispositivos associados ao pacote de driver.
+        public virtual ICollection<Device>? Devices { get; set; } = new List<Device>();
+    }
+}
+
+
+###
+
+using System.ComponentModel.DataAnnotations;
+
+namespace API.Control.Models
+{
+    public class DeviceModel
+    {
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public required string Manufacturer { get; set; }
+        public required string Model { get; set; }
+        public string Type { get; set; } = string.Empty;
+
+        // Firmware associado ao modelo de dispositivo.
+        public Guid? FirmwareId { get; set; }
+        public virtual Firmware? Firmware { get; set; }
+
+
+        // DriverPacks associado ao modelo de dispositivo.
+        public virtual ICollection<DriverPack>? DriverPacks { get; set; } = new List<DriverPack>();
+
+
+        // Dispositivos associados ao modelo de dispositivo.
+        public virtual ICollection<Device>? Devices { get; set; } = new List<Device>();
+
+
+        // Aplicativos associados ao modelo de dispositivo.
+        public virtual ICollection<Application>? Applications { get; set; } = new List<Application>();
+
+    }
+}
+
+###
+
+namespace API.Control.Models
+{
+    public class DriverPack
+    {
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public required string FileName { get; set; } = string.Empty;
+        public required string OS { get; set; } = string.Empty;
+        public required string Version { get; set; } = string.Empty;
+        public required string Source { get; set; } = string.Empty;
+        public required string Hash { get; set; } = string.Empty;
+        public bool Enabled { get; set; } = true;
+
+        // Modelo de Dispositivo associados ao pacote de driver.
+        public required Guid DeviceModelId { get; set; }
+        public required virtual DeviceModel DeviceModel { get; set; }
+    }
+}
+
+
+###
+
+
+
+namespace API.Control.Models
+{
+    public class Firmware
+    {
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public required string FileName { get; set; }
+        public required string Version { get; set; }
+        public required string Source { get; set; }
+        public string Hash { get; set; } = string.Empty;
+        public bool Enabled { get; set; } = true;
+
+        // Modelo de Dispositivo associado ao firmware.
+        public required Guid DeviceModelId { get; set; }
+        public required DeviceModel DeviceModel { get; set; }
+    }
+}
+
+###
+
+namespace API.Control.Models
+{
+    public class Image
+    {
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public required string ImageName { get; set; }
+        public required string ImageDescription { get; set; }
+        public required string ImageIndex { get; set; }
+        public required string ShortName { get; set; }
+        public required string EditionId { get; set; }
+        public required string Version { get; set; }
+        public required string[] Languages { get; set; } = Array.Empty<string>();
+        public required string ImageSize { get; set; }
+        public required string Source { get; set; }
+
+
+        // Perfil associados à imagem.
+        public virtual ICollection<Profile>? Profiles { get; set; } = new List<Profile>();
+
+    }
+}
+
+###
+
+namespace API.Control.Models
+{
+    public class Inventory
+    {
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public string Info { get; set; } = string.Empty;
+
+        // Device associado ao inventário.
+        public required Guid DeviceId { get; set; }
+        public required Device Device { get; set; }
+    }
+}
+
+###
+
+using API.Control.ValueObjects;
+
+namespace API.Control.Models
+{
+    public class Profile
+    {
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public required string Name { get; set; }
+        public  string Description { get; set; } = string.Empty;
+        public required Image Image { get; set; }
+        public ICollection<string>? SourcePath { get; set; }
+
+
+        // Dispositivos associados ao perfil.
+        public ICollection<Device>? Devices { get; set; } = new List<Device>();
+
+        // Aplicativos associados ao perfil.
+        public ICollection<Application>? Applications { get; set; } = new List<Application>();
+
+        // Tarefas associadas ao perfil.
+        public ICollection<Task>? Tasks { get; set; } = new List<Task>();
+    }
+}
+
+
+
+

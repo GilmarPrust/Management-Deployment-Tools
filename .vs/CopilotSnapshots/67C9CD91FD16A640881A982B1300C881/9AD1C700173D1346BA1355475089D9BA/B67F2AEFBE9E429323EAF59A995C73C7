@@ -1,0 +1,14 @@
+﻿namespace API.Host.Helpers
+{
+    public static class ValidatorRegistrationExtensions
+    {
+        public static IServiceCollection AddValidatorRegistrations(this IServiceCollection services)
+        {
+            services.AddValidatorsFromAssemblyContaining<Device_Validator>();
+            services.AddValidatorsFromAssemblyContaining<DeviceModel_Validator>();
+            services.AddValidatorsFromAssemblyContaining<MacAddress_Validator>();
+            services.AddValidatorsFromAssemblyContaining<DriverPackCreateDTOValidator>();
+            return services;
+        }
+    }
+}

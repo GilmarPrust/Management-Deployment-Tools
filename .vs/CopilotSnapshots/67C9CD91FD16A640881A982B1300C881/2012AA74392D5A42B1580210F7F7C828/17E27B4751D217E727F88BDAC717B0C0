@@ -1,0 +1,12 @@
+﻿namespace API.Host.Helpers
+{
+    public static class FluentValidationExtensions
+    {
+        public static IServiceCollection AddFluentValidationConfiguration(this IServiceCollection services)
+        {
+            services.AddFluentValidationAutoValidation(config => config.DisableDataAnnotationsValidation = true);
+            services.AddFluentValidationClientsideAdapters();
+            return services;
+        }
+    }
+}

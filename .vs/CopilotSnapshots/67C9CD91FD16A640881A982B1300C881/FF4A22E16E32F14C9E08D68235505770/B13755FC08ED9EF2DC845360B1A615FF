@@ -1,0 +1,68 @@
+﻿using API.DTOs.AppxPackage;
+using API.DTOs.DeviceModel;
+using API.Services.Interfaces;
+using FluentValidation;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+
+namespace API.EndPoints
+{
+    public static class DeviceModelEndpoints
+    {
+        public static RouteGroupBuilder MapDeviceModelsEndpoints(this RouteGroupBuilder group)
+        {
+            group.MapGroup("/api/devicemodels")
+                .WithTags("Device Models")
+                .WithName("DeviceModelEndpoints");
+            group.WithSummary("Endpoints for managing device models")
+                .WithDescription("Provides endpoints to create, read, update, and delete device models.");
+            
+            // GET all
+            group.MapGet("/", async ([FromServices] IDeviceModelService service) =>
+                Results.Ok(await service.GetAllAsync()));
+
+            // GET by Id
+            group.MapGet("/{id:guid}", async ([FromServices] IDeviceModelService service, Guid id) =>
+            {
+                var dto = await service.GetByIdAsync(id);
+                return dto is not null ? Results.Ok(dto) : Results.NotFound();
+            });
+
+            // POST
+            group.MapPost("/", async ([FromServices] IDeviceModelService service, [FromServices] IValidator<DeviceModelCreateDTO> validator, DeviceModelCreateDTO dto) =>
+            {
+                if (dto == null)
+                    return Results.BadRequest("Dados obrigatórios não informados.");
+                var validation = await validator.ValidateAsync(dto);
+                if (!validation.IsValid)
+                    return Results.BadRequest(validation.Errors);
+                var created = await service.CreateAsync(dto);
+                return Results.Created($"/api/devicemodels/{created.Id}", created);
+            });
+
+            // PUT (atualização)
+            group.MapPut("/{id:guid}", async ([FromServices] IDeviceModelService service, [FromServices] IValidator<DeviceModelUpdateDTO> validator, Guid id, DeviceModelUpdateDTO dto) =>
+            {
+                if (dto == null)
+                    return Results.BadRequest("Dados obrigatórios não informados.");
+                var validation = await validator.ValidateAsync(dto);
+                if (!validation.IsValid)
+                    return Results.BadRequest(validation.Errors);
+                var updated = await service.UpdateAsync(id, dto);
+                return updated is not null ? Results.Ok(updated) : Results.NotFound();
+            });
+            
+
+            // DELETE
+            group.MapDelete("/{id:guid}", async ([FromServices] IDeviceModelService service, Guid id) =>
+            {
+                var deleted = await service.DeleteAsync(id);
+                return deleted ? Results.NoContent() : Results.NotFound();
+            });
+
+            return group;
+        }
+    }
+}

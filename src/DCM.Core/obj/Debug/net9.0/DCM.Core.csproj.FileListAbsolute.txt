@@ -1,0 +1,12 @@
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\bin\Debug\net9.0\DCM.Core.deps.json
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\bin\Debug\net9.0\DCM.Core.dll
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\bin\Debug\net9.0\DCM.Core.pdb
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\obj\Debug\net9.0\DCM.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\obj\Debug\net9.0\DCM.Core.AssemblyInfoInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\obj\Debug\net9.0\DCM.Core.AssemblyInfo.cs
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\obj\Debug\net9.0\DCM.Core.csproj.CoreCompileInputs.cache
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\obj\Debug\net9.0\DCM.Core.sourcelink.json
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\obj\Debug\net9.0\DCM.Core.dll
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\obj\Debug\net9.0\refint\DCM.Core.dll
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\obj\Debug\net9.0\DCM.Core.pdb
+D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\obj\Debug\net9.0\ref\DCM.Core.dll
