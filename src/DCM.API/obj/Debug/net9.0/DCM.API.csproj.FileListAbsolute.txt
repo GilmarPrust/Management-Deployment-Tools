@@ -213,4 +213,3 @@ D:\_DEV\PROJETOS\D.C.M2\src\DCM.API\obj\Debug\net9.0\DCM.API.xml
 D:\_DEV\PROJETOS\D.C.M2\src\DCM.API\obj\Debug\net9.0\DCM.API.pdb
 D:\_DEV\PROJETOS\D.C.M2\src\DCM.API\obj\Debug\net9.0\DCM.API.genruntimeconfig.cache
 D:\_DEV\PROJETOS\D.C.M2\src\DCM.API\obj\Debug\net9.0\ref\DCM.API.dll
-D:\_DEV\PROJETOS\D.C.M2\src\DCM.API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
