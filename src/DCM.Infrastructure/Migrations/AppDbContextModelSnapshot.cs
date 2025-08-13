@@ -535,25 +535,38 @@ namespace DCM.Infrastructure.Migrations
 
             modelBuilder.Entity("DCM.Core.Entities.InventoryHardware", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Enabled")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("InventoryId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid?>("InventoryId1")
+                    b.Property<Guid>("InventoryId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(250)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InventoryId1");
+                    b.HasIndex("InventoryId");
 
                     b.ToTable("InventoryHardware");
                 });
@@ -800,7 +813,9 @@ namespace DCM.Infrastructure.Migrations
                 {
                     b.HasOne("DCM.Core.Entities.Inventory", "Inventory")
                         .WithMany("Hardware")
-                        .HasForeignKey("InventoryId1");
+                        .HasForeignKey("InventoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Inventory");
                 });
