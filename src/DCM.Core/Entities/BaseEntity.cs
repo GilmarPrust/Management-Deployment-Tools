@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
+using System.Linq;
 
 namespace DCM.Core.Entities
 {
@@ -10,35 +13,119 @@ namespace DCM.Core.Entities
         /// <summary>
         /// Identificador único da entidade.
         /// </summary>
-        public Guid Id { get; private set; }
+        public Guid Id { get; protected set; } = Guid.NewGuid();
 
         /// <summary>
         /// Data de criação da entidade.
         /// </summary>
-        public DateTime CreatedAt { get; private set; }
+        public DateTime CreatedAt { get; protected set; } = DateTime.UtcNow;
 
         /// <summary>
         /// Data da última atualização da entidade.
         /// </summary>
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; protected internal set; }
 
         /// <summary>
         /// Data de exclusão lógica da entidade.
         /// </summary>
-        public DateTime? DeletedAt { get; set; }
+        public DateTime? DeletedAt { get; protected internal set; }
 
         /// <summary>
         /// Indica se a entidade está habilitada (soft delete).
         /// </summary>
-        public bool Enabled { get; set; } = true;
+        public bool Enabled { get; protected internal set; } = true;
 
         /// <summary>
-        /// Construtor para inicializar as propriedades somente leitura.
+        /// Construtor protegido para inicialização via EF Core.
         /// </summary>
         protected BaseEntity()
         {
-            Id = Guid.NewGuid();
+        }
+
+        /// <summary>
+        /// Construtor para criação de novas entidades.
+        /// </summary>
+        protected BaseEntity(Guid? id = null)
+        {
+            Id = id ?? Guid.NewGuid();
             CreatedAt = DateTime.UtcNow;
+        }
+
+        /// <summary>
+        /// Método para atualizar a entidade.
+        /// </summary>
+        public virtual void Update()
+        {
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        /// <summary>
+        /// Método para realizar soft delete.
+        /// </summary>
+        public virtual void SoftDelete()
+        {
+            DeletedAt = DateTime.UtcNow;
+            Enabled = false;
+            Update();
+        }
+
+        /// <summary>
+        /// Método para restaurar entidade deletada.
+        /// </summary>
+        public virtual void Restore()
+        {
+            DeletedAt = null;
+            Enabled = true;
+            Update();
+        }
+
+        /// <summary>
+        /// Verifica se a entidade está deletada.
+        /// </summary>
+        public bool IsDeleted => DeletedAt.HasValue;
+
+        /// <summary>
+        /// Método interno para definir a data de criação (usado pelo EF Core).
+        /// </summary>
+        internal void SetCreatedAt(DateTime createdAt)
+        {
+            CreatedAt = createdAt;
+        }
+
+        /// <summary>
+        /// Método interno para definir o ID (usado pelo EF Core).
+        /// </summary>
+        internal void SetId(Guid id)
+        {
+            Id = id;
+        }
+
+        /// <summary>
+        /// Método para habilitar a entidade.
+        /// </summary>
+        public virtual void Enable()
+        {
+            Enabled = true;
+            Update();
+        }
+
+        /// <summary>
+        /// Método para desabilitar a entidade.
+        /// </summary>
+        public virtual void Disable()
+        {
+            Enabled = false;
+            Update();
+        }
+
+        /// <summary>
+        /// Método para definir o status de habilitado/desabilitado.
+        /// </summary>
+        /// <param name="enabled">True para habilitar, False para desabilitar</param>
+        public virtual void SetEnabled(bool enabled)
+        {
+            Enabled = enabled;
+            Update();
         }
     }
 }

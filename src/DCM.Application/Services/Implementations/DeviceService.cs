@@ -2,159 +2,374 @@
 using DCM.Application.DTOs.Device;
 using DCM.Application.Services.Interfaces;
 using DCM.Core.Entities;
-using DCM.Core.Settings;
-using DCM.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+using DCM.Core.Interfaces.Repositories;
+using DCM.Core.ValueObjects;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace DCM.Application.Services.Implementations
 {
-    public class DeviceService : IDeviceService
+    /// <summary>
+    /// Serviço para gerenciamento de dispositivos.
+    /// </summary>
+    public sealed class DeviceService : IDeviceService
     {
-        private readonly AppDbContext _context;
+        private readonly IDeviceRepository _deviceRepository;
+        private readonly IDeviceModelRepository _deviceModelRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<DeviceService> _logger;
-        private readonly DatabaseSettings _dbSettings;
 
-        public DeviceService(AppDbContext context, IMapper mapper, ILogger<DeviceService> logger, IOptions<DatabaseSettings> dbSettings)
+        public DeviceService(
+            IDeviceRepository deviceRepository,
+            IDeviceModelRepository deviceModelRepository,
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            ILogger<DeviceService> logger)
         {
-            _context = context;
-            _mapper = mapper;
-            _logger = logger;
-            _dbSettings = dbSettings.Value;
+            _deviceRepository = deviceRepository ?? throw new ArgumentNullException(nameof(deviceRepository));
+            _deviceModelRepository = deviceModelRepository ?? throw new ArgumentNullException(nameof(deviceModelRepository));
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        /*public void Connect()
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DeviceReadDTO>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            Console.WriteLine($"Conectando ao banco: {_dbSettings.ConnectionString}");
-        }*/
-
-        public async Task<IEnumerable<DeviceReadDTO>> GetAllAsync()
-        {
-            var devices = await _context.Devices
-                .Include(d => d.DeviceModel)
-                .Include(d => d.DeployProfile)
-                .Include(d => d.Applications)
-                .Include(d => d.DriverPacks)
-                .Include(d => d.AppxPackages)
-                .ToListAsync();
-            return _mapper.Map<IEnumerable<DeviceReadDTO>>(devices);
-        }
-
-        public async Task<DeviceReadDTO?> GetByIdAsync(Guid id)
-        {
-            if (id == Guid.Empty)
-                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
-
-            var device = await _context.Devices
-                .Include(d => d.DeviceModel)
-                .Include(d => d.DeployProfile)
-                .Include(d => d.Applications)
-                .Include(d => d.DriverPacks)
-                .Include(d => d.AppxPackages)
-                .FirstOrDefaultAsync(d => d.Id == id);
-
-            return device == null ? null : _mapper.Map<DeviceReadDTO>(device);
-        }
-
-        public async Task<DeviceReadDTO> CreateAsync(DeviceCreateDTO dto)
-        {
-            ArgumentNullException.ThrowIfNull(dto);
-
-            // Verifica unicidade de SerialNumber
-            var serialExists = await _context.Devices.AnyAsync(d => d.SerialNumber == dto.SerialNumber);
-            if (serialExists)
-                throw new ArgumentException($"Já existe um dispositivo com o mesmo SerialNumber: {dto.SerialNumber}");
-
-            // Verifica unicidade de MacAddress
-            var macExists = await _context.Devices.AnyAsync(d => d. MacAddress.Value == dto.MacAddress);
-            if (macExists)
-                throw new ArgumentException($"Já existe um dispositivo com o mesmo MacAddress: {dto.MacAddress}");
-
-            // Verifica unicidade de ComputerName
-            var nameExists = await _context.Devices.AnyAsync(d => d.ComputerName.Value == dto.ComputerName);
-            if (nameExists)
-                throw new ArgumentException($"Já existe um dispositivo com o mesmo ComputerName: {dto.ComputerName}");
-
-            // Validação: verifica se o DeviceModelId existe
-            var deviceModelExists = await _context.DeviceModels.AnyAsync(dm => dm.Id == dto.DeviceModelId);
-            if (!deviceModelExists)
-                throw new ArgumentException($"DeviceModelId informado não existe: {dto.DeviceModelId}");
-
             try
             {
-                var entity = _mapper.Map<Device>(dto);
-                _context.Devices.Add(entity);
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("Dispositivo criado com Id: {Id}", entity.Id);
-                return _mapper.Map<DeviceReadDTO>(entity);
+                _logger.LogDebug("Iniciando busca de todos os dispositivos");
+                
+                var devices = await _deviceRepository.GetWithAllRelationsAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<DeviceReadDTO>>(devices);
+                
+                _logger.LogInformation("Retornados {Count} dispositivos", result.Count());
+                return result;
             }
-            catch (DbUpdateException dbEx)
+            catch (Exception ex)
             {
-                _logger.LogError(dbEx, "Erro de banco ao criar dispositivo. DTO: {@dto}", dto);
+                _logger.LogError(ex, "Erro ao buscar todos os dispositivos");
                 throw;
             }
         }
 
-        public async Task<DeviceReadDTO?> UpdateAsync(Guid id, DeviceUpdateDTO dto)
+        /// <inheritdoc/>
+        public async Task<DeviceReadDTO?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+
+            try
+            {
+                _logger.LogDebug("Buscando dispositivo com Id: {Id}", id);
+                
+                var device = await _deviceRepository.GetByIdAsync(id, cancellationToken);
+                if (device == null)
+                {
+                    _logger.LogWarning("Dispositivo não encontrado com Id: {Id}", id);
+                    return null;
+                }
+
+                var result = _mapper.Map<DeviceReadDTO>(device);
+                _logger.LogDebug("Dispositivo encontrado: {ComputerName}", device.ComputerName.Value);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar dispositivo por Id: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeviceReadDTO?> GetByComputerNameAsync(string computerName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(computerName))
+                throw new ArgumentException("ComputerName não pode ser nulo ou vazio.", nameof(computerName));
+
+            try
+            {
+                _logger.LogDebug("Buscando dispositivo com ComputerName: {ComputerName}", computerName);
+                
+                var device = await _deviceRepository.GetByComputerNameAsync(computerName, cancellationToken);
+                if (device == null)
+                {
+                    _logger.LogWarning("Dispositivo não encontrado com ComputerName: {ComputerName}", computerName);
+                    return null;
+                }
+
+                return _mapper.Map<DeviceReadDTO>(device);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar dispositivo por ComputerName: {ComputerName}", computerName);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeviceReadDTO?> GetByMacAddressAsync(string macAddress, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(macAddress))
+                throw new ArgumentException("MacAddress não pode ser nulo ou vazio.", nameof(macAddress));
+
+            try
+            {
+                _logger.LogDebug("Buscando dispositivo com MacAddress: {MacAddress}", macAddress);
+                
+                var device = await _deviceRepository.GetByMacAddressAsync(macAddress, cancellationToken);
+                if (device == null)
+                {
+                    _logger.LogWarning("Dispositivo não encontrado com MacAddress: {MacAddress}", macAddress);
+                    return null;
+                }
+
+                return _mapper.Map<DeviceReadDTO>(device);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar dispositivo por MacAddress: {MacAddress}", macAddress);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeviceReadDTO?> GetBySerialNumberAsync(string serialNumber, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(serialNumber))
+                throw new ArgumentException("SerialNumber não pode ser nulo ou vazio.", nameof(serialNumber));
+
+            try
+            {
+                _logger.LogDebug("Buscando dispositivo com SerialNumber: {SerialNumber}", serialNumber);
+                
+                var device = await _deviceRepository.GetBySerialNumberAsync(serialNumber, cancellationToken);
+                if (device == null)
+                {
+                    _logger.LogWarning("Dispositivo não encontrado com SerialNumber: {SerialNumber}", serialNumber);
+                    return null;
+                }
+
+                return _mapper.Map<DeviceReadDTO>(device);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar dispositivo por SerialNumber: {SerialNumber}", serialNumber);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DeviceReadDTO>> GetByDeviceModelAsync(Guid deviceModelId, CancellationToken cancellationToken = default)
+        {
+            if (deviceModelId == Guid.Empty)
+                return Enumerable.Empty<DeviceReadDTO>();
+
+            try
+            {
+                _logger.LogDebug("Buscando dispositivos do modelo: {DeviceModelId}", deviceModelId);
+                
+                var devices = await _deviceRepository.GetByDeviceModelAsync(deviceModelId, cancellationToken);
+                var result = _mapper.Map<IEnumerable<DeviceReadDTO>>(devices);
+                
+                _logger.LogInformation("Encontrados {Count} dispositivos do modelo {DeviceModelId}", result.Count(), deviceModelId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar dispositivos por modelo: {DeviceModelId}", deviceModelId);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeviceReadDTO> CreateAsync(DeviceCreateDTO dto, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(dto);
+
+            try
+            {
+                _logger.LogDebug("Criando novo dispositivo: Tipo={DeviceType}, SerialNumber={SerialNumber}", 
+                    dto.DeviceType, dto.SerialNumber);
+
+                // Validações de negócio: Verificar duplicidade
+                await ValidateUniqueFieldsForCreateAsync(dto, cancellationToken);
+
+                // Verificar se o DeviceModel existe
+                var deviceModelExists = await _deviceModelRepository.ExistsAsync(dto.DeviceModelId, cancellationToken);
+                if (!deviceModelExists)
+                {
+                    throw new InvalidOperationException($"DeviceModel não encontrado: {dto.DeviceModelId}");
+                }
+
+                // Criar o dispositivo usando o construtor com tipo
+                var device = new Device(
+                    dto.DeviceType,
+                    dto.SerialNumber,
+                    dto.MacAddress,
+                    dto.DeviceModelId);
+                
+                await _deviceRepository.AddAsync(device, cancellationToken);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Dispositivo criado com sucesso. Id: {Id}, Tipo: {DeviceType}, ComputerName: {ComputerName}", 
+                    device.Id, device.DeviceType, device.ComputerName.Value);
+                
+                return _mapper.Map<DeviceReadDTO>(device);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao criar dispositivo: Tipo={DeviceType}, SerialNumber={SerialNumber}", 
+                    dto.DeviceType, dto.SerialNumber);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeviceReadDTO?> UpdateAsync(Guid id, DeviceUpdateDTO dto, CancellationToken cancellationToken = default)
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("Id não pode ser vazio.", nameof(id));
             ArgumentNullException.ThrowIfNull(dto);
 
-            var existing = await _context.Devices
-                .Include(d => d.DeviceModel)
-                .FirstOrDefaultAsync(d => d.Id == id);
-
-            if (existing == null) return null;
-
-            // Verifica unicidade de SerialNumber
-            var serialExists = await _context.Devices.AnyAsync(d => d.SerialNumber == dto.SerialNumber && d.Id != id);
-            if (serialExists)
-                throw new ArgumentException($"Já existe outro dispositivo com o mesmo SerialNumber: {dto.SerialNumber}");
-
-            // Verifica unicidade de MacAddress
-            var macExists = await _context.Devices.AnyAsync(d => d.MacAddress.Value == dto.MacAddress && d.Id != id);
-            if (macExists)
-                throw new ArgumentException($"Já existe outro dispositivo com o mesmo MacAddress: {dto.MacAddress}");
-
-            // Verifica unicidade de ComputerName
-            var nameExists = await _context.Devices.AnyAsync(d => d.ComputerName.Value == dto.ComputerName && d.Id != id);
-            if (nameExists)
-                throw new ArgumentException($"Já existe outro dispositivo com o mesmo ComputerName: {dto.ComputerName}");
-
-            // Validação: verifica se o DeviceModelId existe
-            var deviceModelExists = await _context.DeviceModels.AnyAsync(dm => dm.Id == dto.DeviceModelId);
-            if (!deviceModelExists)
-                throw new ArgumentException($"DeviceModelId informado não existe: {dto.DeviceModelId}");
-
             try
             {
-                _mapper.Map(dto, existing);
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("Dispositivo atualizado: {Id}", id);
+                _logger.LogDebug("Atualizando dispositivo: {Id}", id);
+
+                var existing = await _deviceRepository.GetByIdAsync(id, cancellationToken);
+                if (existing == null)
+                {
+                    _logger.LogWarning("Dispositivo não encontrado para atualização: {Id}", id);
+                    return null;
+                }
+
+                // Validações de negócio: Verificar duplicidade (exceto o próprio registro)
+                await ValidateUniqueFieldsForUpdateAsync(id, dto, cancellationToken);
+
+                // Verificar se o DeviceModel existe
+                var deviceModelExists = await _deviceModelRepository.ExistsAsync(dto.DeviceModelId, cancellationToken);
+                if (!deviceModelExists)
+                {
+                    throw new InvalidOperationException($"DeviceModel não encontrado: {dto.DeviceModelId}");
+                }
+
+                // Atualizar propriedades manualmente para melhor controle
+                existing.DeviceType = dto.DeviceType;
+                existing.ComputerName = new ComputerName(dto.ComputerName);
+                existing.SerialNumber = dto.SerialNumber;
+                existing.MacAddress = new MacAddress(dto.MacAddress);
+                existing.DeviceModelId = dto.DeviceModelId;
+                existing.SetEnabled(dto.Enabled);
+                existing.DeployProfileId = dto.DeployProfileId;
+                
+                existing.Update();
+
+                await _deviceRepository.UpdateAsync(existing, cancellationToken);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Dispositivo atualizado com sucesso: {Id}, Tipo: {DeviceType}", id, existing.DeviceType);
                 return _mapper.Map<DeviceReadDTO>(existing);
             }
-            catch (DbUpdateException dbEx)
+            catch (Exception ex)
             {
-                _logger.LogError(dbEx, "Erro de banco ao atualizar dispositivo. Id: {Id}, DTO: {@dto}", id, dto);
+                _logger.LogError(ex, "Erro ao atualizar dispositivo: {Id}", id);
                 throw;
             }
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        /// <inheritdoc/>
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("Id não pode ser vazio.", nameof(id));
 
-            var entity = await _context.Devices.FindAsync(id);
-            if (entity == null) return false;
+            try
+            {
+                _logger.LogDebug("Removendo dispositivo: {Id}", id);
 
-            _context.Devices.Remove(entity);
-            await _context.SaveChangesAsync();
-            _logger.LogInformation("Dispositivo removido: {Id}", id);
-            return true;
+                var device = await _deviceRepository.GetByIdAsync(id, cancellationToken);
+                if (device == null)
+                {
+                    _logger.LogWarning("Dispositivo não encontrado para remoção: {Id}", id);
+                    return false;
+                }
+
+                // Soft delete
+                device.SoftDelete();
+                
+                await _deviceRepository.UpdateAsync(device, cancellationToken);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Dispositivo removido com sucesso: {Id}", id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao remover dispositivo: {Id}", id);
+                throw;
+            }
         }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                return false;
+
+            try
+            {
+                return await _deviceRepository.ExistsAsync(id, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao verificar existência do dispositivo: {Id}", id);
+                throw;
+            }
+        }
+
+        #region Private Methods
+
+        private async Task ValidateUniqueFieldsForCreateAsync(DeviceCreateDTO dto, CancellationToken cancellationToken)
+        {
+            // Verificar SerialNumber
+            var existingBySerial = await _deviceRepository.GetBySerialNumberAsync(dto.SerialNumber, cancellationToken);
+            if (existingBySerial != null)
+            {
+                throw new InvalidOperationException($"Já existe um dispositivo com SerialNumber: {dto.SerialNumber}");
+            }
+
+            // Verificar MacAddress
+            var existingByMac = await _deviceRepository.GetByMacAddressAsync(dto.MacAddress, cancellationToken);
+            if (existingByMac != null)
+            {
+                throw new InvalidOperationException($"Já existe um dispositivo com MacAddress: {dto.MacAddress}");
+            }
+        }
+
+        private async Task ValidateUniqueFieldsForUpdateAsync(Guid currentId, DeviceUpdateDTO dto, CancellationToken cancellationToken)
+        {
+            // Verificar SerialNumber (exceto o próprio registro)
+            var existingBySerial = await _deviceRepository.GetBySerialNumberAsync(dto.SerialNumber, cancellationToken);
+            if (existingBySerial != null && existingBySerial.Id != currentId)
+            {
+                throw new InvalidOperationException($"Já existe outro dispositivo com SerialNumber: {dto.SerialNumber}");
+            }
+
+            // Verificar MacAddress (exceto o próprio registro)
+            var existingByMac = await _deviceRepository.GetByMacAddressAsync(dto.MacAddress, cancellationToken);
+            if (existingByMac != null && existingByMac.Id != currentId)
+            {
+                throw new InvalidOperationException($"Já existe outro dispositivo com MacAddress: {dto.MacAddress}");
+            }
+
+            // Verificar ComputerName (exceto o próprio registro)
+            var existingByName = await _deviceRepository.GetByComputerNameAsync(dto.ComputerName, cancellationToken);
+            if (existingByName != null && existingByName.Id != currentId)
+            {
+                throw new InvalidOperationException($"Já existe outro dispositivo com ComputerName: {dto.ComputerName}");
+            }
+        }
+
+        #endregion
     }
 }

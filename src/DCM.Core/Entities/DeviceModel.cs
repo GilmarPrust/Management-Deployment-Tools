@@ -33,9 +33,9 @@ namespace DCM.Core.Entities
         public DeviceModel() { }
 
         /// <summary>
-        /// Firmware associado ao modelo de dispositivo.
+        /// Firmware associado ao modelo de dispositivo (opcional).
         /// </summary>
-        public virtual Firmware Firmware { get; set; }
+        public virtual Firmware? Firmware { get; set; }
 
         /// <summary>
         /// Dispositivos físicos associados ao modelo.

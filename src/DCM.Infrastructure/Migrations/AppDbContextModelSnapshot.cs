@@ -17,64 +17,34 @@ namespace DCM.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
 
-            modelBuilder.Entity("ApplicationDeployProfile", b =>
+            modelBuilder.Entity("ApplicationGroupMemberships", b =>
                 {
+                    b.Property<Guid>("ApplicationGroupsId")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("ApplicationsId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("DeployProfilesId")
-                        .HasColumnType("TEXT");
+                    b.HasKey("ApplicationGroupsId", "ApplicationsId");
 
-                    b.HasKey("ApplicationsId", "DeployProfilesId");
+                    b.HasIndex("ApplicationsId");
 
-                    b.HasIndex("DeployProfilesId");
-
-                    b.ToTable("ApplicationDeployProfile");
+                    b.ToTable("ApplicationGroupMemberships");
                 });
 
-            modelBuilder.Entity("ApplicationDevice", b =>
+            modelBuilder.Entity("AppxPackageGroupMemberships", b =>
                 {
-                    b.Property<Guid>("ApplicationsId")
+                    b.Property<Guid>("AppxPackageGroupsId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("DevicesId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ApplicationsId", "DevicesId");
-
-                    b.HasIndex("DevicesId");
-
-                    b.ToTable("ApplicationDevice");
-                });
-
-            modelBuilder.Entity("ApplicationDeviceModel", b =>
-                {
-                    b.Property<Guid>("ApplicationsId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("DeviceModelsId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ApplicationsId", "DeviceModelsId");
-
-                    b.HasIndex("DeviceModelsId");
-
-                    b.ToTable("ApplicationDeviceModel");
-                });
-
-            modelBuilder.Entity("AppxPackageDevice", b =>
-                {
                     b.Property<Guid>("AppxPackagesId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("DevicesId")
-                        .HasColumnType("TEXT");
+                    b.HasKey("AppxPackageGroupsId", "AppxPackagesId");
 
-                    b.HasKey("AppxPackagesId", "DevicesId");
+                    b.HasIndex("AppxPackagesId");
 
-                    b.HasIndex("DevicesId");
-
-                    b.ToTable("AppxPackageDevice");
+                    b.ToTable("AppxPackageGroupMemberships");
                 });
 
             modelBuilder.Entity("DCM.Core.Entities.Application", b =>
@@ -133,6 +103,9 @@ namespace DCM.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NameID")
+                        .IsUnique();
 
                     b.ToTable("Applications");
                 });
@@ -204,6 +177,9 @@ namespace DCM.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PackageFullName")
+                        .IsUnique();
+
                     b.ToTable("AppxPackages");
                 });
 
@@ -211,6 +187,16 @@ namespace DCM.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ApplicationGroupId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("AppxPackageGroupId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Category")
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
@@ -234,12 +220,22 @@ namespace DCM.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Priority")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationGroupId");
+
+                    b.HasIndex("AppxPackageGroupId");
+
                     b.HasIndex("ImageId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("DeployProfiles");
                 });
@@ -268,17 +264,22 @@ namespace DCM.Infrastructure.Migrations
                     b.Property<Guid>("DeviceModelId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("DeviceType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("Enabled")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("MacAddress")
                         .IsRequired()
+                        .HasMaxLength(17)
                         .HasColumnType("TEXT")
                         .HasColumnName("MacAddress");
 
                     b.Property<string>("SerialNumber")
                         .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -321,7 +322,7 @@ namespace DCM.Infrastructure.Migrations
 
                     b.Property<string>("Model")
                         .IsRequired()
-                        .HasMaxLength(100)
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")
@@ -332,6 +333,9 @@ namespace DCM.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Manufacturer", "Model")
+                        .IsUnique();
 
                     b.ToTable("DeviceModels");
                 });
@@ -374,7 +378,7 @@ namespace DCM.Infrastructure.Migrations
 
                     b.Property<string>("Source")
                         .IsRequired()
-                        .HasMaxLength(200)
+                        .HasMaxLength(250)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -387,7 +391,7 @@ namespace DCM.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DeviceModelId");
+                    b.HasIndex("DeviceModelId", "OS");
 
                     b.ToTable("DriverPacks");
                 });
@@ -422,7 +426,7 @@ namespace DCM.Infrastructure.Migrations
 
                     b.Property<string>("Source")
                         .IsRequired()
-                        .HasMaxLength(200)
+                        .HasMaxLength(250)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -577,6 +581,15 @@ namespace DCM.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -587,7 +600,16 @@ namespace DCM.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("ShortName")
+                        .IsUnique();
 
                     b.ToTable("Manufacturers");
                 });
@@ -597,6 +619,15 @@ namespace DCM.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -608,7 +639,16 @@ namespace DCM.Infrastructure.Migrations
                         .HasMaxLength(5)
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("ShortName")
+                        .IsUnique();
 
                     b.ToTable("OperatingSystems");
                 });
@@ -626,6 +666,7 @@ namespace DCM.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
+                        .HasMaxLength(250)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Enabled")
@@ -638,6 +679,7 @@ namespace DCM.Infrastructure.Migrations
 
                     b.Property<string>("Phase")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -648,7 +690,106 @@ namespace DCM.Infrastructure.Migrations
                     b.ToTable("ProfileTasks");
                 });
 
-            modelBuilder.Entity("DeployProfileProfileTask", b =>
+            modelBuilder.Entity("DCM.Core.Entities.secondary.ApplicationGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Category")
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("ApplicationGroups");
+                });
+
+            modelBuilder.Entity("DCM.Core.Entities.secondary.AppxPackageGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Category")
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("AppxPackageGroups");
+                });
+
+            modelBuilder.Entity("DeployProfileApplications", b =>
+                {
+                    b.Property<Guid>("ApplicationsId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("DeployProfilesId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ApplicationsId", "DeployProfilesId");
+
+                    b.HasIndex("DeployProfilesId");
+
+                    b.ToTable("DeployProfileApplications");
+                });
+
+            modelBuilder.Entity("DeployProfileTasks", b =>
                 {
                     b.Property<Guid>("DeployProfilesId")
                         .HasColumnType("TEXT");
@@ -660,10 +801,40 @@ namespace DCM.Infrastructure.Migrations
 
                     b.HasIndex("ProfileTasksId");
 
-                    b.ToTable("DeployProfileProfileTask");
+                    b.ToTable("DeployProfileTasks");
                 });
 
-            modelBuilder.Entity("DeviceDriverPack", b =>
+            modelBuilder.Entity("DeviceApplications", b =>
+                {
+                    b.Property<Guid>("ApplicationsId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("DevicesId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ApplicationsId", "DevicesId");
+
+                    b.HasIndex("DevicesId");
+
+                    b.ToTable("DeviceApplications");
+                });
+
+            modelBuilder.Entity("DeviceAppxPackages", b =>
+                {
+                    b.Property<Guid>("AppxPackagesId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("DevicesId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AppxPackagesId", "DevicesId");
+
+                    b.HasIndex("DevicesId");
+
+                    b.ToTable("DeviceAppxPackages");
+                });
+
+            modelBuilder.Entity("DeviceDriverPacks", b =>
                 {
                     b.Property<Guid>("DeviceId")
                         .HasColumnType("TEXT");
@@ -675,76 +846,133 @@ namespace DCM.Infrastructure.Migrations
 
                     b.HasIndex("DriverPacksId");
 
-                    b.ToTable("DeviceDriverPack");
+                    b.ToTable("DeviceDriverPacks");
                 });
 
-            modelBuilder.Entity("ApplicationDeployProfile", b =>
+            modelBuilder.Entity("DeviceModelApplications", b =>
                 {
+                    b.Property<Guid>("ApplicationsId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("DeviceModelsId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ApplicationsId", "DeviceModelsId");
+
+                    b.HasIndex("DeviceModelsId");
+
+                    b.ToTable("DeviceModelApplications");
+                });
+
+            modelBuilder.Entity("ApplicationGroupMemberships", b =>
+                {
+                    b.HasOne("DCM.Core.Entities.secondary.ApplicationGroup", null)
+                        .WithMany()
+                        .HasForeignKey("ApplicationGroupsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DCM.Core.Entities.Application", null)
                         .WithMany()
                         .HasForeignKey("ApplicationsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DCM.Core.Entities.DeployProfile", null)
-                        .WithMany()
-                        .HasForeignKey("DeployProfilesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
-            modelBuilder.Entity("ApplicationDevice", b =>
+            modelBuilder.Entity("AppxPackageGroupMemberships", b =>
                 {
-                    b.HasOne("DCM.Core.Entities.Application", null)
+                    b.HasOne("DCM.Core.Entities.secondary.AppxPackageGroup", null)
                         .WithMany()
-                        .HasForeignKey("ApplicationsId")
+                        .HasForeignKey("AppxPackageGroupsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DCM.Core.Entities.Device", null)
-                        .WithMany()
-                        .HasForeignKey("DevicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ApplicationDeviceModel", b =>
-                {
-                    b.HasOne("DCM.Core.Entities.Application", null)
-                        .WithMany()
-                        .HasForeignKey("ApplicationsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DCM.Core.Entities.DeviceModel", null)
-                        .WithMany()
-                        .HasForeignKey("DeviceModelsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AppxPackageDevice", b =>
-                {
                     b.HasOne("DCM.Core.Entities.AppxPackage", null)
                         .WithMany()
                         .HasForeignKey("AppxPackagesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.HasOne("DCM.Core.Entities.Device", null)
-                        .WithMany()
-                        .HasForeignKey("DevicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("DCM.Core.Entities.Application", b =>
+                {
+                    b.OwnsOne("DCM.Core.ValueObjects.ApplicationCategory", "Category", b1 =>
+                        {
+                            b1.Property<Guid>("ApplicationId")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Description")
+                                .HasMaxLength(200)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("CategoryDescription");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("CategoryName");
+
+                            b1.HasKey("ApplicationId");
+
+                            b1.ToTable("Applications");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ApplicationId");
+                        });
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("DCM.Core.Entities.AppxPackage", b =>
+                {
+                    b.OwnsOne("DCM.Core.ValueObjects.ApplicationCategory", "Category", b1 =>
+                        {
+                            b1.Property<Guid>("AppxPackageId")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Description")
+                                .HasMaxLength(200)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("CategoryDescription");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("CategoryName");
+
+                            b1.HasKey("AppxPackageId");
+
+                            b1.ToTable("AppxPackages");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AppxPackageId");
+                        });
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("DCM.Core.Entities.DeployProfile", b =>
                 {
+                    b.HasOne("DCM.Core.Entities.secondary.ApplicationGroup", "ApplicationGroup")
+                        .WithMany("DeployProfiles")
+                        .HasForeignKey("ApplicationGroupId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("DCM.Core.Entities.secondary.AppxPackageGroup", "AppxPackageGroup")
+                        .WithMany("DeployProfiles")
+                        .HasForeignKey("AppxPackageGroupId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("DCM.Core.Entities.Image", "Image")
                         .WithMany("DeployProfiles")
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("ApplicationGroup");
+
+                    b.Navigation("AppxPackageGroup");
 
                     b.Navigation("Image");
                 });
@@ -753,12 +981,13 @@ namespace DCM.Infrastructure.Migrations
                 {
                     b.HasOne("DCM.Core.Entities.DeployProfile", "DeployProfile")
                         .WithMany("Devices")
-                        .HasForeignKey("DeployProfileId");
+                        .HasForeignKey("DeployProfileId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("DCM.Core.Entities.DeviceModel", "DeviceModel")
                         .WithMany("Devices")
                         .HasForeignKey("DeviceModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("DeployProfile");
@@ -792,7 +1021,7 @@ namespace DCM.Infrastructure.Migrations
                     b.HasOne("DCM.Core.Entities.OperatingSystem", "OperatingSystem")
                         .WithMany()
                         .HasForeignKey("OperatingSystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("OperatingSystem");
@@ -820,7 +1049,22 @@ namespace DCM.Infrastructure.Migrations
                     b.Navigation("Inventory");
                 });
 
-            modelBuilder.Entity("DeployProfileProfileTask", b =>
+            modelBuilder.Entity("DeployProfileApplications", b =>
+                {
+                    b.HasOne("DCM.Core.Entities.Application", null)
+                        .WithMany()
+                        .HasForeignKey("ApplicationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DCM.Core.Entities.DeployProfile", null)
+                        .WithMany()
+                        .HasForeignKey("DeployProfilesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DeployProfileTasks", b =>
                 {
                     b.HasOne("DCM.Core.Entities.DeployProfile", null)
                         .WithMany()
@@ -835,7 +1079,37 @@ namespace DCM.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DeviceDriverPack", b =>
+            modelBuilder.Entity("DeviceApplications", b =>
+                {
+                    b.HasOne("DCM.Core.Entities.Application", null)
+                        .WithMany()
+                        .HasForeignKey("ApplicationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DCM.Core.Entities.Device", null)
+                        .WithMany()
+                        .HasForeignKey("DevicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DeviceAppxPackages", b =>
+                {
+                    b.HasOne("DCM.Core.Entities.AppxPackage", null)
+                        .WithMany()
+                        .HasForeignKey("AppxPackagesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DCM.Core.Entities.Device", null)
+                        .WithMany()
+                        .HasForeignKey("DevicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DeviceDriverPacks", b =>
                 {
                     b.HasOne("DCM.Core.Entities.Device", null)
                         .WithMany()
@@ -846,6 +1120,21 @@ namespace DCM.Infrastructure.Migrations
                     b.HasOne("DCM.Core.Entities.DriverPack", null)
                         .WithMany()
                         .HasForeignKey("DriverPacksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DeviceModelApplications", b =>
+                {
+                    b.HasOne("DCM.Core.Entities.Application", null)
+                        .WithMany()
+                        .HasForeignKey("ApplicationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DCM.Core.Entities.DeviceModel", null)
+                        .WithMany()
+                        .HasForeignKey("DeviceModelsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -877,6 +1166,16 @@ namespace DCM.Infrastructure.Migrations
             modelBuilder.Entity("DCM.Core.Entities.Inventory", b =>
                 {
                     b.Navigation("Hardware");
+                });
+
+            modelBuilder.Entity("DCM.Core.Entities.secondary.ApplicationGroup", b =>
+                {
+                    b.Navigation("DeployProfiles");
+                });
+
+            modelBuilder.Entity("DCM.Core.Entities.secondary.AppxPackageGroup", b =>
+                {
+                    b.Navigation("DeployProfiles");
                 });
 #pragma warning restore 612, 618
         }

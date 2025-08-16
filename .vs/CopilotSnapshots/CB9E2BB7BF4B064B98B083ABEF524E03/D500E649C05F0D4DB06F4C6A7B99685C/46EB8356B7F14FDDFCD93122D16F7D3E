@@ -1,0 +1,656 @@
+﻿using Microsoft.EntityFrameworkCore;
+using DCM.Core.Entities;
+using DCM.Core.Interfaces.Repositories;
+using DCM.Infrastructure.Persistence;
+using DCM.Core.Entities.secondary;
+
+namespace DCM.Infrastructure.Repositories
+{
+    /// <summary>
+    /// Implementação específica do repositório de pacotes AppX.
+    /// </summary>
+    public class AppxPackageRepository : Repository<AppxPackage>, IAppxPackageRepository
+    {
+        public AppxPackageRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<AppxPackage?> GetByPackageFullNameAsync(string packageFullName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(packageFullName))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(a => a.PackageFullName == packageFullName, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackage>> GetByPublisherAsync(string publisher, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(publisher))
+                return Enumerable.Empty<AppxPackage>();
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(a => a.Publisher == publisher)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackage>> GetByAppxPackageGroupAsync(Guid appxPackageGroupId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(a => a.AppxPackageGroups.Any(apg => apg.Id == appxPackageGroupId))
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackage>> GetByCategoryAsync(string category, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+                return Enumerable.Empty<AppxPackage>();
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(a => a.Category == category)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackage>> GetByDeviceAsync(Guid deviceId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(a => a.Devices.Any(d => d.Id == deviceId))
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackage>> GetAllActiveAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted && e.Enabled)
+                .OrderBy(a => a.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByPackageFullNameAsync(string packageFullName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(packageFullName))
+                return false;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(a => a.PackageFullName == packageFullName, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public Task AddAsync(AppxPackage package, CancellationToken cancellationToken)
+        {
+            base.Add(package);
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public Task UpdateAsync(AppxPackage existing, CancellationToken cancellationToken)
+        {
+            base.Update(existing);
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return await base.AnyAsync(e => e.Id == id, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de grupos de pacotes AppX.
+    /// </summary>
+    public class AppxPackageGroupRepository : Repository<AppxPackageGroup>, IAppxPackageGroupRepository
+    {
+        public AppxPackageGroupRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<AppxPackageGroup?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(apg => apg.Name == name, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackageGroup>> GetOrderedByPriorityAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .OrderBy(apg => apg.Priority)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<AppxPackageGroup?> GetWithAppxPackagesAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Include(apg => apg.AppxPackages)
+                .FirstOrDefaultAsync(apg => apg.Id == id, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackageGroup>> GetByCategoryAsync(string category, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+                return Enumerable.Empty<AppxPackageGroup>();
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(apg => apg.Category == category)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackageGroup>> GetActiveGroupsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted && e.Enabled)
+                .OrderBy(apg => apg.Priority)
+                .ThenBy(apg => apg.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(apg => apg.Name == name, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de perfis de implantação.
+    /// </summary>
+    public class DeployProfileRepository : Repository<DeployProfile>, IDeployProfileRepository
+    {
+        public DeployProfileRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeployProfile?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(dp => dp.Name == name, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DeployProfile>> GetWithAllRelationsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Include(dp => dp.Image)
+                .Include(dp => dp.Applications)
+                .Include(dp => dp.Devices)
+                .Include(dp => dp.ProfileTasks)
+                .AsSplitQuery()
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DeployProfile>> GetActiveProfilesAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted && e.Enabled)
+                .OrderBy(dp => dp.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DeployProfile>> GetByImageAsync(Guid imageId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(dp => dp.ImageId == imageId)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(dp => dp.Name == name, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de pacotes de driver.
+    /// </summary>
+    public class DriverPackRepository : Repository<DriverPack>, IDriverPackRepository
+    {
+        public DriverPackRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DriverPack>> GetByDeviceModelAsync(Guid deviceModelId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(dp => dp.DeviceModelId == deviceModelId)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DriverPack>> GetByOperatingSystemAsync(string operatingSystem, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(operatingSystem))
+                return Enumerable.Empty<DriverPack>();
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(dp => dp.OS == operatingSystem)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DriverPack>> GetByDeviceModelAndOSAsync(Guid deviceModelId, string operatingSystem, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(operatingSystem))
+                return Enumerable.Empty<DriverPack>();
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(dp => dp.DeviceModelId == deviceModelId && dp.OS == operatingSystem)
+                .OrderBy(dp => dp.FileName)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<DriverPack?> GetLatestVersionAsync(Guid deviceModelId, string operatingSystem, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(operatingSystem))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(dp => dp.DeviceModelId == deviceModelId && dp.OS == operatingSystem)
+                .OrderByDescending(dp => dp.Version)
+                .ThenByDescending(dp => dp.CreatedAt)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de firmware.
+    /// </summary>
+    public class FirmwareRepository : Repository<Firmware>, IFirmwareRepository
+    {
+        public FirmwareRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<Firmware?> GetByDeviceModelAsync(Guid deviceModelId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(f => f.DeviceModelId == deviceModelId, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<Firmware?> GetLatestByDeviceModelAsync(Guid deviceModelId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(f => f.DeviceModelId == deviceModelId)
+                .OrderByDescending(f => f.Version)
+                .ThenByDescending(f => f.CreatedAt)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Firmware>> GetByVersionAsync(string version, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(version))
+                return Enumerable.Empty<Firmware>();
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(f => f.Version == version)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Firmware>> GetAllActiveAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted && e.Enabled)
+                .OrderBy(f => f.Version)
+                .ToListAsync(cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de imagens.
+    /// </summary>
+    public class ImageRepository : Repository<Image>, IImageRepository
+    {
+        public ImageRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<Image?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(i => i.ImageName == name, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Image>> GetActiveImagesAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted && e.Enabled)
+                .OrderBy(i => i.ImageName)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Image>> GetByVersionAsync(string version, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(version))
+                return Enumerable.Empty<Image>();
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(i => i.Version == version)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Image>> GetByOperatingSystemAsync(Guid operatingSystemId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(i => i.OperatingSystemId == operatingSystemId)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(i => i.ImageName == name, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de fabricantes.
+    /// </summary>
+    public class ManufacturerRepository : Repository<Manufacturer>, IManufacturerRepository
+    {
+        public ManufacturerRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<Manufacturer?> GetByShortNameAsync(string shortName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(shortName))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(m => m.ShortName == shortName, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<Manufacturer?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(m => m.Name == name, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Manufacturer>> GetAllActiveAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted && e.Enabled)
+                .OrderBy(m => m.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByShortNameAsync(string shortName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(shortName))
+                return false;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(m => m.ShortName == shortName, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(m => m.Name == name, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de sistemas operacionais.
+    /// </summary>
+    public class OperatingSystemRepository : Repository<DCM.Core.Entities.OperatingSystem>, IOperatingSystemRepository
+    {
+        public OperatingSystemRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<DCM.Core.Entities.OperatingSystem?> GetByShortNameAsync(string shortName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(shortName))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(os => os.ShortName == shortName, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DCM.Core.Entities.OperatingSystem>> GetSupportedVersionsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted && e.Enabled)
+                .OrderBy(os => os.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DCM.Core.Entities.OperatingSystem>> GetAllActiveAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted && e.Enabled)
+                .OrderBy(os => os.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<DCM.Core.Entities.OperatingSystem?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(os => os.Name == name, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DCM.Core.Entities.OperatingSystem>> GetByVersionAsync(string version, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(version))
+                return Enumerable.Empty<DCM.Core.Entities.OperatingSystem>();
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(os => os.Name.Contains(version))
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByShortNameAsync(string shortName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(shortName))
+                return false;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(os => os.ShortName == shortName, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(os => os.Name == name, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public Task AddAsync(DCM.Core.Entities.OperatingSystem operatingSystem, CancellationToken cancellationToken)
+        {
+            base.Add(operatingSystem);
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public Task UpdateAsync(DCM.Core.Entities.OperatingSystem operatingSystem, CancellationToken cancellationToken)
+        {
+            base.Update(operatingSystem);
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return await base.AnyAsync(e => e.Id == id, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de tarefas de perfil.
+    /// </summary>
+    public class ProfileTaskRepository : Repository<ProfileTask>, IProfileTaskRepository
+    {
+        public ProfileTaskRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ProfileTask>> GetByDeployProfileAsync(Guid deployProfileId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(pt => pt.DeployProfiles.Any(dp => dp.Id == deployProfileId))
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ProfileTask>> GetByTypeAsync(string taskType, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(taskType))
+                return Enumerable.Empty<ProfileTask>();
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(pt => pt.Phase.ToString() == taskType)
+                .OrderBy(pt => pt.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ProfileTask>> GetOrderedTasksAsync(Guid deployProfileId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(pt => pt.DeployProfiles.Any(dp => dp.Id == deployProfileId))
+                .OrderBy(pt => pt.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ProfileTask>> GetActiveTasksAsync(Guid deployProfileId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted && e.Enabled)
+                .Where(pt => pt.DeployProfiles.Any(dp => dp.Id == deployProfileId))
+                .OrderBy(pt => pt.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ProfileTask>> GetByPhaseAsync(string phase, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(phase))
+                return Enumerable.Empty<ProfileTask>();
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Where(pt => pt.Phase.ToString() == phase)
+                .OrderBy(pt => pt.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByDeployProfileAsync(Guid deployProfileId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(pt => pt.DeployProfiles.Any(dp => dp.Id == deployProfileId), cancellationToken);
+        }
+    }
+}

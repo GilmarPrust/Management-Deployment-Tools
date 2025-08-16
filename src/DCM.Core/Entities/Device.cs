@@ -1,4 +1,5 @@
-﻿using DCM.Core.Utilities;
+﻿using DCM.Core.ValueObjects;
+using DCM.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,12 @@ namespace DCM.Core.Entities
     /// </summary>
     public class Device : BaseEntity
     {
+        /// <summary>
+        /// Tipo do dispositivo (ex: Desktop, Notebook, Server, etc.).
+        /// </summary>
+        [Required]
+        public DeviceType DeviceType { get; set; }
+
         /// <summary>
         /// Nome do computador do dispositivo.
         /// </summary>
@@ -35,6 +42,23 @@ namespace DCM.Core.Entities
         public Device() { }
 
         /// <summary>
+        /// Construtor para criação de dispositivo com tipo específico.
+        /// </summary>
+        /// <param name="deviceType">Tipo do dispositivo</param>
+        /// <param name="serialNumber">Número de série</param>
+        /// <param name="macAddress">Endereço MAC</param>
+        /// <param name="deviceModelId">ID do modelo de dispositivo</param>
+        /// <param name="computerName">Nome do computador (opcional - será gerado se não fornecido)</param>
+        public Device(DeviceType deviceType, string serialNumber, string macAddress, Guid deviceModelId)
+        {
+            DeviceType = deviceType;
+            SerialNumber = serialNumber?.ToUpperInvariant() ?? string.Empty;
+            MacAddress = new MacAddress(macAddress);
+            ComputerName = new ComputerName(deviceType);
+            DeviceModelId = deviceModelId;
+        }
+
+        /// <summary>
         /// ID do modelo de dispositivo.
         /// </summary>
         [Required]
@@ -46,14 +70,19 @@ namespace DCM.Core.Entities
         public virtual DeviceModel DeviceModel { get; set; }
 
         /// <summary>
-        /// Inventário associado ao dispositivo.
+        /// ID do perfil de implantação associado ao dispositivo (opcional).
         /// </summary>
-        public virtual Inventory Inventory { get; set; }
+        public Guid? DeployProfileId { get; set; }
 
         /// <summary>
         /// Perfil de implantação associado ao dispositivo.
         /// </summary>
-        public virtual DeployProfile DeployProfile { get; set; }
+        public virtual DeployProfile? DeployProfile { get; set; }
+
+        /// <summary>
+        /// Inventário associado ao dispositivo.
+        /// </summary>
+        public virtual Inventory? Inventory { get; set; } = null;
 
         /// <summary>
         /// Aplicativos associados ao dispositivo.
@@ -69,5 +98,14 @@ namespace DCM.Core.Entities
         /// Pacotes Appx associados ao dispositivo.
         /// </summary>
         public virtual ICollection<AppxPackage> AppxPackages { get; set; } = new List<AppxPackage>();
+
+        /// <summary>
+        /// Obtém a descrição do tipo de dispositivo.
+        /// </summary>
+        /// <returns>Descrição do tipo de dispositivo</returns>
+        public string GetDeviceTypeDescription()
+        {
+            return DeviceTypeHelper.GetDescription(DeviceType);
+        }
     }
 }

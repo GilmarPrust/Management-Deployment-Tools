@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using DCM.Core.Entities.secondary;
+using DCM.Core.ValueObjects;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DCM.Core.Entities
@@ -57,9 +60,19 @@ namespace DCM.Core.Entities
         public string Hash { get; set; } = string.Empty;
 
         /// <summary>
+        /// Categoria do aplicativo (ex: "Produtividade", "Desenvolvimento", "Sistema", "Jogos", "Utilitários", "Educação", "Financeiro", "Segurança", "Fiscal").
+        /// </summary>
+        public ApplicationCategory Category { get; set; } = new ApplicationCategory();
+
+        /// <summary>
         /// Construtor vazio para o Entity Framework.
         /// </summary>
         public Application() { }
+
+        /// <summary>
+        /// Grupos de aplicações aos quais este aplicativo pertence (relacionamento many-to-many).
+        /// </summary>
+        public virtual ICollection<ApplicationGroup> ApplicationGroups { get; set; } = new List<ApplicationGroup>();
 
         /// <summary>
         /// Dispositivos associados ao aplicativo.
@@ -77,5 +90,3 @@ namespace DCM.Core.Entities
         public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
     }
 }
-
-// implementar Grupos Applications.

@@ -1,0 +1,51 @@
+﻿using System.ComponentModel.DataAnnotations;
+using DCM.Core.Enums;
+
+namespace DCM.Application.DTOs.Device
+{
+    /// <summary>
+    /// DTO para criação de dispositivo.
+    /// </summary>
+    public class DeviceCreateDTO
+    {
+        /// <summary>
+        /// Tipo de dispositivo (usado para gerar o prefixo do nome do computador).
+        /// </summary>
+        [Required(ErrorMessage = "O tipo de dispositivo é obrigatório.")]
+        public DeviceType DeviceType { get; set; }
+
+        /// <summary>
+        /// Nome do computador do dispositivo (opcional - será gerado automaticamente se não fornecido).
+        /// </summary>
+        public string? ComputerName { get; set; }
+
+        /// <summary>
+        /// Número de série do dispositivo.
+        /// </summary>
+        [Required(ErrorMessage = "O número de série é obrigatório.")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "O número de série deve ter entre 5 e 100 caracteres.")]
+        public string SerialNumber { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Endereço MAC do dispositivo.
+        /// </summary>
+        [Required(ErrorMessage = "O endereço MAC é obrigatório.")]
+        public string MacAddress { get; set; } = string.Empty;
+
+        /// <summary>
+        /// ID do modelo de dispositivo.
+        /// </summary>
+        [Required(ErrorMessage = "O ID do modelo de dispositivo é obrigatório.")]
+        public Guid DeviceModelId { get; set; }
+
+        /// <summary>
+        /// Indica se o dispositivo deve ser criado como habilitado (padrão: true).
+        /// </summary>
+        public bool Enabled { get; set; } = true;
+
+        /// <summary>
+        /// ID do perfil de implantação associado ao dispositivo (opcional).
+        /// </summary>
+        public Guid? DeployProfileId { get; set; }
+    }
+}

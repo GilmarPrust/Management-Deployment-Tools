@@ -58,8 +58,7 @@ namespace DCM.Application.Services.Implementations
 
         public async Task<DriverPackReadDTO> CreateAsync(DriverPackCreateDTO dto)
         {
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto));
+            ArgumentNullException.ThrowIfNull(dto);
 
             try
             {
@@ -80,8 +79,7 @@ namespace DCM.Application.Services.Implementations
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("Id não pode ser vazio.", nameof(id));
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto));
+            ArgumentNullException.ThrowIfNull(dto);
 
             try
             {

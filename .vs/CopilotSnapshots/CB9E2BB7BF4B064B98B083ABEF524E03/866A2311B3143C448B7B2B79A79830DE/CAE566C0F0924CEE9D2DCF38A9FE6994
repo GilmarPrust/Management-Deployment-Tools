@@ -1,0 +1,45 @@
+﻿using DCM.Core.Enums;
+
+namespace DCM.Application.DTOs.Device
+{
+    /// <summary>
+    /// DTO para criação de dispositivo.
+    /// </summary>
+    public class DeviceCreateDTO
+    {
+        /// <summary>
+        /// Tipo de dispositivo (usado para gerar o prefixo do nome do computador).
+        /// </summary>
+        public DeviceType DeviceType { get; set; }
+
+        /// <summary>
+        /// Nome do computador do dispositivo (opcional - será gerado automaticamente se não fornecido).
+        /// </summary>
+        public string? ComputerName { get; set; }
+
+        /// <summary>
+        /// Número de série do dispositivo.
+        /// </summary>
+        public string SerialNumber { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Endereço MAC do dispositivo.
+        /// </summary>
+        public string MacAddress { get; set; } = string.Empty;
+
+        /// <summary>
+        /// ID do modelo de dispositivo.
+        /// </summary>
+        public Guid DeviceModelId { get; set; }
+
+        /// <summary>
+        /// Indica se o dispositivo deve ser criado como habilitado (padrão: true).
+        /// </summary>
+        public bool Enabled { get; set; } = true;
+
+        /// <summary>
+        /// ID do perfil de implantação associado ao dispositivo (opcional).
+        /// </summary>
+        public Guid? DeployProfileId { get; set; }
+    }
+}

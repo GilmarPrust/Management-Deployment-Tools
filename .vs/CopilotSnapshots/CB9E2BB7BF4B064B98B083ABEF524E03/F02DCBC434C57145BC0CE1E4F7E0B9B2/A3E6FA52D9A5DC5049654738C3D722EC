@@ -1,0 +1,173 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
+using DCM.Core.Enums;
+
+namespace DCM.Core.Utilities
+{
+    /// <summary>
+    /// Representa um prefixo válido para nome de computador como objeto de valor.
+    /// Usado para categorizar tipos de dispositivos baseado no enum DeviceType.
+    /// </summary>
+    public sealed class PrefixComputerName
+    {
+        /// <summary>
+        /// Valor do prefixo para ComputerName.
+        /// Deve ter no máximo 5 caracteres, conter apenas letras maiúsculas.
+        /// </summary>
+        [Required, StringLength(5)]
+        public string Value { get; }
+
+        /// <summary>
+        /// Tipo de dispositivo associado ao prefixo.
+        /// </summary>
+        public DeviceType DeviceType { get; }
+
+        /// <summary>
+        /// Construtor padrão privado para o Entity Framework Core.
+        /// </summary>
+        private PrefixComputerName() 
+        {
+            Value = string.Empty;
+            DeviceType = DeviceType.Desktop;
+        }
+
+        /// <summary>
+        /// Cria uma nova instância de PrefixComputerName baseado no tipo de dispositivo.
+        /// </summary>
+        /// <param name="deviceType">Tipo de dispositivo</param>
+        public PrefixComputerName(DeviceType deviceType)
+        {
+            DeviceType = deviceType;
+            Value = DeviceTypeHelper.GetPrefix(deviceType);
+        }
+
+        /// <summary>
+        /// Cria uma nova instância de PrefixComputerName a partir de uma string.
+        /// </summary>
+        /// <param name="prefix">Prefixo do nome do computador</param>
+        /// <exception cref="ArgumentException">Lançado quando o prefixo é inválido</exception>
+        public PrefixComputerName(string prefix)
+        {
+            if (string.IsNullOrWhiteSpace(prefix))
+                throw new ArgumentException("Prefixo não pode ser vazio ou nulo.", nameof(prefix));
+
+            var normalizedPrefix = prefix.Trim().ToUpperInvariant();
+
+            if (normalizedPrefix.Length > 5)
+                throw new ArgumentException("Prefixo não pode ter mais de 5 caracteres.", nameof(prefix));
+
+            if (!Regex.IsMatch(normalizedPrefix, @"^[A-Z]+$"))
+                throw new ArgumentException("Prefixo deve conter apenas letras maiúsculas.", nameof(prefix));
+
+            if (!DeviceTypeHelper.IsValidPrefix(normalizedPrefix))
+                throw new ArgumentException($"Prefixo '{prefix}' não é válido. Prefixos válidos: {string.Join(", ", DeviceTypeHelper.GetAllValidPrefixes())}", nameof(prefix));
+
+            Value = normalizedPrefix;
+            DeviceType = DeviceTypeHelper.GetDeviceType(normalizedPrefix);
+        }
+
+        /// <summary>
+        /// Cria um PrefixComputerName a partir de um tipo de dispositivo.
+        /// </summary>
+        /// <param name="deviceType">Tipo de dispositivo</param>
+        /// <returns>Nova instância de PrefixComputerName</returns>
+        public static PrefixComputerName FromDeviceType(DeviceType deviceType)
+        {
+            return new PrefixComputerName(deviceType);
+        }
+
+        /// <summary>
+        /// Verifica se um prefixo é válido.
+        /// </summary>
+        /// <param name="prefix">Prefixo a ser verificado</param>
+        /// <returns>True se o prefixo for válido, false caso contrário</returns>
+        public static bool IsValidPrefix(string prefix)
+        {
+            return DeviceTypeHelper.IsValidPrefix(prefix);
+        }
+
+        /// <summary>
+        /// Obtém todos os prefixos válidos disponíveis.
+        /// </summary>
+        /// <returns>Array com todos os prefixos válidos</returns>
+        public static string[] GetAllValidPrefixes()
+        {
+            return DeviceTypeHelper.GetAllValidPrefixes();
+        }
+
+        /// <summary>
+        /// Obtém a descrição do tipo de dispositivo baseado no prefixo.
+        /// </summary>
+        /// <returns>Descrição do tipo de dispositivo</returns>
+        public string GetDeviceTypeDescription()
+        {
+            return DeviceTypeHelper.GetDescription(DeviceType);
+        }
+
+        /// <summary>
+        /// Converte implicitamente um DeviceType para PrefixComputerName.
+        /// </summary>
+        /// <param name="deviceType">Tipo de dispositivo</param>
+        public static implicit operator PrefixComputerName(DeviceType deviceType)
+        {
+            return new PrefixComputerName(deviceType);
+        }
+
+        /// <summary>
+        /// Converte implicitamente uma string para PrefixComputerName.
+        /// </summary>
+        /// <param name="prefix">String do prefixo</param>
+        public static implicit operator PrefixComputerName(string prefix)
+        {
+            return new PrefixComputerName(prefix);
+        }
+
+        /// <summary>
+        /// Converte implicitamente PrefixComputerName para string.
+        /// </summary>
+        /// <param name="prefixComputerName">Instância de PrefixComputerName</param>
+        public static implicit operator string(PrefixComputerName prefixComputerName)
+        {
+            return prefixComputerName?.Value ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Retorna a representação em string do prefixo.
+        /// </summary>
+        /// <returns>Valor do prefixo</returns>
+        public override string ToString() => Value;
+
+        /// <summary>
+        /// Verifica a igualdade entre duas instâncias de PrefixComputerName.
+        /// </summary>
+        /// <param name="obj">Objeto a ser comparado</param>
+        /// <returns>True se os objetos forem iguais, false caso contrário</returns>
+        public override bool Equals(object? obj)
+        {
+            return obj is PrefixComputerName other && Value == other.Value;
+        }
+
+        /// <summary>
+        /// Obtém o código hash da instância.
+        /// </summary>
+        /// <returns>Código hash baseado no valor do prefixo</returns>
+        public override int GetHashCode() => Value?.GetHashCode() ?? 0;
+
+        /// <summary>
+        /// Operador de igualdade entre duas instâncias de PrefixComputerName.
+        /// </summary>
+        public static bool operator ==(PrefixComputerName? left, PrefixComputerName? right)
+        {
+            return left?.Value == right?.Value;
+        }
+
+        /// <summary>
+        /// Operador de desigualdade entre duas instâncias de PrefixComputerName.
+        /// </summary>
+        public static bool operator !=(PrefixComputerName? left, PrefixComputerName? right)
+        {
+            return !(left == right);
+        }
+    }
+}

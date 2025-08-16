@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "D:\\_DEV\\PROJETOS\\D.C.M2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|d:\\_dev\\projetos\\d.c.m2\\src\\dcm.core\\entities\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|solutionrelative:src\\dcm.core\\entities\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D04FECEE-9D14-9941-43F9-FFD7C570435A}|src\\DCM.Infrastructure\\DCM.Infrastructure.csproj|d:\\_dev\\projetos\\d.c.m2\\src\\dcm.infrastructure\\persistence\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D04FECEE-9D14-9941-43F9-FFD7C570435A}|src\\DCM.Infrastructure\\DCM.Infrastructure.csproj|solutionrelative:src\\dcm.infrastructure\\persistence\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|d:\\_dev\\projetos\\d.c.m2\\src\\dcm.core\\enums\\devicetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|solutionrelative:src\\dcm.core\\enums\\devicetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 218,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Inventory.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\Inventory.cs",
-              "RelativeDocumentMoniker": "src\\DCM.Core\\Entities\\Inventory.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\Inventory.cs",
-              "RelativeToolTip": "src\\DCM.Core\\Entities\\Inventory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAeAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "DeviceType.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Enums\\DeviceType.cs",
+              "RelativeDocumentMoniker": "src\\DCM.Core\\Enums\\DeviceType.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Enums\\DeviceType.cs",
+              "RelativeToolTip": "src\\DCM.Core\\Enums\\DeviceType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-13T00:30:06.584Z",
+              "WhenOpened": "2025-08-16T22:51:01.03Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DbInitializer.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Infrastructure\\Persistence\\DbInitializer.cs",
+              "RelativeDocumentMoniker": "src\\DCM.Infrastructure\\Persistence\\DbInitializer.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Infrastructure\\Persistence\\DbInitializer.cs",
+              "RelativeToolTip": "src\\DCM.Infrastructure\\Persistence\\DbInitializer.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAgwEIAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-16T22:48:14.283Z",
               "EditorCaption": ""
             }
           ]

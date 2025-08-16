@@ -1,0 +1,223 @@
+﻿using Microsoft.EntityFrameworkCore;
+using DCM.Core.Entities;
+using DCM.Core.Interfaces.Repositories;
+using DCM.Infrastructure.Persistence;
+
+namespace DCM.Infrastructure.Repositories
+{
+    /// <summary>
+    /// Implementação específica do repositório de pacotes AppX.
+    /// </summary>
+    public class AppxPackageRepository : Repository<AppxPackage>, IAppxPackageRepository
+    {
+        public AppxPackageRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        public async Task<IEnumerable<AppxPackage>> GetByAppxPackageGroupAsync(Guid appxPackageGroupId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(a => a.AppxPackageGroups.Any(apg => apg.Id == appxPackageGroupId))
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<AppxPackage>> GetByCategoryAsync(string category, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+                return Enumerable.Empty<AppxPackage>();
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(a => a.Category == category)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<AppxPackage?> GetByPackageFullNameAsync(string packageFullName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(packageFullName))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(a => a.PackageFullName == packageFullName, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackage>> GetByPublisherAsync(string publisher, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(publisher))
+                return Enumerable.Empty<AppxPackage>();
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(a => a.Publisher == publisher)
+                .ToListAsync(cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de perfis de implantação.
+    /// </summary>
+    public class DeployProfileRepository : Repository<DeployProfile>, IDeployProfileRepository
+    {
+        public DeployProfileRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeployProfile?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(dp => dp.Name == name, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DeployProfile>> GetWithAllRelationsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Include(dp => dp.Image)
+                .Include(dp => dp.Applications)
+                .Include(dp => dp.Devices)
+                .Include(dp => dp.ProfileTasks)
+                .ToListAsync(cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de pacotes de driver.
+    /// </summary>
+    public class DriverPackRepository : Repository<DriverPack>, IDriverPackRepository
+    {
+        public DriverPackRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DriverPack>> GetByDeviceModelAsync(Guid deviceModelId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(dp => dp.DeviceModelId == deviceModelId)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DriverPack>> GetByOperatingSystemAsync(string operatingSystem, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(operatingSystem))
+                return Enumerable.Empty<DriverPack>();
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(dp => dp.OS == operatingSystem)
+                .ToListAsync(cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de firmware.
+    /// </summary>
+    public class FirmwareRepository : Repository<Firmware>, IFirmwareRepository
+    {
+        public FirmwareRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<Firmware?> GetByDeviceModelAsync(Guid deviceModelId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(f => f.DeviceModelId == deviceModelId, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de imagens.
+    /// </summary>
+    public class ImageRepository : Repository<Image>, IImageRepository
+    {
+        public ImageRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<Image?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(i => i.ImageName == name, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de fabricantes.
+    /// </summary>
+    public class ManufacturerRepository : Repository<Manufacturer>, IManufacturerRepository
+    {
+        public ManufacturerRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<Manufacturer?> GetByShortNameAsync(string shortName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(shortName))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(m => m.ShortName == shortName, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de sistemas operacionais.
+    /// </summary>
+    public class OperatingSystemRepository : Repository<DCM.Core.Entities.OperatingSystem>, IOperatingSystemRepository
+    {
+        public OperatingSystemRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<DCM.Core.Entities.OperatingSystem?> GetByShortNameAsync(string shortName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(shortName))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(os => os.ShortName == shortName, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de tarefas de perfil.
+    /// </summary>
+    public class ProfileTaskRepository : Repository<ProfileTask>, IProfileTaskRepository
+    {
+        public ProfileTaskRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ProfileTask>> GetByDeployProfileAsync(Guid deployProfileId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(pt => pt.DeployProfiles.Any(dp => dp.Id == deployProfileId))
+                .ToListAsync(cancellationToken);
+        }
+    }
+}

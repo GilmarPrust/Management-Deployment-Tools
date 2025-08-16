@@ -1,0 +1,44 @@
+﻿using System;
+
+namespace DCM.Core.Entities
+{
+    /// <summary>
+    /// Entidade base para todas as entidades do domínio, fornecendo propriedades comuns.
+    /// </summary>
+    public abstract class BaseEntity
+    {
+        /// <summary>
+        /// Identificador único da entidade.
+        /// </summary>
+        public Guid Id { get; private set; }
+
+        /// <summary>
+        /// Data de criação da entidade.
+        /// </summary>
+        public DateTime CreatedAt { get; private set; }
+
+        /// <summary>
+        /// Data da última atualização da entidade.
+        /// </summary>
+        public DateTime? UpdatedAt { get; set; }
+
+        /// <summary>
+        /// Data de exclusão lógica da entidade.
+        /// </summary>
+        public DateTime? DeletedAt { get; set; }
+
+        /// <summary>
+        /// Indica se a entidade está habilitada (soft delete).
+        /// </summary>
+        public bool Enabled { get; set; } = true;
+
+        /// <summary>
+        /// Construtor para inicializar as propriedades somente leitura.
+        /// </summary>
+        protected BaseEntity()
+        {
+            Id = Guid.NewGuid();
+            CreatedAt = DateTime.UtcNow;
+        }
+    }
+}

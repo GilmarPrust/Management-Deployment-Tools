@@ -15,7 +15,10 @@ namespace DCM.Application.Mappings
             CreateMap<FirmwareCreateDTO, Firmware>();
 
             // DTO de atualização → Entidade
-            CreateMap<FirmwareUpdateDTO, Firmware>();
+            CreateMap<FirmwareUpdateDTO, Firmware>()
+                .AfterMap((src, dest, context) => {
+                    dest.SetEnabled(src.Enabled);
+                });
         }
     }
 }

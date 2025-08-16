@@ -1,0 +1,58 @@
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace DCM.Core.Interfaces.Repositories
+{
+    /// <summary>
+    /// Interface para Unit of Work, gerenciando transações e coordenando repositórios.
+    /// </summary>
+    public interface IUnitOfWork : IDisposable
+    {
+        /// <summary>
+        /// Repositório para entidades Device.
+        /// </summary>
+        IDeviceRepository Devices { get; }
+
+        /// <summary>
+        /// Repositório para entidades DeviceModel.
+        /// </summary>
+        IDeviceModelRepository DeviceModels { get; }
+
+        /// <summary>
+        /// Repositório para entidades Application.
+        /// </summary>
+        IApplicationRepository Applications { get; }
+
+        /// <summary>
+        /// Repositório para entidades ApplicationGroup.
+        /// </summary>
+        IApplicationGroupRepository ApplicationGroups { get; }
+
+        /// <summary>
+        /// Repositório para entidades AppxPackage.
+        /// </summary>
+        IAppxPackageRepository AppxPackages { get; }
+
+        /// <summary>
+        /// Repositório para entidades AppxPackageGroup.
+        /// </summary>
+        IAppxPackageGroupRepository AppxPackageGroups { get; }
+
+        /// <summary>
+        /// Repositório para entidades DeployProfile.
+        /// </summary>
+        IDeployProfileRepository DeployProfiles { get; }
+
+        /// <summary>
+        /// Repositório para entidades Inventory.
+        /// </summary>
+        IInventoryRepository Inventories { get; }
+
+        /// <summary>
+        /// Repositório para entidades DriverPack.
+        /// </summary>
+        IDriverPackRepository DriverPacks { get; }
+
+        /// <summary>
+        /// Reposi

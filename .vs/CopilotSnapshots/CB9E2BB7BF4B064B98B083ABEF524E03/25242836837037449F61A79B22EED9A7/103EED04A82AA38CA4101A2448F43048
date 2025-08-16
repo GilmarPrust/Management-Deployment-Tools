@@ -1,0 +1,373 @@
+﻿using Microsoft.EntityFrameworkCore;
+using DCM.Core.Entities;
+using DCM.Core.Interfaces.Repositories;
+using DCM.Infrastructure.Persistence;
+using DCM.Core.Entities.secondary;
+
+namespace DCM.Infrastructure.Repositories
+{
+    /// <summary>
+    /// Implementação específica do repositório de dispositivos.
+    /// </summary>
+    public class DeviceRepository : Repository<Device>, IDeviceRepository
+    {
+        public DeviceRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<Device?> GetByComputerNameAsync(string computerName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(computerName))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(d => d.ComputerName.Value == computerName, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<Device?> GetByMacAddressAsync(string macAddress, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(macAddress))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(d => d.MacAddress.Value == macAddress, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<Device?> GetBySerialNumberAsync(string serialNumber, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(serialNumber))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(d => d.SerialNumber == serialNumber, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Device>> GetByDeviceModelAsync(Guid deviceModelId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(d => d.DeviceModelId == deviceModelId)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Device>> GetWithAllRelationsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Include(d => d.DeviceModel)
+                .Include(d => d.DeployProfile)
+                .Include(d => d.Applications)
+                .Include(d => d.DriverPacks)
+                .Include(d => d.AppxPackages)
+                .Include(d => d.Inventory)
+                .ToListAsync(cancellationToken);
+        }
+
+        public Task AddAsync(Device device, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Device existing, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de modelos de dispositivo.
+    /// </summary>
+    public class DeviceModelRepository : Repository<DeviceModel>, IDeviceModelRepository
+    {
+        public DeviceModelRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeviceModel?> GetByManufacturerAndModelAsync(string manufacturer, string model, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(manufacturer) || string.IsNullOrWhiteSpace(model))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(dm => dm.Manufacturer == manufacturer && dm.Model == model, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DeviceModel>> GetByManufacturerAsync(string manufacturer, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(manufacturer))
+                return Enumerable.Empty<DeviceModel>();
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(dm => dm.Manufacturer == manufacturer)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DeviceModel>> GetWithAllRelationsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Include(dm => dm.Devices)
+                .Include(dm => dm.Firmware)
+                .Include(dm => dm.DriverPacks)
+                .Include(dm => dm.Applications)
+                .AsSplitQuery()
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByManufacturerAndModelAsync(string manufacturer, string model, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(manufacturer) || string.IsNullOrWhiteSpace(model))
+                return false;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(dm => dm.Manufacturer == manufacturer && dm.Model == model, cancellationToken);
+        }
+
+        public Task<bool> ExistsAsync(Guid deviceModelId, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DeviceModel?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<DeviceModel>> GetAllActiveAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de aplicações.
+    /// </summary>
+    public class ApplicationRepository : Repository<Application>, IApplicationRepository
+    {
+        public ApplicationRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Application>> GetByApplicationGroupAsync(Guid applicationGroupId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(a => a.ApplicationGroups.Any(ag => ag.Id == applicationGroupId))
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<Application?> GetByNameIdAsync(string nameId, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(nameId))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(a => a.NameID == nameId, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Application>> GetByVersionAsync(string version, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(version))
+                return Enumerable.Empty<Application>();
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(a => a.Version == version)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Application>> GetByCategoryAsync(ApplicationCategory category, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+                return Enumerable.Empty<Application>();
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(a => a.Category == category)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Application>> GetAllActiveAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted && e.Enabled)
+                .OrderBy(a => a.DisplayName)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByNameIdAsync(string nameId, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(nameId))
+                return false;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(a => a.NameID == nameId, cancellationToken);
+        }
+
+        public Task AddAsync(Application application, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Application existing, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de inventários.
+    /// </summary>
+    public class InventoryRepository : Repository<Inventory>, IInventoryRepository
+    {
+        public InventoryRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<Inventory?> GetByDeviceIdAsync(Guid deviceId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Include(i => i.Hardware)
+                .FirstOrDefaultAsync(i => i.DeviceId == deviceId, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Inventory>> GetWithHardwareAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Include(i => i.Hardware)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Inventory>> GetLatestInventoriesAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .Include(i => i.Hardware)
+                .OrderByDescending(i => i.CreatedAt)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByDeviceIdAsync(Guid deviceId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(i => i.DeviceId == deviceId, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Implementação específica do repositório de grupos de aplicações.
+    /// </summary>
+    public class ApplicationGroupRepository : Repository<ApplicationGroup>, IApplicationGroupRepository
+    {
+        public ApplicationGroupRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<ApplicationGroup?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .FirstOrDefaultAsync(ag => ag.Name == name, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ApplicationGroup>> GetOrderedByPriorityAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .OrderBy(ag => ag.Priority)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<ApplicationGroup?> GetWithApplicationsAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Include(ag => ag.Applications)
+                .FirstOrDefaultAsync(ag => ag.Id == id, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ApplicationGroup>> GetByCategoryAsync(string category, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+                return Enumerable.Empty<ApplicationGroup>();
+
+            return await _dbSet
+                .Where(e => !e.DeletedAt.HasValue)
+                .Where(ag => ag.Category == category)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ApplicationGroup>> GetActiveGroupsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(e => !e.IsDeleted && e.Enabled)
+                .OrderBy(ag => ag.Priority)
+                .ThenBy(ag => ag.Name)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            return await _dbSet
+                .Where(e => !e.IsDeleted)
+                .AnyAsync(ag => ag.Name == name, cancellationToken);
+        }
+    }
+}

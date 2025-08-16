@@ -1,5 +1,6 @@
 using DCM.Core.Entities;
-using DCM.Core.Utilities;
+using DCM.Core.Enums;
+using DCM.Core.ValueObjects;
 
 namespace DCM.Infrastructure.Persistence
 {
@@ -139,7 +140,7 @@ namespace DCM.Infrastructure.Persistence
                 _context.SaveChanges();
 
                 //update Enabled to false.
-                firmware.Enabled = false;
+                firmware.Disable();
                 _context.Firmwares.Update(firmware);
                 _context.SaveChanges();
             }

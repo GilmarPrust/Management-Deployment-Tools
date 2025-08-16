@@ -57,8 +57,8 @@ namespace DCM.Application.Services.Implementations
 
         public async Task<FirmwareReadDTO> CreateAsync(FirmwareCreateDTO dto)
         {
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto));
+            ArgumentNullException.ThrowIfNull(dto);
+
             try
             {
                 var entity = _mapper.Map<Firmware>(dto);
@@ -78,8 +78,8 @@ namespace DCM.Application.Services.Implementations
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("Id não pode ser vazio.", nameof(id));
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto));
+            ArgumentNullException.ThrowIfNull(dto);
+
             try
             {
                 var firmware = await _context.Firmwares.FindAsync(id);

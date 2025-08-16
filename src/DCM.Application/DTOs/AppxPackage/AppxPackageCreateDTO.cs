@@ -70,5 +70,6 @@ namespace DCM.Application.DTOs.AppxPackage
         /// Status do pacote.
         /// </summary>
         public string Status { get; init; } = string.Empty;
+        public string? PackageName { get; internal set; }
     }
 }

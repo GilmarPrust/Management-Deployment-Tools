@@ -4,7 +4,7 @@ global using Microsoft.OpenApi.Models;
 global using System.Reflection;
 global using DCM.API.Helpers;
 global using DCM.Application.DTOs.Application;
-global using DCM.Core.Utilities;
+global using DCM.Core.ValueObjects;
 global using DCM.Infrastructure.Persistence;
 global using DCM.Application.DTOs.Device;
 global using DCM.Core.Settings;

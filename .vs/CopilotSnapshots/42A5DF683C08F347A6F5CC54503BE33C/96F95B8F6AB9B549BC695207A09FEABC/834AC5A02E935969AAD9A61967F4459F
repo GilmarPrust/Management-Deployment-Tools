@@ -1,0 +1,260 @@
+﻿using Microsoft.Extensions.Logging;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using DCM.Application.DTOs.Application;
+using DCM.Application.Services.Interfaces;
+using DCM.Core.Interfaces.Repositories;
+using DCM.Core.Entities;
+
+namespace DCM.Application.Services.Implementations
+{
+    /// <summary>
+    /// Serviço para gerenciamento de aplicações.
+    /// </summary>
+    public sealed class ApplicationService : IApplicationService
+    {
+        private readonly IApplicationRepository _applicationRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly ILogger<ApplicationService> _logger;
+
+        public ApplicationService(
+            IApplicationRepository applicationRepository,
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            ILogger<ApplicationService> logger)
+        {
+            _applicationRepository = applicationRepository ?? throw new ArgumentNullException(nameof(applicationRepository));
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ApplicationReadDTO>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Iniciando busca de todas as aplicações");
+                
+                var applications = await _applicationRepository.GetAllActiveAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<ApplicationReadDTO>>(applications);
+                
+                _logger.LogInformation("Retornadas {Count} aplicações", result.Count());
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar todas as aplicações");
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<ApplicationReadDTO?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+
+            try
+            {
+                _logger.LogDebug("Buscando aplicação com Id: {Id}", id);
+                
+                var application = await _applicationRepository.GetByIdAsync(id, cancellationToken);
+                if (application == null)
+                {
+                    _logger.LogWarning("Aplicação não encontrada com Id: {Id}", id);
+                    return null;
+                }
+
+                var result = _mapper.Map<ApplicationReadDTO>(application);
+                _logger.LogDebug("Aplicação encontrada: {Name}", application.NameID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar aplicação por Id: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<ApplicationReadDTO?> GetByNameIdAsync(string nameId, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(nameId))
+                throw new ArgumentException("NameId não pode ser nulo ou vazio.", nameof(nameId));
+
+            try
+            {
+                _logger.LogDebug("Buscando aplicação com NameId: {NameId}", nameId);
+                
+                var application = await _applicationRepository.GetByNameIdAsync(nameId, cancellationToken);
+                if (application == null)
+                {
+                    _logger.LogWarning("Aplicação não encontrada com NameId: {NameId}", nameId);
+                    return null;
+                }
+
+                var result = _mapper.Map<ApplicationReadDTO>(application);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar aplicação por NameId: {NameId}", nameId);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ApplicationReadDTO>> GetByVersionAsync(string version, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(version))
+                return Enumerable.Empty<ApplicationReadDTO>();
+
+            try
+            {
+                _logger.LogDebug("Buscando aplicações com versão: {Version}", version);
+                
+                var applications = await _applicationRepository.GetByVersionAsync(version, cancellationToken);
+                var result = _mapper.Map<IEnumerable<ApplicationReadDTO>>(applications);
+                
+                _logger.LogInformation("Encontradas {Count} aplicações com versão {Version}", result.Count(), version);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar aplicações por versão: {Version}", version);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<ApplicationReadDTO> CreateAsync(ApplicationCreateDTO dto, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(dto);
+
+            try
+            {
+                _logger.LogDebug("Criando nova aplicação: {Name}", dto.NameID);
+
+                // Validação de negócio: Verificar duplicidade por NameID
+                if (!string.IsNullOrWhiteSpace(dto.NameID))
+                {
+                    var existingApp = await _applicationRepository.GetByNameIdAsync(dto.NameID, cancellationToken);
+                    if (existingApp != null)
+                    {
+                        throw new InvalidOperationException($"Já existe uma aplicação com NameID: {dto.NameID}");
+                    }
+                }
+
+                var application = _mapper.Map<DCM.Core.Entities.Application>(dto);
+                
+                await _applicationRepository.AddAsync(application, cancellationToken);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Aplicação criada com sucesso. Id: {Id}, NameID: {NameID}", application.Id, application.NameID);
+
+                return _mapper.Map<ApplicationReadDTO>(application);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao criar aplicação: {Name}", dto.NameID);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<ApplicationReadDTO?> UpdateAsync(Guid id, ApplicationUpdateDTO dto, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+            ArgumentNullException.ThrowIfNull(dto);
+
+            try
+            {
+                _logger.LogDebug("Atualizando aplicação: {Id}", id);
+
+                var existing = await _applicationRepository.GetByIdAsync(id, cancellationToken);
+                if (existing == null)
+                {
+                    _logger.LogWarning("Aplicação não encontrada para atualização: {Id}", id);
+                    return null;
+                }
+
+                // Validação de negócio: Verificar duplicidade por NameID (se mudou)
+                if (!string.IsNullOrWhiteSpace(dto.NameID) && dto.NameID != existing.NameID)
+                {
+                    var duplicateApp = await _applicationRepository.GetByNameIdAsync(dto.NameID, cancellationToken);
+                    if (duplicateApp != null)
+                    {
+                        throw new InvalidOperationException($"Já existe uma aplicação com NameID: {dto.NameID}");
+                    }
+                }
+
+                _mapper.Map(dto, existing);
+                existing.Update();
+
+                await _applicationRepository.UpdateAsync(existing, cancellationToken);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Aplicação atualizada com sucesso: {Id}", id);
+                return _mapper.Map<ApplicationReadDTO>(existing);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao atualizar aplicação: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+
+            try
+            {
+                _logger.LogDebug("Removendo aplicação: {Id}", id);
+
+                var application = await _applicationRepository.GetByIdAsync(id, cancellationToken);
+                if (application == null)
+                {
+                    _logger.LogWarning("Aplicação não encontrada para remoção: {Id}", id);
+                    return false;
+                }
+
+                // Soft delete
+                application.SoftDelete();
+                
+                await _applicationRepository.UpdateAsync(application, cancellationToken);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Aplicação removida com sucesso: {Id}", id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao remover aplicação: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                return false;
+
+            try
+            {
+                return await _applicationRepository.ExistsAsync(id, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao verificar existência da aplicação: {Id}", id);
+                throw;
+            }
+        }
+    }
+}

@@ -1,0 +1,61 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.RegularExpressions;
+using DCM.Core.Enums;
+
+namespace DCM.Core.ValueObjects
+{
+    /// <summary>
+    /// Representa um nome de computador válido.
+    /// </summary>
+    public sealed class ComputerName
+    {
+        [Required, StringLength(15)]
+        public string Value { get; }
+
+        /// <summary>
+        /// Construtor padrão privado para o EF Core.
+        /// </summary>
+        private ComputerName() { }
+
+        /// <summary>
+        /// Cria um nome de computador com validação.
+        /// </summary>
+        /// <param name="value">Valor do nome do computador</param>
+        public ComputerName(DeviceType deviceType)
+        {
+            var prefix = DeviceTypeHelper.GetPrefix(deviceType);
+            var generatedName = Generate(prefix);
+            Value = generatedName;
+
+        }
+
+        /// <summary>
+        /// Gera um nome de computador aleatório usando um prefixo específico.
+        /// </summary>
+        /// <param name="prefix">Prefixo a ser usado</param>
+        /// <returns>Nome de computador gerado</returns>
+        private static string Generate(string prefix)
+        {
+            var random = new Random(Guid.NewGuid().GetHashCode());
+            
+            var hex = new StringBuilder();
+            for (int i = 0; i < 4; i++)
+            {
+                hex.Append(random.Next(0, 16).ToString("X"));
+            }
+
+            return $"{prefix}-{hex}";
+        }
+
+        public override string ToString() => Value;
+
+        public override bool Equals(object? obj)
+        {
+            return obj is ComputerName other && Value == other.Value;
+        }
+
+        public override int GetHashCode() => Value?.GetHashCode() ?? 0;
+    }
+}

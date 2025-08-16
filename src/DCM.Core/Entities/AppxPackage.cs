@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using DCM.Core.Entities.secondary;
+using DCM.Core.ValueObjects;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DCM.Core.Entities
@@ -76,9 +78,19 @@ namespace DCM.Core.Entities
         public string Status { get; set; } = string.Empty;
 
         /// <summary>
+        /// Categoria do aplicativo (ex: "Produtividade", "Desenvolvimento", "Sistema", "Jogos", "Utilitários", "Educação", "Financeiro", "Segurança", "Fiscal").
+        /// </summary>
+        public ApplicationCategory Category { get; set; } = new ApplicationCategory();
+
+        /// <summary>
         /// Construtor vazio para o Entity Framework.
         /// </summary>
         public AppxPackage() { }
+
+        /// <summary>
+        /// Grupos de pacotes AppX aos quais este pacote pertence (relacionamento many-to-many).
+        /// </summary>
+        public virtual ICollection<AppxPackageGroup> AppxPackageGroups { get; set; } = new List<AppxPackageGroup>();
 
         /// <summary>
         /// Dispositivos associados ao pacote Appx.

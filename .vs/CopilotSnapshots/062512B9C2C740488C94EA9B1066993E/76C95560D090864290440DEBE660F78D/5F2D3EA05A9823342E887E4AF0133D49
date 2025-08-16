@@ -1,0 +1,317 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using DCM.Core.Entities;
+using OSEntity = DCM.Core.Entities.OperatingSystem;
+
+namespace DCM.Core.Interfaces.Repositories
+{
+    /// <summary>
+    /// Interface específica para repositório de modelos de dispositivo.
+    /// </summary>
+    public interface IDeviceModelRepository : IRepository<DeviceModel>
+    {
+        /// <summary>
+        /// Obtém um modelo de dispositivo pelo fabricante e modelo.
+        /// </summary>
+        /// <param name="manufacturer">Fabricante</param>
+        /// <param name="model">Modelo</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Modelo de dispositivo encontrado ou null</returns>
+        Task<DeviceModel?> GetByManufacturerAndModelAsync(string manufacturer, string model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém modelos de dispositivo por fabricante.
+        /// </summary>
+        /// <param name="manufacturer">Fabricante</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de modelos de dispositivo</returns>
+        Task<IEnumerable<DeviceModel>> GetByManufacturerAsync(string manufacturer, CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de aplicações.
+    /// </summary>
+    public interface IApplicationRepository : IRepository<Application>
+    {
+        /// <summary>
+        /// Obtém uma aplicação pelo NameID.
+        /// </summary>
+        /// <param name="nameId">NameID da aplicação</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Aplicação encontrada ou null</returns>
+        Task<Application?> GetByNameIdAsync(string nameId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém aplicações por versão.
+        /// </summary>
+        /// <param name="version">Versão</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de aplicações</returns>
+        Task<IEnumerable<Application>> GetByVersionAsync(string version, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém aplicações que pertencem a um grupo específico.
+        /// </summary>
+        /// <param name="applicationGroupId">ID do grupo de aplicações</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de aplicações do grupo</returns>
+        Task<IEnumerable<Application>> GetByApplicationGroupAsync(Guid applicationGroupId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém aplicações por categoria.
+        /// </summary>
+        /// <param name="category">Categoria das aplicações</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de aplicações da categoria</returns>
+        Task<IEnumerable<Application>> GetByCategoryAsync(string category, CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de grupos de aplicações.
+    /// </summary>
+    public interface IApplicationGroupRepository : IRepository<ApplicationGroup>
+    {
+        /// <summary>
+        /// Obtém um grupo de aplicações pelo nome.
+        /// </summary>
+        /// <param name="name">Nome do grupo</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Grupo encontrado ou null</returns>
+        Task<ApplicationGroup?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém grupos ordenados por prioridade.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de grupos ordenados por prioridade</returns>
+        Task<IEnumerable<ApplicationGroup>> GetOrderedByPriorityAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém grupo com aplicações incluídas.
+        /// </summary>
+        /// <param name="id">ID do grupo</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Grupo com aplicações ou null</returns>
+        Task<ApplicationGroup?> GetWithApplicationsAsync(Guid id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém grupos por categoria.
+        /// </summary>
+        /// <param name="category">Categoria dos grupos</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de grupos da categoria</returns>
+        Task<IEnumerable<ApplicationGroup>> GetByCategoryAsync(string category, CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de pacotes AppX.
+    /// </summary>
+    public interface IAppxPackageRepository : IRepository<AppxPackage>
+    {
+        /// <summary>
+        /// Obtém um pacote AppX pelo nome completo.
+        /// </summary>
+        /// <param name="packageFullName">Nome completo do pacote</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Pacote AppX encontrado ou null</returns>
+        Task<AppxPackage?> GetByPackageFullNameAsync(string packageFullName, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém pacotes AppX por publicador.
+        /// </summary>
+        /// <param name="publisher">Publicador</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de pacotes AppX</returns>
+        Task<IEnumerable<AppxPackage>> GetByPublisherAsync(string publisher, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém pacotes AppX que pertencem a um grupo específico.
+        /// </summary>
+        /// <param name="appxPackageGroupId">ID do grupo de pacotes AppX</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de pacotes AppX do grupo</returns>
+        Task<IEnumerable<AppxPackage>> GetByAppxPackageGroupAsync(Guid appxPackageGroupId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém pacotes AppX por categoria.
+        /// </summary>
+        /// <param name="category">Categoria dos pacotes</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de pacotes AppX da categoria</returns>
+        Task<IEnumerable<AppxPackage>> GetByCategoryAsync(string category, CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de grupos de pacotes AppX.
+    /// </summary>
+    public interface IAppxPackageGroupRepository : IRepository<AppxPackageGroup>
+    {
+        /// <summary>
+        /// Obtém um grupo de pacotes AppX pelo nome.
+        /// </summary>
+        /// <param name="name">Nome do grupo</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Grupo encontrado ou null</returns>
+        Task<AppxPackageGroup?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém grupos ordenados por prioridade.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de grupos ordenados por prioridade</returns>
+        Task<IEnumerable<AppxPackageGroup>> GetOrderedByPriorityAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém grupo com pacotes AppX incluídos.
+        /// </summary>
+        /// <param name="id">ID do grupo</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Grupo com pacotes AppX ou null</returns>
+        Task<AppxPackageGroup?> GetWithAppxPackagesAsync(Guid id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém grupos por categoria.
+        /// </summary>
+        /// <param name="category">Categoria dos grupos</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de grupos da categoria</returns>
+        Task<IEnumerable<AppxPackageGroup>> GetByCategoryAsync(string category, CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de perfis de implantação.
+    /// </summary>
+    public interface IDeployProfileRepository : IRepository<DeployProfile>
+    {
+        /// <summary>
+        /// Obtém um perfil de implantação pelo nome.
+        /// </summary>
+        /// <param name="name">Nome do perfil</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Perfil de implantação encontrado ou null</returns>
+        Task<DeployProfile?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém perfis de implantação com todas as relações.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de perfis com relações</returns>
+        Task<IEnumerable<DeployProfile>> GetWithAllRelationsAsync(CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de inventários.
+    /// </summary>
+    public interface IInventoryRepository : IRepository<Inventory>
+    {
+        /// <summary>
+        /// Obtém inventário por dispositivo.
+        /// </summary>
+        /// <param name="deviceId">ID do dispositivo</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Inventário encontrado ou null</returns>
+        Task<Inventory?> GetByDeviceIdAsync(Guid deviceId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém inventários com hardware incluído.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de inventários com hardware</returns>
+        Task<IEnumerable<Inventory>> GetWithHardwareAsync(CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de pacotes de driver.
+    /// </summary>
+    public interface IDriverPackRepository : IRepository<DriverPack>
+    {
+        /// <summary>
+        /// Obtém pacotes de driver por modelo de dispositivo.
+        /// </summary>
+        /// <param name="deviceModelId">ID do modelo de dispositivo</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de pacotes de driver</returns>
+        Task<IEnumerable<DriverPack>> GetByDeviceModelAsync(Guid deviceModelId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém pacotes de driver por sistema operacional.
+        /// </summary>
+        /// <param name="operatingSystem">Sistema operacional</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de pacotes de driver</returns>
+        Task<IEnumerable<DriverPack>> GetByOperatingSystemAsync(string operatingSystem, CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de firmware.
+    /// </summary>
+    public interface IFirmwareRepository : IRepository<Firmware>
+    {
+        /// <summary>
+        /// Obtém firmware por modelo de dispositivo.
+        /// </summary>
+        /// <param name="deviceModelId">ID do modelo de dispositivo</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Firmware encontrado ou null</returns>
+        Task<Firmware?> GetByDeviceModelAsync(Guid deviceModelId, CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de imagens.
+    /// </summary>
+    public interface IImageRepository : IRepository<Image>
+    {
+        /// <summary>
+        /// Obtém uma imagem pelo nome.
+        /// </summary>
+        /// <param name="name">Nome da imagem</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Imagem encontrada ou null</returns>
+        Task<Image?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de fabricantes.
+    /// </summary>
+    public interface IManufacturerRepository : IRepository<Manufacturer>
+    {
+        /// <summary>
+        /// Obtém um fabricante pelo nome curto.
+        /// </summary>
+        /// <param name="shortName">Nome curto</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Fabricante encontrado ou null</returns>
+        Task<Manufacturer?> GetByShortNameAsync(string shortName, CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de sistemas operacionais.
+    /// </summary>
+    public interface IOperatingSystemRepository : IRepository<OSEntity>
+    {
+        /// <summary>
+        /// Obtém um sistema operacional pelo nome curto.
+        /// </summary>
+        /// <param name="shortName">Nome curto</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Sistema operacional encontrado ou null</returns>
+        Task<OSEntity?> GetByShortNameAsync(string shortName, CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Interface específica para repositório de tarefas de perfil.
+    /// </summary>
+    public interface IProfileTaskRepository : IRepository<ProfileTask>
+    {
+        /// <summary>
+        /// Obtém tarefas de perfil por perfil de implantação.
+        /// </summary>
+        /// <param name="deployProfileId">ID do perfil de implantação</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de tarefas de perfil</returns>
+        Task<IEnumerable<ProfileTask>> GetByDeployProfileAsync(Guid deployProfileId, CancellationToken cancellationToken = default);
+    }
+}

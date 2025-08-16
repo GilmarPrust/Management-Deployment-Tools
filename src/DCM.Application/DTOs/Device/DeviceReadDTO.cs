@@ -1,5 +1,6 @@
 ﻿using DCM.Application.DTOs.DeviceModel;
 using DCM.Application.DTOs.Inventory;
+using DCM.Core.Enums;
 
 namespace DCM.Application.DTOs.Device
 {
@@ -12,6 +13,11 @@ namespace DCM.Application.DTOs.Device
         /// Identificador único do dispositivo.
         /// </summary>
         public Guid Id { get; init; }
+
+        /// <summary>
+        /// Tipo de dispositivo.
+        /// </summary>
+        public DeviceType DeviceType { get; init; }
 
         /// <summary>
         /// Nome do computador do dispositivo.

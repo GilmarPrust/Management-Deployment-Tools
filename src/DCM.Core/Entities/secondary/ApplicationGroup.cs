@@ -1,0 +1,49 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities.secondary
+{
+    /// <summary>
+    /// Representa um grupo de aplicações para organização e implantação conjunta.
+    /// </summary>
+    public class ApplicationGroup : BaseEntity
+    {
+        /// <summary>
+        /// Nome do grupo de aplicações.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Descrição do grupo de aplicações.
+        /// </summary>
+        [StringLength(250)]
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Ordem de prioridade do grupo (menor número = maior prioridade).
+        /// </summary>
+        public int Priority { get; set; } = 0;
+
+        /// <summary>
+        /// Categoria do grupo (ex: "Produtividade", "Desenvolvimento", "Sistema").
+        /// </summary>
+        [StringLength(50)]
+        public string Category { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public ApplicationGroup() { }
+
+        /// <summary>
+        /// Aplicações associadas ao grupo (relacionamento many-to-many).
+        /// </summary>
+        public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
+
+        /// <summary>
+        /// Perfis de implantação que utilizam este grupo.
+        /// </summary>
+        public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
+    }
+}

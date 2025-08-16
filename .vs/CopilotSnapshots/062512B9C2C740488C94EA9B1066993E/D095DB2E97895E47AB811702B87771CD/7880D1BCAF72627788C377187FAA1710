@@ -1,0 +1,41 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using DCM.Core.Interfaces.Repositories;
+using DCM.Infrastructure.Repositories;
+
+namespace DCM.Infrastructure.Extensions
+{
+    /// <summary>
+    /// Extensões para registro de repositórios e Unit of Work no container de DI.
+    /// </summary>
+    public static class RepositoryServiceExtensions
+    {
+        /// <summary>
+        /// Registra todos os repositórios e o Unit of Work no container de dependências.
+        /// </summary>
+        /// <param name="services">Coleção de serviços</param>
+        /// <returns>Coleção de serviços configurada</returns>
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            // Registro do Unit of Work
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            // Registro dos repositórios específicos
+            services.AddScoped<IDeviceRepository, DeviceRepository>();
+            services.AddScoped<IDeviceModelRepository, DeviceModelRepository>();
+            services.AddScoped<IApplicationRepository, ApplicationRepository>();
+            services.AddScoped<IApplicationGroupRepository, ApplicationGroupRepository>();
+            services.AddScoped<IAppxPackageRepository, AppxPackageRepository>();
+            services.AddScoped<IAppxPackageGroupRepository, AppxPackageGroupRepository>();
+            services.AddScoped<IDeployProfileRepository, DeployProfileRepository>();
+            services.AddScoped<IInventoryRepository, InventoryRepository>();
+            services.AddScoped<IDriverPackRepository, DriverPackRepository>();
+            services.AddScoped<IFirmwareRepository, FirmwareRepository>();
+            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
+            services.AddScoped<IOperatingSystemRepository, OperatingSystemRepository>();
+            services.AddScoped<IProfileTaskRepository, ProfileTaskRepository>();
+
+            return services;
+        }
+    }
+}

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DCM.Application.DTOs.Device;
 using DCM.Core.Entities;
-using DCM.Core.Utilities;
 
 namespace DCM.Application.Mappings
 {
@@ -9,19 +8,43 @@ namespace DCM.Application.Mappings
     {
         public DeviceProfile()
         {
-            // DTO de leitura → Entidade
+            // Entidade → DTO de leitura
             CreateMap<Device, DeviceReadDTO>()
+                .ForMember(dest => dest.ComputerName, opt => opt.MapFrom(src => src.ComputerName.Value))
+                .ForMember(dest => dest.MacAddress, opt => opt.MapFrom(src => src.MacAddress.Value))
                 .ForMember(dest => dest.ApplicationIds, opt => opt.MapFrom(src => src.Applications.Select(app => app.Id)))
                 .ForMember(dest => dest.AppxPackageIds, opt => opt.MapFrom(src => src.AppxPackages.Select(app => app.Id)))
-                .ForMember(dest => dest.DeployProfileId, opt => opt.MapFrom(src => src.DeployProfile))
-                .ForMember(dest => dest.Enabled, opt => opt.MapFrom(src => src.Enabled));
+                .ForMember(dest => dest.DriverPackIds, opt => opt.MapFrom(src => src.DriverPacks.Select(dp => dp.Id)));
 
-            // DTO de atualização → Entidade
+            // DTO de criação → Entidade (usado apenas para mapeamento de propriedades básicas)
             CreateMap<DeviceCreateDTO, Device>()
-            .ForMember(dest => dest.MacAddress, opt => opt.MapFrom(src => new MacAddress(src.MacAddress)));
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.ComputerName, opt => opt.Ignore()) // Será criado no construtor
+                .ForMember(dest => dest.MacAddress, opt => opt.Ignore()) // Será criado no construtor
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.DeviceModel, opt => opt.Ignore())
+                .ForMember(dest => dest.DeployProfile, opt => opt.Ignore())
+                .ForMember(dest => dest.Inventory, opt => opt.Ignore())
+                .ForMember(dest => dest.Applications, opt => opt.Ignore())
+                .ForMember(dest => dest.DriverPacks, opt => opt.Ignore())
+                .ForMember(dest => dest.AppxPackages, opt => opt.Ignore());
 
-            // DTO de atualização → Entidade
-            CreateMap<DeviceUpdateDTO, Device>();
+            // DTO de atualização → Entidade (usado apenas para referência, mas não usado diretamente)
+            CreateMap<DeviceUpdateDTO, Device>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.ComputerName, opt => opt.Ignore()) // Será atualizado manualmente
+                .ForMember(dest => dest.MacAddress, opt => opt.Ignore()) // Será atualizado manualmente
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.DeviceModel, opt => opt.Ignore())
+                .ForMember(dest => dest.DeployProfile, opt => opt.Ignore())
+                .ForMember(dest => dest.Inventory, opt => opt.Ignore())
+                .ForMember(dest => dest.Applications, opt => opt.MapFrom(src => new List<DCM.Core.Entities.Application>()))
+                .ForMember(dest => dest.DriverPacks, opt => opt.MapFrom(src => new List<DriverPack>()))
+                .ForMember(dest => dest.AppxPackages, opt => opt.MapFrom(src => new List<AppxPackage>()));
         }
     }
 }

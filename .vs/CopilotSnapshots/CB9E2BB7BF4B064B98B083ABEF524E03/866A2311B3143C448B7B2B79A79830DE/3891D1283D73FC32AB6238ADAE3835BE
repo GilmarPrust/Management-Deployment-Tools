@@ -1,0 +1,69 @@
+﻿using System.ComponentModel.DataAnnotations;
+using DCM.Core.Enums;
+
+namespace DCM.Application.DTOs.Device
+{
+    /// <summary>
+    /// DTO para atualização de dispositivo.
+    /// </summary>
+    public class DeviceUpdateDTO
+    {
+        /// <summary>
+        /// Tipo de dispositivo.
+        /// </summary>
+        [Required(ErrorMessage = "O tipo de dispositivo é obrigatório.")]
+        public DeviceType DeviceType { get; set; }
+
+        /// <summary>
+        /// Nome do computador do dispositivo.
+        /// </summary>
+        [Required(ErrorMessage = "O nome do computador é obrigatório.")]
+        [StringLength(15, ErrorMessage = "O nome do computador deve ter no máximo 15 caracteres.")]
+        public string ComputerName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Número de série do dispositivo.
+        /// </summary>
+        [Required(ErrorMessage = "O número de série é obrigatório.")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "O número de série deve ter entre 5 e 100 caracteres.")]
+        public string SerialNumber { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Endereço MAC do dispositivo.
+        /// </summary>
+        [Required(ErrorMessage = "O endereço MAC é obrigatório.")]
+        public string MacAddress { get; set; } = string.Empty;
+
+        /// <summary>
+        /// ID do modelo de dispositivo.
+        /// </summary>
+        [Required(ErrorMessage = "O ID do modelo de dispositivo é obrigatório.")]
+        public Guid DeviceModelId { get; set; }
+
+        /// <summary>
+        /// Indica se o dispositivo está habilitado.
+        /// </summary>
+        [Required(ErrorMessage = "O campo Enabled é obrigatório.")]
+        public bool Enabled { get; set; }
+
+        /// <summary>
+        /// ID do perfil de implantação associado ao dispositivo.
+        /// </summary>
+        public Guid? DeployProfileId { get; set; }
+
+        /// <summary>
+        /// Lista de IDs das aplicações associadas ao dispositivo.
+        /// </summary>
+        public IReadOnlyList<Guid> ApplicationIds { get; set; } = Array.Empty<Guid>();
+
+        /// <summary>
+        /// Lista de IDs dos pacotes Appx associados ao dispositivo.
+        /// </summary>
+        public IReadOnlyList<Guid> AppxPackageIds { get; set; } = Array.Empty<Guid>();
+
+        /// <summary>
+        /// Lista de IDs dos pacotes de driver associados ao dispositivo.
+        /// </summary>
+        public IReadOnlyList<Guid> DriverPackIds { get; set; } = Array.Empty<Guid>();
+    }
+}

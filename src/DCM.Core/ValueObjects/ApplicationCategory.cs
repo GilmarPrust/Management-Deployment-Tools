@@ -1,0 +1,52 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.ValueObjects
+{
+    /// <summary>
+    /// Representa uma categoria de aplicação como objeto de valor.
+    /// </summary>
+    public sealed class ApplicationCategory
+    {
+        /// <summary>
+        /// Categoria do aplicativo (ex: "Produtividade", "Desenvolvimento", "Sistema", "Jogos", "Utilitários", "Educação", "Financeiro", "Segurança", "Fiscal").
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Descrição opcional da categoria.
+        /// </summary>
+        [StringLength(200)]
+        public string? Description { get; set; }
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public ApplicationCategory() { }
+
+        /// <summary>
+        /// Construtor para criação com nome.
+        /// </summary>
+        /// <param name="name">Nome da categoria</param>
+        public ApplicationCategory(string name)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is ApplicationCategory other && Name == other.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name?.GetHashCode() ?? 0;
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+}

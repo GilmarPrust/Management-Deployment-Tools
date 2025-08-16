@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using DCM.Core.Entities;
+
+namespace DCM.Core.Interfaces.Repositories
+{
+    /// <summary>
+    /// Interface específica para repositório de dispositivos.
+    /// </summary>
+    public interface IDeviceRepository : IRepository<Device>
+    {
+        /// <summary>
+        /// Obtém um dispositivo pelo nome do computador.
+        /// </summary>
+        /// <param name="computerName">Nome do computador</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Dispositivo encontrado ou null</returns>
+        Task<Device?> GetByComputerNameAsync(string computerName, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém um dispositivo pelo endereço MAC.
+        /// </summary>
+        /// <param name="macAddress">Endereço MAC</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Dispositivo encontrado ou null</returns>
+        Task<Device?> GetByMacAddressAsync(string macAddress, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém um dispositivo pelo número de série.
+        /// </summary>
+        /// <param name="serialNumber">Número de série</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Dispositivo encontrado ou null</returns>
+        Task<Device?> GetBySerialNumberAsync(string serialNumber, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém dispositivos por modelo de dispositivo.
+        /// </summary>
+        /// <param name="deviceModelId">ID do modelo de dispositivo</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de dispositivos</returns>
+        Task<IEnumerable<Device>> GetByDeviceModelAsync(Guid deviceModelId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém dispositivos com todas as relações incluídas.
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Lista de dispositivos com relações</returns>
+        Task<IEnumerable<Device>> GetWithAllRelationsAsync(CancellationToken cancellationToken = default);
+    }
+}

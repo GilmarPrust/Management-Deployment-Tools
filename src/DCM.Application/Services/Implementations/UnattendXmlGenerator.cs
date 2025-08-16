@@ -1,4 +1,4 @@
-﻿using DCM.Core.Utilities;
+﻿using DCM.Core.ValueObjects;
 using System.Xml.Linq;
 
 namespace DCM.Application.Services.Implementations

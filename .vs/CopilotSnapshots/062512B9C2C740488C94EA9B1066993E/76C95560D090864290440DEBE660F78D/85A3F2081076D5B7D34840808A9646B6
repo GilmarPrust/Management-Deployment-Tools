@@ -1,0 +1,131 @@
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using DCM.Core.Interfaces.Repositories;
+using DCM.Infrastructure.Persistence;
+
+namespace DCM.Infrastructure.Repositories
+{
+    /// <summary>
+    /// Implementação do padrão Unit of Work para coordenar repositórios e transações.
+    /// </summary>
+    public class UnitOfWork : IUnitOfWork
+    {
+        private readonly AppDbContext _context;
+        private IDbContextTransaction? _transaction;
+
+        // Repositórios
+        private IDeviceRepository? _devices;
+        private IDeviceModelRepository? _deviceModels;
+        private IApplicationRepository? _applications;
+        private IAppxPackageRepository? _appxPackages;
+        private IDeployProfileRepository? _deployProfiles;
+        private IInventoryRepository? _inventories;
+        private IDriverPackRepository? _driverPacks;
+        private IFirmwareRepository? _firmwares;
+        private IImageRepository? _images;
+        private IManufacturerRepository? _manufacturers;
+        private IOperatingSystemRepository? _operatingSystems;
+        private IProfileTaskRepository? _profileTasks;
+
+        public UnitOfWork(AppDbContext context)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        /// <inheritdoc/>
+        public IDeviceRepository Devices => _devices ??= new DeviceRepository(_context);
+
+        /// <inheritdoc/>
+        public IDeviceModelRepository DeviceModels => _deviceModels ??= new DeviceModelRepository(_context);
+
+        /// <inheritdoc/>
+        public IApplicationRepository Applications => _applications ??= new ApplicationRepository(_context);
+
+        /// <inheritdoc/>
+        public IAppxPackageRepository AppxPackages => _appxPackages ??= new AppxPackageRepository(_context);
+
+        /// <inheritdoc/>
+        public IDeployProfileRepository DeployProfiles => _deployProfiles ??= new DeployProfileRepository(_context);
+
+        /// <inheritdoc/>
+        public IInventoryRepository Inventories => _inventories ??= new InventoryRepository(_context);
+
+        /// <inheritdoc/>
+        public IDriverPackRepository DriverPacks => _driverPacks ??= new DriverPackRepository(_context);
+
+        /// <inheritdoc/>
+        public IFirmwareRepository Firmwares => _firmwares ??= new FirmwareRepository(_context);
+
+        /// <inheritdoc/>
+        public IImageRepository Images => _images ??= new ImageRepository(_context);
+
+        /// <inheritdoc/>
+        public IManufacturerRepository Manufacturers => _manufacturers ??= new ManufacturerRepository(_context);
+
+        /// <inheritdoc/>
+        public IOperatingSystemRepository OperatingSystems => _operatingSystems ??= new OperatingSystemRepository(_context);
+
+        /// <inheritdoc/>
+        public IProfileTaskRepository ProfileTasks => _profileTasks ??= new ProfileTaskRepository(_context);
+
+        public IApplicationGroupRepository ApplicationGroups => throw new NotImplementedException();
+
+        public IAppxPackageGroupRepository AppxPackageGroups => throw new NotImplementedException();
+
+        /// <inheritdoc/>
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            if (_transaction != null)
+                throw new InvalidOperationException("Uma transação já está ativa.");
+
+            _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            if (_transaction == null)
+                throw new InvalidOperationException("Nenhuma transação ativa para confirmar.");
+
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+                await _transaction.CommitAsync(cancellationToken);
+            }
+            finally
+            {
+                await _transaction.DisposeAsync();
+                _transaction = null;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task RollbackTransactionAsync()
+        {
+            if (_transaction == null)
+                throw new InvalidOperationException("Nenhuma transação ativa para reverter.");
+
+            try
+            {
+                await _transaction.RollbackAsync();
+            }
+            finally
+            {
+                await _transaction.DisposeAsync();
+                _transaction = null;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            _transaction?.Dispose();
+            _context.Dispose();
+        }
+    }
+}

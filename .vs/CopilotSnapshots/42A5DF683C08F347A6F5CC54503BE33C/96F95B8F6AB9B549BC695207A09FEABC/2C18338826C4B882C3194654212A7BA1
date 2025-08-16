@@ -1,0 +1,305 @@
+﻿using AutoMapper;
+using DCM.Application.DTOs.AppxPackage;
+using DCM.Application.Services.Interfaces;
+using DCM.Core.Entities;
+using DCM.Core.Interfaces.Repositories;
+using Microsoft.Extensions.Logging;
+
+namespace DCM.Application.Services.Implementations
+{
+    /// <summary>
+    /// Serviço para gerenciamento de pacotes AppX.
+    /// </summary>
+    public sealed class AppxPackageService : IAppxPackageService
+    {
+        private readonly IAppxPackageRepository _appxPackageRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly ILogger<AppxPackageService> _logger;
+
+        public AppxPackageService(
+            IAppxPackageRepository appxPackageRepository,
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            ILogger<AppxPackageService> logger)
+        {
+            _appxPackageRepository = appxPackageRepository ?? throw new ArgumentNullException(nameof(appxPackageRepository));
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackageReadDTO>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Iniciando busca de todos os pacotes AppX");
+                
+                var packages = await _appxPackageRepository.GetAllActiveAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<AppxPackageReadDTO>>(packages);
+                
+                _logger.LogInformation("Retornados {Count} pacotes AppX", result.Count());
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar todos os pacotes AppX");
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<AppxPackageReadDTO?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+
+            try
+            {
+                _logger.LogDebug("Buscando pacote AppX com Id: {Id}", id);
+                
+                var package = await _appxPackageRepository.GetByIdAsync(id, cancellationToken);
+                if (package == null)
+                {
+                    _logger.LogWarning("Pacote AppX não encontrado com Id: {Id}", id);
+                    return null;
+                }
+
+                var result = _mapper.Map<AppxPackageReadDTO>(package);
+                _logger.LogDebug("Pacote AppX encontrado: {Name}", package.Name);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar pacote AppX por Id: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<AppxPackageReadDTO?> GetByPackageFullNameAsync(string packageFullName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(packageFullName))
+                throw new ArgumentException("PackageFullName não pode ser nulo ou vazio.", nameof(packageFullName));
+
+            try
+            {
+                _logger.LogDebug("Buscando pacote AppX com PackageFullName: {PackageFullName}", packageFullName);
+                
+                var package = await _appxPackageRepository.GetByPackageFullNameAsync(packageFullName, cancellationToken);
+                if (package == null)
+                {
+                    _logger.LogWarning("Pacote AppX não encontrado com PackageFullName: {PackageFullName}", packageFullName);
+                    return null;
+                }
+
+                return _mapper.Map<AppxPackageReadDTO>(package);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar pacote AppX por PackageFullName: {PackageFullName}", packageFullName);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackageReadDTO>> GetByCategoryAsync(string category, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+                return Enumerable.Empty<AppxPackageReadDTO>();
+
+            try
+            {
+                _logger.LogDebug("Buscando pacotes AppX por categoria: {Category}", category);
+                
+                var packages = await _appxPackageRepository.GetByCategoryAsync(category, cancellationToken);
+                var result = _mapper.Map<IEnumerable<AppxPackageReadDTO>>(packages);
+                
+                _logger.LogInformation("Encontrados {Count} pacotes AppX na categoria {Category}", result.Count(), category);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar pacotes AppX por categoria: {Category}", category);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<AppxPackageReadDTO>> GetByPublisherAsync(string publisher, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(publisher))
+                return Enumerable.Empty<AppxPackageReadDTO>();
+
+            try
+            {
+                _logger.LogDebug("Buscando pacotes AppX por publicador: {Publisher}", publisher);
+                
+                var packages = await _appxPackageRepository.GetByPublisherAsync(publisher, cancellationToken);
+                var result = _mapper.Map<IEnumerable<AppxPackageReadDTO>>(packages);
+                
+                _logger.LogInformation("Encontrados {Count} pacotes AppX do publicador {Publisher}", result.Count(), publisher);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar pacotes AppX por publicador: {Publisher}", publisher);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<AppxPackageReadDTO> CreateAsync(AppxPackageCreateDTO dto, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(dto);
+
+            try
+            {
+                _logger.LogDebug("Criando novo pacote AppX: {PackageName}", dto.PackageName);
+
+                // Validação de negócio: Verificar duplicidade por PackageFullName
+                if (!string.IsNullOrWhiteSpace(dto.PackageFullName))
+                {
+                    var existingPackage = await _appxPackageRepository.GetByPackageFullNameAsync(dto.PackageFullName, cancellationToken);
+                    if (existingPackage != null)
+                    {
+                        throw new InvalidOperationException($"Já existe um pacote AppX com PackageFullName: {dto.PackageFullName}");
+                    }
+                }
+
+                var package = _mapper.Map<AppxPackage>(dto);
+                
+                await _appxPackageRepository.AddAsync(package, cancellationToken);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Pacote AppX criado com sucesso. Id: {Id}, PackageName: {PackageName}", package.Id, package.PackageName);
+                
+                return _mapper.Map<AppxPackageReadDTO>(package);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao criar pacote AppX: {PackageName}", dto.PackageName);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<AppxPackageReadDTO?> UpdateAsync(Guid id, AppxPackageUpdateDTO dto, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+            ArgumentNullException.ThrowIfNull(dto);
+
+            try
+            {
+                _logger.LogDebug("Atualizando pacote AppX: {Id}", id);
+
+                var existing = await _appxPackageRepository.GetByIdAsync(id, cancellationToken);
+                if (existing == null)
+                {
+                    _logger.LogWarning("Pacote AppX não encontrado para atualização: {Id}", id);
+                    return null;
+                }
+
+                // Validação de negócio: Verificar duplicidade por PackageFullName (se mudou)
+                if (!string.IsNullOrWhiteSpace(dto.PackageFullName) && dto.PackageFullName != existing.PackageFullName)
+                {
+                    var duplicatePackage = await _appxPackageRepository.GetByPackageFullNameAsync(dto.PackageFullName, cancellationToken);
+                    if (duplicatePackage != null)
+                    {
+                        throw new InvalidOperationException($"Já existe um pacote AppX com PackageFullName: {dto.PackageFullName}");
+                    }
+                }
+
+                _mapper.Map(dto, existing);
+
+                await _appxPackageRepository.UpdateAsync(existing, cancellationToken);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Pacote AppX atualizado com sucesso: {Id}", id);
+                return _mapper.Map<AppxPackageReadDTO>(existing);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao atualizar pacote AppX: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+
+            try
+            {
+                _logger.LogDebug("Removendo pacote AppX: {Id}", id);
+
+                var package = await _appxPackageRepository.GetByIdAsync(id, cancellationToken);
+                if (package == null)
+                {
+                    _logger.LogWarning("Pacote AppX não encontrado para remoção: {Id}", id);
+                    return false;
+                }
+
+                // Soft delete
+                package.SoftDelete();
+                
+                await _appxPackageRepository.UpdateAsync(package, cancellationToken);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Pacote AppX removido com sucesso: {Id}", id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao remover pacote AppX: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                return false;
+
+            try
+            {
+                return await _appxPackageRepository.ExistsAsync(id, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao verificar existência do pacote AppX: {Id}", id);
+                throw;
+            }
+        }
+
+        public Task<IEnumerable<AppxPackageReadDTO>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AppxPackageReadDTO?> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AppxPackageReadDTO> CreateAsync(AppxPackageCreateDTO dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AppxPackageReadDTO?> UpdateAsync(Guid id, AppxPackageUpdateDTO dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

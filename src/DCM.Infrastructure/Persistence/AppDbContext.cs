@@ -1,5 +1,6 @@
 using DCM.Core.Entities;
-using DCM.Core.Utilities;
+using DCM.Core.Entities.secondary;
+using DCM.Core.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace DCM.Infrastructure.Persistence
@@ -9,20 +10,85 @@ namespace DCM.Infrastructure.Persistence
     /// </summary>
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
-        //public DbSet<Application> Products => Set<Application>();
-        // DbSets para entidades principais
+        #region DbSets - Entidades Principais
+
+        /// <summary>
+        /// Conjunto de dados para aplicações.
+        /// </summary>
         public DbSet<Application> Applications { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para pacotes AppX.
+        /// </summary>
         public DbSet<AppxPackage> AppxPackages { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para dispositivos.
+        /// </summary>
         public DbSet<Device> Devices { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para modelos de dispositivo.
+        /// </summary>
         public DbSet<DeviceModel> DeviceModels { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para pacotes de driver.
+        /// </summary>
         public DbSet<DriverPack> DriverPacks { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para firmware.
+        /// </summary>
         public DbSet<Firmware> Firmwares { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para imagens.
+        /// </summary>
         public DbSet<Image> Images { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para inventários.
+        /// </summary>
         public DbSet<Inventory> Inventories { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para perfis de implantação.
+        /// </summary>
         public DbSet<DeployProfile> DeployProfiles { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para tarefas de perfil.
+        /// </summary>
         public DbSet<ProfileTask> ProfileTasks { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para fabricantes.
+        /// </summary>
         public DbSet<Manufacturer> Manufacturers { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para sistemas operacionais.
+        /// </summary>
         public DbSet<DCM.Core.Entities.OperatingSystem> OperatingSystems { get; private set; }
+
+        #endregion
+
+        #region DbSets - Entidades Secundárias
+
+        /// <summary>
+        /// Conjunto de dados para grupos de aplicações.
+        /// </summary>
+        public DbSet<ApplicationGroup> ApplicationGroups { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para grupos de pacotes AppX.
+        /// </summary>
+        public DbSet<AppxPackageGroup> AppxPackageGroups { get; private set; }
+
+        #endregion
+
+        #region SaveChanges Overrides
 
         /// <summary>
         /// Atualiza o campo UpdatedAt automaticamente para entidades modificadas.
@@ -42,6 +108,40 @@ namespace DCM.Infrastructure.Persistence
             return await base.SaveChangesAsync(cancellationToken);
         }
 
+        #endregion
+
+        #region Model Configuration
+
+        /// <summary>
+        /// Configura o modelo de dados e relacionamentos das entidades.
+        /// </summary>
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configurações de entidades principais
+            ConfigureDevice(modelBuilder);
+            ConfigureDeviceModel(modelBuilder);
+            ConfigureApplication(modelBuilder);
+            ConfigureAppxPackage(modelBuilder);
+            ConfigureFirmware(modelBuilder);
+            ConfigureDriverPack(modelBuilder);
+            ConfigureDeployProfile(modelBuilder);
+            ConfigureProfileTask(modelBuilder);
+            ConfigureImage(modelBuilder);
+            ConfigureInventory(modelBuilder);
+            ConfigureManufacturer(modelBuilder);
+            ConfigureOperatingSystem(modelBuilder);
+
+            // Configurações de entidades secundárias
+            ConfigureApplicationGroup(modelBuilder);
+            ConfigureAppxPackageGroup(modelBuilder);
+        }
+
+        #endregion
+
+        #region Private Methods
+
         /// <summary>
         /// Define a data de atualização para entidades modificadas.
         /// </summary>
@@ -51,76 +151,108 @@ namespace DCM.Infrastructure.Persistence
                 .Where(e => e.State == EntityState.Modified);
 
             foreach (var entry in entidadesAlteradas)
-                entry.Entity.UpdatedAt = DateTime.UtcNow;
+            {
+                // Use o método interno para definir UpdatedAt, pois o setter é protegido
+                entry.Entity.Update();
+            }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            ConfigureDevice(modelBuilder);
-            // ...chame métodos privados para cada entidade
+        #endregion
 
-        }
+        #region Entity Configurations
 
+        /// <summary>
+        /// Configura a entidade Device e seus relacionamentos.
+        /// </summary>
         private static void ConfigureDevice(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Device>(entity =>
             {
                 entity.HasKey(d => d.Id);
 
-                entity.Property(s => s.SerialNumber)
+                // Configuração de DeviceType como enum
+                entity.Property(d => d.DeviceType)
                       .IsRequired()
-                      .HasMaxLength(50);
+                      .HasConversion<string>();
 
-                entity.HasIndex(s => s.SerialNumber)
+                // Configuração de propriedades
+                entity.Property(d => d.SerialNumber)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.HasIndex(d => d.SerialNumber)
                       .IsUnique();
 
-                entity.Property(d => d.MacAddress).HasConversion(
-                    v => v.Value,
-                    value => new MacAddress(value))
-                    .HasColumnName("MacAddress");
+                // Value Objects
+                entity.Property(d => d.MacAddress)
+                      .HasConversion(
+                          v => v.Value,
+                          value => new MacAddress(value))
+                      .HasColumnName("MacAddress")
+                      .IsRequired()
+                      .HasMaxLength(17);
 
-                entity.Property(d => d.ComputerName).HasConversion(
-                        v => v.Value,
-                        value => new ComputerName(value)
-                    )
-                    .IsRequired()
-                    .HasMaxLength(15)
-                    .HasColumnName("ComputerName");
+                entity.Property(d => d.ComputerName)
+                      .HasConversion(
+                          v => v.Value,
+                          value => new ComputerName(value))
+                      .IsRequired()
+                      .HasMaxLength(15)
+                      .HasColumnName("ComputerName");
 
-                entity.HasIndex(c => c.ComputerName)
+                entity.HasIndex(d => d.ComputerName)
                       .IsUnique();
 
+                // Relacionamentos
                 entity.HasOne(d => d.DeviceModel)
                       .WithMany(dm => dm.Devices)
                       .HasForeignKey(d => d.DeviceModelId)
-                      .OnDelete(DeleteBehavior.Cascade);
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(d => d.DeployProfile)
+                      .WithMany(dp => dp.Devices)
+                      .HasForeignKey(d => d.DeployProfileId)
+                      .OnDelete(DeleteBehavior.SetNull);
 
                 // Relacionamentos muitos-para-muitos
                 entity.HasMany(d => d.Applications)
-                      .WithMany(a => a.Devices);
+                      .WithMany(a => a.Devices)
+                      .UsingEntity("DeviceApplications");
 
                 entity.HasMany(d => d.DriverPacks)
-                      .WithMany();
+                      .WithMany()
+                      .UsingEntity("DeviceDriverPacks");
 
                 entity.HasMany(d => d.AppxPackages)
-                      .WithMany(a => a.Devices);
+                      .WithMany(a => a.Devices)
+                      .UsingEntity("DeviceAppxPackages");
             });
+        }
 
-            // DEVICE MODEL
+        /// <summary>
+        /// Configura a entidade DeviceModel e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureDeviceModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<DeviceModel>(entity =>
             {
                 entity.HasKey(dm => dm.Id);
 
+                // Configuração de propriedades
+                entity.Property(dm => dm.Manufacturer)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
                 entity.Property(dm => dm.Model)
                       .IsRequired()
-                      .HasMaxLength(100);
+                      .HasMaxLength(50);
 
                 entity.Property(dm => dm.Type)
                       .HasMaxLength(50);
 
-                entity.Property(dm => dm.Enabled)
-                      .IsRequired();
+                // Índice único para evitar duplicatas
+                entity.HasIndex(dm => new { dm.Manufacturer, dm.Model })
+                      .IsUnique();
 
                 // Relacionamento 1:1 com Firmware
                 entity.HasOne(dm => dm.Firmware)
@@ -136,32 +268,201 @@ namespace DCM.Infrastructure.Persistence
 
                 // Relacionamento muitos-para-muitos com Application
                 entity.HasMany(dm => dm.Applications)
-                      .WithMany(a => a.DeviceModels);
+                      .WithMany(a => a.DeviceModels)
+                      .UsingEntity("DeviceModelApplications");
             });
+        }
 
-            // FIRMWARE
+        /// <summary>
+        /// Configura a entidade Application e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureApplication(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Application>(entity =>
+            {
+                entity.HasKey(a => a.Id);
+
+                // Configuração de propriedades
+                entity.Property(a => a.NameID)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.HasIndex(a => a.NameID)
+                      .IsUnique();
+
+                entity.Property(a => a.DisplayName)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(a => a.Version)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(a => a.FileName)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(a => a.Argument)
+                      .HasMaxLength(250);
+
+                entity.Property(a => a.Source)
+                      .IsRequired()
+                      .HasMaxLength(200);
+
+                entity.Property(a => a.Filter)
+                      .HasMaxLength(100);
+
+                entity.Property(a => a.Hash)
+                      .HasMaxLength(64);
+
+                // Value Object para Category
+                entity.OwnsOne(a => a.Category, category =>
+                {
+                    category.Property(c => c.Name)
+                            .HasMaxLength(50)
+                            .IsRequired()
+                            .HasColumnName("CategoryName");
+
+                    category.Property(c => c.Description)
+                            .HasMaxLength(200)
+                            .HasColumnName("CategoryDescription");
+                });
+
+                // Relacionamentos muitos-para-muitos
+                entity.HasMany(a => a.ApplicationGroups)
+                      .WithMany(ag => ag.Applications)
+                      .UsingEntity("ApplicationGroupMemberships");
+
+                entity.HasMany(a => a.DeployProfiles)
+                      .WithMany(dp => dp.Applications)
+                      .UsingEntity("DeployProfileApplications");
+            });
+        }
+
+        /// <summary>
+        /// Configura a entidade AppxPackage e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureAppxPackage(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AppxPackage>(entity =>
+            {
+                entity.HasKey(ap => ap.Id);
+
+                // Configuração de propriedades
+                entity.Property(ap => ap.Name)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(ap => ap.Version)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(ap => ap.Publisher)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(ap => ap.Architecture)
+                      .HasMaxLength(50);
+
+                entity.Property(ap => ap.PackageFamilyName)
+                      .HasMaxLength(100);
+
+                entity.Property(ap => ap.PackageFullName)
+                      .IsRequired()
+                      .HasMaxLength(200);
+
+                entity.HasIndex(ap => ap.PackageFullName)
+                      .IsUnique();
+
+                entity.Property(ap => ap.Status)
+                      .HasMaxLength(100);
+
+                // Value Object para Category
+                entity.OwnsOne(ap => ap.Category, category =>
+                {
+                    category.Property(c => c.Name)
+                            .HasMaxLength(50)
+                            .IsRequired()
+                            .HasColumnName("CategoryName");
+
+                    category.Property(c => c.Description)
+                            .HasMaxLength(200)
+                            .HasColumnName("CategoryDescription");
+                });
+
+                // Relacionamentos muitos-para-muitos
+                entity.HasMany(ap => ap.AppxPackageGroups)
+                      .WithMany(apg => apg.AppxPackages)
+                      .UsingEntity("AppxPackageGroupMemberships");
+            });
+        }
+
+        /// <summary>
+        /// Configura a entidade Firmware e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureFirmware(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Firmware>(entity =>
             {
                 entity.HasKey(fw => fw.Id);
-                entity.Property(fw => fw.FileName).IsRequired().HasMaxLength(100);
-                entity.Property(fw => fw.Version).IsRequired().HasMaxLength(50);
-                entity.Property(fw => fw.Source).IsRequired().HasMaxLength(200);
-                entity.Property(fw => fw.Hash).IsRequired().HasMaxLength(64);
-            });
 
-            // DRIVERPACK
+                entity.Property(fw => fw.FileName)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(fw => fw.Version)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(fw => fw.Source)
+                      .IsRequired()
+                      .HasMaxLength(250);
+
+                entity.Property(fw => fw.Hash)
+                      .IsRequired()
+                      .HasMaxLength(64);
+            });
+        }
+
+        /// <summary>
+        /// Configura a entidade DriverPack e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureDriverPack(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<DriverPack>(entity =>
             {
                 entity.HasKey(dp => dp.Id);
 
-                entity.Property(dp => dp.FileName).IsRequired().HasMaxLength(100);
-                entity.Property(dp => dp.OS).IsRequired().HasMaxLength(50);
-                entity.Property(dp => dp.Version).IsRequired().HasMaxLength(50);
-                entity.Property(dp => dp.Source).IsRequired().HasMaxLength(200);
-                entity.Property(dp => dp.Hash).IsRequired().HasMaxLength(64);
-            });
+                entity.Property(dp => dp.FileName)
+                      .IsRequired()
+                      .HasMaxLength(100);
 
-            // DEPLOY PROFILE
+                entity.Property(dp => dp.OS)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(dp => dp.Version)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(dp => dp.Source)
+                      .IsRequired()
+                      .HasMaxLength(250);
+
+                entity.Property(dp => dp.Hash)
+                      .IsRequired()
+                      .HasMaxLength(64);
+
+                // Índice composto para performance
+                entity.HasIndex(dp => new { dp.DeviceModelId, dp.OS });
+            });
+        }
+
+        /// <summary>
+        /// Configura a entidade DeployProfile e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureDeployProfile(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<DeployProfile>(entity =>
             {
                 entity.HasKey(dp => dp.Id);
@@ -170,20 +471,44 @@ namespace DCM.Infrastructure.Persistence
                       .IsRequired()
                       .HasMaxLength(100);
 
+                entity.HasIndex(dp => dp.Name)
+                      .IsUnique();
+
                 entity.Property(dp => dp.Description)
                       .HasMaxLength(250);
 
+                entity.Property(dp => dp.Category)
+                      .HasMaxLength(50);
+
+                // Relacionamento com Image
                 entity.HasOne(dp => dp.Image)
                       .WithMany(i => i.DeployProfiles)
                       .HasForeignKey(dp => dp.ImageId)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasMany(dp => dp.Applications);
-                entity.HasMany(dp => dp.Devices);
-                entity.HasMany(dp => dp.ProfileTasks);
-            });
+                // Relacionamentos opcionais com grupos
+                entity.HasOne(dp => dp.ApplicationGroup)
+                      .WithMany(ag => ag.DeployProfiles)
+                      .HasForeignKey(dp => dp.ApplicationGroupId)
+                      .OnDelete(DeleteBehavior.SetNull);
 
-            // PROFILE TASK
+                entity.HasOne(dp => dp.AppxPackageGroup)
+                      .WithMany(apg => apg.DeployProfiles)
+                      .HasForeignKey(dp => dp.AppxPackageGroupId)
+                      .OnDelete(DeleteBehavior.SetNull);
+
+                // Relacionamento muitos-para-muitos com ProfileTask
+                entity.HasMany(dp => dp.ProfileTasks)
+                      .WithMany(pt => pt.DeployProfiles)
+                      .UsingEntity("DeployProfileTasks");
+            });
+        }
+
+        /// <summary>
+        /// Configura a entidade ProfileTask e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureProfileTask(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<ProfileTask>(entity =>
             {
                 entity.HasKey(pt => pt.Id);
@@ -192,12 +517,21 @@ namespace DCM.Infrastructure.Persistence
                       .IsRequired()
                       .HasMaxLength(100);
 
-                // Salvar o enum ProfileTaskPhase como string no banco
-                entity.Property(pt => pt.Phase)
-                      .HasConversion<string>();
-            });
+                entity.Property(pt => pt.Description)
+                      .HasMaxLength(250);
 
-            // IMAGE
+                // Converter enum para string
+                entity.Property(pt => pt.Phase)
+                      .HasConversion<string>()
+                      .HasMaxLength(50);
+            });
+        }
+
+        /// <summary>
+        /// Configura a entidade Image e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureImage(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Image>(entity =>
             {
                 entity.HasKey(i => i.Id);
@@ -225,13 +559,148 @@ namespace DCM.Infrastructure.Persistence
                       .IsRequired()
                       .HasMaxLength(250);
 
-                // Relacionamento com DeployProfiles
-                entity.HasMany(i => i.DeployProfiles)
-                      .WithOne(dp => dp.Image)
-                      .HasForeignKey(dp => dp.ImageId)
+                // Relacionamento com OperatingSystem
+                entity.HasOne(i => i.OperatingSystem)
+                      .WithMany()
+                      .HasForeignKey(i => i.OperatingSystemId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
-
         }
+
+        /// <summary>
+        /// Configura a entidade Inventory e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureInventory(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Inventory>(entity =>
+            {
+                entity.HasKey(i => i.Id);
+
+                // Relacionamento 1:1 com Device
+                entity.HasOne(i => i.Device)
+                      .WithOne(d => d.Inventory)
+                      .HasForeignKey<Inventory>(i => i.DeviceId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                // Relacionamento 1:N com InventoryHardware
+                entity.HasMany(i => i.Hardware)
+                      .WithOne(ih => ih.Inventory)
+                      .HasForeignKey(ih => ih.InventoryId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<InventoryHardware>(entity =>
+            {
+                entity.HasKey(ih => ih.Id);
+
+                entity.Property(ih => ih.Key)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(ih => ih.Value)
+                      .IsRequired()
+                      .HasMaxLength(250);
+            });
+        }
+
+        /// <summary>
+        /// Configura a entidade Manufacturer e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureManufacturer(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Manufacturer>(entity =>
+            {
+                entity.HasKey(m => m.Id);
+
+                entity.Property(m => m.Name)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.HasIndex(m => m.Name)
+                      .IsUnique();
+
+                entity.Property(m => m.ShortName)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.HasIndex(m => m.ShortName)
+                      .IsUnique();
+            });
+        }
+
+        /// <summary>
+        /// Configura a entidade OperatingSystem e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureOperatingSystem(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DCM.Core.Entities.OperatingSystem>(entity =>
+            {
+                entity.HasKey(os => os.Id);
+
+                entity.Property(os => os.Name)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.HasIndex(os => os.Name)
+                      .IsUnique();
+
+                entity.Property(os => os.ShortName)
+                      .IsRequired()
+                      .HasMaxLength(5);
+
+                entity.HasIndex(os => os.ShortName)
+                      .IsUnique();
+            });
+        }
+
+        /// <summary>
+        /// Configura a entidade ApplicationGroup e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureApplicationGroup(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ApplicationGroup>(entity =>
+            {
+                entity.HasKey(ag => ag.Id);
+
+                entity.Property(ag => ag.Name)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.HasIndex(ag => ag.Name)
+                      .IsUnique();
+
+                entity.Property(ag => ag.Description)
+                      .HasMaxLength(250);
+
+                entity.Property(ag => ag.Category)
+                      .HasMaxLength(50);
+            });
+        }
+
+        /// <summary>
+        /// Configura a entidade AppxPackageGroup e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureAppxPackageGroup(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AppxPackageGroup>(entity =>
+            {
+                entity.HasKey(apg => apg.Id);
+
+                entity.Property(apg => apg.Name)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.HasIndex(apg => apg.Name)
+                      .IsUnique();
+
+                entity.Property(apg => apg.Description)
+                      .HasMaxLength(250);
+
+                entity.Property(apg => apg.Category)
+                      .HasMaxLength(50);
+            });
+        }
+
+        #endregion
     }
 }

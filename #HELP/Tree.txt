@@ -1,0 +1,19 @@
+src/
+├── DCM.Core/
+│   └── Interfaces/
+│       └── Repositories/
+│           ├── IRepository.cs
+│           ├── IUnitOfWork.cs
+│           ├── IDeviceRepository.cs
+│           └── ... (outras interfaces)
+│
+├── DCM.Infrastructure/
+│   └── Repositories/
+│       ├── Repository.cs
+│       ├── UnitOfWork.cs
+│       ├── DeviceRepository.cs
+│       └── ... (implementações)
+│
+└── DCM.Application/
+    └── Services/
+        └── DeviceService.cs (usa IUnitOfWork)

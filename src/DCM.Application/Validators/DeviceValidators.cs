@@ -1,5 +1,5 @@
 using DCM.Application.DTOs.Device;
-using DCM.Core.Utilities;
+using DCM.Core.ValueObjects;
 using FluentValidation;
 
 namespace DCM.Application.Validators
@@ -11,19 +11,19 @@ namespace DCM.Application.Validators
     {
         public DeviceCreateDTOValidator()
         {
-            RuleFor(d => d.ComputerName)
-                .NotEmpty().WithMessage("O nome do computador é obrigatório.")
-                .MaximumLength(100).WithMessage("O nome do computador deve ter no máximo 100 caracteres.");
+            RuleFor(d => d.DeviceType)
+                .IsInEnum().WithMessage("Tipo de dispositivo inválido.");
 
             RuleFor(d => d.SerialNumber)
-                .MaximumLength(100).WithMessage("O número de série deve ter no máximo 100 caracteres.");
+                .NotEmpty().WithMessage("O número de série é obrigatório.")
+                .Length(5, 100).WithMessage("O número de série deve ter entre 5 e 100 caracteres.")
+                .Matches(@"^[A-Z0-9\-]+$").WithMessage("Número de série deve conter apenas letras maiúsculas, números e hífens.");
 
             RuleFor(d => d.MacAddress)
                 .NotEmpty().WithMessage("O endereço MAC é obrigatório.")
-                .Matches("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$")
+                .Matches(@"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$")
                 .WithMessage("Formato de endereço MAC inválido.")
-                .Must(mac =>
-                {
+                .Must(mac => {
                     try { var _ = new MacAddress(mac); return true; }
                     catch { return false; }
                 }).WithMessage("Endereço MAC inválido.");
@@ -40,21 +40,75 @@ namespace DCM.Application.Validators
     {
         public DeviceUpdateDTOValidator()
         {
+            RuleFor(d => d.DeviceType)
+                .IsInEnum().WithMessage("Tipo de dispositivo inválido.");
+
+            // ComputerName é obrigatório no UpdateDTO com validação completa
             RuleFor(d => d.ComputerName)
                 .NotEmpty().WithMessage("O nome do computador é obrigatório.")
-                .MaximumLength(100).WithMessage("O nome do computador deve ter no máximo 100 caracteres.");
+                .MaximumLength(15).WithMessage("O nome do computador deve ter no máximo 15 caracteres.")
+                .Matches(@"^[A-Z0-9-]+$").WithMessage("Nome do computador deve conter apenas letras maiúsculas, números e hífens.")
+                .Must(name => !name.Contains("--") && !name.StartsWith("-") && !name.EndsWith("-"))
+                .WithMessage("Nome do computador não pode conter hífens consecutivos ou começar/terminar com hífen.")
+                .Must(IsValidComputerNameFormat)
+                .WithMessage("Nome do computador deve seguir o formato PREFIXO-XXXX (ex: DSKTP-A1B2).");
+
             RuleFor(d => d.SerialNumber)
-                .MaximumLength(100).WithMessage("O número de série deve ter no máximo 100 caracteres.");
+                .NotEmpty().WithMessage("O número de série é obrigatório.")
+                .Length(5, 100).WithMessage("O número de série deve ter entre 5 e 100 caracteres.")
+                .Matches(@"^[A-Z0-9\-]+$").WithMessage("Número de série deve conter apenas letras maiúsculas, números e hífens.");
+
             RuleFor(d => d.MacAddress)
-                .Matches("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$")
+                .NotEmpty().WithMessage("O endereço MAC é obrigatório.")
+                .Matches(@"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$")
                 .WithMessage("Formato de endereço MAC inválido.")
-                .Must(mac =>
-                {
+                .Must(mac => {
                     try { var _ = new MacAddress(mac); return true; }
                     catch { return false; }
                 }).WithMessage("Endereço MAC inválido.");
+
             RuleFor(d => d.DeviceModelId)
                 .NotEmpty().WithMessage("O ID do modelo de dispositivo é obrigatório.");
+
+            RuleFor(d => d.ApplicationIds)
+                .NotNull().WithMessage("A lista de IDs de aplicações não pode ser nula.");
+
+            RuleFor(d => d.AppxPackageIds)
+                .NotNull().WithMessage("A lista de IDs de pacotes Appx não pode ser nula.");
+
+            RuleFor(d => d.DriverPackIds)
+                .NotNull().WithMessage("A lista de IDs de pacotes de driver não pode ser nula.");
+        }
+
+        /// <summary>
+        /// Valida se o nome do computador segue o formato esperado (PREFIXO-XXXX).
+        /// </summary>
+        /// <param name="computerName">Nome do computador a ser validado</param>
+        /// <returns>True se o formato for válido, false caso contrário</returns>
+        private static bool IsValidComputerNameFormat(string computerName)
+        {
+            if (string.IsNullOrWhiteSpace(computerName))
+                return false;
+
+            // Formato esperado: PREFIXO-XXXX (ex: DSKTP-A1B2, KIOSK-1234, VM-ABCD)
+            var parts = computerName.Split('-');
+            
+            // Deve ter exatamente 2 partes: prefixo e sufixo
+            if (parts.Length != 2)
+                return false;
+
+            var prefix = parts[0];
+            var suffix = parts[1];
+
+            // Prefixo: 2-5 letras maiúsculas
+            if (prefix.Length < 2 || prefix.Length > 5 || !prefix.All(char.IsLetter) || !prefix.Equals(prefix, StringComparison.CurrentCultureIgnoreCase))
+                return false;
+
+            // Sufixo: 3-6 caracteres alfanuméricos
+            if (suffix.Length < 3 || suffix.Length > 6 || !suffix.All(char.IsLetterOrDigit) || !suffix.Equals(suffix, StringComparison.CurrentCultureIgnoreCase))
+                return false;
+
+            return true;
         }
     }
 }
