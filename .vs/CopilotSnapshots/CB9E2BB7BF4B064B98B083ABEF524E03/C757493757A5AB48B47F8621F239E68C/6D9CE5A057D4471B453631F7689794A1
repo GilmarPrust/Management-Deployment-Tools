@@ -1,0 +1,270 @@
+﻿using DCM.Core.Enums;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+
+namespace DCM.Core.Entities.secondary
+{
+    /// <summary>
+    /// Representa o sistema de prioridades e dependências para instalação de aplicativos.
+    /// Controla a ordem de execução baseada em dependências e prioridades.
+    /// </summary>
+    public class ApplicationConfig : BaseEntity
+    {
+        /// <summary>
+        /// ID da aplicação principal.
+        /// </summary>
+        [Required]
+        public Guid ApplicationId { get; set; }
+
+        /// <summary>
+        /// Aplicação principal.
+        /// </summary>
+        public virtual Application Application { get; set; }
+
+        /// <summary>
+        /// Dispositivos associados ao aplicativo.
+        /// </summary>
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+
+        /// <summary>
+        /// Modelos de dispositivo associados ao aplicativo.
+        /// </summary>
+        public virtual ICollection<DeviceModel> DeviceModels { get; set; } = new List<DeviceModel>();
+
+        /// <summary>
+        /// Perfis de implantação associados ao aplicativo.
+        /// </summary>
+        public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
+
+        /// <summary>
+        /// Lista de dependências das quais esta aplicação depende.
+        /// Essas aplicações devem ser instaladas ANTES desta.
+        /// </summary>
+        public virtual ICollection<ApplicationDependency> Dependencies { get; set; } = new List<ApplicationDependency>();
+
+        /// <summary>
+        /// Lista de aplicações que dependem desta.
+        /// Esta aplicação deve ser instalada ANTES delas.
+        /// </summary>
+        public virtual ICollection<ApplicationDependency> Dependents { get; set; } = new List<ApplicationDependency>();
+
+        /// <summary>
+        /// Grupos de aplicações aos quais este aplicativo pertence (relacionamento many-to-many).
+        /// </summary>
+        [Required]
+        public virtual ICollection<ApplicationGroup> Groups { get; set; } = new List<ApplicationGroup>();
+
+        /// <summary>
+        /// Observações sobre a prioridade ou dependências.
+        /// </summary>
+        [StringLength(500)]
+        public string? Notes { get; set; }
+
+        /// <summary>
+        /// Indica se esta aplicação é obrigatória (não pode ser pulada na instalação).
+        /// </summary>
+        public bool IsRequired { get; set; } = false;
+
+        /// <summary>
+        /// Indica se esta aplicação deve ser instalada em modo silencioso.
+        /// </summary>
+        public bool IsSilentInstall { get; set; } = true;
+
+        /// <summary>
+        /// Tempo estimado de instalação em minutos.
+        /// </summary>
+        [Range(0, 999, ErrorMessage = "O tempo estimado deve estar entre 0 e 999 minutos.")]
+        public int EstimatedInstallTimeMinutes { get; set; } = 5;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public ApplicationConfig() { }
+
+        /// <summary>
+        /// Construtor para criar uma configuração padrão para uma aplicação.
+        /// </summary>
+        /// <param name="applicationId">ID da aplicação</param>
+        /// <param name="defaultGroup">Grupo padrão para adicionar a aplicação</param>
+        public ApplicationConfig(Guid applicationId, ApplicationGroup defaultGroup)
+        {
+            ApplicationId = applicationId;
+            IsRequired = false;
+            IsSilentInstall = true;
+            EstimatedInstallTimeMinutes = 5;
+            Notes = "Configuração criada automaticamente";
+
+            // Adiciona ao grupo padrão
+            if (defaultGroup != null)
+            {
+                Groups.Add(defaultGroup);
+            }
+        }
+
+        /// <summary>
+        /// Cria uma configuração padrão com valores seguros para uma nova aplicação.
+        /// </summary>
+        /// <param name="applicationId">ID da aplicação</param>
+        /// <param name="defaultGroup">Grupo padrão "ALL"</param>
+        /// <returns>Nova configuração padrão</returns>
+        public static ApplicationConfig CreateDefault(Guid applicationId, ApplicationGroup defaultGroup)
+        {
+            return new ApplicationConfig(applicationId, defaultGroup)
+            {
+                Notes = $"Configuração padrão criada automaticamente em {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC"
+            };
+        }
+
+        /// <summary>
+        /// Adiciona a aplicação ao grupo padrão "ALL" se ainda não estiver em nenhum grupo.
+        /// </summary>
+        /// <param name="defaultGroup">Grupo padrão "ALL"</param>
+        public void EnsureDefaultGroup(ApplicationGroup defaultGroup)
+        {
+            if (defaultGroup == null) return;
+
+            if (!Groups.Any())
+            {
+                this.AddItem(Groups, defaultGroup);
+                Notes = (Notes ?? "") + $" | Adicionado ao grupo padrão '{defaultGroup.Name}' automaticamente.";
+            }
+        }
+
+        /// <summary>
+        /// Adiciona uma dependência a esta aplicação.
+        /// </summary>
+        /// <param name="dependencyApplicationId">ID da aplicação da qual esta depende</param>
+        /// <param name="dependencyType">Tipo de dependência</param>
+        public void AddDependency(Guid dependencyApplicationId, DependencyType dependencyType = DependencyType.Required)
+        {
+            if (dependencyApplicationId == ApplicationId)
+                throw new InvalidOperationException("Uma aplicação não pode depender de si mesma.");
+
+            var dependency = new ApplicationDependency
+            {
+                ApplicationId = ApplicationId,
+                DependsOnApplicationId = dependencyApplicationId
+            };
+
+            this.AddItem(Dependencies, dependency);
+        }
+
+        /// <summary>
+        /// Remove uma dependência desta aplicação.
+        /// </summary>
+        /// <param name="dependencyApplicationId">ID da aplicação da dependência a ser removida</param>
+        public void RemoveDependency(Guid dependencyApplicationId)
+        {
+            var dependency = Dependencies.FirstOrDefault(d => d.DependsOnApplicationId == dependencyApplicationId);
+            if (dependency != null)
+            {
+                this.RemoveItem(Dependencies, dependency);
+            }
+        }
+
+        #region Groups - Domain Encapsulation
+        /// <summary>
+        /// Adiciona um grupo de aplicações a esta configuração.
+        /// </summary>
+        /// <param name="group">Grupo a ser adicionado</param>
+        public void AddToGroup(ApplicationGroup group)
+            => this.AddItem(Groups, group);
+
+        /// <summary>
+        /// Remove um grupo de aplicações desta configuração.
+        /// </summary>
+        /// <param name="group">Grupo a ser removido</param>
+        public void RemoveFromGroup(ApplicationGroup group)
+            => this.RemoveItem(Groups, group);
+
+        /// <summary>
+        /// Verifica se a configuração está associada a algum grupo.
+        /// </summary>
+        public bool HasGroups => Groups.Any();
+
+        /// <summary>
+        /// Verifica se a configuração está no grupo especificado.
+        /// </summary>
+        /// <param name="groupName">Nome do grupo</param>
+        /// <returns>True se está no grupo, false caso contrário</returns>
+        public bool IsInGroup(string groupName)
+            => Groups.Any(g => g.Name.Equals(groupName, StringComparison.OrdinalIgnoreCase));
+
+        /// <summary>
+        /// Verifica se a configuração está no grupo padrão "ALL".
+        /// </summary>
+        public bool IsInDefaultGroup => IsInGroup("ALL");
+        #endregion
+
+        #region Devices - Domain Encapsulation
+        /// <summary>
+        /// Adiciona um dispositivo a esta configuração.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser adicionado</param>
+        public void AddDevice(Device device)
+            => this.AddItem(Devices, device);
+
+        /// <summary>
+        /// Remove um dispositivo desta configuração.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser removido</param>
+        public void RemoveDevice(Device device)
+            => this.RemoveItem(Devices, device);
+
+        /// <summary>
+        /// Verifica se o dispositivo está associado a esta configuração.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser verificado</param>
+        /// <returns>True se o dispositivo está associado, false caso contrário</returns>
+        public bool ContainsDevice(Device device) => Devices.ContainsItem(device);
+        #endregion
+
+        #region DeviceModels - Domain Encapsulation
+        /// <summary>
+        /// Adiciona um modelo de dispositivo a esta configuração.
+        /// </summary>
+        /// <param name="model">Modelo de dispositivo a ser adicionado</param>
+        public void AddDeviceModel(DeviceModel model)
+            => this.AddItem(DeviceModels, model);
+
+        /// <summary>
+        /// Remove um modelo de dispositivo desta configuração.
+        /// </summary>
+        /// <param name="model">Modelo de dispositivo a ser removido</param>
+        public void RemoveDeviceModel(DeviceModel model)
+            => this.RemoveItem(DeviceModels, model);
+
+        /// <summary>
+        /// Verifica se o modelo de dispositivo está associado a esta configuração.
+        /// </summary>
+        /// <param name="model">Modelo de dispositivo a ser verificado</param>
+        /// <returns>True se o modelo de dispositivo está associado, false caso contrário</returns>
+        public bool ContainsDeviceModel(DeviceModel model) => DeviceModels.ContainsItem(model);
+        #endregion
+
+        #region DeployProfiles - Domain Encapsulation
+        /// <summary>
+        /// Adiciona um perfil de implantação a esta configuração.
+        /// </summary>
+        /// <param name="profile">Perfil de implantação a ser adicionado</param>
+        public void AddDeployProfile(DeployProfile profile)
+            => this.AddItem(DeployProfiles, profile);
+
+        /// <summary>
+        /// Remove um perfil de implantação desta configuração.
+        /// </summary>
+        /// <param name="profile">Perfil de implantação a ser removido</param>
+        public void RemoveDeployProfile(DeployProfile profile)
+            => this.RemoveItem(DeployProfiles, profile);
+
+        /// <summary>
+        /// Verifica se o perfil de implantação está associado a esta configuração.
+        /// </summary>
+        /// <param name="profile">Perfil de implantação a ser verificado</param>
+        /// <returns>True se o perfil de implantação está associado, false caso contrário</returns>
+        public bool ContainsDeployProfile(DeployProfile profile) => DeployProfiles.ContainsItem(profile);
+        #endregion
+    }
+}

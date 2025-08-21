@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "D:\\_DEV\\PROJETOS\\D.C.M2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D04FECEE-9D14-9941-43F9-FFD7C570435A}|src\\DCM.Infrastructure\\DCM.Infrastructure.csproj|d:\\_dev\\projetos\\d.c.m2\\src\\dcm.infrastructure\\persistence\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D04FECEE-9D14-9941-43F9-FFD7C570435A}|src\\DCM.Infrastructure\\DCM.Infrastructure.csproj|solutionrelative:src\\dcm.infrastructure\\persistence\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|d:\\_dev\\projetos\\d.c.m2\\src\\dcm.core\\entities\\application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|solutionrelative:src\\dcm.core\\entities\\application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|d:\\_dev\\projetos\\d.c.m2\\src\\dcm.core\\enums\\devicetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|solutionrelative:src\\dcm.core\\enums\\devicetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|d:\\_dev\\projetos\\d.c.m2\\src\\dcm.core\\entities\\firmware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|solutionrelative:src\\dcm.core\\entities\\firmware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|d:\\_dev\\projetos\\d.c.m2\\src\\dcm.core\\entities\\secondary\\applicationgroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|solutionrelative:src\\dcm.core\\entities\\secondary\\applicationgroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|d:\\_dev\\projetos\\d.c.m2\\src\\dcm.core\\entities\\devicemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|solutionrelative:src\\dcm.core\\entities\\devicemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|d:\\_dev\\projetos\\d.c.m2\\src\\dcm.core\\entities\\driverpack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C82FA51-A23F-8C29-5EAE-005B48EE9492}|src\\DCM.Core\\DCM.Core.csproj|solutionrelative:src\\dcm.core\\entities\\driverpack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,29 +34,72 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DeviceType.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Enums\\DeviceType.cs",
-              "RelativeDocumentMoniker": "src\\DCM.Core\\Enums\\DeviceType.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Enums\\DeviceType.cs",
-              "RelativeToolTip": "src\\DCM.Core\\Enums\\DeviceType.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAWAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "ApplicationGroup.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\secondary\\ApplicationGroup.cs",
+              "RelativeDocumentMoniker": "src\\DCM.Core\\Entities\\secondary\\ApplicationGroup.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\secondary\\ApplicationGroup.cs",
+              "RelativeToolTip": "src\\DCM.Core\\Entities\\secondary\\ApplicationGroup.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-16T22:51:01.03Z",
+              "WhenOpened": "2025-08-20T23:30:51.124Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DbInitializer.cs",
-              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Infrastructure\\Persistence\\DbInitializer.cs",
-              "RelativeDocumentMoniker": "src\\DCM.Infrastructure\\Persistence\\DbInitializer.cs",
-              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Infrastructure\\Persistence\\DbInitializer.cs",
-              "RelativeToolTip": "src\\DCM.Infrastructure\\Persistence\\DbInitializer.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAgwEIAAAAtAAAAAAAAAA==",
+              "Title": "Application.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\Application.cs",
+              "RelativeDocumentMoniker": "src\\DCM.Core\\Entities\\Application.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\Application.cs",
+              "RelativeToolTip": "src\\DCM.Core\\Entities\\Application.cs",
+              "ViewState": "AgIAAIwAAAAAAAAAAAAQwOIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-16T22:48:14.283Z",
+              "WhenOpened": "2025-08-20T23:26:58.055Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Firmware.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\Firmware.cs",
+              "RelativeDocumentMoniker": "src\\DCM.Core\\Entities\\Firmware.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\Firmware.cs",
+              "RelativeToolTip": "src\\DCM.Core\\Entities\\Firmware.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAkwDIAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-20T23:20:04.187Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DriverPack.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\DriverPack.cs",
+              "RelativeDocumentMoniker": "src\\DCM.Core\\Entities\\DriverPack.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\DriverPack.cs",
+              "RelativeToolTip": "src\\DCM.Core\\Entities\\DriverPack.cs",
+              "ViewState": "AgIAAJYAAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-20T23:20:03.493Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DeviceModel.cs",
+              "DocumentMoniker": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\DeviceModel.cs",
+              "RelativeDocumentMoniker": "src\\DCM.Core\\Entities\\DeviceModel.cs",
+              "ToolTip": "D:\\_DEV\\PROJETOS\\D.C.M2\\src\\DCM.Core\\Entities\\DeviceModel.cs",
+              "RelativeToolTip": "src\\DCM.Core\\Entities\\DeviceModel.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAA1wDgAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-20T23:20:00.487Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             }
           ]
         }

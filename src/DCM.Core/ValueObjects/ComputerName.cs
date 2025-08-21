@@ -36,7 +36,7 @@ namespace DCM.Core.ValueObjects
             {
                 // Gerar novo nome com base no tipo de dispositivo
                 var prefix = DeviceTypeHelper.GetPrefix(deviceType);
-                Value = Generate(prefix);
+                Value = NewComputerName(prefix);
             }
             else
             {
@@ -86,7 +86,7 @@ namespace DCM.Core.ValueObjects
             if (!DeviceTypeHelper.IsValidPrefix(prefix))
                 throw new ArgumentException($"Prefixo '{prefix}' não é válido.", nameof(prefix));
 
-            var generatedName = Generate(prefix);
+            var generatedName = NewComputerName(prefix);
             return new ComputerName(generatedName);
         }
 
@@ -148,7 +148,7 @@ namespace DCM.Core.ValueObjects
         /// </summary>
         /// <param name="prefix">Prefixo a ser usado</param>
         /// <returns>Nome de computador gerado no formato PREFIXO-XXXX</returns>
-        private static string Generate(string prefix)
+        private static string NewComputerName(string prefix)
         {
             var random = new Random(Guid.NewGuid().GetHashCode());
             

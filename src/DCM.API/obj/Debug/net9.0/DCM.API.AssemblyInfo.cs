@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DCM.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b91be9b1235842ae3f48065a855b0e9953f77d7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02a34b693633e935f50912022397dd7eacfa2836")]
 [assembly: System.Reflection.AssemblyProductAttribute("DCM.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DCM.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

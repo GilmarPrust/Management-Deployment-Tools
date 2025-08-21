@@ -1,0 +1,369 @@
+﻿using Microsoft.Extensions.Logging;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using DCM.Application.DTOs.Application;
+using DCM.Application.Services.Interfaces;
+using DCM.Core.Interfaces.Repositories;
+using DCM.Core.Entities;
+using DCM.Core.Entities.secondary;
+using DCM.Core.ValueObjects;
+using DCM.Infrastructure.Persistence;
+
+namespace DCM.Application.Services.Implementations
+{
+    /// <summary>
+    /// Serviço para gerenciamento de aplicações.
+    /// </summary>
+    public sealed class ApplicationService : IApplicationService
+    {
+        private readonly IApplicationRepository _applicationRepository;
+        private readonly IApplicationGroupRepository _applicationGroupRepository;
+        private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly ILogger<ApplicationService> _logger;
+
+        public ApplicationService(
+            IApplicationRepository applicationRepository,
+            IApplicationGroupRepository applicationGroupRepository,
+            AppDbContext context,
+            IMapper mapper,
+            ILogger<ApplicationService> logger)
+        {
+            _applicationRepository = applicationRepository ?? throw new ArgumentNullException(nameof(applicationRepository));
+            _applicationGroupRepository = applicationGroupRepository ?? throw new ArgumentNullException(nameof(applicationGroupRepository));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ApplicationReadDTO>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Iniciando busca de todas as aplicações");
+                
+                var applications = await _applicationRepository.GetAllActiveAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<ApplicationReadDTO>>(applications);
+                
+                _logger.LogInformation("Retornadas {Count} aplicações", result.Count());
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar todas as aplicações");
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<ApplicationReadDTO?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+
+            try
+            {
+                _logger.LogDebug("Buscando aplicação com Id: {Id}", id);
+                
+                var application = await _applicationRepository.GetByIdAsync(id, cancellationToken);
+                if (application == null)
+                {
+                    _logger.LogWarning("Aplicação não encontrada com Id: {Id}", id);
+                    return null;
+                }
+
+                var result = _mapper.Map<ApplicationReadDTO>(application);
+                _logger.LogDebug("Aplicação encontrada: {Name}", application.NameID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar aplicação por Id: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<ApplicationReadDTO?> GetByNameIdAsync(string nameId, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(nameId))
+                throw new ArgumentException("NameId não pode ser nulo ou vazio.", nameof(nameId));
+
+            try
+            {
+                _logger.LogDebug("Buscando aplicação com NameId: {NameId}", nameId);
+                
+                var application = await _applicationRepository.GetByNameIdAsync(nameId, cancellationToken);
+                if (application == null)
+                {
+                    _logger.LogWarning("Aplicação não encontrada com NameId: {NameId}", nameId);
+                    return null;
+                }
+
+                var result = _mapper.Map<ApplicationReadDTO>(application);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar aplicação por NameId: {NameId}", nameId);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ApplicationReadDTO>> GetByVersionAsync(string version, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(version))
+                return Enumerable.Empty<ApplicationReadDTO>();
+
+            try
+            {
+                _logger.LogDebug("Buscando aplicações com versão: {Version}", version);
+                
+                var applications = await _applicationRepository.GetByVersionAsync(version, cancellationToken);
+                var result = _mapper.Map<IEnumerable<ApplicationReadDTO>>(applications);
+                
+                _logger.LogInformation("Encontradas {Count} aplicações com versão {Version}", result.Count(), version);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar aplicações por versão: {Version}", version);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<ApplicationReadDTO> CreateAsync(ApplicationCreateDTO dto, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(dto);
+
+            try
+            {
+                _logger.LogDebug("Criando nova aplicação: {Name}", dto.NameID);
+
+                // Inicia transação para garantir integridade
+                using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+
+                try
+                {
+                    // Validação de negócio: Verificar duplicidade por NameID
+                    if (!string.IsNullOrWhiteSpace(dto.NameID))
+                    {
+                        var existingApp = await _applicationRepository.GetByNameIdAsync(dto.NameID, cancellationToken);
+                        if (existingApp != null)
+                        {
+                            throw new InvalidOperationException($"Já existe uma aplicação com NameID: {dto.NameID}");
+                        }
+                    }
+
+                    // 1. Criar a aplicação
+                    var application = _mapper.Map<DCM.Core.Entities.Application>(dto);
+                    
+                    // Criar categoria padrão se não fornecida
+                    if (application.Category == null)
+                    {
+                        application.Category = new ApplicationCategory("Geral");
+                    }
+
+                    // Adicionar a aplicação
+                    await _applicationRepository.AddAsync(application, cancellationToken);
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                    _logger.LogDebug("Aplicação criada com ID: {Id}", application.Id);
+
+                    // 2. Obter ou criar o grupo padrão "ALL"
+                    var defaultGroup = await GetOrCreateDefaultGroupAsync(cancellationToken);
+                    _logger.LogDebug("Grupo padrão obtido/criado: {GroupName} (ID: {GroupId})", defaultGroup.Name, defaultGroup.Id);
+
+                    // 3. Criar o ApplicationConfig automaticamente
+                    var applicationConfig = CreateDefaultApplicationConfig(application.Id, defaultGroup);
+                    
+                    _context.ApplicationConfigs.Add(applicationConfig);
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                    _logger.LogDebug("ApplicationConfig criado com ID: {ConfigId}", applicationConfig.Id);
+
+                    // 4. Associar o config à aplicação
+                    application.Config = applicationConfig;
+                    await _applicationRepository.UpdateAsync(application, cancellationToken);
+
+                    // 5. Salvar todas as alterações
+                    await _context.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
+
+                    _logger.LogInformation(
+                        "Aplicação criada com sucesso. Id: {Id}, NameID: {NameID}, Config: {ConfigId}, Grupo: {GroupName}", 
+                        application.Id, 
+                        application.NameID, 
+                        applicationConfig.Id, 
+                        defaultGroup.Name);
+
+                    return _mapper.Map<ApplicationReadDTO>(application);
+                }
+                catch
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao criar aplicação: {Name}", dto.NameID);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<ApplicationReadDTO?> UpdateAsync(Guid id, ApplicationUpdateDTO dto, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+            ArgumentNullException.ThrowIfNull(dto);
+
+            try
+            {
+                _logger.LogDebug("Atualizando aplicação: {Id}", id);
+
+                var existing = await _applicationRepository.GetByIdAsync(id, cancellationToken);
+                if (existing == null)
+                {
+                    _logger.LogWarning("Aplicação não encontrada para atualização: {Id}", id);
+                    return null;
+                }
+
+                // Validação de negócio: Verificar duplicidade por NameID (se mudou)
+                if (!string.IsNullOrWhiteSpace(dto.NameID) && dto.NameID != existing.NameID)
+                {
+                    var duplicateApp = await _applicationRepository.GetByNameIdAsync(dto.NameID, cancellationToken);
+                    if (duplicateApp != null)
+                    {
+                        throw new InvalidOperationException($"Já existe uma aplicação com NameID: {dto.NameID}");
+                    }
+                }
+
+                _mapper.Map(dto, existing);
+
+                await _applicationRepository.UpdateAsync(existing, cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Aplicação atualizada com sucesso: {Id}", id);
+                return _mapper.Map<ApplicationReadDTO>(existing);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao atualizar aplicação: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+
+            try
+            {
+                _logger.LogDebug("Removendo aplicação: {Id}", id);
+
+                var application = await _applicationRepository.GetByIdAsync(id, cancellationToken);
+                if (application == null)
+                {
+                    _logger.LogWarning("Aplicação não encontrada para remoção: {Id}", id);
+                    return false;
+                }
+
+                // Soft delete
+                application.SoftDelete();
+                
+                await _applicationRepository.UpdateAsync(application, cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Aplicação removida com sucesso: {Id}", id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao remover aplicação: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                return false;
+
+            try
+            {
+                return await _applicationRepository.ExistsAsync(id, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao verificar existência da aplicação: {Id}", id);
+                throw;
+            }
+        }
+
+        #region Private Methods
+
+        /// <summary>
+        /// Obtém ou cria o grupo padrão "ALL".
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Grupo padrão "ALL"</returns>
+        private async Task<ApplicationGroup> GetOrCreateDefaultGroupAsync(CancellationToken cancellationToken = default)
+        {
+            // Tenta buscar o grupo "ALL" existente
+            var defaultGroup = await _applicationGroupRepository.GetByNameAsync("ALL", cancellationToken);
+            
+            if (defaultGroup != null)
+            {
+                return defaultGroup;
+            }
+
+            // Se não existe, cria o grupo padrão
+            defaultGroup = new ApplicationGroup
+            {
+                Name = "ALL",
+                Description = "Grupo padrão para todas as aplicações. Criado automaticamente pelo sistema.",
+                Priority = 100
+            };
+
+            _context.ApplicationGroups.Add(defaultGroup);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("Grupo padrão 'ALL' criado com ID: {GroupId}", defaultGroup.Id);
+            
+            return defaultGroup;
+        }
+
+        /// <summary>
+        /// Cria uma configuração padrão para a aplicação.
+        /// </summary>
+        /// <param name="applicationId">ID da aplicação</param>
+        /// <param name="defaultGroup">Grupo padrão</param>
+        /// <returns>Configuração criada</returns>
+        private static ApplicationConfig CreateDefaultApplicationConfig(Guid applicationId, ApplicationGroup defaultGroup)
+        {
+            var config = new ApplicationConfig
+            {
+                ApplicationId = applicationId,
+                IsRequired = false,
+                IsSilentInstall = true,
+                EstimatedInstallTimeMinutes = 5,
+                Notes = $"Configuração padrão criada automaticamente em {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC"
+            };
+
+            // Adiciona ao grupo padrão
+            config.Groups.Add(defaultGroup);
+
+            return config;
+        }
+
+        #endregion
+    }
+}

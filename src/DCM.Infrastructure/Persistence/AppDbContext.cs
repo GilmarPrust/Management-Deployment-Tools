@@ -82,6 +82,16 @@ namespace DCM.Infrastructure.Persistence
         public DbSet<ApplicationGroup> ApplicationGroups { get; private set; }
 
         /// <summary>
+        /// Conjunto de dados para configurações de aplicações.
+        /// </summary>
+        public DbSet<ApplicationConfig> ApplicationConfigs { get; private set; }
+
+        /// <summary>
+        /// Conjunto de dados para dependências de aplicações.
+        /// </summary>
+        public DbSet<ApplicationDependency> ApplicationDependencies { get; private set; }
+
+        /// <summary>
         /// Conjunto de dados para grupos de pacotes AppX.
         /// </summary>
         public DbSet<AppxPackageGroup> AppxPackageGroups { get; private set; }
@@ -135,6 +145,8 @@ namespace DCM.Infrastructure.Persistence
 
             // Configurações de entidades secundárias
             ConfigureApplicationGroup(modelBuilder);
+            ConfigureApplicationConfig(modelBuilder);
+            ConfigureApplicationDependency(modelBuilder);
             ConfigureAppxPackageGroup(modelBuilder);
         }
 
@@ -215,7 +227,7 @@ namespace DCM.Infrastructure.Persistence
                       .OnDelete(DeleteBehavior.SetNull);
 
                 // Relacionamentos muitos-para-muitos
-                entity.HasMany(d => d.Applications)
+                entity.HasMany(d => d.ApplicationGroups)
                       .WithMany(a => a.Devices)
                       .UsingEntity("DeviceApplications");
 
@@ -266,10 +278,15 @@ namespace DCM.Infrastructure.Persistence
                       .HasForeignKey(dp => dp.DeviceModelId)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                // Relacionamento muitos-para-muitos com Application
-                entity.HasMany(dm => dm.Applications)
+                // Relacionamento muitos-para-muitos com ApplicationGroup
+                entity.HasMany(dm => dm.ApplicationGroups)
                       .WithMany(a => a.DeviceModels)
-                      .UsingEntity("DeviceModelApplications");
+                      .UsingEntity("DeviceModelApplicationGroups");
+
+                // Relacionamento muitos-para-muitos com AppxPackageGroup
+                entity.HasMany(dm => dm.AppxPackageGroups)
+                      .WithMany(apg => apg.DeviceModels)
+                      .UsingEntity("DeviceModelAppxPackageGroups");
             });
         }
 
@@ -328,14 +345,77 @@ namespace DCM.Infrastructure.Persistence
                             .HasColumnName("CategoryDescription");
                 });
 
-                // Relacionamentos muitos-para-muitos
-                entity.HasMany(a => a.ApplicationGroups)
-                      .WithMany(ag => ag.Applications)
-                      .UsingEntity("ApplicationGroupMemberships");
+                // Relacionamento 1:1 com ApplicationConfig
+                entity.HasOne(a => a.Config)
+                      .WithOne(ac => ac.Application)
+                      .HasForeignKey<ApplicationConfig>(ac => ac.ApplicationId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+        }
 
-                entity.HasMany(a => a.DeployProfiles)
-                      .WithMany(dp => dp.Applications)
-                      .UsingEntity("DeployProfileApplications");
+        /// <summary>
+        /// Configura a entidade ApplicationConfig e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureApplicationConfig(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ApplicationConfig>(entity =>
+            {
+                entity.HasKey(ac => ac.Id);
+
+                // Configuração de propriedades
+                entity.Property(ac => ac.ApplicationId)
+                      .IsRequired();
+
+                entity.Property(ac => ac.Notes)
+                      .HasMaxLength(500);
+
+                entity.Property(ac => ac.IsRequired)
+                      .IsRequired()
+                      .HasDefaultValue(false);
+
+                entity.Property(ac => ac.IsSilentInstall)
+                      .IsRequired()
+                      .HasDefaultValue(true);
+
+                entity.Property(ac => ac.EstimatedInstallTimeMinutes)
+                      .IsRequired()
+                      .HasDefaultValue(5);
+            });
+        }
+
+        /// <summary>
+        /// Configura a entidade ApplicationDependency e seus relacionamentos.
+        /// </summary>
+        private static void ConfigureApplicationDependency(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ApplicationDependency>(entity =>
+            {
+                entity.HasKey(ad => ad.Id);
+
+                // Configuração de propriedades
+                entity.Property(ad => ad.ApplicationId)
+                      .IsRequired();
+
+                entity.Property(ad => ad.DependsOnApplicationId)
+                      .IsRequired();
+
+                entity.Property(ad => ad.Description)
+                      .HasMaxLength(200);
+
+                // Relacionamentos
+                entity.HasOne(ad => ad.Application)
+                      .WithMany()
+                      .HasForeignKey(ad => ad.ApplicationId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(ad => ad.DependsOnApplication)
+                      .WithMany()
+                      .HasForeignKey(ad => ad.DependsOnApplicationId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Índice único para evitar dependências duplicadas
+                entity.HasIndex(ad => new { ad.ApplicationId, ad.DependsOnApplicationId })
+                      .IsUnique();
             });
         }
 
@@ -421,6 +501,15 @@ namespace DCM.Infrastructure.Persistence
                 entity.Property(fw => fw.Hash)
                       .IsRequired()
                       .HasMaxLength(64);
+
+                entity.Property(fw => fw.Description)
+                      .HasMaxLength(500);
+
+                entity.Property(fw => fw.ReleaseDate);
+
+                entity.Property(fw => fw.IsBeta)
+                      .IsRequired()
+                      .HasDefaultValue(false);
             });
         }
 
@@ -453,6 +542,21 @@ namespace DCM.Infrastructure.Persistence
                       .IsRequired()
                       .HasMaxLength(64);
 
+                entity.Property(dp => dp.IsOEM)
+                      .IsRequired()
+                      .HasDefaultValue(false);
+
+                // Relacionamento opcional com DeviceModel
+                entity.HasOne(dp => dp.DeviceModel)
+                      .WithMany(dm => dm.DriverPacks)
+                      .HasForeignKey(dp => dp.DeviceModelId)
+                      .OnDelete(DeleteBehavior.SetNull);
+
+                // Relacionamento many-to-many com Device
+                entity.HasMany(dp => dp.Devices)
+                      .WithMany(d => d.DriverPacks)
+                      .UsingEntity("DeviceDriverPacks");
+
                 // Índice composto para performance
                 entity.HasIndex(dp => new { dp.DeviceModelId, dp.OS });
             });
@@ -477,25 +581,25 @@ namespace DCM.Infrastructure.Persistence
                 entity.Property(dp => dp.Description)
                       .HasMaxLength(250);
 
-                entity.Property(dp => dp.Category)
-                      .HasMaxLength(50);
-
                 // Relacionamento com Image
                 entity.HasOne(dp => dp.Image)
                       .WithMany(i => i.DeployProfiles)
                       .HasForeignKey(dp => dp.ImageId)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                // Relacionamentos opcionais com grupos
-                entity.HasOne(dp => dp.ApplicationGroup)
-                      .WithMany(ag => ag.DeployProfiles)
-                      .HasForeignKey(dp => dp.ApplicationGroupId)
-                      .OnDelete(DeleteBehavior.SetNull);
+                // Relacionamento muitos-para-muitos com ApplicationGroup
+                entity.HasMany(dp => dp.ApplicationGroups)
+                      .WithMany()
+                      .UsingEntity("DeployProfileApplicationGroups");
 
-                entity.HasOne(dp => dp.AppxPackageGroup)
-                      .WithMany(apg => apg.DeployProfiles)
-                      .HasForeignKey(dp => dp.AppxPackageGroupId)
-                      .OnDelete(DeleteBehavior.SetNull);
+                // Configurar EF para usar o backing field
+                entity.Metadata.FindNavigation(nameof(DeployProfile.ApplicationGroups))
+                      ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+                // Relacionamento muitos-para-muitos com AppxPackageGroup
+                entity.HasMany(dp => dp.AppxPackageGroups)
+                      .WithMany()
+                      .UsingEntity("DeployProfileAppxPackageGroups");
 
                 // Relacionamento muitos-para-muitos com ProfileTask
                 entity.HasMany(dp => dp.ProfileTasks)
@@ -672,8 +776,6 @@ namespace DCM.Infrastructure.Persistence
                 entity.Property(ag => ag.Description)
                       .HasMaxLength(250);
 
-                entity.Property(ag => ag.Category)
-                      .HasMaxLength(50);
             });
         }
 
@@ -696,8 +798,6 @@ namespace DCM.Infrastructure.Persistence
                 entity.Property(apg => apg.Description)
                       .HasMaxLength(250);
 
-                entity.Property(apg => apg.Category)
-                      .HasMaxLength(50);
             });
         }
 

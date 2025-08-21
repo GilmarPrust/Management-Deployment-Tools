@@ -1,0 +1,190 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities
+{
+    /// <summary>
+    /// Representa um pacote de driver associado a um modelo de dispositivo.
+    /// </summary>
+    public class DriverPack : BaseEntity
+    {
+        /// <summary>
+        /// Nome do arquivo do pacote de driver.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string FileName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Sistema operacional suportado pelo pacote de driver.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string OS { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Versão do pacote de driver.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Version { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Caminho de origem do pacote de driver.
+        /// </summary>
+        [Required, StringLength(250)]
+        public string Source { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Hash do pacote de driver.
+        /// </summary>
+        [Required, StringLength(64)]
+        public string Hash { get; set; } = string.Empty;
+
+        /// <summary>
+        /// ID do modelo de dispositivo ao qual o pacote de driver está vinculado (opcional para não-OEM).
+        /// </summary>
+        public Guid? DeviceModelId { get; private set; }
+
+        /// <summary>
+        /// Modelo de dispositivo associado ao pacote de driver (opcional para não-OEM).
+        /// </summary>
+        public virtual DeviceModel? DeviceModel { get; private set; }
+
+        /// <summary>
+        /// Indica se o pacote de driver é OEM.
+        /// </summary>
+        [Required]
+        public bool IsOEM { get; set; }
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public DriverPack() { }
+
+        /// <summary>
+        /// Construtor para criar um pacote de driver com todos os dados necessários.
+        /// </summary>
+        /// <param name="fileName">Nome do arquivo do driver</param>
+        /// <param name="os">Sistema operacional suportado</param>
+        /// <param name="version">Versão do driver</param>
+        /// <param name="source">Caminho de origem</param>
+        /// <param name="hash">Hash do arquivo</param>
+        /// <param name="isOEM">Indica se é um driver OEM específico</param>
+        public DriverPack(string fileName, string os, string version, string source, string hash, bool isOEM = false)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentException("FileName cannot be empty", nameof(fileName));
+            if (string.IsNullOrWhiteSpace(os))
+                throw new ArgumentException("OS cannot be empty", nameof(os));
+            if (string.IsNullOrWhiteSpace(version))
+                throw new ArgumentException("Version cannot be empty", nameof(version));
+            if (string.IsNullOrWhiteSpace(source))
+                throw new ArgumentException("Source cannot be empty", nameof(source));
+            if (string.IsNullOrWhiteSpace(hash))
+                throw new ArgumentException("Hash cannot be empty", nameof(hash));
+
+            FileName = fileName;
+            OS = os;
+            Version = version;
+            Source = source;
+            Hash = hash;
+            IsOEM = isOEM;
+        }
+
+        /// <summary>
+        /// Associa este DriverPack a um DeviceModel.
+        /// </summary>
+        /// <param name="model">Modelo de dispositivo a ser associado</param>
+        /// <exception cref="ArgumentNullException">Se o modelo for nulo</exception>
+        /// <exception cref="InvalidOperationException">Se o modelo estiver desabilitado</exception>
+        public void AssignToDeviceModel(DeviceModel model)
+        {
+            ArgumentNullException.ThrowIfNull(model);
+
+            if (!model.Enabled)
+                throw new InvalidOperationException("Cannot assign driver pack to a disabled device model");
+            
+            // Se já estiver associado ao mesmo modelo, não faz nada
+            if (DeviceModelId == model.Id)
+                return;
+
+            DeviceModel = model;
+            DeviceModelId = model.Id;
+            Update();
+        }
+
+        /// <summary>
+        /// Remove associação com DeviceModel (permitido apenas se não for OEM).
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Se for um driver OEM</exception>
+        public void ClearDeviceModel()
+        {
+            if (IsOEM)
+                throw new InvalidOperationException("Cannot detach OEM driver pack from device model");
+
+            if (DeviceModelId.HasValue || DeviceModel is not null)
+            {
+                DeviceModel = null;
+                DeviceModelId = null;
+                Update();
+            }
+        }
+
+        /// <summary>
+        /// Define se o pacote de driver é OEM ou não com auditoria.
+        /// </summary>
+        /// <param name="isOEM">True se for OEM, False caso contrário</param>
+        public void SetOEM(bool isOEM)
+        {
+            if (IsOEM == isOEM)
+                return;
+
+            // Se estiver removendo a marca OEM e tiver modelo associado, verifica
+            if (!isOEM && DeviceModelId.HasValue && IsOEM)
+            {
+                // Decidir se mantém a associação ou remove ao mudar para não-OEM
+                // Aqui mantemos, mas poderia ser uma política diferente
+            }
+
+            IsOEM = isOEM;
+            Update();
+        }
+
+        /// <summary>
+        /// Atualiza os dados do pacote de driver.
+        /// </summary>
+        /// <param name="version">Nova versão</param>
+        /// <param name="source">Novo caminho de origem</param>
+        /// <param name="hash">Novo hash</param>
+        public void UpdateDriverInfo(string version, string source, string hash)
+        {
+            if (string.IsNullOrWhiteSpace(version))
+                throw new ArgumentException("Version cannot be empty", nameof(version));
+            if (string.IsNullOrWhiteSpace(source))
+                throw new ArgumentException("Source cannot be empty", nameof(source));
+            if (string.IsNullOrWhiteSpace(hash))
+                throw new ArgumentException("Hash cannot be empty", nameof(hash));
+
+            bool changed = false;
+            
+            if (Version != version)
+            {
+                Version = version;
+                changed = true;
+            }
+            
+            if (Source != source)
+            {
+                Source = source;
+                changed = true;
+            }
+            
+            if (Hash != hash)
+            {
+                Hash = hash;
+                changed = true;
+            }
+
+            if (changed)
+                Update();
+        }
+    }
+}

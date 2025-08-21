@@ -1,0 +1,203 @@
+﻿using DCM.Core.Entities.secondary;
+using DCM.Core.ValueObjects;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities
+{
+    /// <summary>
+    /// Representa um pacote Appx associado a dispositivos.
+    /// </summary>
+    public class AppxPackage : BaseEntity
+    {
+        /// <summary>
+        /// Nome do pacote Appx.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Versão do pacote Appx.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Version { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Publicador do pacote Appx.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string Publisher { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Arquitetura do pacote Appx.
+        /// </summary>
+        [StringLength(50)]
+        public string Architecture { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Nome da família do pacote Appx.
+        /// </summary>
+        [StringLength(100)]
+        public string PackageFamilyName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Nome completo do pacote Appx.
+        /// </summary>
+        [Required, StringLength(200)]
+        public string PackageFullName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Indica se o pacote é um framework.
+        /// </summary>
+        public bool IsFramework { get; set; } = false;
+
+        /// <summary>
+        /// Indica se o pacote é um bundle.
+        /// </summary>
+        public bool IsBundle { get; set; } = false;
+
+        /// <summary>
+        /// Indica se o pacote é um pacote de recursos.
+        /// </summary>
+        public bool IsResourcePackage { get; set; } = false;
+
+        /// <summary>
+        /// Indica se o pacote está em modo de desenvolvimento.
+        /// </summary>
+        public bool IsDevelopmentMode { get; set; } = false;
+
+        /// <summary>
+        /// Indica se o pacote está parcialmente instalado.
+        /// </summary>
+        public bool IsPartiallyStaged { get; set; } = false;
+
+        /// <summary>
+        /// Status do pacote Appx.
+        /// </summary>
+        [StringLength(100)]
+        public string Status { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public AppxPackage() { }
+
+        /// <summary>
+        /// Construtor para criar um pacote AppX com todos os dados necessários.
+        /// </summary>
+        public AppxPackage(string name, string version, string publisher, string packageFullName, ApplicationCategory category)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be empty", nameof(name));
+            if (string.IsNullOrWhiteSpace(version))
+                throw new ArgumentException("Version cannot be empty", nameof(version));
+            if (string.IsNullOrWhiteSpace(publisher))
+                throw new ArgumentException("Publisher cannot be empty", nameof(publisher));
+            if (string.IsNullOrWhiteSpace(packageFullName))
+                throw new ArgumentException("PackageFullName cannot be empty", nameof(packageFullName));
+            ArgumentNullException.ThrowIfNull(category);
+
+            Name = name;
+            Version = version;
+            Publisher = publisher;
+            PackageFullName = packageFullName;
+            Category = category;
+        }
+
+        /// <summary>
+        /// Categoria do aplicativo.
+        /// </summary>
+        private ApplicationCategory? _category;
+        public ApplicationCategory Category
+        {
+            get => _category ??= ApplicationCategory.Default();
+            set => _category = value;
+        }
+
+        /// <summary>
+        /// Grupos de pacotes AppX aos quais este pacote pertence (many-to-many).
+        /// </summary>
+        #region Groups - Domain Encapsulation
+        public virtual ICollection<AppxPackageGroup> Groups { get; set; } = new List<AppxPackageGroup>();
+        
+        public void AddToGroup(AppxPackageGroup group)
+            => this.AddItem(Groups, group, g =>
+            {
+                if (!Enabled)
+                    throw new InvalidOperationException("Cannot add appx package to disabled group");
+            });
+
+        public void RemoveFromGroup(AppxPackageGroup group)
+            => this.RemoveItem(Groups, group);
+
+        public bool IsInGroup(string groupName)
+        {
+            foreach (var group in Groups)
+            {
+                if (group.Name.Equals(groupName, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
+        public bool IsInGroup(AppxPackageGroup group) => Groups.ContainsItem(group);
+        public bool IsInDefaultGroup => IsInGroup("ALL");
+        public bool HasGroups => Groups.Count > 0;
+        public bool HasDevices => Devices.Count > 0;
+        public bool HasDeviceModels => DeviceModels.Count > 0;
+        public bool HasDeployProfiles => DeployProfiles.Count > 0;
+        #endregion
+
+        /// <summary>
+        /// Dispositivos associados ao pacote Appx (many-to-many).
+        /// </summary>
+        #region Devices - Domain Encapsulation
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+        
+        public void AddDevice(Device device)
+            => this.AddItem(Devices, device, d =>
+            {
+                if (!Enabled)
+                    throw new InvalidOperationException("Cannot add device to disabled appx package");
+            });
+
+        public void RemoveDevice(Device device)
+            => this.RemoveItem(Devices, device);
+        #endregion
+
+        /// <summary>
+        /// Modelos de dispositivo associados ao aplicativo (many-to-many).
+        /// </summary>
+        #region DeviceModels - Domain Encapsulation
+        public virtual ICollection<DeviceModel> DeviceModels { get; set; } = new List<DeviceModel>();
+
+        public void AddDeviceModel(DeviceModel model)
+            => this.AddItem(DeviceModels, model, m =>
+            {
+                if (!Enabled)
+                    throw new InvalidOperationException("Cannot add device model to disabled appx package");
+            });
+
+        public void RemoveDeviceModel(DeviceModel model)
+            => this.RemoveItem(DeviceModels, model);
+        #endregion
+
+        /// <summary>
+        /// Perfis de implantação que utilizam este pacote AppX (many-to-many).
+        /// </summary>
+        #region DeployProfiles - Domain Encapsulation
+        public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
+        
+        public void AddDeployProfile(DeployProfile profile)
+            => this.AddItem(DeployProfiles, profile, p =>
+            {
+                if (!Enabled)
+                    throw new InvalidOperationException("Cannot add deploy profile to disabled appx package");
+            });
+
+        public void RemoveDeployProfile(DeployProfile profile)
+            => this.RemoveItem(DeployProfiles, profile);
+        #endregion
+    }
+}

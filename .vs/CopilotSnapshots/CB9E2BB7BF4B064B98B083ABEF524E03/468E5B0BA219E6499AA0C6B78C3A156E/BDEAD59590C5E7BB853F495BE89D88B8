@@ -1,0 +1,80 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.ValueObjects
+{
+    /// <summary>
+    /// Representa uma categoria de aplicação como objeto de valor.
+    /// </summary>
+    public sealed class ApplicationCategory
+    {
+        /// <summary>
+        /// Campo privado para a categoria.
+        /// </summary>
+        private string _name = string.Empty;
+
+        /// <summary>
+        /// Categoria do aplicativo (ex: "Produtividade", "Desenvolvimento", "Sistema").
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Name 
+        { 
+            get => _name;
+            set => _name = !string.IsNullOrWhiteSpace(value) ? value : throw new ArgumentException("Category name cannot be empty", nameof(value));
+        }
+
+        /// <summary>
+        /// Descrição opcional da categoria.
+        /// </summary>
+        [StringLength(200)]
+        public string? Description { get; set; }
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public ApplicationCategory() { }
+
+        /// <summary>
+        /// Construtor para criação com nome.
+        /// </summary>
+        /// <param name="name">Nome da categoria</param>
+        public ApplicationCategory(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Category name cannot be empty", nameof(name));
+            
+            _name = name;
+        }
+
+        /// <summary>
+        /// Cria uma categoria padrão para aplicações sem categoria específica.
+        /// </summary>
+        public static ApplicationCategory Default() => new ApplicationCategory("Geral");
+
+        /// <summary>
+        /// Cria uma categoria do sistema.
+        /// </summary>
+        public static ApplicationCategory System() => new ApplicationCategory("Sistema");
+
+        /// <summary>
+        /// Valida se uma categoria é válida.
+        /// </summary>
+        public bool IsValid() => !string.IsNullOrWhiteSpace(_name);
+
+        public override bool Equals(object? obj)
+        {
+            return obj is ApplicationCategory other && 
+                   string.Equals(_name, other._name, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public override int GetHashCode()
+        {
+            return _name?.GetHashCode(StringComparison.OrdinalIgnoreCase) ?? 0;
+        }
+
+        public override string ToString()
+        {
+            return _name;
+        }
+    }
+}

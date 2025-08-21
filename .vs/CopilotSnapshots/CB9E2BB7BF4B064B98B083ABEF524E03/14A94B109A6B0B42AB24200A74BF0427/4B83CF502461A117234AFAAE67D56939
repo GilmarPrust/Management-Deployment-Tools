@@ -1,0 +1,92 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DCM.Core.Entities.secondary
+{
+    /// <summary>
+    /// Coleção de domínio genérica com encapsulamento, validação e callback de mudança.
+    /// </summary>
+    /// <typeparam name="T">Tipo do item da coleção</typeparam>
+    public class DomainCollection<T> where T : class
+    {
+        private readonly List<T> _items = new();
+        private readonly Action<T>? _validateAdd;
+        private readonly Action<T>? _validateRemove;
+        private readonly Action? _onChanged;
+
+        /// <summary>
+        /// Cria uma coleção de domínio com validações opcionais e callback de mudança.
+        /// </summary>
+        /// <param name="validateAdd">Validação executada antes de adicionar um item</param>
+        /// <param name="validateRemove">Validação executada antes de remover um item</param>
+        /// <param name="onChanged">Ação executada após uma alteração bem-sucedida (add/remove)</param>
+        public DomainCollection(Action<T>? validateAdd = null, Action<T>? validateRemove = null, Action? onChanged = null)
+        {
+            _validateAdd = validateAdd;
+            _validateRemove = validateRemove;
+            _onChanged = onChanged;
+        }
+
+        /// <summary>
+        /// Itens apenas leitura.
+        /// </summary>
+        public IReadOnlyCollection<T> Items => _items.AsReadOnly();
+
+        /// <summary>
+        /// Adiciona um item, aplicando validação e garantindo idempotência.
+        /// </summary>
+        public void Add(T item)
+        {
+            ArgumentNullException.ThrowIfNull(item);
+
+            if (_items.Contains(item))
+                return;
+
+            _validateAdd?.Invoke(item);
+
+            _items.Add(item);
+            _onChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// Remove um item, aplicando validação e notificando alteração.
+        /// </summary>
+        public void Remove(T item)
+        {
+            ArgumentNullException.ThrowIfNull(item);
+
+            if (!_items.Contains(item))
+                return;
+
+            _validateRemove?.Invoke(item);
+
+            if (_items.Remove(item))
+            {
+                _onChanged?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Remove todos os itens.
+        /// </summary>
+        public void Clear()
+        {
+            if (_items.Count == 0)
+                return;
+
+            _items.Clear();
+            _onChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// Verifica se contém o item.
+        /// </summary>
+        public bool Contains(T item) => item != null && _items.Contains(item);
+
+        /// <summary>
+        /// Quantidade de itens.
+        /// </summary>
+        public int Count => _items.Count;
+    }
+}
+

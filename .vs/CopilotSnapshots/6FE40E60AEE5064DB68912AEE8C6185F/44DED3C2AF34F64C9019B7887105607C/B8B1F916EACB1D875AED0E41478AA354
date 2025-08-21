@@ -1,0 +1,197 @@
+﻿using DCM.Core.Entities.secondary;
+using DCM.Core.ValueObjects;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities
+{
+    /// <summary>
+    /// Representa um aplicativo associado a dispositivos, modelos e perfis de implantação.
+    /// </summary>
+    public class Application : BaseEntity
+    {
+        /// <summary>
+        /// Identificador único do aplicativo.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string NameID { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Nome de exibição do aplicativo.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string DisplayName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Versão do aplicativo.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Version { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Nome do arquivo de instalação do aplicativo.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string FileName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Argumentos de linha de comando para instalação.
+        /// </summary>
+        [StringLength(240)]
+        public string Argument { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Caminho de origem do instalador.
+        /// </summary>
+        [Required, StringLength(240)]
+        public string Source { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Filtro opcional para o aplicativo.
+        /// </summary>
+        [StringLength(100)]
+        public string Filter { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Hash do arquivo de instalação.
+        /// </summary>
+        [StringLength(64)]
+        public string Hash { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public Application() { }
+
+        /// <summary>
+        /// Construtor para criar uma aplicação com todos os dados necessários.
+        /// </summary>
+        public Application(string nameId, string displayName, string version, string fileName, 
+                           string source, string hash, ApplicationCategory category)
+        {
+            if (string.IsNullOrWhiteSpace(nameId))
+                throw new ArgumentException("NameID cannot be empty", nameof(nameId));
+            if (string.IsNullOrWhiteSpace(displayName))
+                throw new ArgumentException("DisplayName cannot be empty", nameof(displayName));
+            if (string.IsNullOrWhiteSpace(version))
+                throw new ArgumentException("Version cannot be empty", nameof(version));
+            if (string.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentException("FileName cannot be empty", nameof(fileName));
+            if (string.IsNullOrWhiteSpace(source))
+                throw new ArgumentException("Source cannot be empty", nameof(source));
+            if (string.IsNullOrWhiteSpace(hash))
+                throw new ArgumentException("Hash cannot be empty", nameof(hash));
+            ArgumentNullException.ThrowIfNull(category);
+
+            NameID = nameId;
+            DisplayName = displayName;
+            Version = version;
+            FileName = fileName;
+            Source = source;
+            Hash = hash;
+        }
+
+        /// <summary>
+        /// Configuração do aplicativo.
+        /// </summary>
+        private ApplicationConfig? _config;
+        public ApplicationConfig Config 
+        {
+            get => _config ??= new ApplicationConfig { ApplicationId = Id };
+            set => _config = value;
+        }
+
+        /// <summary>
+        /// Categoria do aplicativo.
+        /// </summary>
+        private ApplicationCategory? _category;
+        public ApplicationCategory Category
+        {
+            get => _category ??= ApplicationCategory.Default();
+            set => _category = value;
+        }
+
+        /// <summary>
+        /// Grupos de aplicações aos quais este aplicativo pertence (many-to-many).
+        /// </summary>
+        #region Groups - Domain Encapsulation
+        public virtual ICollection<ApplicationGroup> Groups { get; set; } = new List<ApplicationGroup>();
+        
+        public void AddToGroup(ApplicationGroup group)
+            => this.AddItem(Groups, group, g =>
+            {
+                if (!Enabled)
+                    throw new InvalidOperationException("Cannot add application to disabled group");
+            });
+
+        public void RemoveFromGroup(ApplicationGroup group)
+            => this.RemoveItem(Groups, group);
+
+        public bool IsInGroup(string groupName)
+        {
+            foreach (var group in Groups)
+            {
+                if (group.Name.Equals(groupName, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
+        public bool IsInGroup(ApplicationGroup group) => Groups.ContainsItem(group);
+        public bool IsInDefaultGroup => IsInGroup("ALL");
+        public bool HasGroups => Groups.Count > 0;
+        public bool HasDevices => Devices.Count > 0;
+        public bool HasDeviceModels => DeviceModels.Count > 0;
+        public bool HasDeployProfiles => DeployProfiles.Count > 0;
+        #endregion
+
+        /// <summary>
+        /// Dispositivos associados a este aplicativo (many-to-many).
+        /// </summary>
+        #region Devices - Domain Encapsulation
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+        public void AddDevice(Device device)
+            => this.AddItem(Devices, device, d =>
+            {
+                if (!Enabled)
+                    throw new InvalidOperationException("Cannot add device to disabled application");
+            });
+
+        public void RemoveDevice(Device device)
+            => this.RemoveItem(Devices, device);
+        #endregion
+
+        /// <summary>
+        /// Modelos de dispositivos associados a este aplicativo (many-to-many).
+        /// </summary>
+        #region DeviceModels - Domain Encapsulation
+        public virtual ICollection<DeviceModel> DeviceModels { get; set; } = new List<DeviceModel>();
+        public void AddDeviceModel(DeviceModel model)
+            => this.AddItem(DeviceModels, model, m =>
+            {
+                if (!Enabled)
+                    throw new InvalidOperationException("Cannot add device model to disabled application");
+            });
+
+        public void RemoveDeviceModel(DeviceModel model)
+            => this.RemoveItem(DeviceModels, model);
+        #endregion
+
+        /// <summary>
+        /// Perfis de implantação que utilizam este aplicativo (many-to-many).
+        /// </summary>
+        #region DeployProfiles - Domain Encapsulation
+        public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
+        public void AddDeployProfile(DeployProfile profile)
+            => this.AddItem(DeployProfiles, profile, p =>
+            {
+                if (!Enabled)
+                    throw new InvalidOperationException("Cannot add deploy profile to disabled application");
+            });
+
+        public void RemoveDeployProfile(DeployProfile profile)
+            => this.RemoveItem(DeployProfiles, profile);
+        #endregion
+    }
+}

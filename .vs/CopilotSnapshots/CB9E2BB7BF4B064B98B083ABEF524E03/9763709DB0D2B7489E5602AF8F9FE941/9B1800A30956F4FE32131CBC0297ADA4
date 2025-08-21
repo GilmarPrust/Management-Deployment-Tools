@@ -1,0 +1,131 @@
+﻿using DCM.Core.Entities.secondary;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities
+{
+    /// <summary>
+    /// Representa um modelo de dispositivo, incluindo fabricante, modelo, tipo e associações.
+    /// </summary>
+    public class DeviceModel : BaseEntity
+    {
+        /// <summary>
+        /// Nome do fabricante do modelo de dispositivo.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Manufacturer { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Nome do modelo do dispositivo.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Model { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Tipo do modelo de dispositivo.
+        /// </summary>
+        [StringLength(50)]
+        public string Type { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public DeviceModel() { }
+
+        /// <summary>
+        /// Firmware associado ao modelo de dispositivo (opcional).
+        /// </summary>
+        public virtual Firmware? Firmware { get; set; }
+
+        /// <summary>
+        /// Dispositivos físicos associados ao modelo.
+        /// </summary>
+        #region Device Collection - Usando Domain Service
+
+        private readonly List<Device> _devices = new();
+
+        public virtual IReadOnlyCollection<Device> Devices => _devices.AsReadOnly();
+
+        /// <summary>
+        /// Método para adicionar um dispositivo ao perfil.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser adicionado.</param>
+        /// <exception cref="ArgumentNullException">Quando device é null</exception>
+        /// <exception cref="InvalidOperationException">Quando não é possível adicionar o device</exception>
+        public void AddDevice(Device device)
+        {
+            ArgumentNullException.ThrowIfNull(device);
+
+            if (_devices.Contains(device))
+                return; // Idempotente - não falha se já existe
+
+            // Validações de regras de negócio do domínio
+            ValidateDeviceAssignment(device);
+
+            _devices.Add(device);
+            Update(); // Marca entidade como modificada para auditoria
+        }
+
+        /// <summary>
+        /// Método para remover um dispositivo do perfil.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser removido.</param>
+        /// <exception cref="ArgumentNullException">Quando device é null</exception>
+        public void RemoveDevice(Device device)
+        {
+            ArgumentNullException.ThrowIfNull(device);
+
+            if (_devices.Remove(device))
+                Update(); // Só marca como modificado se realmente removeu
+        }
+
+        /// <summary>
+        /// Verifica se o perfil contém um dispositivo específico.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser verificado</param>
+        /// <returns>True se contém o dispositivo, false caso contrário</returns>
+        public bool ContainsDevice(Device device)
+        {
+            return device != null && _devices.Contains(device);
+        }
+
+        /// <summary>
+        /// Valida se um dispositivo pode ser adicionado ao perfil.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser validado</param>
+        /// <exception cref="InvalidOperationException">Quando a regra de negócio é violada</exception>
+        private void ValidateDeviceAssignment(Device device)
+        {
+            // Regra de negócio: dispositivo deve estar habilitado
+            if (!device.Enabled)
+                throw new InvalidOperationException("Cannot add disabled device to deploy profile");
+
+            // Regra de negócio: perfil deve estar habilitado
+            if (!this.Enabled)
+                throw new InvalidOperationException("Cannot add device to disabled deploy profile");
+
+            // Regra de negócio: verificar limite máximo (exemplo)
+            if (_devices.Count >= 1000)
+                throw new InvalidOperationException("Deploy profile has reached maximum device limit");
+
+            // Outras validações de domínio podem ser adicionadas aqui
+        }
+        #endregion
+
+        /// <summary>
+        /// Pacotes de driver OEM associados ao modelo.
+        /// </summary>
+        public virtual ICollection<DriverPack> DriverPacks { get; set; } = new List<DriverPack>();
+
+        /// <summary>
+        /// Grupos de aplicações aos quais este aplicativo pertence (relacionamento many-to-many).
+        /// </summary>
+        public virtual ICollection<ApplicationGroup> ApplicationGroups { get; set; } = new List<ApplicationGroup>();
+
+        /// <summary>
+        /// Grupo de pacotes AppX associado ao perfil (relacionamento opcional).
+        /// </summary>
+        public virtual ICollection<AppxPackageGroup> AppxPackageGroup { get; set; } = new List<AppxPackageGroup>();
+    }
+}

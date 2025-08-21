@@ -1,0 +1,305 @@
+﻿using DCM.Core.Entities.secondary;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+
+namespace DCM.Core.Entities
+{
+    /// <summary>
+    /// Representa um perfil de implantação, incluindo imagem, aplicativos, dispositivos e tarefas associadas.
+    /// </summary>
+    public class DeployProfile : BaseEntity
+    {
+        /// <summary>
+        /// Nome do perfil de implantação.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Descrição do perfil de implantação.
+        /// </summary>
+        [StringLength(240)]
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Chave estrangeira para a imagem associada ao perfil.
+        /// </summary>
+        [Required]
+        public Guid ImageId { get; set; }
+
+        /// <summary>
+        /// Imagem associada ao perfil.
+        /// </summary>
+        public virtual Image Image { get; set; }
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public DeployProfile() { }
+
+
+        /// <summary>
+        /// Construtor para criação de perfil de implantação com nome, descrição e imagem.
+        /// </summary>
+        public DeployProfile(string name, string description, Image image)
+        {
+            Name = name;
+            Description = description;
+            Image = image ?? throw new ArgumentNullException(nameof(image));
+            ImageId = image.Id;
+        }
+
+
+        #region Device Collection - Usando Domain Service
+
+
+        private readonly DomainCollection<Device> _devices;
+
+        public IReadOnlyCollection<Device> Devices => (IReadOnlyCollection<Device>)_devices;
+
+
+        //private readonly List<Device> _devices = new();
+        
+        public virtual IReadOnlyCollection<Device> Devices => _devices.AsReadOnly();
+
+
+        /// <summary>
+        /// Método para adicionar um dispositivo ao perfil.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser adicionado.</param>
+        /// <exception cref="ArgumentNullException">Quando device é null</exception>
+        /// <exception cref="InvalidOperationException">Quando não é possível adicionar o device</exception>
+        public void AddDevice(Device device)
+        {
+            ArgumentNullException.ThrowIfNull(device);
+            
+            if (_devices.Contains(device))
+                return; // Idempotente - não falha se já existe
+            
+            // Validações de regras de negócio do domínio
+            ValidateDeviceAssignment(device);
+            
+            _devices.Add(device);
+            Update(); // Marca entidade como modificada para auditoria
+        }
+
+        /// <summary>
+        /// Método para remover um dispositivo do perfil.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser removido.</param>
+        /// <exception cref="ArgumentNullException">Quando device é null</exception>
+        public void RemoveDevice(Device device)
+        {
+            ArgumentNullException.ThrowIfNull(device);
+            
+            if (_devices.Remove(device))
+            {
+                Update(); // Só marca como modificado se realmente removeu
+            }
+        }
+
+        /// <summary>
+        /// Verifica se o perfil contém um dispositivo específico.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser verificado</param>
+        /// <returns>True se contém o dispositivo, false caso contrário</returns>
+        public bool ContainsDevice(Device device)
+        {
+            return device != null && _devices.Contains(device);
+        }
+
+        /// <summary>
+        /// Valida se um dispositivo pode ser adicionado ao perfil.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser validado</param>
+        /// <exception cref="InvalidOperationException">Quando a regra de negócio é violada</exception>
+        private void ValidateDeviceAssignment(Device device)
+        {
+            // Regra de negócio: dispositivo deve estar habilitado
+            if (!device.Enabled)
+                throw new InvalidOperationException("Cannot add disabled device to deploy profile");
+            
+            // Regra de negócio: perfil deve estar habilitado
+            if (!this.Enabled)
+                throw new InvalidOperationException("Cannot add device to disabled deploy profile");
+            
+            // Regra de negócio: verificar limite máximo (exemplo)
+            if (_devices.Count >= 1000)
+                throw new InvalidOperationException("Deploy profile has reached maximum device limit");
+            
+            // Outras validações de domínio podem ser adicionadas aqui
+        }
+
+        #endregion
+
+        #region ApplicationGroup - Encapsulated Collection
+        /// <summary>
+        /// Backing field para grupos de aplicações.
+        /// </summary>
+        private readonly List<ApplicationGroup> _applicationGroups = new();
+
+        /// <summary>
+        /// Grupos de aplicações associados ao perfil (somente leitura pública).
+        /// </summary>
+        public virtual IReadOnlyCollection<ApplicationGroup> ApplicationGroups => _applicationGroups.AsReadOnly();
+
+        /// <summary>
+        /// Método para adicionar um grupo de aplicações ao perfil.
+        /// </summary>
+        /// <param name="applicationGroup">Grupo de aplicações a ser adicionado.</param>
+        public void AddApplicationGroup(ApplicationGroup applicationGroup)
+        {
+            if (applicationGroup != null && !_applicationGroups.Contains(applicationGroup))
+            {
+                _applicationGroups.Add(applicationGroup);
+                Update();
+            }
+        }
+
+        /// <summary>
+        /// Método para remover um grupo de aplicações do perfil.
+        /// </summary>
+        /// <param name="applicationGroup">Grupo de aplicações a ser removido.</param>
+        public void RemoveApplicationGroup(ApplicationGroup applicationGroup)
+        {
+            if (applicationGroup != null && _applicationGroups.Contains(applicationGroup))
+            {
+                _applicationGroups.Remove(applicationGroup);
+                Update();
+            }
+        }
+        #endregion
+
+        #region AppxPackageGroup - Encapsulated Collection
+        /// <summary>
+        /// Backing field para grupos de pacotes AppX.
+        /// </summary>
+        private readonly List<AppxPackageGroup> _appxpackageGroups = new();
+
+        /// <summary>
+        /// Grupos de pacotes AppX associados ao perfil (somente leitura pública).
+        /// </summary>
+        public virtual IReadOnlyCollection<AppxPackageGroup> AppxPackageGroups => _appxpackageGroups.AsReadOnly();
+
+        /// <summary>
+        /// Método para adicionar um grupo de pacotes AppX ao perfil.
+        /// </summary>
+        /// <param name="appxPackageGroup">Grupo de pacotes AppX a ser adicionado.</param>
+        public void AddAppxPackageGroup(AppxPackageGroup appxPackageGroup)
+        {
+            if (appxPackageGroup != null && !_appxpackageGroups.Contains(appxPackageGroup))
+            {
+                _appxpackageGroups.Add(appxPackageGroup);
+                Update();
+            }
+        }
+
+        /// <summary>
+        /// Método para remover um grupo de pacotes AppX do perfil.
+        /// </summary>
+        /// <param name="appxPackageGroup">Grupo de pacotes AppX a ser removido.</param>
+        public void RemoveAppxPackageGroup(AppxPackageGroup appxPackageGroup)
+        {
+            if (appxPackageGroup != null && _appxpackageGroups.Contains(appxPackageGroup))
+            {
+                _appxpackageGroups.Remove(appxPackageGroup);
+                Update();
+            }
+        }
+        #endregion
+
+        #region ProfileTask - Encapsulated Collection
+        /// <summary>
+        /// Backing field para dispositivos.
+        /// </summary>
+        private readonly List<ProfileTask> _profileTasks = new();
+
+        /// <summary>
+        /// Tarefas de perfil associadas ao perfil (somente leitura pública).
+        /// </summary>
+        public virtual IReadOnlyCollection<ProfileTask> ProfileTasks => _profileTasks.AsReadOnly();
+
+        /// <summary>
+        /// Método para adicionar uma tarefa ao perfil.
+        /// </summary>
+        /// <param name="profileTask">Tarefa a ser adicionada.</param>
+        public void AddProfileTask(ProfileTask profileTask)
+        {
+            if (profileTask != null && !_profileTasks.Contains(profileTask))
+            {
+                _profileTasks.Add(profileTask);
+                Update();
+            }
+        }
+
+        /// <summary>
+        /// Método para remover uma tarefa do perfil.
+        /// </summary>
+        /// <param name="profileTask">Tarefa a ser removida.</param>
+        public void RemoveProfileTask(ProfileTask profileTask)
+        {
+            if (profileTask != null && _profileTasks.Contains(profileTask))
+            {
+                _profileTasks.Remove(profileTask);
+                Update();
+            }
+        }
+        #endregion
+
+
+
+        /// <summary>
+        /// Remove todos os grupos de aplicações do perfil.
+        /// </summary>
+        public void ClearApplicationGroups()
+        {
+            if (_applicationGroups.Count > 0)
+            {
+                _applicationGroups.Clear();
+                Update();
+            }
+        }
+
+        /// <summary>
+        /// Verifica se o perfil contém um grupo específico.
+        /// </summary>
+        /// <param name="applicationGroup">Grupo a ser verificado</param>
+        /// <returns>True se contém o grupo, false caso contrário</returns>
+        public bool ContainsApplicationGroup(ApplicationGroup applicationGroup)
+        {
+            return applicationGroup != null && _applicationGroups.Contains(applicationGroup);
+        }
+
+        /// <summary>
+        /// Obtém a contagem total de aplicações associadas a este perfil.
+        /// </summary>
+        public int ApplicationGroupCount => _applicationGroups.Count;
+
+        /// <summary>
+        /// Verifica se o perfil possui aplicações associadas.
+        /// </summary>
+        public bool HasApplications => _applicationGroups.Count > 0;
+
+        /// <summary>
+        /// Obtém a contagem total de dispositivos associados a este perfil.
+        /// </summary>
+        public int DeviceCount => Devices?.Count ?? 0;
+
+        /// <summary>
+        /// Obtém a contagem total de tarefas associadas a este perfil.
+        /// </summary>
+        public int ProfileTaskCount => ProfileTasks?.Count ?? 0;
+
+        /// <summary>
+        /// Verifica se o perfil possui dispositivos associados.
+        /// </summary>
+        public bool HasDevices => DeviceCount > 0;
+
+        /// <summary>
+        /// Verifica se o perfil possui tarefas associadas.
+        /// </summary>
+        public bool HasProfileTasks => ProfileTaskCount > 0;
+    }
+}

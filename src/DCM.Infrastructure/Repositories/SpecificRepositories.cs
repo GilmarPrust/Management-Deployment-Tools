@@ -64,7 +64,7 @@ namespace DCM.Infrastructure.Repositories
                 .Where(e => !e.DeletedAt.HasValue)
                 .Include(d => d.DeviceModel)
                 .Include(d => d.DeployProfile)
-                .Include(d => d.Applications)
+                .Include(d => d.ApplicationGroups)
                 .Include(d => d.DriverPacks)
                 .Include(d => d.AppxPackages)
                 .Include(d => d.Inventory)
@@ -129,7 +129,7 @@ namespace DCM.Infrastructure.Repositories
                 .Include(dm => dm.Devices)
                 .Include(dm => dm.Firmware)
                 .Include(dm => dm.DriverPacks)
-                .Include(dm => dm.Applications)
+                .Include(dm => dm.ApplicationGroups)
                 .AsSplitQuery()
                 .ToListAsync(cancellationToken);
         }
@@ -303,7 +303,6 @@ namespace DCM.Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(e => !e.DeletedAt.HasValue)
-                .OrderBy(ag => ag.Priority)
                 .ToListAsync(cancellationToken);
         }
 
@@ -324,17 +323,6 @@ namespace DCM.Infrastructure.Repositories
 
             return await _dbSet
                 .Where(e => !e.DeletedAt.HasValue)
-                .Where(ag => ag.Category == category)
-                .ToListAsync(cancellationToken);
-        }
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<ApplicationGroup>> GetActiveGroupsAsync(CancellationToken cancellationToken = default)
-        {
-            return await _dbSet
-                .Where(e => !e.IsDeleted && e.Enabled)
-                .OrderBy(ag => ag.Priority)
-                .ThenBy(ag => ag.Name)
                 .ToListAsync(cancellationToken);
         }
 
@@ -347,6 +335,11 @@ namespace DCM.Infrastructure.Repositories
             return await _dbSet
                 .Where(e => !e.IsDeleted)
                 .AnyAsync(ag => ag.Name == name, cancellationToken);
+        }
+
+        public Task<IEnumerable<ApplicationGroup>> GetActiveGroupsAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }

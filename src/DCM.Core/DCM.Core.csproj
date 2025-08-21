@@ -10,4 +10,12 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\_DEV\PROJETOS\D.C.M2\src\DCM.Core\.editorconfig" />
+  </ItemGroup>
+
 </Project>

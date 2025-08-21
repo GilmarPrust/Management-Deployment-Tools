@@ -1,0 +1,143 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities
+{
+    /// <summary>
+    /// Representa um firmware associado a um modelo de dispositivo.
+    /// </summary>
+    public class Firmware : BaseEntity
+    {
+        /// <summary>
+        /// Nome do arquivo do firmware.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string FileName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Versão do firmware.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Version { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Caminho de origem do firmware.
+        /// </summary>
+        [Required, StringLength(250)]
+        public string Source { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Hash do arquivo do firmware.
+        /// </summary>
+        [Required, StringLength(64)]
+        public string Hash { get; set; } = string.Empty;
+
+        /// <summary>
+        /// ID do modelo de dispositivo ao qual o firmware está vinculado.
+        /// </summary>
+        [Required]
+        public Guid DeviceModelId { get; private set; }
+
+        /// <summary>
+        /// Modelo de dispositivo associado ao firmware.
+        /// </summary>
+        public virtual DeviceModel DeviceModel { get; private set; }
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public Firmware() { }
+
+        /// <summary>
+        /// Construtor para criar um firmware com todos os dados necessários.
+        /// </summary>
+        /// <param name="fileName">Nome do arquivo do firmware</param>
+        /// <param name="version">Versão do firmware</param>
+        /// <param name="source">Caminho de origem</param>
+        /// <param name="hash">Hash do arquivo</param>
+        /// <param name="deviceModel">Modelo de dispositivo associado (obrigatório)</param>
+        public Firmware(string fileName, string version, string source, string hash, DeviceModel deviceModel)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentException("FileName cannot be empty", nameof(fileName));
+            if (string.IsNullOrWhiteSpace(version))
+                throw new ArgumentException("Version cannot be empty", nameof(version));
+            if (string.IsNullOrWhiteSpace(source))
+                throw new ArgumentException("Source cannot be empty", nameof(source));
+            if (string.IsNullOrWhiteSpace(hash))
+                throw new ArgumentException("Hash cannot be empty", nameof(hash));
+            ArgumentNullException.ThrowIfNull(deviceModel);
+            
+            if (!deviceModel.Enabled)
+                throw new InvalidOperationException("Cannot associate firmware with disabled device model");
+
+            FileName = fileName;
+            Version = version;
+            Source = source;
+            Hash = hash;
+            DeviceModel = deviceModel;
+            DeviceModelId = deviceModel.Id;
+        }
+
+        /// <summary>
+        /// Associa este Firmware a um DeviceModel (obrigatório).
+        /// </summary>
+        /// <param name="model">Modelo de dispositivo a ser associado</param>
+        /// <exception cref="ArgumentNullException">Se o modelo for nulo</exception>
+        /// <exception cref="InvalidOperationException">Se o modelo estiver desabilitado</exception>
+        public void AssignToDeviceModel(DeviceModel model)
+        {
+            ArgumentNullException.ThrowIfNull(model);
+
+            if (!model.Enabled)
+                throw new InvalidOperationException("Cannot assign firmware to a disabled device model");
+            
+            // Se já estiver associado ao mesmo modelo, não faz nada
+            if (DeviceModelId == model.Id)
+                return;
+
+            DeviceModel = model;
+            DeviceModelId = model.Id;
+            Update();
+        }
+
+        /// <summary>
+        /// Atualiza os dados do firmware.
+        /// </summary>
+        /// <param name="version">Nova versão</param>
+        /// <param name="source">Novo caminho de origem</param>
+        /// <param name="hash">Novo hash</param>
+        public void UpdateFirmwareInfo(string version, string source, string hash)
+        {
+            if (string.IsNullOrWhiteSpace(version))
+                throw new ArgumentException("Version cannot be empty", nameof(version));
+            if (string.IsNullOrWhiteSpace(source))
+                throw new ArgumentException("Source cannot be empty", nameof(source));
+            if (string.IsNullOrWhiteSpace(hash))
+                throw new ArgumentException("Hash cannot be empty", nameof(hash));
+
+            bool changed = false;
+            
+            if (Version != version)
+            {
+                Version = version;
+                changed = true;
+            }
+            
+            if (Source != source)
+            {
+                Source = source;
+                changed = true;
+            }
+            
+            if (Hash != hash)
+            {
+                Hash = hash;
+                changed = true;
+            }
+
+            if (changed)
+                Update();
+        }
+    }
+}

@@ -38,18 +38,7 @@ namespace DCM.Core.Entities
         /// <summary>
         /// Construtor protegido para inicialização via EF Core.
         /// </summary>
-        protected BaseEntity()
-        {
-        }
-
-        /// <summary>
-        /// Construtor para criação de novas entidades.
-        /// </summary>
-        protected BaseEntity(Guid? id = null)
-        {
-            Id = id ?? Guid.NewGuid();
-            CreatedAt = DateTime.UtcNow;
-        }
+        protected BaseEntity() { }
 
         /// <summary>
         /// Método para atualizar a entidade.

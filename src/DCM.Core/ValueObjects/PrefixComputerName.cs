@@ -24,15 +24,6 @@ namespace DCM.Core.ValueObjects
         public DeviceType DeviceType { get; }
 
         /// <summary>
-        /// Construtor padrão privado para o Entity Framework Core.
-        /// </summary>
-        private PrefixComputerName() 
-        {
-            Value = string.Empty;
-            DeviceType = DeviceType.Desktop;
-        }
-
-        /// <summary>
         /// Cria uma nova instância de PrefixComputerName baseado no tipo de dispositivo.
         /// </summary>
         /// <param name="deviceType">Tipo de dispositivo</param>

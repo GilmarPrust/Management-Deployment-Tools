@@ -1,0 +1,77 @@
+﻿using DCM.Core.Entities.secondary;
+using DCM.Core.Services.Device;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DCM.Core.Services.DeployProfile
+{
+    /// <summary>
+    /// Implementação do serviço de domínio para associações de dispositivos.
+    /// </summary>
+    public class DeployProfileAssignmentService : IDeployProfileAssignmentService
+    {
+        #region Device Assignment
+        public Task<bool> AddDevice(Guid profileId, Guid deviceId)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<List<Guid>> GetDevices(Guid profileId)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<bool> RemoveDevice(Guid profileId, Guid deviceId)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Application Group Assignment
+        public Task<List<Guid>> AddApplicationGroup(Guid profileId)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<bool> RemoveApplicationGroup(Guid profileId, Guid applicationGroupId)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<List<Guid>> GetApplicationGroups(Guid profileId)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Profile Task Assignment
+        public Task<bool> AddProfileTask(Guid profileId, Guid profileTaskId)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<bool> RemoveProfileTask(Guid profileId, Guid profileTaskId)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<List<Guid>> GetProfileTasks(Guid profileId)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+
+        #region Appx Package Group Assignment
+        public Task<bool> AddAppxPackageGroup(Guid profileId, Guid appxPackageGroupId)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<bool> RemoveAppxPackageGroup(Guid profileId, Guid appxPackageGroupId)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<List<Guid>> GetAppxPackageGroups(Guid profileId)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+    }
+}

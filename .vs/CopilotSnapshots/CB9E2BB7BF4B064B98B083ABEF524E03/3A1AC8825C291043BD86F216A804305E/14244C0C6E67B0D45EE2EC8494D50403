@@ -1,0 +1,100 @@
+﻿using DCM.Core.Entities.secondary;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities
+{
+    /// <summary>
+    /// Representa um modelo de dispositivo, incluindo fabricante, modelo, tipo e associações.
+    /// </summary>
+    public class DeviceModel : BaseEntity
+    {
+        /// <summary>
+        /// Nome do fabricante do modelo de dispositivo.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Manufacturer { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Nome do modelo do dispositivo.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Model { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Tipo do modelo de dispositivo.
+        /// </summary>
+        [StringLength(50)]
+        public string Type { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public DeviceModel() { }
+
+        /// <summary>
+        /// Firmware associado ao modelo de dispositivo (opcional).
+        /// </summary>
+        public virtual Firmware? Firmware { get; set; }
+
+        /// <summary>
+        /// Dispositivos físicos associados ao modelo (backing para EF Core).
+        /// </summary>
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+
+        #region Device Collection - Encapsulated with DomainCollection
+
+        /// <summary>
+        /// Adiciona um dispositivo ao modelo com regras de domínio.
+        /// </summary>
+        public void AddDevice(Device device)
+        {
+            var collection = new DomainCollection<Device>((IList<Device>)Devices, ValidateDeviceAssignment, onChanged: Update);
+            collection.Add(device);
+        }
+
+        /// <summary>
+        /// Remove um dispositivo do modelo.
+        /// </summary>
+        public void RemoveDevice(Device device)
+        {
+            var collection = new DomainCollection<Device>((IList<Device>)Devices, onChanged: Update);
+            collection.Remove(device);
+        }
+
+        /// <summary>
+        /// Verifica se o modelo contém um dispositivo específico.
+        /// </summary>
+        public bool ContainsDevice(Device device) => device != null && Devices.Contains(device);
+
+        /// <summary>
+        /// Valida se um dispositivo pode ser adicionado ao modelo.
+        /// </summary>
+        private void ValidateDeviceAssignment(Device device)
+        {
+            if (!device.Enabled)
+                throw new InvalidOperationException("Cannot add disabled device to device model");
+
+            if (!Enabled)
+                throw new InvalidOperationException("Cannot add device to disabled device model");
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Pacotes de driver OEM associados ao modelo.
+        /// </summary>
+        public virtual ICollection<DriverPack> DriverPacks { get; set; } = new List<DriverPack>();
+
+        /// <summary>
+        /// Grupos de aplicações aos quais este aplicativo pertence (relacionamento many-to-many).
+        /// </summary>
+        public virtual ICollection<ApplicationGroup> ApplicationGroups { get; set; } = new List<ApplicationGroup>();
+
+        /// <summary>
+        /// Grupo de pacotes AppX associado ao perfil (relacionamento opcional).
+        /// </summary>
+        public virtual ICollection<AppxPackageGroup> AppxPackageGroup { get; set; } = new List<AppxPackageGroup>();
+    }
+}

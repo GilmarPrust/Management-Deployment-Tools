@@ -1,0 +1,258 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities
+{
+    /// <summary>
+    /// Representa um firmware associado a um modelo de dispositivo.
+    /// </summary>
+    public class Firmware : BaseEntity
+    {
+        /// <summary>
+        /// Nome do arquivo do firmware.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string FileName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Versão do firmware.
+        /// </summary>
+        [Required, StringLength(50)]
+        public string Version { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Caminho de origem do firmware.
+        /// </summary>
+        [Required, StringLength(250)]
+        public string Source { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Hash do arquivo do firmware.
+        /// </summary>
+        [Required, StringLength(64)]
+        public string Hash { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Descrição adicional do firmware (opcional).
+        /// </summary>
+        [StringLength(500)]
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Data de lançamento do firmware (opcional).
+        /// </summary>
+        public DateTime? ReleaseDate { get; set; }
+
+        /// <summary>
+        /// Indica se o firmware é uma versão beta/teste.
+        /// </summary>
+        public bool IsBeta { get; set; } = false;
+
+        /// <summary>
+        /// ID do modelo de dispositivo ao qual o firmware está vinculado.
+        /// </summary>
+        [Required]
+        public Guid DeviceModelId { get; private set; }
+
+        /// <summary>
+        /// Modelo de dispositivo associado ao firmware.
+        /// </summary>
+        public virtual DeviceModel DeviceModel { get; private set; } = null!;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public Firmware() { }
+
+        /// <summary>
+        /// Construtor para criar um firmware com todos os dados necessários.
+        /// </summary>
+        /// <param name="fileName">Nome do arquivo do firmware</param>
+        /// <param name="version">Versão do firmware</param>
+        /// <param name="source">Caminho de origem</param>
+        /// <param name="hash">Hash do arquivo</param>
+        /// <param name="deviceModel">Modelo de dispositivo associado (obrigatório)</param>
+        /// <param name="description">Descrição do firmware (opcional)</param>
+        /// <param name="releaseDate">Data de lançamento (opcional)</param>
+        /// <param name="isBeta">Se é versão beta (padrão: false)</param>
+        public Firmware(string fileName, string version, string source, string hash, DeviceModel deviceModel, 
+                       string description = "", DateTime? releaseDate = null, bool isBeta = false)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentException("FileName cannot be empty", nameof(fileName));
+            if (string.IsNullOrWhiteSpace(version))
+                throw new ArgumentException("Version cannot be empty", nameof(version));
+            if (string.IsNullOrWhiteSpace(source))
+                throw new ArgumentException("Source cannot be empty", nameof(source));
+            if (string.IsNullOrWhiteSpace(hash))
+                throw new ArgumentException("Hash cannot be empty", nameof(hash));
+            ArgumentNullException.ThrowIfNull(deviceModel);
+            
+            if (!deviceModel.Enabled)
+                throw new InvalidOperationException("Cannot associate firmware with disabled device model");
+
+            FileName = fileName;
+            Version = version;
+            Source = source;
+            Hash = hash;
+            Description = description;
+            ReleaseDate = releaseDate;
+            IsBeta = isBeta;
+            DeviceModel = deviceModel;
+            DeviceModelId = deviceModel.Id;
+        }
+
+        /// <summary>
+        /// Verifica se o firmware tem descrição.
+        /// </summary>
+        public bool HasDescription => !string.IsNullOrWhiteSpace(Description);
+
+        /// <summary>
+        /// Verifica se o firmware tem data de lançamento definida.
+        /// </summary>
+        public bool HasReleaseDate => ReleaseDate.HasValue;
+
+        /// <summary>
+        /// Obtém a idade do firmware em dias (baseado na data de lançamento).
+        /// </summary>
+        public int? AgeInDays => ReleaseDate?.Subtract(DateTime.Now).Days * -1;
+
+        /// <summary>
+        /// Verifica se o firmware é considerado recente (menos de 90 dias).
+        /// </summary>
+        public bool IsRecent => AgeInDays.HasValue && AgeInDays <= 90;
+
+        #region DeviceModel - Domain Encapsulation
+        /// <summary>
+        /// Associa este Firmware a um DeviceModel (obrigatório).
+        /// </summary>
+        /// <param name="model">Modelo de dispositivo a ser associado</param>
+        /// <exception cref="ArgumentNullException">Se o modelo for nulo</exception>
+        /// <exception cref="InvalidOperationException">Se o modelo estiver desabilitado</exception>
+        public void AssignToDeviceModel(DeviceModel model)
+        {
+            ArgumentNullException.ThrowIfNull(model);
+
+            if (!model.Enabled)
+                throw new InvalidOperationException("Cannot assign firmware to a disabled device model");
+            
+            if (!Enabled)
+                throw new InvalidOperationException("Cannot assign disabled firmware to device model");
+            
+            // Se já estiver associado ao mesmo modelo, não faz nada
+            if (DeviceModelId == model.Id)
+                return;
+
+            DeviceModel = model;
+            DeviceModelId = model.Id;
+            Update();
+        }
+        #endregion
+
+        /// <summary>
+        /// Atualiza os dados do firmware.
+        /// </summary>
+        /// <param name="version">Nova versão</param>
+        /// <param name="source">Novo caminho de origem</param>
+        /// <param name="hash">Novo hash</param>
+        /// <param name="description">Nova descrição (opcional)</param>
+        /// <param name="releaseDate">Nova data de lançamento (opcional)</param>
+        public void UpdateFirmwareInfo(string version, string source, string hash, string? description = null, DateTime? releaseDate = null)
+        {
+            if (string.IsNullOrWhiteSpace(version))
+                throw new ArgumentException("Version cannot be empty", nameof(version));
+            if (string.IsNullOrWhiteSpace(source))
+                throw new ArgumentException("Source cannot be empty", nameof(source));
+            if (string.IsNullOrWhiteSpace(hash))
+                throw new ArgumentException("Hash cannot be empty", nameof(hash));
+
+            bool changed = false;
+            
+            if (Version != version)
+            {
+                Version = version;
+                changed = true;
+            }
+            
+            if (Source != source)
+            {
+                Source = source;
+                changed = true;
+            }
+            
+            if (Hash != hash)
+            {
+                Hash = hash;
+                changed = true;
+            }
+
+            if (description != null && Description != description)
+            {
+                Description = description;
+                changed = true;
+            }
+
+            if (releaseDate != ReleaseDate)
+            {
+                ReleaseDate = releaseDate;
+                changed = true;
+            }
+
+            if (changed)
+                Update();
+        }
+
+        /// <summary>
+        /// Atualiza a descrição do firmware.
+        /// </summary>
+        /// <param name="description">Nova descrição</param>
+        public void UpdateDescription(string description)
+        {
+            if (Description != description)
+            {
+                Description = description ?? string.Empty;
+                Update();
+            }
+        }
+
+        /// <summary>
+        /// Valida se o firmware está em condições adequadas para uso.
+        /// </summary>
+        /// <returns>True se válido, False caso contrário</returns>
+        public bool IsValidForDeployment()
+        {
+            return Enabled 
+                && !string.IsNullOrWhiteSpace(FileName) 
+                && !string.IsNullOrWhiteSpace(Version)
+                && !string.IsNullOrWhiteSpace(Source)
+                && !string.IsNullOrWhiteSpace(Hash)
+                && DeviceModel?.Enabled == true;
+        }
+
+        /// <summary>
+        /// Obtém informações de compatibilidade do firmware.
+        /// </summary>
+        /// <returns>String com informações de compatibilidade</returns>
+        public string GetCompatibilityInfo()
+        {
+            if (DeviceModel == null)
+                return "No device model assigned";
+
+            var betaText = IsBeta ? " (Beta)" : "";
+            var ageText = AgeInDays.HasValue ? $", {AgeInDays} days old" : "";
+            
+            return $"Compatible with {DeviceModel.Manufacturer} {DeviceModel.Model}{betaText}{ageText}";
+        }
+
+        /// <summary>
+        /// Obtém uma representação textual do firmware.
+        /// </summary>
+        /// <returns>String no formato "FileName v[Version] for [DeviceModel] [Beta]"</returns>
+        public override string ToString()
+        {
+            var deviceModelText = DeviceModel != null ? $" for {DeviceModel.Manufacturer} {DeviceModel.Model}" : "";
+            var betaText = IsBeta ? " (Beta)" : "";
+            return $"{FileName} v{Version}{deviceModelText}{betaText}";
+        }
+    }
+}

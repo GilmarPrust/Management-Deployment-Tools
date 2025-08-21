@@ -1,0 +1,121 @@
+﻿using DCM.Core.Enums;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+
+namespace DCM.Core.Entities.secondary
+{
+    /// <summary>
+    /// Representa o sistema de prioridades e dependências para instalação de aplicativos.
+    /// Controla a ordem de execução baseada em dependências e prioridades.
+    /// </summary>
+    public class ApplicationConfig : BaseEntity
+    {
+        /// <summary>
+        /// ID da aplicação principal.
+        /// </summary>
+        [Required]
+        public Guid ApplicationId { get; set; }
+
+        /// <summary>
+        /// Aplicação principal.
+        /// </summary>
+        public virtual Application Application { get; set; }
+
+        /// <summary>
+        /// Dispositivos associados ao aplicativo.
+        /// </summary>
+        public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+
+        /// <summary>
+        /// Modelos de dispositivo associados ao aplicativo.
+        /// </summary>
+        public virtual ICollection<DeviceModel> DeviceModels { get; set; } = new List<DeviceModel>();
+
+        /// <summary>
+        /// Perfis de implantação associados ao aplicativo.
+        /// </summary>
+        public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
+
+        /// <summary>
+        /// Lista de IDs de aplicações das quais esta aplicação depende.
+        /// Essas aplicações devem ser instaladas ANTES desta.
+        /// </summary>
+        public virtual ICollection<ApplicationDependency> Dependencies { get; set; } = new List<ApplicationDependency>();
+
+        /// <summary>
+        /// Lista de aplicações que dependem desta.
+        /// Esta aplicação deve ser instalada ANTES delas.
+        /// </summary>
+        public virtual ICollection<ApplicationDependency> Dependents { get; set; } = new List<ApplicationDependency>();
+
+        /// <summary>
+        /// Grupos de aplicações aos quais este aplicativo pertence (relacionamento many-to-many).
+        /// </summary>
+        [Required]
+        public virtual ICollection<ApplicationGroup> Groups { get; set; } = new List<ApplicationGroup>();
+
+
+        /// <summary>
+        /// Observações sobre a prioridade ou dependências.
+        /// </summary>
+        [StringLength(500)]
+        public string? Notes { get; set; }
+
+        /// <summary>
+        /// Indica se esta aplicação é obrigatória (não pode ser pulada na instalação).
+        /// </summary>
+        public bool IsRequired { get; set; } = false;
+
+        /// <summary>
+        /// Indica se esta aplicação deve ser instalada em modo silencioso.
+        /// </summary>
+        public bool IsSilentInstall { get; set; } = true;
+
+        /// <summary>
+        /// Tempo estimado de instalação em minutos.
+        /// </summary>
+        [Range(0, 999, ErrorMessage = "O tempo estimado deve estar entre 0 e 999 minutos.")]
+        public int EstimatedInstallTimeMinutes { get; set; } = 5;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public ApplicationConfig() { }
+
+        /// <summary>
+        /// Adiciona uma dependência a esta aplicação.
+        /// </summary>
+        /// <param name="dependencyApplicationId">ID da aplicação da qual esta depende</param>
+        /// <param name="dependencyType">Tipo de dependência</param>
+        public void AddDependency(Guid dependencyApplicationId, DependencyType dependencyType = DependencyType.Required)
+        {
+            if (dependencyApplicationId == ApplicationId)
+                throw new InvalidOperationException("Uma aplicação não pode depender de si mesma.");
+
+            var dependency = new ApplicationDependency
+            {
+                ApplicationId = ApplicationId,
+                DependsOnApplicationId = dependencyApplicationId
+            };
+            
+            Dependencies.Add(dependency);
+        }
+
+        /// <summary>
+        /// Remove uma dependência desta aplicação.
+        /// </summary>
+        /// <param name="dependencyApplicationId">ID da aplicação da dependência a ser removida</param>
+        public void RemoveDependency(Guid dependencyApplicationId)
+        {
+            var dependency = Dependencies.FirstOrDefault(d => d.DependsOnApplicationId == dependencyApplicationId);
+            if (dependency != null)
+            {
+                Dependencies.Remove(dependency);
+            }
+        }
+
+
+    }
+}

@@ -24,6 +24,7 @@ namespace DCM.Core.Interfaces.Repositories
         /// </summary>
         IApplicationRepository Applications { get; }
 
+
         /// <summary>
         /// Repositório para entidades ApplicationGroup.
         /// </summary>

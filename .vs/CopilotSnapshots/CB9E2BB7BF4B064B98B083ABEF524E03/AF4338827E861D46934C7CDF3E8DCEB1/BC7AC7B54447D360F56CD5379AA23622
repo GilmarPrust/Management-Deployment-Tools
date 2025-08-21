@@ -1,0 +1,276 @@
+﻿using Microsoft.Extensions.Logging;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using DCM.Application.DTOs.DeployProfile;
+using DCM.Application.Services.Interfaces;
+using DCM.Core.Interfaces.Repositories;
+using DCM.Core.Entities;
+
+namespace DCM.Application.Services.Implementations
+{
+    /// <summary>
+    /// Serviço para gerenciamento de perfis de implantação.
+    /// </summary>
+    public sealed class DeployProfileService : IDeployProfileService
+    {
+        private readonly IDeployProfileRepository _deployProfileRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly ILogger<DeployProfileService> _logger;
+
+        public DeployProfileService(
+            IDeployProfileRepository deployProfileRepository,
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            ILogger<DeployProfileService> logger)
+        {
+            _deployProfileRepository = deployProfileRepository ?? throw new ArgumentNullException(nameof(deployProfileRepository));
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DeployProfileReadDTO>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Iniciando busca de todos os perfis de implantação");
+                
+                var profiles = await _deployProfileRepository.GetWithIncludes(
+                    p => p.Image, 
+                    p => p.ApplicationGroups, 
+                    p => p.ProfileTasks, 
+                    p => p.AppxPackageGroups)
+                    .ToListAsync(cancellationToken);
+                
+                var result = _mapper.Map<IEnumerable<DeployProfileReadDTO>>(profiles);
+                
+                _logger.LogInformation("Retornados {Count} perfis de implantação", result.Count());
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar todos os perfis de implantação");
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeployProfileReadDTO?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+
+            try
+            {
+                _logger.LogDebug("Buscando perfil de implantação com Id: {Id}", id);
+                
+                var profile = await _deployProfileRepository.GetWithIncludes(
+                    p => p.Image, 
+                    p => p.ApplicationGroups, 
+                    p => p.ProfileTasks, 
+                    p => p.AppxPackageGroups)
+                    .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado com Id: {Id}", id);
+                    return null;
+                }
+
+                var result = _mapper.Map<DeployProfileReadDTO>(profile);
+                _logger.LogDebug("Perfil de implantação encontrado: {Name}", profile.Name);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar perfil de implantação por Id: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeployProfileReadDTO?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Nome não pode ser nulo ou vazio.", nameof(name));
+
+            try
+            {
+                _logger.LogDebug("Buscando perfil de implantação com nome: {Name}", name);
+                
+                var profile = await _deployProfileRepository.GetByNameAsync(name, cancellationToken);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado com nome: {Name}", name);
+                    return null;
+                }
+
+                // Carregar entidades relacionadas
+                var profileWithIncludes = await _deployProfileRepository.GetWithIncludes(
+                    p => p.Image, 
+                    p => p.ApplicationGroups, 
+                    p => p.ProfileTasks, 
+                    p => p.AppxPackageGroups)
+                    .FirstOrDefaultAsync(p => p.Id == profile.Id, cancellationToken);
+
+                var result = _mapper.Map<DeployProfileReadDTO>(profileWithIncludes);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar perfil de implantação por nome: {Name}", name);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DeployProfileReadDTO>> GetActiveProfilesAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Buscando perfis de implantação ativos");
+                
+                var profiles = await _deployProfileRepository.GetActiveProfilesAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<DeployProfileReadDTO>>(profiles);
+                
+                _logger.LogInformation("Encontrados {Count} perfis de implantação ativos", result.Count());
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar perfis de implantação ativos");
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeployProfileReadDTO> CreateAsync(DeployProfileCreateDTO dto, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(dto);
+
+            try
+            {
+                _logger.LogDebug("Criando novo perfil de implantação: {Name}", dto.Name);
+
+                // Validação de negócio: Verificar duplicidade por nome
+                if (!string.IsNullOrWhiteSpace(dto.Name))
+                {
+                    var existingProfile = await _deployProfileRepository.GetByNameAsync(dto.Name, cancellationToken);
+                    if (existingProfile != null)
+                    {
+                        throw new InvalidOperationException($"Já existe um perfil de implantação com nome: {dto.Name}");
+                    }
+                }
+
+                var profile = _mapper.Map<DeployProfile>(dto);
+                
+                _deployProfileRepository.Add(profile);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Perfil de implantação criado com sucesso. Id: {Id}, Nome: {Name}", profile.Id, profile.Name);
+                
+                return _mapper.Map<DeployProfileReadDTO>(profile);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao criar perfil de implantação: {Name}", dto.Name);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<DeployProfileReadDTO?> UpdateAsync(Guid id, DeployProfileUpdateDTO dto, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+            ArgumentNullException.ThrowIfNull(dto);
+
+            try
+            {
+                _logger.LogDebug("Atualizando perfil de implantação: {Id}", id);
+
+                var existing = await _deployProfileRepository.GetByIdAsync(id, cancellationToken);
+                if (existing == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado para atualização: {Id}", id);
+                    return null;
+                }
+
+                // Validação de negócio: Verificar duplicidade por nome (se mudou)
+                if (!string.IsNullOrWhiteSpace(dto.Name) && dto.Name != existing.Name)
+                {
+                    var duplicateProfile = await _deployProfileRepository.GetByNameAsync(dto.Name, cancellationToken);
+                    if (duplicateProfile != null)
+                    {
+                        throw new InvalidOperationException($"Já existe um perfil de implantação com nome: {dto.Name}");
+                    }
+                }
+
+                _mapper.Map(dto, existing);
+
+                _deployProfileRepository.Update(existing);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Perfil de implantação atualizado com sucesso: {Id}", id);
+                return _mapper.Map<DeployProfileReadDTO>(existing);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao atualizar perfil de implantação: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentException("Id não pode ser vazio.", nameof(id));
+
+            try
+            {
+                _logger.LogDebug("Removendo perfil de implantação: {Id}", id);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(id, cancellationToken);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado para remoção: {Id}", id);
+                    return false;
+                }
+
+                // Soft delete
+                profile.SoftDelete();
+                
+                _deployProfileRepository.Update(profile);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Perfil de implantação removido com sucesso: {Id}", id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao remover perfil de implantação: {Id}", id);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+                return false;
+
+            try
+            {
+                return await _deployProfileRepository.AnyAsync(p => p.Id == id, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao verificar existência do perfil de implantação: {Id}", id);
+                throw;
+            }
+        }
+    }
+}

@@ -1,0 +1,70 @@
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities.secondary
+{
+    /// <summary>
+    /// Representa um grupo de pacotes AppX para organização e implantação conjunta.
+    /// </summary>
+    public class AppxPackageGroup : BaseEntity
+    {
+        /// <summary>
+        /// Nome do grupo de pacotes AppX.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Descrição do grupo de pacotes AppX.
+        /// </summary>
+        [StringLength(240)]
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Ordem de prioridade do grupo (menor número = maior prioridade).
+        /// </summary>
+        public int Priority { get; set; } = 0;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public AppxPackageGroup() { }
+
+
+        #region AppxPackages
+        /// <summary>
+        /// Pacotes AppX associados ao grupo (relacionamento many-to-many).
+        /// </summary>
+        public virtual ICollection<AppxPackage> AppxPackages { get; set; } = new List<AppxPackage>();
+        public void AddAppxPackage(AppxPackage package)
+            => this.AddItem(AppxPackages, package, p => 
+            { 
+                if (!Enabled) 
+                    throw new System.InvalidOperationException("Cannot add package to disabled group"); 
+            });
+
+        public void RemoveAppxPackage(AppxPackage package)
+            => this.RemoveItem(AppxPackages, package);
+
+        public bool ContainsAppxPackage(AppxPackage package) => AppxPackages.ContainsItem(package);
+        #endregion
+
+        #region DeployProfiles
+        /// <summary>
+        /// Perfis de implantação que utilizam este grupo.
+        /// </summary>
+        public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
+        public void AddDeployProfile(DeployProfile profile)
+            => this.AddItem(DeployProfiles, profile, p => 
+            { 
+                if (!Enabled) 
+                    throw new System.InvalidOperationException("Cannot add deploy profile to disabled group"); 
+            });
+
+        public void RemoveDeployProfile(DeployProfile profile)
+            => this.RemoveItem(DeployProfiles, profile);
+
+        public bool ContainsDeployProfile(DeployProfile profile) => DeployProfiles.ContainsItem(profile);
+        #endregion
+    }
+}

@@ -155,7 +155,6 @@ namespace DCM.Infrastructure.Repositories
 
             return await _dbSet
                 .Where(e => !e.DeletedAt.HasValue)
-                .Where(apg => apg.Category == category)
                 .ToListAsync(cancellationToken);
         }
 
@@ -207,7 +206,7 @@ namespace DCM.Infrastructure.Repositories
             return await _dbSet
                 .Where(e => !e.DeletedAt.HasValue)
                 .Include(dp => dp.Image)
-                .Include(dp => dp.Applications)
+                .Include(dp => dp.ApplicationGroups)
                 .Include(dp => dp.Devices)
                 .Include(dp => dp.ProfileTasks)
                 .AsSplitQuery()

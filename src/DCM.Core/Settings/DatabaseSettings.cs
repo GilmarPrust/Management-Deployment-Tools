@@ -7,6 +7,6 @@ namespace DCM.Core.Settings
     public class DatabaseSettings
     {
         public string ConnectionString { get; init; }
-        public int Timeout { get; init; }
+
     }
 }

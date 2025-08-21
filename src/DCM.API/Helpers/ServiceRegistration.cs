@@ -1,7 +1,4 @@
-﻿using DCM.Application.Services.Implementations;
-using DCM.Application.Services.Interfaces;
-using DCM.Infrastructure.Persistence;
-using DCM.Infrastructure.Extensions;
+﻿using DCM.Infrastructure.Extensions;
 
 namespace DCM.API.Helpers
 {
@@ -11,6 +8,7 @@ namespace DCM.API.Helpers
         {
             // Registro dos repositórios e Unit of Work
             services.AddRepositories();
+
 
             // Registro dos serviços de aplicação
             services.AddScoped<IDbInitializer, DbInitializer>();

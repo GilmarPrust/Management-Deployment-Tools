@@ -1,0 +1,52 @@
+﻿using DCM.Core.Enums;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities.secondary
+{
+    /// <summary>
+    /// Representa uma dependência entre aplicações.
+    /// </summary>
+    public class ApplicationDependency : BaseEntity
+    {
+        /// <summary>
+        /// ID da aplicação que tem a dependência.
+        /// </summary>
+        [Required]
+        public Guid ApplicationId { get; set; }
+
+        /// <summary>
+        /// Aplicação que tem a dependência.
+        /// </summary>
+        public virtual Application Application { get; set; }
+
+        /// <summary>
+        /// ID da aplicação da qual depende.
+        /// </summary>
+        [Required]
+        public Guid DependsOnApplicationId { get; set; }
+
+        /// <summary>
+        /// Aplicação da qual depende.
+        /// </summary>
+        public virtual Application DependsOnApplication { get; set; }
+
+        /// <summary>
+        /// Descrição da dependência.
+        /// </summary>
+        [StringLength(200)]
+        public string? Description { get; set; }
+
+        /// <summary>
+        /// Tipo da dependência.
+        /// </summary>
+        [Required]
+        public DependencyType DependencyType { get; internal set; }
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public ApplicationDependency() { }
+    }
+}

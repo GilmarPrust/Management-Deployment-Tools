@@ -1,0 +1,204 @@
+﻿using DCM.Core.Enums;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using DCM.Core.Entities;
+using DCM.Core.ValueObjects;
+
+namespace DCM.Core.Entities.secondary
+{
+    /// <summary>
+    /// Representa o sistema de prioridades e dependências para instalação de aplicativos.
+    /// Controla a ordem de execução baseada em dependências e prioridades.
+    /// </summary>
+    public class ApplicationConfig : BaseEntity
+    {
+        /// <summary>
+        /// ID da aplicação principal.
+        /// </summary>
+        [Required]
+        public Guid ApplicationId { get; set; }
+
+        /// <summary>
+        /// Aplicação principal.
+        /// </summary>
+        public virtual Application Application { get; set; }
+
+        /// <summary>
+        /// Categoria do aplicativo.
+        /// </summary>
+        public ApplicationCategory Category { get; set; } = new ApplicationCategory();
+
+        /// <summary>
+        /// Lista de dependências das quais esta aplicação depende (devem executar antes).
+        /// </summary>
+        public virtual ICollection<ApplicationDependency> Dependencies { get; set; } = new List<ApplicationDependency>();
+
+        /// <summary>
+        /// Lista de aplicações que dependem desta (executam depois).
+        /// </summary>
+        public virtual ICollection<ApplicationDependency> Dependents { get; set; } = new List<ApplicationDependency>();
+
+        /// <summary>
+        /// Grupos de aplicações aos quais este aplicativo pertence (many-to-many).
+        /// </summary>
+        [Required]
+        public virtual ICollection<ApplicationGroup> Groups { get; set; } = new List<ApplicationGroup>();
+
+        /// <summary>
+        /// Grupos de aplicações - propriedade de compatibilidade para código existente.
+        /// </summary>
+        [Obsolete("Use Groups property instead")]
+        public virtual ICollection<ApplicationGroup> ApplicationGroups => Groups;
+
+        /// <summary>
+        /// Observações sobre a prioridade ou dependências.
+        /// </summary>
+        [StringLength(500)]
+        public string? Notes { get; set; }
+
+        /// <summary>
+        /// Indica se esta aplicação é obrigatória (não pode ser pulada na instalação).
+        /// </summary>
+        public bool IsRequired { get; set; } = false;
+
+        /// <summary>
+        /// Indica se esta aplicação deve ser instalada em modo silencioso.
+        /// </summary>
+        public bool IsSilentInstall { get; set; } = true;
+
+        /// <summary>
+        /// Tempo estimado de instalação em minutos.
+        /// </summary>
+        [Range(0, 999, ErrorMessage = "O tempo estimado deve estar entre 0 e 999 minutos.")]
+        public int EstimatedInstallTimeMinutes { get; set; } = 5;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public ApplicationConfig() { }
+
+        /// <summary>
+        /// Construtor para criar uma configuração padrão para uma aplicação.
+        /// </summary>
+        public ApplicationConfig(Guid applicationId, ApplicationGroup defaultGroup)
+        {
+            ApplicationId = applicationId;
+            IsRequired = false;
+            IsSilentInstall = true;
+            EstimatedInstallTimeMinutes = 5;
+            Notes = "Configuração criada automaticamente";
+
+            if (defaultGroup != null)
+            {
+                Groups.Add(defaultGroup);
+            }
+        }
+
+        /// <summary>
+        /// Cria uma configuração padrão com valores seguros para uma nova aplicação.
+        /// </summary>
+        public static ApplicationConfig CreateDefault(Guid applicationId, ApplicationGroup defaultGroup)
+        {
+            return new ApplicationConfig(applicationId, defaultGroup)
+            {
+                Notes = $"Configuração padrão criada automaticamente em {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC"
+            };
+        }
+
+        /// <summary>
+        /// Garante associação ao grupo padrão caso não existam grupos.
+        /// </summary>
+        public void EnsureDefaultGroup(ApplicationGroup defaultGroup)
+        {
+            if (defaultGroup == null) return;
+
+            if (Groups.Count == 0)
+            {
+                this.AddItem(Groups, defaultGroup);
+                Notes = (Notes ?? "") + $" | Adicionado ao grupo padrão '{defaultGroup.Name}' automaticamente.";
+            }
+        }
+
+        /// <summary>
+        /// Adiciona uma dependência a esta aplicação.
+        /// </summary>
+        public void AddDependency(Guid dependencyApplicationId, DependencyType dependencyType = DependencyType.Required)
+        {
+            if (dependencyApplicationId == ApplicationId)
+                throw new InvalidOperationException("Uma aplicação não pode depender de si mesma.");
+
+            var dependency = ApplicationDependency.Create(
+                ApplicationId,
+                dependencyApplicationId,
+                dependencyType
+            );
+
+            this.AddItem(Dependencies, dependency);
+        }
+
+        /// <summary>
+        /// Remove uma dependência desta aplicação.
+        /// </summary>
+        public void RemoveDependency(Guid dependencyApplicationId)
+        {
+            var dependency = Dependencies.FirstOrDefault(d => d.DependsOnApplicationId == dependencyApplicationId);
+            if (dependency != null)
+            {
+                this.RemoveItem(Dependencies, dependency);
+            }
+        }
+
+        #region Groups - Domain Encapsulation
+        public void AddToGroup(ApplicationGroup group)
+            => this.AddItem(Groups, group);
+
+        public void RemoveFromGroup(ApplicationGroup group)
+            => this.RemoveItem(Groups, group);
+
+        public bool IsInGroup(string groupName)
+        {
+            foreach (var group in Groups)
+            {
+                if (group.Name.Equals(groupName, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
+        public bool IsInDefaultGroup => IsInGroup("ALL");
+        public bool HasGroups => Groups.Count > 0;
+        #endregion
+
+        #region Devices - Domain Encapsulation
+        public void AddDevice(Device device)
+            => this.AddItem(Devices, device);
+
+        public void RemoveDevice(Device device)
+            => this.RemoveItem(Devices, device);
+
+        public bool ContainsDevice(Device device) => Devices.ContainsItem(device);
+        #endregion
+
+        #region DeviceModels - Domain Encapsulation
+        public void AddDeviceModel(DeviceModel model)
+            => this.AddItem(DeviceModels, model);
+
+        public void RemoveDeviceModel(DeviceModel model)
+            => this.RemoveItem(DeviceModels, model);
+
+        public bool ContainsDeviceModel(DeviceModel model) => DeviceModels.ContainsItem(model);
+        #endregion
+
+        #region DeployProfiles - Domain Encapsulation
+        public void AddDeployProfile(DeployProfile profile)
+            => this.AddItem(DeployProfiles, profile);
+
+        public void RemoveDeployProfile(DeployProfile profile)
+            => this.RemoveItem(DeployProfiles, profile);
+
+        public bool ContainsDeployProfile(DeployProfile profile) => DeployProfiles.ContainsItem(profile);
+        #endregion
+    }
+}

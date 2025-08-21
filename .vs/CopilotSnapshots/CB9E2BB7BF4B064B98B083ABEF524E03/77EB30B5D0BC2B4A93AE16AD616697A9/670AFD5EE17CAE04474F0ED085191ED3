@@ -1,0 +1,258 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DCM.Core.Entities.secondary
+{
+    /// <summary>
+    /// Representa o sistema de prioridades e dependências para instalação de aplicativos.
+    /// Controla a ordem de execução baseada em dependências e prioridades.
+    /// </summary>
+    public class PriorityApplications : BaseEntity
+    {
+        /// <summary>
+        /// ID da aplicação principal.
+        /// </summary>
+        [Required]
+        public Guid ApplicationId { get; set; }
+
+        /// <summary>
+        /// Aplicação principal.
+        /// </summary>
+        public virtual Application Application { get; set; }
+
+        /// <summary>
+        /// Prioridade de instalação (1 = maior prioridade, números maiores = menor prioridade).
+        /// </summary>
+        [Range(1, 9999, ErrorMessage = "A prioridade deve estar entre 1 e 9999.")]
+        public int Priority { get; set; } = 100;
+
+        /// <summary>
+        /// Tipo de prioridade para categorização.
+        /// </summary>
+        public PriorityType PriorityType { get; set; } = PriorityType.Normal;
+
+        /// <summary>
+        /// Lista de IDs de aplicações das quais esta aplicação depende.
+        /// Essas aplicações devem ser instaladas ANTES desta.
+        /// </summary>
+        public virtual ICollection<ApplicationDependency> Dependencies { get; set; } = new List<ApplicationDependency>();
+
+        /// <summary>
+        /// Lista de aplicações que dependem desta.
+        /// Esta aplicação deve ser instalada ANTES delas.
+        /// </summary>
+        public virtual ICollection<ApplicationDependency> Dependents { get; set; } = new List<ApplicationDependency>();
+
+        /// <summary>
+        /// Observações sobre a prioridade ou dependências.
+        /// </summary>
+        [StringLength(500)]
+        public string? Notes { get; set; }
+
+        /// <summary>
+        /// Indica se esta aplicação é obrigatória (não pode ser pulada na instalação).
+        /// </summary>
+        public bool IsRequired { get; set; } = false;
+
+        /// <summary>
+        /// Indica se esta aplicação deve ser instalada em modo silencioso.
+        /// </summary>
+        public bool IsSilentInstall { get; set; } = true;
+
+        /// <summary>
+        /// Tempo estimado de instalação em minutos.
+        /// </summary>
+        [Range(0, 999, ErrorMessage = "O tempo estimado deve estar entre 0 e 999 minutos.")]
+        public int EstimatedInstallTimeMinutes { get; set; } = 5;
+
+        /// <summary>
+        /// Grupo de instalação para instalações paralelas.
+        /// </summary>
+        [StringLength(50)]
+        public string? InstallationGroup { get; set; }
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public PriorityApplications() { }
+
+        /// <summary>
+        /// Construtor para criar uma nova prioridade de aplicação.
+        /// </summary>
+        /// <param name="applicationId">ID da aplicação</param>
+        /// <param name="priority">Prioridade de instalação</param>
+        /// <param name="priorityType">Tipo de prioridade</param>
+        public PriorityApplications(Guid applicationId, int priority, PriorityType priorityType = PriorityType.Normal)
+        {
+            ApplicationId = applicationId;
+            Priority = priority;
+            PriorityType = priorityType;
+        }
+
+        /// <summary>
+        /// Adiciona uma dependência a esta aplicação.
+        /// </summary>
+        /// <param name="dependencyApplicationId">ID da aplicação da qual esta depende</param>
+        /// <param name="dependencyType">Tipo de dependência</param>
+        public void AddDependency(Guid dependencyApplicationId, DependencyType dependencyType = DependencyType.Required)
+        {
+            if (dependencyApplicationId == ApplicationId)
+                throw new InvalidOperationException("Uma aplicação não pode depender de si mesma.");
+
+            var dependency = new ApplicationDependency
+            {
+                ApplicationId = ApplicationId,
+                DependsOnApplicationId = dependencyApplicationId,
+                DependencyType = dependencyType
+            };
+
+            Dependencies.Add(dependency);
+        }
+
+        /// <summary>
+        /// Remove uma dependência desta aplicação.
+        /// </summary>
+        /// <param name="dependencyApplicationId">ID da aplicação da dependência a ser removida</param>
+        public void RemoveDependency(Guid dependencyApplicationId)
+        {
+            var dependency = Dependencies.FirstOrDefault(d => d.DependsOnApplicationId == dependencyApplicationId);
+            if (dependency != null)
+            {
+                Dependencies.Remove(dependency);
+            }
+        }
+
+        /// <summary>
+        /// Verifica se esta aplicação tem dependências não resolvidas.
+        /// </summary>
+        /// <param name="installedApplicationIds">IDs das aplicações já instaladas</param>
+        /// <returns>True se todas as dependências estão resolvidas</returns>
+        public bool AreDependenciesResolved(IEnumerable<Guid> installedApplicationIds)
+        {
+            var installedSet = installedApplicationIds.ToHashSet();
+            
+            return Dependencies
+                .Where(d => d.DependencyType == DependencyType.Required)
+                .All(d => installedSet.Contains(d.DependsOnApplicationId));
+        }
+
+        /// <summary>
+        /// Obtém a lista de dependências obrigatórias não resolvidas.
+        /// </summary>
+        /// <param name="installedApplicationIds">IDs das aplicações já instaladas</param>
+        /// <returns>Lista de IDs de dependências não resolvidas</returns>
+        public IEnumerable<Guid> GetUnresolvedDependencies(IEnumerable<Guid> installedApplicationIds)
+        {
+            var installedSet = installedApplicationIds.ToHashSet();
+            
+            return Dependencies
+                .Where(d => d.DependencyType == DependencyType.Required && !installedSet.Contains(d.DependsOnApplicationId))
+                .Select(d => d.DependsOnApplicationId);
+        }
+    }
+
+    /// <summary>
+    /// Representa uma dependência entre aplicações.
+    /// </summary>
+    public class ApplicationDependency : BaseEntity
+    {
+        /// <summary>
+        /// ID da aplicação que tem a dependência.
+        /// </summary>
+        [Required]
+        public Guid ApplicationId { get; set; }
+
+        /// <summary>
+        /// Aplicação que tem a dependência.
+        /// </summary>
+        public virtual Application Application { get; set; }
+
+        /// <summary>
+        /// ID da aplicação da qual depende.
+        /// </summary>
+        [Required]
+        public Guid DependsOnApplicationId { get; set; }
+
+        /// <summary>
+        /// Aplicação da qual depende.
+        /// </summary>
+        public virtual Application DependsOnApplication { get; set; }
+
+        /// <summary>
+        /// Tipo de dependência.
+        /// </summary>
+        public DependencyType DependencyType { get; set; } = DependencyType.Required;
+
+        /// <summary>
+        /// Descrição da dependência.
+        /// </summary>
+        [StringLength(200)]
+        public string? Description { get; set; }
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public ApplicationDependency() { }
+    }
+
+    /// <summary>
+    /// Tipos de prioridade para aplicações.
+    /// </summary>
+    public enum PriorityType
+    {
+        /// <summary>
+        /// Prioridade crítica - deve ser instalado primeiro.
+        /// </summary>
+        Critical = 1,
+
+        /// <summary>
+        /// Prioridade alta - importante para o funcionamento do sistema.
+        /// </summary>
+        High = 2,
+
+        /// <summary>
+        /// Prioridade normal - aplicações padrão.
+        /// </summary>
+        Normal = 3,
+
+        /// <summary>
+        /// Prioridade baixa - aplicações opcionais.
+        /// </summary>
+        Low = 4,
+
+        /// <summary>
+        /// Prioridade opcional - pode ser instalado por último.
+        /// </summary>
+        Optional = 5
+    }
+
+    /// <summary>
+    /// Tipos de dependência entre aplicações.
+    /// </summary>
+    public enum DependencyType
+    {
+        /// <summary>
+        /// Dependência obrigatória - deve ser instalada antes.
+        /// </summary>
+        Required = 1,
+
+        /// <summary>
+        /// Dependência recomendada - é melhor instalar antes, mas não obrigatório.
+        /// </summary>
+        Recommended = 2,
+
+        /// <summary>
+        /// Dependência opcional - pode ser instalada antes ou depois.
+        /// </summary>
+        Optional = 3,
+
+        /// <summary>
+        /// Conflito - não pode ser instalada junto.
+        /// </summary>
+        Conflict = 4
+    }
+}

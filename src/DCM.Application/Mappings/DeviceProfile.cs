@@ -12,7 +12,7 @@ namespace DCM.Application.Mappings
             CreateMap<Device, DeviceReadDTO>()
                 .ForMember(dest => dest.ComputerName, opt => opt.MapFrom(src => src.ComputerName.Value))
                 .ForMember(dest => dest.MacAddress, opt => opt.MapFrom(src => src.MacAddress.Value))
-                .ForMember(dest => dest.ApplicationIds, opt => opt.MapFrom(src => src.Applications.Select(app => app.Id)))
+                .ForMember(dest => dest.ApplicationIds, opt => opt.MapFrom(src => src.ApplicationGroups.Select(app => app.Id)))
                 .ForMember(dest => dest.AppxPackageIds, opt => opt.MapFrom(src => src.AppxPackages.Select(app => app.Id)))
                 .ForMember(dest => dest.DriverPackIds, opt => opt.MapFrom(src => src.DriverPacks.Select(dp => dp.Id)));
 
@@ -27,7 +27,7 @@ namespace DCM.Application.Mappings
                 .ForMember(dest => dest.DeviceModel, opt => opt.Ignore())
                 .ForMember(dest => dest.DeployProfile, opt => opt.Ignore())
                 .ForMember(dest => dest.Inventory, opt => opt.Ignore())
-                .ForMember(dest => dest.Applications, opt => opt.Ignore())
+                .ForMember(dest => dest.ApplicationGroups, opt => opt.Ignore())
                 .ForMember(dest => dest.DriverPacks, opt => opt.Ignore())
                 .ForMember(dest => dest.AppxPackages, opt => opt.Ignore());
 
@@ -42,7 +42,7 @@ namespace DCM.Application.Mappings
                 .ForMember(dest => dest.DeviceModel, opt => opt.Ignore())
                 .ForMember(dest => dest.DeployProfile, opt => opt.Ignore())
                 .ForMember(dest => dest.Inventory, opt => opt.Ignore())
-                .ForMember(dest => dest.Applications, opt => opt.MapFrom(src => new List<DCM.Core.Entities.Application>()))
+                .ForMember(dest => dest.ApplicationGroups, opt => opt.MapFrom(src => new List<DCM.Core.Entities.Application>()))
                 .ForMember(dest => dest.DriverPacks, opt => opt.MapFrom(src => new List<DriverPack>()))
                 .ForMember(dest => dest.AppxPackages, opt => opt.MapFrom(src => new List<AppxPackage>()));
         }

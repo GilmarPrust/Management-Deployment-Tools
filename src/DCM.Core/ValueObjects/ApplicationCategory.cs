@@ -9,10 +9,19 @@ namespace DCM.Core.ValueObjects
     public sealed class ApplicationCategory
     {
         /// <summary>
-        /// Categoria do aplicativo (ex: "Produtividade", "Desenvolvimento", "Sistema", "Jogos", "Utilitários", "Educação", "Financeiro", "Segurança", "Fiscal").
+        /// Campo privado para a categoria.
+        /// </summary>
+        private string _name = string.Empty;
+
+        /// <summary>
+        /// Categoria do aplicativo (ex: "Produtividade", "Desenvolvimento", "Sistema").
         /// </summary>
         [Required, StringLength(50)]
-        public string Name { get; set; } = string.Empty;
+        public string Name 
+        { 
+            get => _name;
+            set => _name = !string.IsNullOrWhiteSpace(value) ? value : throw new ArgumentException("Category name cannot be empty", nameof(value));
+        }
 
         /// <summary>
         /// Descrição opcional da categoria.
@@ -31,22 +40,41 @@ namespace DCM.Core.ValueObjects
         /// <param name="name">Nome da categoria</param>
         public ApplicationCategory(string name)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Category name cannot be empty", nameof(name));
+            
+            _name = name;
         }
+
+        /// <summary>
+        /// Cria uma categoria padrão para aplicações sem categoria específica.
+        /// </summary>
+        public static ApplicationCategory Default() => new ApplicationCategory("Produtividade");
+
+        /// <summary>
+        /// Cria uma categoria do sistema.
+        /// </summary>
+        public static ApplicationCategory System() => new ApplicationCategory("Sistema");
+
+        /// <summary>
+        /// Valida se uma categoria é válida.
+        /// </summary>
+        public bool IsValid() => !string.IsNullOrWhiteSpace(_name);
 
         public override bool Equals(object? obj)
         {
-            return obj is ApplicationCategory other && Name == other.Name;
+            return obj is ApplicationCategory other && 
+                   string.Equals(_name, other._name, StringComparison.OrdinalIgnoreCase);
         }
 
         public override int GetHashCode()
         {
-            return Name?.GetHashCode() ?? 0;
+            return _name?.GetHashCode(StringComparison.OrdinalIgnoreCase) ?? 0;
         }
 
         public override string ToString()
         {
-            return Name;
+            return _name;
         }
     }
 }

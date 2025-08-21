@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DCM.Core.Entities.secondary
+{
+    public class DomainCollection<T> where T : class
+    {
+        private readonly List<T> _items = new();
+        private readonly Action<T>? _validateAdd;
+        private readonly Action<T>? _validateRemove;
+
+        public DomainCollection(Action<T>? validateAdd = null, Action<T>? validateRemove = null)
+        {
+            _validateAdd = validateAdd;
+            _validateRemove = validateRemove;
+        }
+
+        public IReadOnlyCollection<T> Items => _items.AsReadOnly();
+
+        public void Add(T item)
+        {
+            ArgumentNullException.ThrowIfNull(item);
+
+            if (_items.Contains(item))
+                return;
+
+            _validateAdd?.Invoke(item);
+
+            _items.Add(item);
+        }
+
+        public void Remove(T item)
+        {
+            ArgumentNullException.ThrowIfNull(item);
+
+            if (!_items.Contains(item))
+                return;
+
+            _validateRemove?.Invoke(item);
+
+            _items.Remove(item);
+        }
+
+        public bool Contains(T item) => item != null && _items.Contains(item);
+
+        public int Count => _items.Count;
+    }
+}
+

@@ -1,4 +1,5 @@
 using DCM.Core.Entities;
+using DCM.Core.Entities.secondary;
 using DCM.Core.Enums;
 using DCM.Core.ValueObjects;
 
@@ -44,19 +45,26 @@ namespace DCM.Infrastructure.Persistence
                 _context.SaveChanges();
             }
 
+            // 1.1. Garante que o grupo de aplicações padrão "ALL" existe.
+            if (!_context.ApplicationGroups.Any(ag => ag.Name == "ALL"))
+            {
+                var defaultApplicationGroup = new ApplicationGroup
+                {
+                    Name = "ALL",
+                    Description = "Grupo padrão para todas as aplicações. Criado automaticamente pelo sistema.",
+                    Priority = 100
+                };
+                _context.ApplicationGroups.Add(defaultApplicationGroup);
+                _context.SaveChanges();
+            }
+
             // 2. Garante que o modelo de dispositivo desconhecido existe.
             if (!_context.DeviceModels.Any(dm => dm.Model == "Unknown"))
             {
                 var defaultmanufacturer = _context.Manufacturers.First(m => m.Name == "Unknown");
-                var defaultDeviceModel = new DeviceModel
-                {
-                    Manufacturer = defaultmanufacturer.Name,
-                    Model = "Unknown",
-                    Type = ""
-                };
+                var defaultDeviceModel = new DeviceModel("Unknown", "Unknown", "Unknown");
                 _context.DeviceModels.Add(defaultDeviceModel);
                 _context.SaveChanges();
-
             }
 
             // 3. Garante que o dispositivo padrão existe.
@@ -86,8 +94,27 @@ namespace DCM.Infrastructure.Persistence
                     Source = "\\Applications\\TestApp\\1.0",
                     Filter = "",
                     Hash = "1234567890abcdef1234567890abcdef1234567890abcdef1234567890fdsaer",
+                    Category = new ApplicationCategory("Teste")
                 };
                 _context.Applications.Add(application);
+                _context.SaveChanges();
+
+                // 4.1. Criar ApplicationConfig automaticamente para a aplicação de teste
+                var defaultGroup = _context.ApplicationGroups.First(ag => ag.Name == "ALL");
+                var applicationConfig = new ApplicationConfig
+                {
+                    ApplicationId = application.Id,
+                    IsRequired = false,
+                    IsSilentInstall = true,
+                    EstimatedInstallTimeMinutes = 5,
+                    Notes = $"Configuração padrão criada automaticamente em {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC"
+                };
+                
+                _context.ApplicationConfigs.Add(applicationConfig);
+                
+                // 4.2. Associar o config à aplicação
+                application.Config = applicationConfig;
+                _context.Applications.Update(application);
                 _context.SaveChanges();
             }
 
@@ -102,7 +129,8 @@ namespace DCM.Infrastructure.Persistence
                     Architecture = "X64",
                     PackageFamilyName = "Microsoft.AppxForWindows_8wekyb3d8bbwe",
                     PackageFullName = "Microsoft.AppxForWindows_1.0000.000.000_x64__8wekyb3d8bbwe",
-                    Status = "OK"
+                    Status = "OK",
+                    Category = new ApplicationCategory("Teste")
                 };
                 _context.AppxPackages.Add(appxpackage);
                 _context.SaveChanges();
@@ -111,16 +139,15 @@ namespace DCM.Infrastructure.Persistence
             // 6. Garante que o DriverPack de teste existe.
             if (!_context.DriverPacks.Any(dp => dp.FileName == "Test.DriverPack.cab"))
             {
-                var driverPack = new DriverPack
-                {
-                    FileName = "Test.DriverPack.cab",
-                    OS = "Win11",
-                    Version = "1.0.0",
-                    Source = "\\DriverPacks\\Test.DriverPack\\1.0",
-                    Hash = "bbcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567891",
-                    DeviceModelId = _context.DeviceModels.First(dm => dm.Model == "Unknown").Id,
-                    IsOEM = true,
-                };
+                var unknownDeviceModel = _context.DeviceModels.First(dm => dm.Model == "Unknown");
+                var driverPack = new DriverPack(
+                    "Test.DriverPack.cab",
+                    "Win11",
+                    "1.0.0",
+                    "\\DriverPacks\\Test.DriverPack\\1.0",
+                    "bbcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567891",
+                    unknownDeviceModel
+                );
                 _context.DriverPacks.Add(driverPack);
                 _context.SaveChanges();
             }
@@ -128,14 +155,15 @@ namespace DCM.Infrastructure.Persistence
             // 7. Garante que o Firmware de teste existe.
             if (!_context.Firmwares.Any(f => f.FileName == "TestFirmware.exe"))
             {
-                var firmware = new Firmware
-                {
-                    FileName = "TestFirmware.exe",
-                    Version = "1.0.0",
-                    Source = "\\Firmwares\\TestFirmware\\1.0",
-                    Hash = "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
-                    DeviceModelId = _context.DeviceModels.First(dm => dm.Model == "Unknown").Id
-                };
+                var unknownDeviceModel = _context.DeviceModels.First(dm => dm.Model == "Unknown");
+                var firmware = new Firmware(
+                    "TestFirmware.exe",
+                    "1.0.0",
+                    "\\Firmwares\\TestFirmware\\1.0",
+                    "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+                    unknownDeviceModel,
+                    "Firmware de teste para dispositivos desconhecidos"
+                );
                 _context.Firmwares.Add(firmware);
                 _context.SaveChanges();
 

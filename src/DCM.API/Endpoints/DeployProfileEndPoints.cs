@@ -71,7 +71,7 @@
             // GET - Applications by DeployProfileId
             group.MapGet("/{id:guid}/applications", async (Guid id, IDeployProfileService service) =>
             {
-                var applications = await service.GetApplicationsByDeployProfileIdAsync(id);
+                var applications = await service.GetByIdAsync(id);
                 return applications is not null ? Results.Ok(applications) : Results.NotFound();
             })
             .WithName("GetApplicationsByDeployProfileId");
@@ -79,7 +79,7 @@
             // GET - Devices by DeployProfileId
             group.MapGet("/{id:guid}/devices", async (Guid id, IDeployProfileService service) =>
             {
-                var devices = await service.GetDevicesByDeployProfileIdAsync(id);
+                var devices = await service.GetByIdAsync(id);
                 return devices is not null ? Results.Ok(devices) : Results.NotFound();
             })
             .WithName("GetDevicesByDeployProfileId");
@@ -91,7 +91,7 @@
                 if (!validation.IsValid)
                     return Results.BadRequest(validation.Errors);
 
-                var result = await service.UpdateDevicesAsync(id, dto.DeviceIds);
+                var result = await service.UpdateAsync(id, dto.Deploy);
                 return result ? Results.NoContent() : Results.NotFound();
             })
             .WithName("UpdateDevicesByDeployProfileId");

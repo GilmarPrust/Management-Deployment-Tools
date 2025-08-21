@@ -1,0 +1,109 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace DCM.Core.Services.DeployProfile
+{
+    public interface IDeployProfileAssignmentService
+    {
+        #region Device Assignment
+        /// <summary>
+        /// Adiciona um dispositivo a um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <param name="deviceId">ID do dispositivo a ser adicionado</param>
+        /// <returns>True se adicionado com sucesso</returns>
+        Task<bool> AddDevice(Guid profileId, Guid deviceId);
+        
+        /// <summary>
+        /// Remove um dispositivo de um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <param name="deviceId">ID do dispositivo a ser removido</param>
+        /// <returns>True se removido com sucesso</returns>
+        Task<bool> RemoveDevice(Guid profileId, Guid deviceId);
+
+        /// <summary>
+        /// Obtém todos os dispositivos de um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <returns>Lista de IDs de dispositivos</returns>
+        Task<List<Guid>> GetDevices(Guid profileId);
+        #endregion
+
+        #region Application Group Assignment
+        /// <summary>
+        /// Adiciona um grupo de aplicações a um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <param name="applicationGroupId">ID do grupo de aplicações a ser adicionado</param>
+        /// <returns>True se adicionado com sucesso</returns>
+        Task<bool> AddApplicationGroup(Guid profileId, Guid applicationGroupId);
+
+        /// <summary>
+        /// Remove um grupo de aplicações de um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <param name="applicationGroupId">ID do grupo de aplicações a ser removido</param>
+        /// <returns>True se removido com sucesso</returns>
+        Task<bool> RemoveApplicationGroup(Guid profileId, Guid applicationGroupId);
+
+        /// <summary>
+        /// Obtém todos os grupos de aplicações de um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <returns>Lista de IDs de grupos de aplicações</returns>
+        Task<List<Guid>> GetApplicationGroups(Guid profileId);
+        #endregion
+
+        #region Appx Package Group Assignment
+        /// <summary>
+        /// Adiciona um grupo de pacotes AppX a um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <param name="appxPackageGroupId">ID do grupo de pacotes AppX a ser adicionado</param>
+        /// <returns>True se adicionado com sucesso</returns>
+        Task<bool> AddAppxPackageGroup(Guid profileId, Guid appxPackageGroupId);
+
+        /// <summary>
+        /// Remove um grupo de pacotes AppX de um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <param name="appxPackageGroupId">ID do grupo de pacotes AppX a ser removido</param>
+        /// <returns>True se removido com sucesso</returns>
+        Task<bool> RemoveAppxPackageGroup(Guid profileId, Guid appxPackageGroupId);
+
+        /// <summary>
+        /// Obtém todos os grupos de pacotes AppX de um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <returns>Lista de IDs de grupos de pacotes AppX</returns>
+        Task<List<Guid>> GetAppxPackageGroups(Guid profileId);
+        #endregion
+
+        #region ProfileTask Assignment
+        /// <summary>
+        /// Adiciona uma tarefa de perfil a um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <param name="profileTaskId">ID da tarefa de perfil a ser adicionada</param>
+        /// <returns>True se adicionado com sucesso</returns>
+        Task<bool> AddProfileTask(Guid profileId, Guid profileTaskId);
+
+        /// <summary>
+        /// Remove uma tarefa de perfil de um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <param name="profileTaskId">ID da tarefa de perfil a ser removida</param>
+        /// <returns>True se removido com sucesso</returns>
+        Task<bool> RemoveProfileTask(Guid profileId, Guid profileTaskId);
+
+        /// <summary>
+        /// Obtém todos os IDs de tarefas de perfil de um perfil de implantação.
+        /// </summary>
+        /// <param name="profileId">ID do perfil de implantação</param>
+        /// <returns>Lista de IDs de tarefas de perfil</returns>
+        Task<List<Guid>> GetProfileTasks(Guid profileId);
+        #endregion
+    }
+}

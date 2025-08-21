@@ -1,0 +1,16 @@
+﻿using DCM.Application.DTOs.DeployProfile;
+
+namespace DCM.Application.Services.Interfaces
+{
+    public interface IDeployProfileService
+    {
+        Task<IEnumerable<DeployProfileReadDTO>> GetAllAsync(CancellationToken cancellationToken = default);
+        Task<DeployProfileReadDTO?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<DeployProfileReadDTO?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
+        Task<IEnumerable<DeployProfileReadDTO>> GetActiveProfilesAsync(CancellationToken cancellationToken = default);
+        Task<DeployProfileReadDTO> CreateAsync(DeployProfileCreateDTO dto, CancellationToken cancellationToken = default);
+        Task<DeployProfileReadDTO?> UpdateAsync(Guid id, DeployProfileUpdateDTO dto, CancellationToken cancellationToken = default);
+        Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
+    }
+}

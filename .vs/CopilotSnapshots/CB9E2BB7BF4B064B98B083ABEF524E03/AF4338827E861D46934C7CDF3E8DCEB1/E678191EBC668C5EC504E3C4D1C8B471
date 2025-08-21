@@ -1,0 +1,512 @@
+﻿using DCM.Core.Entities;
+using DCM.Core.Entities.secondary;
+using DCM.Core.Interfaces.Repositories;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace DCM.Core.Services.DeployProfile
+{
+    /// <summary>
+    /// Implementação do serviço de domínio para associações de perfis de implantação.
+    /// </summary>
+    public class DeployProfileAssignmentService : IDeployProfileAssignmentService
+    {
+        private readonly IDeployProfileRepository _deployProfileRepository;
+        private readonly IDeviceRepository _deviceRepository;
+        private readonly IApplicationGroupRepository _applicationGroupRepository;
+        private readonly IProfileTaskRepository _profileTaskRepository;
+        private readonly IAppxPackageGroupRepository _appxPackageGroupRepository;
+        private readonly ILogger<DeployProfileAssignmentService> _logger;
+
+        public DeployProfileAssignmentService(
+            IDeployProfileRepository deployProfileRepository,
+            IDeviceRepository deviceRepository,
+            IApplicationGroupRepository applicationGroupRepository,
+            IProfileTaskRepository profileTaskRepository,
+            IAppxPackageGroupRepository appxPackageGroupRepository,
+            ILogger<DeployProfileAssignmentService> logger)
+        {
+            _deployProfileRepository = deployProfileRepository ?? throw new ArgumentNullException(nameof(deployProfileRepository));
+            _deviceRepository = deviceRepository ?? throw new ArgumentNullException(nameof(deviceRepository));
+            _applicationGroupRepository = applicationGroupRepository ?? throw new ArgumentNullException(nameof(applicationGroupRepository));
+            _profileTaskRepository = profileTaskRepository ?? throw new ArgumentNullException(nameof(profileTaskRepository));
+            _appxPackageGroupRepository = appxPackageGroupRepository ?? throw new ArgumentNullException(nameof(appxPackageGroupRepository));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        #region Device Assignment
+
+        /// <inheritdoc/>
+        public async Task<bool> AddDevice(Guid profileId, Guid deviceId)
+        {
+            try
+            {
+                _logger.LogDebug("Adicionando dispositivo {DeviceId} ao perfil {ProfileId}", deviceId, profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return false;
+                }
+
+                var device = await _deviceRepository.GetByIdAsync(deviceId);
+                if (device == null)
+                {
+                    _logger.LogWarning("Dispositivo não encontrado: {DeviceId}", deviceId);
+                    return false;
+                }
+
+                // Validar se pode adicionar
+                if (!ValidateDeviceAssignment(device, profile))
+                {
+                    _logger.LogWarning("Dispositivo {DeviceId} não pode ser associado ao perfil {ProfileId}", deviceId, profileId);
+                    return false;
+                }
+
+                // Verificar se já está associado
+                if (profile.ContainsDevice(device))
+                {
+                    _logger.LogDebug("Dispositivo {DeviceId} já está associado ao perfil {ProfileId}", deviceId, profileId);
+                    return true;
+                }
+
+                // Adicionar dispositivo ao perfil
+                profile.AddDeviceInternal(device);
+                device.DeployProfileId = profileId;
+
+                await _deployProfileRepository.UpdateAsync(profile);
+                await _deviceRepository.UpdateAsync(device);
+
+                _logger.LogInformation("Dispositivo {DeviceId} adicionado com sucesso ao perfil {ProfileId}", deviceId, profileId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao adicionar dispositivo {DeviceId} ao perfil {ProfileId}", deviceId, profileId);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> RemoveDevice(Guid profileId, Guid deviceId)
+        {
+            try
+            {
+                _logger.LogDebug("Removendo dispositivo {DeviceId} do perfil {ProfileId}", deviceId, profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return false;
+                }
+
+                var device = await _deviceRepository.GetByIdAsync(deviceId);
+                if (device == null)
+                {
+                    _logger.LogWarning("Dispositivo não encontrado: {DeviceId}", deviceId);
+                    return false;
+                }
+
+                // Verificar se está associado
+                if (!profile.ContainsDevice(device))
+                {
+                    _logger.LogDebug("Dispositivo {DeviceId} não está associado ao perfil {ProfileId}", deviceId, profileId);
+                    return true;
+                }
+
+                // Remover dispositivo do perfil
+                profile.RemoveDeviceInternal(device);
+                device.DeployProfileId = null;
+
+                await _deployProfileRepository.UpdateAsync(profile);
+                await _deviceRepository.UpdateAsync(device);
+
+                _logger.LogInformation("Dispositivo {DeviceId} removido com sucesso do perfil {ProfileId}", deviceId, profileId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao remover dispositivo {DeviceId} do perfil {ProfileId}", deviceId, profileId);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<List<Guid>> GetDevices(Guid profileId)
+        {
+            try
+            {
+                _logger.LogDebug("Obtendo dispositivos do perfil {ProfileId}", profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return new List<Guid>();
+                }
+
+                var deviceIds = profile.Devices.Select(d => d.Id).ToList();
+                _logger.LogDebug("Encontrados {Count} dispositivos no perfil {ProfileId}", deviceIds.Count, profileId);
+                
+                return deviceIds;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao obter dispositivos do perfil {ProfileId}", profileId);
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Application Group Assignment
+
+        /// <inheritdoc/>
+        public async Task<bool> AddApplicationGroup(Guid profileId, Guid applicationGroupId)
+        {
+            try
+            {
+                _logger.LogDebug("Adicionando grupo de aplicações {ApplicationGroupId} ao perfil {ProfileId}", applicationGroupId, profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return false;
+                }
+
+                var applicationGroup = await _applicationGroupRepository.GetByIdAsync(applicationGroupId);
+                if (applicationGroup == null)
+                {
+                    _logger.LogWarning("Grupo de aplicações não encontrado: {ApplicationGroupId}", applicationGroupId);
+                    return false;
+                }
+
+                // Verificar se já está associado
+                if (profile.ContainsApplicationGroup(applicationGroup))
+                {
+                    _logger.LogDebug("Grupo de aplicações {ApplicationGroupId} já está associado ao perfil {ProfileId}", applicationGroupId, profileId);
+                    return true;
+                }
+
+                // Adicionar grupo de aplicações ao perfil
+                profile.AddApplicationGroup(applicationGroup);
+                await _deployProfileRepository.UpdateAsync(profile);
+
+                _logger.LogInformation("Grupo de aplicações {ApplicationGroupId} adicionado com sucesso ao perfil {ProfileId}", applicationGroupId, profileId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao adicionar grupo de aplicações {ApplicationGroupId} ao perfil {ProfileId}", applicationGroupId, profileId);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> RemoveApplicationGroup(Guid profileId, Guid applicationGroupId)
+        {
+            try
+            {
+                _logger.LogDebug("Removendo grupo de aplicações {ApplicationGroupId} do perfil {ProfileId}", applicationGroupId, profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return false;
+                }
+
+                var applicationGroup = await _applicationGroupRepository.GetByIdAsync(applicationGroupId);
+                if (applicationGroup == null)
+                {
+                    _logger.LogWarning("Grupo de aplicações não encontrado: {ApplicationGroupId}", applicationGroupId);
+                    return false;
+                }
+
+                // Remover grupo de aplicações do perfil
+                var removed = profile.RemoveApplicationGroup(applicationGroup);
+                if (!removed)
+                {
+                    _logger.LogDebug("Grupo de aplicações {ApplicationGroupId} não estava associado ao perfil {ProfileId}", applicationGroupId, profileId);
+                    return true;
+                }
+
+                await _deployProfileRepository.UpdateAsync(profile);
+
+                _logger.LogInformation("Grupo de aplicações {ApplicationGroupId} removido com sucesso do perfil {ProfileId}", applicationGroupId, profileId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao remover grupo de aplicações {ApplicationGroupId} do perfil {ProfileId}", applicationGroupId, profileId);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<List<Guid>> GetApplicationGroups(Guid profileId)
+        {
+            try
+            {
+                _logger.LogDebug("Obtendo grupos de aplicações do perfil {ProfileId}", profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return new List<Guid>();
+                }
+
+                var applicationGroupIds = profile.ApplicationGroups.Select(ag => ag.Id).ToList();
+                _logger.LogDebug("Encontrados {Count} grupos de aplicações no perfil {ProfileId}", applicationGroupIds.Count, profileId);
+                
+                return applicationGroupIds;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao obter grupos de aplicações do perfil {ProfileId}", profileId);
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Profile Task Assignment
+
+        /// <inheritdoc/>
+        public async Task<bool> AddProfileTask(Guid profileId, Guid profileTaskId)
+        {
+            try
+            {
+                _logger.LogDebug("Adicionando tarefa {ProfileTaskId} ao perfil {ProfileId}", profileTaskId, profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return false;
+                }
+
+                var profileTask = await _profileTaskRepository.GetByIdAsync(profileTaskId);
+                if (profileTask == null)
+                {
+                    _logger.LogWarning("Tarefa de perfil não encontrada: {ProfileTaskId}", profileTaskId);
+                    return false;
+                }
+
+                // Adicionar tarefa ao perfil
+                profile.AddProfileTask(profileTask);
+                await _deployProfileRepository.UpdateAsync(profile);
+
+                _logger.LogInformation("Tarefa {ProfileTaskId} adicionada com sucesso ao perfil {ProfileId}", profileTaskId, profileId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao adicionar tarefa {ProfileTaskId} ao perfil {ProfileId}", profileTaskId, profileId);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> RemoveProfileTask(Guid profileId, Guid profileTaskId)
+        {
+            try
+            {
+                _logger.LogDebug("Removendo tarefa {ProfileTaskId} do perfil {ProfileId}", profileTaskId, profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return false;
+                }
+
+                var profileTask = await _profileTaskRepository.GetByIdAsync(profileTaskId);
+                if (profileTask == null)
+                {
+                    _logger.LogWarning("Tarefa de perfil não encontrada: {ProfileTaskId}", profileTaskId);
+                    return false;
+                }
+
+                // Remover tarefa do perfil
+                profile.RemoveProfileTask(profileTask);
+                await _deployProfileRepository.UpdateAsync(profile);
+
+                _logger.LogInformation("Tarefa {ProfileTaskId} removida com sucesso do perfil {ProfileId}", profileTaskId, profileId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao remover tarefa {ProfileTaskId} do perfil {ProfileId}", profileTaskId, profileId);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<List<Guid>> GetProfileTasks(Guid profileId)
+        {
+            try
+            {
+                _logger.LogDebug("Obtendo tarefas do perfil {ProfileId}", profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return new List<Guid>();
+                }
+
+                var profileTaskIds = profile.ProfileTasks.Select(pt => pt.Id).ToList();
+                _logger.LogDebug("Encontradas {Count} tarefas no perfil {ProfileId}", profileTaskIds.Count, profileId);
+                
+                return profileTaskIds;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao obter tarefas do perfil {ProfileId}", profileId);
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Appx Package Group Assignment
+
+        /// <inheritdoc/>
+        public async Task<bool> AddAppxPackageGroup(Guid profileId, Guid appxPackageGroupId)
+        {
+            try
+            {
+                _logger.LogDebug("Adicionando grupo de pacotes AppX {AppxPackageGroupId} ao perfil {ProfileId}", appxPackageGroupId, profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return false;
+                }
+
+                var appxPackageGroup = await _appxPackageGroupRepository.GetByIdAsync(appxPackageGroupId);
+                if (appxPackageGroup == null)
+                {
+                    _logger.LogWarning("Grupo de pacotes AppX não encontrado: {AppxPackageGroupId}", appxPackageGroupId);
+                    return false;
+                }
+
+                // Adicionar grupo de pacotes AppX ao perfil
+                profile.AddAppxPackageGroup(appxPackageGroup);
+                await _deployProfileRepository.UpdateAsync(profile);
+
+                _logger.LogInformation("Grupo de pacotes AppX {AppxPackageGroupId} adicionado com sucesso ao perfil {ProfileId}", appxPackageGroupId, profileId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao adicionar grupo de pacotes AppX {AppxPackageGroupId} ao perfil {ProfileId}", appxPackageGroupId, profileId);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> RemoveAppxPackageGroup(Guid profileId, Guid appxPackageGroupId)
+        {
+            try
+            {
+                _logger.LogDebug("Removendo grupo de pacotes AppX {AppxPackageGroupId} do perfil {ProfileId}", appxPackageGroupId, profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return false;
+                }
+
+                var appxPackageGroup = await _appxPackageGroupRepository.GetByIdAsync(appxPackageGroupId);
+                if (appxPackageGroup == null)
+                {
+                    _logger.LogWarning("Grupo de pacotes AppX não encontrado: {AppxPackageGroupId}", appxPackageGroupId);
+                    return false;
+                }
+
+                // Remover grupo de pacotes AppX do perfil
+                profile.RemoveAppxPackageGroup(appxPackageGroup);
+                await _deployProfileRepository.UpdateAsync(profile);
+
+                _logger.LogInformation("Grupo de pacotes AppX {AppxPackageGroupId} removido com sucesso do perfil {ProfileId}", appxPackageGroupId, profileId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao remover grupo de pacotes AppX {AppxPackageGroupId} do perfil {ProfileId}", appxPackageGroupId, profileId);
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<List<Guid>> GetAppxPackageGroups(Guid profileId)
+        {
+            try
+            {
+                _logger.LogDebug("Obtendo grupos de pacotes AppX do perfil {ProfileId}", profileId);
+
+                var profile = await _deployProfileRepository.GetByIdAsync(profileId);
+                if (profile == null)
+                {
+                    _logger.LogWarning("Perfil de implantação não encontrado: {ProfileId}", profileId);
+                    return new List<Guid>();
+                }
+
+                var appxPackageGroupIds = profile.AppxPackageGroups.Select(apg => apg.Id).ToList();
+                _logger.LogDebug("Encontrados {Count} grupos de pacotes AppX no perfil {ProfileId}", appxPackageGroupIds.Count, profileId);
+                
+                return appxPackageGroupIds;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao obter grupos de pacotes AppX do perfil {ProfileId}", profileId);
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Valida se um dispositivo pode ser associado a um perfil de implantação.
+        /// </summary>
+        /// <param name="device">Dispositivo a ser validado</param>
+        /// <param name="profile">Perfil de implantação de destino</param>
+        /// <returns>True se a associação é válida, false caso contrário</returns>
+        private static bool ValidateDeviceAssignment(Device device, Entities.DeployProfile profile)
+        {
+            // Regras de negócio específicas
+            if (!device.Enabled || !profile.Enabled)
+            {
+                return false;
+            }
+
+            // Verificar se o dispositivo já tem um perfil de implantação diferente
+            if (device.DeployProfileId.HasValue && device.DeployProfileId != profile.Id)
+            {
+                return false;
+            }
+
+            // Outras validações de negócio podem ser adicionadas aqui
+            return true;
+        }
+
+        public Task<bool> AddApplicationGroup(Guid profileId, Guid applicationGroupId)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+}

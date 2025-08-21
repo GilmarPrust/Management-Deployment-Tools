@@ -5,6 +5,9 @@ using DCM.Application.DTOs.Application;
 using DCM.Application.Services.Interfaces;
 using DCM.Core.Interfaces.Repositories;
 using DCM.Core.Entities;
+using DCM.Core.Entities.secondary;
+using DCM.Core.ValueObjects;
+using DCM.Infrastructure.Persistence;
 
 namespace DCM.Application.Services.Implementations
 {
@@ -14,18 +17,21 @@ namespace DCM.Application.Services.Implementations
     public sealed class ApplicationService : IApplicationService
     {
         private readonly IApplicationRepository _applicationRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IApplicationGroupRepository _applicationGroupRepository;
+        private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private readonly ILogger<ApplicationService> _logger;
 
         public ApplicationService(
             IApplicationRepository applicationRepository,
-            IUnitOfWork unitOfWork,
+            IApplicationGroupRepository applicationGroupRepository,
+            AppDbContext context,
             IMapper mapper,
             ILogger<ApplicationService> logger)
         {
             _applicationRepository = applicationRepository ?? throw new ArgumentNullException(nameof(applicationRepository));
-            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _applicationGroupRepository = applicationGroupRepository ?? throw new ArgumentNullException(nameof(applicationGroupRepository));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -137,24 +143,70 @@ namespace DCM.Application.Services.Implementations
             {
                 _logger.LogDebug("Criando nova aplicação: {Name}", dto.NameID);
 
-                // Validação de negócio: Verificar duplicidade por NameID
-                if (!string.IsNullOrWhiteSpace(dto.NameID))
+                // Inicia transação para garantir integridade
+                using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+
+                try
                 {
-                    var existingApp = await _applicationRepository.GetByNameIdAsync(dto.NameID, cancellationToken);
-                    if (existingApp != null)
+                    // Validação de negócio: Verificar duplicidade por NameID
+                    if (!string.IsNullOrWhiteSpace(dto.NameID))
                     {
-                        throw new InvalidOperationException($"Já existe uma aplicação com NameID: {dto.NameID}");
+                        var existingApp = await _applicationRepository.GetByNameIdAsync(dto.NameID, cancellationToken);
+                        if (existingApp != null)
+                        {
+                            throw new InvalidOperationException($"Já existe uma aplicação com NameID: {dto.NameID}");
+                        }
                     }
+
+                    // 1. Criar a aplicação
+                    var application = _mapper.Map<DCM.Core.Entities.Application>(dto);
+                    
+                    // Criar categoria padrão se não fornecida
+                    if (application.Category == null)
+                    {
+                        application.Category = new ApplicationCategory("Geral");
+                    }
+
+                    // Adicionar a aplicação
+                    await _applicationRepository.AddAsync(application, cancellationToken);
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                    _logger.LogDebug("Aplicação criada com ID: {Id}", application.Id);
+
+                    // 2. Obter ou criar o grupo padrão "ALL"
+                    var defaultGroup = await GetOrCreateDefaultGroupAsync(cancellationToken);
+                    _logger.LogDebug("Grupo padrão obtido/criado: {GroupName} (ID: {GroupId})", defaultGroup.Name, defaultGroup.Id);
+
+                    // 3. Criar o ApplicationConfig automaticamente
+                    var applicationConfig = CreateDefaultApplicationConfig(application.Id, defaultGroup);
+                    
+                    _context.ApplicationConfigs.Add(applicationConfig);
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                    _logger.LogDebug("ApplicationConfig criado com ID: {ConfigId}", applicationConfig.Id);
+
+                    // 4. Associar o config à aplicação
+                    application.Config = applicationConfig;
+                    await _applicationRepository.UpdateAsync(application, cancellationToken);
+
+                    // 5. Salvar todas as alterações
+                    await _context.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
+
+                    _logger.LogInformation(
+                        "Aplicação criada com sucesso. Id: {Id}, NameID: {NameID}, Config: {ConfigId}, Grupo: {GroupName}", 
+                        application.Id, 
+                        application.NameID, 
+                        applicationConfig.Id, 
+                        defaultGroup.Name);
+
+                    return _mapper.Map<ApplicationReadDTO>(application);
                 }
-
-                var application = _mapper.Map<DCM.Core.Entities.Application>(dto);
-                
-                await _applicationRepository.AddAsync(application, cancellationToken);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-                _logger.LogInformation("Aplicação criada com sucesso. Id: {Id}, NameID: {NameID}", application.Id, application.NameID);
-
-                return _mapper.Map<ApplicationReadDTO>(application);
+                catch
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                    throw;
+                }
             }
             catch (Exception ex)
             {
@@ -194,7 +246,7 @@ namespace DCM.Application.Services.Implementations
                 _mapper.Map(dto, existing);
 
                 await _applicationRepository.UpdateAsync(existing, cancellationToken);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
 
                 _logger.LogInformation("Aplicação atualizada com sucesso: {Id}", id);
                 return _mapper.Map<ApplicationReadDTO>(existing);
@@ -227,7 +279,7 @@ namespace DCM.Application.Services.Implementations
                 application.SoftDelete();
                 
                 await _applicationRepository.UpdateAsync(application, cancellationToken);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
 
                 _logger.LogInformation("Aplicação removida com sucesso: {Id}", id);
                 return true;
@@ -255,5 +307,62 @@ namespace DCM.Application.Services.Implementations
                 throw;
             }
         }
+
+        #region Private Methods
+
+        /// <summary>
+        /// Obtém ou cria o grupo padrão "ALL".
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Grupo padrão "ALL"</returns>
+        private async Task<ApplicationGroup> GetOrCreateDefaultGroupAsync(CancellationToken cancellationToken = default)
+        {
+            // Tenta buscar o grupo "ALL" existente
+            var defaultGroup = await _applicationGroupRepository.GetByNameAsync("ALL", cancellationToken);
+            
+            if (defaultGroup != null)
+            {
+                return defaultGroup;
+            }
+
+            // Se não existe, cria o grupo padrão
+            defaultGroup = new ApplicationGroup
+            {
+                Name = "ALL",
+                Description = "Grupo padrão para todas as aplicações. Criado automaticamente pelo sistema."
+            };
+
+            _context.ApplicationGroups.Add(defaultGroup);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("Grupo padrão 'ALL' criado com ID: {GroupId}", defaultGroup.Id);
+            
+            return defaultGroup;
+        }
+
+        /// <summary>
+        /// Cria uma configuração padrão para a aplicação.
+        /// </summary>
+        /// <param name="applicationId">ID da aplicação</param>
+        /// <param name="defaultGroup">Grupo padrão</param>
+        /// <returns>Configuração criada</returns>
+        private static ApplicationConfig CreateDefaultApplicationConfig(Guid applicationId, ApplicationGroup defaultGroup)
+        {
+            var config = new ApplicationConfig
+            {
+                ApplicationId = applicationId,
+                IsRequired = false,
+                IsSilentInstall = true,
+                EstimatedInstallTimeMinutes = 5,
+                Notes = $"Configuração padrão criada automaticamente em {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC"
+            };
+
+            // Adiciona ao grupo padrão
+            config.Groups.Add(defaultGroup);
+
+            return config;
+        }
+
+        #endregion
     }
 }

@@ -1,0 +1,37 @@
+﻿using DCM.Application.Services.Implementations;
+using DCM.Application.Services.Interfaces;
+using DCM.Infrastructure.Persistence;
+using DCM.Infrastructure.Extensions;
+using DCM.Core.Services.DeployProfile;
+
+namespace DCM.API.Helpers
+{
+    public static class ServiceRegistration
+    {
+        public static IServiceCollection AddServiceRegistrations(this IServiceCollection services)
+        {
+            // Registro dos repositórios e Unit of Work
+            services.AddRepositories();
+
+            // Registro dos serviços de domínio
+            services.AddScoped<IDeployProfileAssignmentService, DeployProfileAssignmentService>();
+
+            // Registro dos serviços de aplicação
+            services.AddScoped<IDbInitializer, DbInitializer>();
+            services.AddScoped<IApplicationService, ApplicationService>();
+            services.AddScoped<IAppxPackageService, AppxPackageService>();
+            services.AddScoped<IDeployProfileService, DeployProfileService>();
+            services.AddScoped<IDeviceModelService, DeviceModelService>();
+            services.AddScoped<IDeviceService, DeviceService>();
+            services.AddScoped<IDriverPackService, DriverPackService>();
+            services.AddScoped<IFirmwareService, FirmwareService>();
+            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IInventoryService, InventoryService>();
+            services.AddScoped<IProfileTaskService, ProfileTaskService>();
+            services.AddScoped<IManufacturerService, ManufacturerService>();
+            services.AddScoped<IOperatingSystemService, OperatingSystemService>();
+            
+            return services;
+        }
+    }
+}

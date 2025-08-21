@@ -1,0 +1,43 @@
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace DCM.Core.Entities.secondary
+{
+    /// <summary>
+    /// Representa um grupo de pacotes AppX para organização e implantação conjunta.
+    /// </summary>
+    public class AppxPackageGroup : BaseEntity
+    {
+        /// <summary>
+        /// Nome do grupo de pacotes AppX.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Descrição do grupo de pacotes AppX.
+        /// </summary>
+        [StringLength(240)]
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Ordem de prioridade do grupo (menor número = maior prioridade).
+        /// </summary>
+        public int Priority { get; set; } = 0;
+
+        /// <summary>
+        /// Construtor vazio para o Entity Framework.
+        /// </summary>
+        public AppxPackageGroup() { }
+
+        /// <summary>
+        /// Pacotes AppX associados ao grupo (relacionamento many-to-many).
+        /// </summary>
+        public virtual ICollection<AppxPackage> AppxPackages { get; set; } = new List<AppxPackage>();
+
+        /// <summary>
+        /// Perfis de implantação que utilizam este grupo.
+        /// </summary>
+        public virtual ICollection<DeployProfile> DeployProfiles { get; set; } = new List<DeployProfile>();
+    }
+}

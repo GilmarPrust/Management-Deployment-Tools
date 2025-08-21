@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DCM.Application.DTOs.Application;
-using DCM.Core.Entities;
 
 namespace DCM.Application.Mappings
 {

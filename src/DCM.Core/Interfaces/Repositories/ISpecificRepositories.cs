@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DCM.Core.Entities;
@@ -230,13 +229,6 @@ namespace DCM.Core.Interfaces.Repositories
         Task<IEnumerable<ApplicationGroup>> GetByCategoryAsync(string category, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Obtém grupos ativos ordenados por prioridade.
-        /// </summary>
-        /// <param name="cancellationToken">Token de cancelamento</param>
-        /// <returns>Lista de grupos ativos</returns>
-        Task<IEnumerable<ApplicationGroup>> GetActiveGroupsAsync(CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// Verifica se existe um grupo pelo nome.
         /// </summary>
         /// <param name="name">Nome do grupo</param>
@@ -394,13 +386,6 @@ namespace DCM.Core.Interfaces.Repositories
         /// <param name="cancellationToken">Token de cancelamento</param>
         /// <returns>Perfil de implantação encontrado ou null</returns>
         Task<DeployProfile?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Obtém perfis de implantação com todas as relações.
-        /// </summary>
-        /// <param name="cancellationToken">Token de cancelamento</param>
-        /// <returns>Lista de perfis com relações</returns>
-        Task<IEnumerable<DeployProfile>> GetWithAllRelationsAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Obtém perfis de implantação ativos.
